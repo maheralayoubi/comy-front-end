@@ -5,8 +5,8 @@ const RegisterForm = () => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [message, setMessage] = useState(''); // State for validation messages
-    const [error, setError] = useState(''); // State for error messages
+    const [message, setMessage] = useState('');
+    const [error, setError] = useState('');
 
     const handleSubmit = async (e) => {
         e.preventDefault();

@@ -10,13 +10,11 @@ export const registerUser = async (userData) => {
                 'accept': 'application/json',
             },
         });
-        return { data: response.data, status: response.status }; // Return both data and status
+        return { data: response.data, status: response.status };
     } catch (error) {
         if (error.response) {
-            // Return the status and error message from the server response
             return { data: error.response.data, status: error.response.status };
         } else {
-            // Network error or other unexpected error
             throw error;
         }
     }
