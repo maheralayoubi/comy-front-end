@@ -28,9 +28,12 @@ export const loginUser = async (userData) => {
                 'accept': 'application/json',
             },
         });
-        return response.data;
+        return { data: response.data, status: response.status };
     } catch (error) {
-        console.error('Error logging in:', error);
-        throw error;
+        if (error.response) {
+            return { data: error.response.data, status: error.response.status };
+        } else {
+            throw error;
+        }
     }
 };
