@@ -10,10 +10,15 @@ export const registerUser = async (userData) => {
                 'accept': 'application/json',
             },
         });
-        return response.data;
+        return { data: response.data, status: response.status }; // Return both data and status
     } catch (error) {
-        console.error('Error registering user:', error);
-        throw error;
+        if (error.response) {
+            // Return the status and error message from the server response
+            return { data: error.response.data, status: error.response.status };
+        } else {
+            // Network error or other unexpected error
+            throw error;
+        }
     }
 };
 
