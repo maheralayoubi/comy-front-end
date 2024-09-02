@@ -1,6 +1,7 @@
 import React from 'react';
 import RegisterForm from '../components/RegisterForm';
 import Header from '../components/Header';
+import Footer from '../components/Footer';
 
 const Register = () => {
     return (
@@ -8,6 +9,7 @@ const Register = () => {
             <Header />
             <h1>Register Page</h1>
             <RegisterForm />
+            <Footer />
         </div>
     );
 };
