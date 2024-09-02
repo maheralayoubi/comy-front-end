@@ -3,12 +3,14 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 20px;
+    padding: 0 30px;
     background-color: #f5f5f5;
+
 
     &-left {
         display: flex;
         align-items: center;
+        gap: 8%;
 
         .logo {
             width: 115px;
@@ -19,7 +21,8 @@
             position: relative;
 
             .search-input {
-                height: 40px;
+                height: 35px;
+                width: 250px;
                 padding: 0 40px 0 20px;
                 border: 1px solid rgba(255, 255, 255, 1);
                 border-radius: 20px;
@@ -53,6 +56,7 @@
 
 @media (max-width: 768px) {
     .header {
+        padding: 0 15px;
 
         &-left .search-container,
         &-right {
