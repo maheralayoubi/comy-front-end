@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import { registerUser } from '../api/auth';
 import visibilityIcon from '../assets/images/visibility.svg';
 import visibilityOffIcon from '../assets/images/visibility_off.svg';
@@ -12,6 +13,8 @@ const RegisterForm = () => {
     const [passwordVisible, setPasswordVisible] = useState(false);
     const [message, setMessage] = useState('');
     const [error, setError] = useState('');
+
+    const navigate = useNavigate(); // Initialize useNavigate
 
     const handlePasswordVisibility = () => {
         setPasswordVisible(!passwordVisible);
@@ -30,14 +33,14 @@ const RegisterForm = () => {
         try {
             const result = await registerUser(userData);
             if (result.status === 201) {
-                setMessage(result.data.message); // "User registered successfully. Please verify your email."
+                // Redirect to the mail confirmation page and pass the email
+                navigate('/mail-confirmation', { state: { email } });
             } else if (result.status === 400) {
                 setError(result.data.message); // "Invalid input or user already exists"
             } else if (result.status === 500) {
                 setError(result.data.message); // "Internal server error"
             }
         } catch (error) {
-            // Handling unexpected errors (network issues, etc.)
             setError('Something went wrong. Please try again.');
         }
     };
@@ -105,7 +108,6 @@ const RegisterForm = () => {
                 </button>
             </form>
 
-            {/* Displaying success or error messages */}
             {message && <p style={{ color: 'green' }}>{message}</p>}
             {error && <p style={{ color: 'red' }}>{error}</p>}
 
