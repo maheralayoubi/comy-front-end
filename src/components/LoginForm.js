@@ -71,7 +71,7 @@ const LoginForm = () => {
                 </div>
 
                 <div className="forgot-password-link">
-                    <a href="/reset-password">パスワードを忘れた方はこちら</a>
+                    <a href="/forgot-password">パスワードを忘れた方はこちら</a>
                 </div>
 
                 <button type="submit" disabled={!email || !password}>
