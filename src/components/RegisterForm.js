@@ -101,7 +101,7 @@ const RegisterForm = () => {
                 </div>
 
                 <button type="submit" disabled={!name || !email || !password || !confirmPassword}>
-                    Submit
+                    新規アカウント登録
                 </button>
             </form>
 
