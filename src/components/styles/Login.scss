@@ -1,4 +1,4 @@
-.register-form-container {
+.login-form-container {
     max-width: 380px;
     height: 65vh;
     margin: 0 auto;
@@ -26,7 +26,6 @@
         font-size: 14px;
     }
 
-    input[type="text"],
     input[type="email"],
     input[type="password"] {
         padding: 10px;
@@ -79,7 +78,8 @@
         }
     }
 
-    .login-link {
+    .forgot-password-link,
+    .register-link {
         margin-top: 10px;
         text-align: left;
 
@@ -92,7 +92,7 @@
 }
 
 @media (max-width: 768px) {
-    .register-form-container {
+    .login-form-container {
         padding: 15px;
         height: 100%;
     }

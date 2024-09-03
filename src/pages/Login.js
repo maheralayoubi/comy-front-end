@@ -1,11 +1,14 @@
 import React from 'react';
 import LoginForm from '../components/LoginForm';
+import Header from '../components/Header';
+import Footer from '../components/Footer';
 
 const Login = () => {
     return (
         <div>
-            <h1>Login Page</h1>
+            <Header />
             <LoginForm />
+            <Footer />
         </div>
     );
 };
