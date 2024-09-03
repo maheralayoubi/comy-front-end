@@ -1,6 +1,7 @@
 .login-form-container {
     max-width: 380px;
-    height: 65vh;
+    height: 100%;
+    min-height: 65vh;
     margin: 0 auto;
     padding: 20px;
 
@@ -27,7 +28,7 @@
     }
 
     input[type="email"],
-    input[type=text],
+    input[type="text"],
     input[type="password"] {
         padding: 10px;
         margin-bottom: 10px;
@@ -104,6 +105,15 @@
 
         button[type="submit"] {
             margin-top: 70%;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"] {
+            &::placeholder {
+                font-size: 13px;
+                color: rgba(117, 117, 120, 1);
+            }
         }
     }
 }
