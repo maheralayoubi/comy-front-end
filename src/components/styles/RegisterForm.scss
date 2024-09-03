@@ -1,0 +1,77 @@
+.register-form-container {
+    max-width: 360px;
+    margin: 0 auto;
+    padding: 20px;
+
+    form {
+        display: flex;
+        width: 100%;
+        flex-direction: column;
+    }
+}
+
+h2 {
+    color: rgba(51, 51, 51, 1);
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.password-input-container {
+    position: relative;
+}
+
+.password-toggle {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+}
+
+button[type="submit"] {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+
+    &:disabled {
+        background-color: rgba(153, 153, 153, 1);
+        color: rgba(255, 255, 255, 1);
+    }
+
+    &:not(:disabled) {
+        background-color: rgba(51, 51, 51, 1);
+        color: rgba(255, 255, 255, 1);
+    }
+}
+
+.login-link {
+    margin-top: 10px;
+    text-align: left;
+
+    a {
+        color: rgba(20, 106, 245, 1);
+        font-size: 12px;
+        text-decoration: underline;
+    }
+}

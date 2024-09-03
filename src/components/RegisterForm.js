@@ -1,21 +1,34 @@
 import React, { useState } from 'react';
 import { registerUser } from '../api/auth';
+import visibilityIcon from '../assets/images/visibility.svg';
+import visibilityOffIcon from '../assets/images/visibility_off.svg';
+import './styles/RegisterForm.scss';
 
 const RegisterForm = () => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
+    const [passwordVisible, setPasswordVisible] = useState(false);
     const [message, setMessage] = useState('');
     const [error, setError] = useState('');
 
+    const handlePasswordVisibility = () => {
+        setPasswordVisible(!passwordVisible);
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
+        if (password !== confirmPassword) {
+            setError('Passwords do not match.');
+            return;
+        }
+
         const userData = { name, email, password };
         setMessage('');
         setError('');
         try {
             const result = await registerUser(userData);
-
             if (result.status === 201) {
                 setMessage(result.data.message); // "User registered successfully. Please verify your email."
             } else if (result.status === 400) {
@@ -30,31 +43,75 @@ const RegisterForm = () => {
     };
 
     return (
-        <div>
+        <div className="register-form-container">
+            <h2>新規アカウント登録</h2>
             <form onSubmit={handleSubmit}>
+                <label htmlFor="name">名前</label>
                 <input
                     type="text"
-                    placeholder="Name"
+                    id="name"
+                    placeholder="名前を入力"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                 />
+
+                <label htmlFor="email">メールアドレス</label>
                 <input
                     type="email"
-                    placeholder="Email"
+                    id="email"
+                    placeholder="メールアドレスを入力"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                 />
-                <input
-                    type="password"
-                    placeholder="Password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                />
-                <button type="submit">Register</button>
+
+                <label htmlFor="password">パスワード</label>
+                <div className="password-input-container">
+                    <input
+                        type={passwordVisible ? 'text' : 'password'}
+                        id="password"
+                        className="password-input"
+                        placeholder="パスワードを入力"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                    />
+                    <img
+                        src={passwordVisible ? visibilityOffIcon : visibilityIcon}
+                        alt="Toggle visibility"
+                        className="password-toggle"
+                        onClick={handlePasswordVisibility}
+                    />
+                </div>
+
+                <label htmlFor="confirmPassword">パスワードを再入力</label>
+                <div className="password-input-container">
+                    <input
+                        type={passwordVisible ? 'text' : 'password'}
+                        id="confirmPassword"
+                        className="password-input"
+                        placeholder="パスワードを再入力"
+                        value={confirmPassword}
+                        onChange={(e) => setConfirmPassword(e.target.value)}
+                    />
+                    <img
+                        src={passwordVisible ? visibilityOffIcon : visibilityIcon}
+                        alt="Toggle visibility"
+                        className="password-toggle"
+                        onClick={handlePasswordVisibility}
+                    />
+                </div>
+
+                <button type="submit" disabled={!name || !email || !password || !confirmPassword}>
+                    Submit
+                </button>
             </form>
+
             {/* Displaying success or error messages */}
             {message && <p style={{ color: 'green' }}>{message}</p>}
             {error && <p style={{ color: 'red' }}>{error}</p>}
+
+            <div className="login-link">
+                <a href="/login">ログインはこちら</a>
+            </div>
         </div>
     );
 };
