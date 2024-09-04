@@ -7,6 +7,7 @@ import UpdatePasswordForm from './pages/UpdatePasswordForm';
 import MailConfirmation from './pages/MailConfirmation';
 import TermsOfUse from './pages/TermsOfUse';
 import AccountCreationCompleted from './pages/AccountCreationCompleted';
+import ForgotPasswordForm from './pages/ForgotPasswordForm';
 
 const App = () => {
   return (
@@ -19,6 +20,7 @@ const App = () => {
         <Route path="/mail-confirmation" element={<MailConfirmation />} />
         <Route path="/terms-of-use" element={<TermsOfUse />} />
         <Route path="/account-creation-completed" element={<AccountCreationCompleted />} />
+        <Route path="/forgot-password" element={<ForgotPasswordForm />} />
       </Routes>
     </Router>
   );
