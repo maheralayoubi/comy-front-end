@@ -24,3 +24,6 @@ export const registerUser = (userData) =>
 
 export const loginUser = (userData) =>
   handleApiResponse(() => axios.post(`${API_URL}/login`, userData, { headers }));
+
+export const forgotPassword = (email) =>
+  handleApiResponse(() => axios.post(`${API_URL}/forgot-password`, { email }, { headers }));
