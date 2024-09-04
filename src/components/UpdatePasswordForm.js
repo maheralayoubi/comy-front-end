@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import visibilityIcon from '../assets/images/visibility.svg';
 import visibilityOffIcon from '../assets/images/visibility_off.svg';
-import './styles/ForgotPasswordForm.scss';
+import './styles/UpdatePasswordForm.scss';
 
-const ForgotPasswordForm = () => {
+const UpdatePasswordForm = () => {
     const [newPassword, setNewPassword] = useState('');
     const [confirmNewPassword, setConfirmNewPassword] = useState('');
     const [passwordVisible, setPasswordVisible] = useState(false);
@@ -25,7 +25,7 @@ const ForgotPasswordForm = () => {
     };
 
     return (
-        <div className="forgot-password-form-container">
+        <div className="update-password-form-container">
             <h2>パスワードの再設定</h2>
             <form onSubmit={handleSubmit}>
                 <label htmlFor="newPassword">新しいパスワード</label>
@@ -73,4 +73,4 @@ const ForgotPasswordForm = () => {
     );
 };
 
-export default ForgotPasswordForm;
+export default UpdatePasswordForm;

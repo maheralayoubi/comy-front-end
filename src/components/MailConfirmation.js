@@ -21,7 +21,7 @@ const MailConfirmation = () => {
             <p>メール本文に記載したURLから24時間以内に本登録のお手続きをしてください。万が一、「会員登録のご案内」が届かない場合は、迷惑フォルダに入っていないかご確認ください。</p>
             <p>上記の点に当てはまらない場合、ご入力いただいたメールアドレスが間違っている可能性があります。再度メールアドレスをご入力ください。</p>
 
-            <button type="button" onClick={() => navigate('/register')}>
+            <button type="button" onClick={() => navigate('/')}>
                 トップへ
             </button>
         </div>

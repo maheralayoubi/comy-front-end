@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import { useNavigate } from 'react-router-dom';
 import { registerUser } from '../api/auth';
 import visibilityIcon from '../assets/images/visibility.svg';
 import visibilityOffIcon from '../assets/images/visibility_off.svg';
@@ -14,7 +14,7 @@ const RegisterForm = () => {
     const [message, setMessage] = useState('');
     const [error, setError] = useState('');
 
-    const navigate = useNavigate(); // Initialize useNavigate
+    const navigate = useNavigate();
 
     const handlePasswordVisibility = () => {
         setPasswordVisible(!passwordVisible);

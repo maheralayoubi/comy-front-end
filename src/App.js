@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import TopPage from './pages/TopPage';
 import Register from './pages/Register';
 import Login from './pages/Login';
-import ForgotPassword from './pages/ForgotPassword';
+import UpdatePasswordForm from './pages/UpdatePasswordForm';
 import MailConfirmation from './pages/MailConfirmation';
 import TermsOfUse from './pages/TermsOfUse';
 import AccountCreationCompleted from './pages/AccountCreationCompleted';
@@ -15,7 +15,7 @@ const App = () => {
         <Route path="/" element={<TopPage />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/update-password" element={<UpdatePasswordForm />} />
         <Route path="/mail-confirmation" element={<MailConfirmation />} />
         <Route path="/terms-of-use" element={<TermsOfUse />} />
         <Route path="/account-creation-completed" element={<AccountCreationCompleted />} />
