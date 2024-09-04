@@ -1,16 +1,15 @@
 import React from 'react';
-import AccountCreationCompleted from '../components/AccountCreationCompleted';
 import Header from '../components/global/Header';
 import Footer from '../components/global/Footer';
 
-const Login = () => {
+const Register = () => {
     return (
         <div>
             <Header />
-            <AccountCreationCompleted />
+            <h2>This is the Top Page</h2>
             <Footer />
         </div>
     );
 };
 
-export default Login;
+export default Register;
