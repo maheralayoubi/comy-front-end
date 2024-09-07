@@ -2,7 +2,7 @@ import React, { useState, Children } from 'react';
 import "./styles/Stepper.scss"
 import Button from './global/Button';
 
-const Stepper = ({ children }) => {
+const Stepper = ({ children ,data}) => {
     
     const [activeStep, setActiveStep] = useState(0);
 
@@ -29,7 +29,7 @@ const Stepper = ({ children }) => {
                 {activeStep !== 0 && 
                 <Button content={"戻る"} variant={"gray"} onClick={handlePrev} disabled={activeStep === 0} />}
                 <Button content={"次へ"} variant={"dark"} onClick={handleNext} disabled={activeStep === Children.count(children) - 1} />
-                <Button content={"プレビュー"} variant={"white"} />
+                <Button content={"プレビュー"} variant={"white"} onClick={()=>{console.log(data)}}/>
             </div>
 
             <button className='skipBtn' onClick={handleNext}>
