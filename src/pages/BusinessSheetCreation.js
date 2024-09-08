@@ -2,40 +2,44 @@ import { useState } from 'react';
 import Header from '../components/global/Header';
 import Stepper, { Step } from '../components/Stepper';
 import { TextArea, Input, Fonts, Themes } from '../components/FormElements';
+import useLocalStorage from '../hooks/useLocalStorage';
 
 const BusinessSheetCreation = () => {
 
+    const [getValue, setValue] = useLocalStorage()
+
     const [businessSheetData, setBusinessSheetData] = useState({
-        "memberBiography": "",
-        "aboutBusiness": "",
-        "personalInformation": "",
-        "goals": "",
-        "achievements": "",
-        "interests": "",
-        "networks": "",
-        "skills": "",
-        "goldenEgg1": "",
-        "goldenEgg2": "",
-        "goldenEgg3": "",
-        "goldenGoose1": "",
-        "goldenGoose2": "",
-        "goldenGoose3": "",
-        "strengths": "",
-        "powerWord1": "",
-        "powerWord2": "",
-        "powerWord3": "",
-        "powerWord4": "",
-        "powerWord5": "",
-        "powerWord6": "",
-        "products1": "",
-        "products2": "",
-        "products3": "",
-        "themeColor": "",
-        "font": ""
+        "memberBiography": getValue("memberBiography"),
+        "aboutBusiness": getValue("aboutBusiness"),
+        "personalInformation": getValue("personalInformation"),
+        "goals": getValue("goals"),
+        "achievements": getValue("achievements"),
+        "interests": getValue("interests"),
+        "networks": getValue("networks"),
+        "skills": getValue("skills"),
+        "goldenEgg1": getValue("goldenEgg1"),
+        "goldenEgg2": getValue("goldenEgg2"),
+        "goldenEgg3": getValue("goldenEgg3"),
+        "goldenGoose1": getValue("goldenGoose1"),
+        "goldenGoose2": getValue("goldenGoose2"),
+        "goldenGoose3": getValue("goldenGoose3"),
+        "strengths": getValue("strengths"),
+        "powerWord1": getValue("powerWord1"),
+        "powerWord2": getValue("powerWord2"),
+        "powerWord3": getValue("powerWord3"),
+        "powerWord4": getValue("powerWord4"),
+        "powerWord5": getValue("powerWord5"),
+        "powerWord6": getValue("powerWord6"),
+        "products1": getValue("products1"),
+        "products2": getValue("products2"),
+        "products3": getValue("products3"),
+        "themeColor": getValue("themeColor"),
+        "font": getValue("font")
     })
 
     const handleChange = (e) => {
         const { name, value } = e.target;
+        setValue(name, value)
         setBusinessSheetData(prevState => ({
             ...prevState,
             [name]: value
@@ -45,10 +49,11 @@ const BusinessSheetCreation = () => {
 
 
     return (
-        <div>
+        <>
             <Header />
 
             <Stepper data={businessSheetData}>
+
                 <Step title="メンバー略歴シート">
                     <TextArea placeholder="メンバー略歴を入力" maxLength={400} value={businessSheetData.memberBiography} onChange={handleChange} name="memberBiography" />
                 </Step>
@@ -91,12 +96,10 @@ const BusinessSheetCreation = () => {
                     <Input lable="エリア1" placeholder="金のガチョウについて入力" maxLength={40} value={businessSheetData.goldenGoose1} onChange={handleChange} name="goldenGoose1" />
                     <Input lable="エリア2" placeholder="金のガチョウについて入力" maxLength={40} value={businessSheetData.goldenGoose2} onChange={handleChange} name="goldenGoose2" />
                     <Input lable="エリア3" placeholder="金のガチョウについて入力" maxLength={40} value={businessSheetData.goldenGoose3} onChange={handleChange} name="goldenGoose3" />
-
                 </Step>
 
                 <Step title="自社の強み">
                     <TextArea placeholder="自社の強みについて入力" maxLength={1000} value={businessSheetData.strengths} onChange={handleChange} name="strengths" />
-
                 </Step>
 
                 <Step title="パワーワード">
@@ -122,7 +125,7 @@ const BusinessSheetCreation = () => {
 
             </Stepper>
 
-        </div>
+        </>
     )
 }
 

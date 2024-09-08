@@ -1,10 +1,12 @@
-import React, { useState, Children } from 'react';
+import React, { useState, Children, useEffect } from 'react';
 import "./styles/Stepper.scss"
 import Button from './global/Button';
+import useLocalStorage from '../hooks/useLocalStorage';
 
-const Stepper = ({ children ,data}) => {
-    
-    const [activeStep, setActiveStep] = useState(0);
+const Stepper = ({ children, data }) => {
+
+    const [getValue, setValue, clearAll] = useLocalStorage()
+    const [activeStep, setActiveStep] = useState(Number(getValue("activeStep")));
 
     const handleNext = () => {
         setActiveStep(prev => Math.min(prev + 1, Children.count(children) - 1));
@@ -13,6 +15,17 @@ const Stepper = ({ children ,data}) => {
     const handlePrev = () => {
         setActiveStep(prev => Math.max(0, prev - 1));
     };
+    const handlePreview = () => {
+        console.log(data)
+        clearAll()
+    }
+
+
+
+
+    useEffect(() => {
+        setValue("activeStep", Number(activeStep))
+    }, [activeStep, setValue])
 
     return (
         <div className="stepper-container">
@@ -26,10 +39,10 @@ const Stepper = ({ children ,data}) => {
             </div>
 
             <div className="button-group">
-                {activeStep !== 0 && 
-                <Button content={"戻る"} variant={"gray"} onClick={handlePrev} disabled={activeStep === 0} />}
+                {activeStep !== 0 &&
+                    <Button content={"戻る"} variant={"gray"} onClick={handlePrev} disabled={activeStep === 0} />}
                 <Button content={"次へ"} variant={"dark"} onClick={handleNext} disabled={activeStep === Children.count(children) - 1} />
-                <Button content={"プレビュー"} variant={"white"} onClick={()=>{console.log(data)}}/>
+                <Button content={"プレビュー"} variant={"white"} onClick={handlePreview} />
             </div>
 
             <button className='skipBtn' onClick={handleNext}>
