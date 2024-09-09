@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
-import { loginUser } from '../api/auth';
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { loginUser, checkAuth } from '../api/auth';
 import visibilityIcon from '../assets/images/visibility.svg';
 import visibilityOffIcon from '../assets/images/visibility_off.svg';
 import './styles/Login.scss';
@@ -10,6 +11,19 @@ const LoginForm = () => {
     const [passwordVisible, setPasswordVisible] = useState(false);
     const [message, setMessage] = useState('');
     const [error, setError] = useState('');
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const verifyAuth = async () => {
+          const isAuthenticated = await checkAuth();
+          if (isAuthenticated) {
+            navigate("/");
+          } else {
+            navigate("/login");
+          }
+        };
+        verifyAuth();
+      }, [navigate]);
 
     const handlePasswordVisibility = () => {
         setPasswordVisible(!passwordVisible);
