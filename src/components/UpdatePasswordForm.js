@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import visibilityIcon from '../assets/images/visibility.svg';
 import visibilityOffIcon from '../assets/images/visibility_off.svg';
 import './styles/UpdatePasswordForm.scss';
@@ -8,20 +9,43 @@ const UpdatePasswordForm = () => {
     const [confirmNewPassword, setConfirmNewPassword] = useState('');
     const [passwordVisible, setPasswordVisible] = useState(false);
     const [message, setMessage] = useState('');
+    const location = useLocation();
+
+
+    const query = new URLSearchParams(location.search);
+    const token = query.get('token');
 
     const handlePasswordVisibility = () => {
         setPasswordVisible(!passwordVisible);
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         if (newPassword !== confirmNewPassword) {
             setMessage('Passwords do not match.');
             return;
         }
 
-        // TODO: Implement password update logic here
-        setMessage('パスワードを更新');
+        try {
+            const response = await fetch(`https://comy-api.vercel.app/auth/reset-password/${token}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'accept': 'application/json',
+                },
+                body: JSON.stringify({ newPassword }),
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                setMessage('パスワードを更新しました。新しいパスワードでログインできます。');
+            } else {
+                setMessage(data.message || 'エラーが発生しました。');
+            }
+        } catch (error) {
+            setMessage('サーバーエラーが発生しました。');
+        }
     };
 
     return (
@@ -67,8 +91,7 @@ const UpdatePasswordForm = () => {
                 </button>
             </form>
 
-            {/* Displaying success or error messages */}
-            {message && <p style={{ color: message === 'パスワードを更新' ? 'green' : 'red' }}>{message}</p>}
+            {message && <p style={{ color: message === 'パスワードを更新しました。新しいパスワードでログインできます。' ? 'green' : 'red' }}>{message}</p>}
         </div>
     );
 };
