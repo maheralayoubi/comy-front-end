@@ -40,6 +40,9 @@ const UpdatePasswordForm = () => {
 
             if (response.ok) {
                 setMessage('パスワードを更新しました。新しいパスワードでログインできます。');
+                setTimeout(() => {
+                    window.location.href = '/login';
+                }, 1500);
             } else {
                 setMessage(data.message || 'エラーが発生しました。');
             }
