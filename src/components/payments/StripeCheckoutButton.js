@@ -1,6 +1,8 @@
+// StripeCheckoutButton.js
 import React from "react";
 import { useStripe } from "@stripe/react-stripe-js";
 import useCheckoutSession from "../../hooks/useCheckoutSession";
+import './styles/stripe.scss'; // Import the stripe styles
 
 const StripeCheckoutButton = () => {
     const stripe = useStripe();
@@ -25,9 +27,16 @@ const StripeCheckoutButton = () => {
     };
 
     return (
-        <button onClick={handleClick} className="stripe-button" disabled={!stripe}>
-            Subscribe for 12,000 Yen/Year
-        </button>
+        <div className="stripe-checkout-container">
+            <h2>Stripe Payment</h2>
+            <button
+                className="stripe-button"
+                onClick={handleClick}
+                disabled={!stripe}
+            >
+                Subscribe for 12,000 Yen/Year
+            </button>
+        </div>
     );
 };
 

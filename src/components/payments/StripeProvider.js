@@ -16,10 +16,6 @@ const StripeProvider = ({ children }) => {
         loadStripeInstance();
     }, []);
 
-    if (!stripe) {
-        return <div>Loading Stripe...</div>;
-    }
-
     return <Elements stripe={stripe}>{children}</Elements>;
 };
 

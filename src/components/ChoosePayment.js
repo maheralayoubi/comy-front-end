@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './styles/ChoosePayment.scss';
 
 const ChoosePayment = () => {
     const [isChecked, setIsChecked] = useState(false);
     const [selectedPayment, setSelectedPayment] = useState('');
+    const navigate = useNavigate();
 
     const handleCheckboxChange = () => {
         setIsChecked(!isChecked);
@@ -11,6 +13,14 @@ const ChoosePayment = () => {
 
     const handlePaymentSelection = (paymentMethod) => {
         setSelectedPayment(paymentMethod);
+    };
+
+    const handleNextClick = () => {
+        if (selectedPayment === 'stripe') {
+            navigate('/stripe-payment');
+        } else if (selectedPayment === 'paypal') {
+            navigate('/paypal-payment');
+        }
     };
 
     const isButtonDisabled = !isChecked || !selectedPayment;
@@ -46,7 +56,7 @@ const ChoosePayment = () => {
             <button
                 className="next-button"
                 disabled={isButtonDisabled}
-                onClick={() => alert('Proceed to the next step')}
+                onClick={handleNextClick}
             >
                 次へ
             </button>
