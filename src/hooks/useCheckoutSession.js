@@ -10,6 +10,7 @@ const useCheckoutSession = () => {
             headers: {
                 "Content-Type": "application/json",
             },
+            credentials: "include",
         });
         return response.json();
     }, []);
