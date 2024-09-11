@@ -10,6 +10,7 @@ import AccountCreationCompleted from './pages/AccountCreationCompleted';
 import ForgotPasswordForm from './pages/ForgotPasswordForm';
 import BusinessSheetCreation from "./pages/BusinessSheetCreation";
 import ChoosePayment from './pages/ChoosePayment';
+import StripePayment from './pages/StripePayment';
 
 const App = () => {
   return (
@@ -25,6 +26,7 @@ const App = () => {
         <Route path="/forgot-password" element={<ForgotPasswordForm />} />
         <Route path="/business-sheet-creation" element={<BusinessSheetCreation />} />
         <Route path="/choose-payment" element={<ChoosePayment />} />
+        <Route path="/stripe-payment" element={<StripePayment />} />
       </Routes>
     </Router>
   );
