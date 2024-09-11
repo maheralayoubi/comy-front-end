@@ -1,13 +1,26 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 
-const STRIPE_PUBLISHABLE_KEY =
-    "pk_test_51OhPFOI6nAuCGeztC0TxeYSCmbc2D9GKx6GBpdjrmAiCDCRHmhQSxrW0aMuDN2Phvtkcmev6wx82AoicvH5dHhk800o7yv6WVO";
+const STRIPE_PUBLISHABLE_KEY = process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY;
 const stripePromise = loadStripe(STRIPE_PUBLISHABLE_KEY);
 
-const StripeProvider = ({ children }) => (
-    <Elements stripe={stripePromise}>{children}</Elements>
-);
+const StripeProvider = ({ children }) => {
+    const [stripe, setStripe] = useState(null);
+
+    useEffect(() => {
+        const loadStripeInstance = async () => {
+            const stripeInstance = await stripePromise;
+            setStripe(stripeInstance);
+        };
+        loadStripeInstance();
+    }, []);
+
+    if (!stripe) {
+        return <div>Loading Stripe...</div>;
+    }
+
+    return <Elements stripe={stripe}>{children}</Elements>;
+};
 
 export default StripeProvider;

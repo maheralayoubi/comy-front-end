@@ -1,6 +1,6 @@
 import React from "react";
 import { useStripe } from "@stripe/react-stripe-js";
-import useCheckoutSession from "../hooks/useCheckoutSession";
+import useCheckoutSession from "../../hooks/useCheckoutSession";
 
 const StripeCheckoutButton = () => {
     const stripe = useStripe();
