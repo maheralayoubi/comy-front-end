@@ -8,7 +8,8 @@ import MailConfirmation from './pages/MailConfirmation';
 import TermsOfUse from './pages/TermsOfUse';
 import AccountCreationCompleted from './pages/AccountCreationCompleted';
 import ForgotPasswordForm from './pages/ForgotPasswordForm';
-import BusinessSheetCreation from "./pages/BusinessSheetCreation"
+import BusinessSheetCreation from "./pages/BusinessSheetCreation";
+import ChoosePayment from './pages/ChoosePayment';
 
 const App = () => {
   return (
@@ -23,6 +24,7 @@ const App = () => {
         <Route path="/account-creation-completed" element={<AccountCreationCompleted />} />
         <Route path="/forgot-password" element={<ForgotPasswordForm />} />
         <Route path="/business-sheet-creation" element={<BusinessSheetCreation />} />
+        <Route path="/choose-payment" element={<ChoosePayment />} />
       </Routes>
     </Router>
   );
