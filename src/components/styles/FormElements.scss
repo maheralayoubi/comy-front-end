@@ -16,12 +16,16 @@
     }
 
     textarea {
+        scrollbar-width: thin;
+        scrollbar-color: #333333 #ccc;
         padding: 16px;
         border-radius: 4px;
         border: 1px solid #E6E6E6;
         width: calc(100% - 16px);
         padding-right: 0;
-        height: 500px;
+        height: calc(100vh - 450px);
+        // min-height: 450px;
+        min-height: 200px;
         outline: none;
         font-family: Noto Sans JP;
         font-size: 16px;

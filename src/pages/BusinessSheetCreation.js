@@ -109,7 +109,6 @@ const BusinessSheetCreation = () => {
                     <Input lable="パワーワード4" placeholder="パワーワードについて入力" maxLength={40} value={businessSheetData.powerWord4} onChange={handleChange} name="powerWord4" />
                     <Input lable="パワーワード5" placeholder="パワーワードについて入力" maxLength={40} value={businessSheetData.powerWord5} onChange={handleChange} name="powerWord5" />
                     <Input lable="パワーワード6" placeholder="パワーワードについて入力" maxLength={40} value={businessSheetData.powerWord6} onChange={handleChange} name="powerWord6" />
-
                 </Step>
 
                 <Step title="アイテム / 商品・商材">
