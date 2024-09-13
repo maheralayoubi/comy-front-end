@@ -46,12 +46,12 @@ const ChoosePayment = () => {
                 >
                     Pay with Stripe
                 </button>
-                <button
+                {/* <button
                     className={`payment-button ${selectedPayment === 'paypal' ? 'active' : ''}`}
                     onClick={() => handlePaymentSelection('paypal')}
                 >
                     Pay with Paypal
-                </button>
+                </button> */}
             </div>
             <button
                 className="next-button"

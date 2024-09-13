@@ -13,7 +13,7 @@ const AccountCreationCompleted = () => {
                 ビジネスシートを作る
             </button>
             <div className="skip-link">
-                <a href="/register">スキップ</a>
+                <a href="/business-sheet-creation">スキップ</a>
             </div>
         </div>
     );
