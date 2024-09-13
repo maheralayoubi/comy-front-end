@@ -8,12 +8,12 @@ const AccountCreationCompleted = () => {
             <p>アカウント作成が完了しました <br /> COMYにようこそ！</p>
             <button
                 className="business-sheet-button"
-                onClick={() => window.location.href = '/business-sheet'}
+                onClick={() => window.location.href = '/business-sheet-creation'}
             >
                 ビジネスシートを作る
             </button>
             <div className="skip-link">
-                <a href="/business-sheet-creation">スキップ</a>
+                <a href="/register">スキップ</a>
             </div>
         </div>
     );
