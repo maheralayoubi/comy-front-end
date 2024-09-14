@@ -1,41 +1,57 @@
 /* The Modal (background) */
 .modal {
     position: fixed;
-    z-index: 1;
+    z-index: 11;
     left: 0;
     top: 0;
+    top: -100vh;
     width: 100%;
     height: 100%;
     overflow: auto;
-    background-color: rgba(0, 0, 0, 0.4);
-    animation: fadeIn 0.5s ease-out;   
+    transition: top 0s ease-in-out .3s;
 
-    &.open {
-        display: block;
+    &.active {
+        top: 0;
+        transition: top 0s ease-in-out 0s;
+
+        .overlay {
+            top: 0;
+            opacity: 1;
+            transition: opacity .3s ease-in-out 0s;
+        }
+
+        .modalBox {
+            opacity: 1;
+            scale: 1;
+        }
     }
-    
-    &.close {
-        display: none;
+
+    .overlay {
+        position: fixed;
+        z-index: 10;
+        left: 0;
+        top: -100vh;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        background-color: rgba(0, 0, 0, 0.4);
+        transition: opacity .3s ease-in-out .3s;
     }
 
     .modalBox {
         border-radius: 8px;
         background-color: #fefefe;
         margin: 50px auto;
-        padding: 20px;
+        // padding: 20px;
+        scale: 0;
+        z-index: 20;
         border: 1px solid #888;
-        width: 80%;
+        width:90%;
         position: relative;
         overflow-x: hidden;
-    
-        &.open {
-            animation: fadeInZoomIn 0.5s ease-out;
-        }
-        
-        &.close {
-            animation: fadeInZoomOut 0.3s ease-out;
-        }
-        
+        transition: all .3s ease-in-out;
+
+
         .closeBtn {
             background-color: #fefefe;
             border-radius: 8px;
@@ -57,16 +73,19 @@
             width: fit-content;
             transition: all .5s;
 
-            &:hover{
+            &:hover {
                 color: black;
                 text-decoration: none;
                 cursor: pointer;
                 rotate: 720deg;
             }
         }
-        
+
+        .modalBoxChildern{
+            // scale: .8;
+        }
     }
-    
+
 }
 
 

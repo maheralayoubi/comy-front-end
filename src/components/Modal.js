@@ -7,12 +7,13 @@ export const ModalButton = ({ children }) => {
 
 export const ModalContent = ({ isOpen, onClose, children }) => {
   return (
-    <div class={`modal ${isOpen ? "open" : "close"}`}>
-      <div class={`modalBox ${isOpen ? "open" : "close"}`}>
-        <button class="closeBtn" onClick={onClose}>&times;</button>
-        <>
+    <div className={`modal ${isOpen ? "active" : ""}`}>
+      <div className="overlay"></div>
+      <div className="modalBox">
+        <button className="closeBtn" onClick={onClose}>&times;</button>
+        <div className="modalBoxChildern">
           {children}
-        </>
+        </div>
       </div>
     </div>
   )

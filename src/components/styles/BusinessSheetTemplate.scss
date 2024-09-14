@@ -1,0 +1,85 @@
+.BusinessSheet {
+
+
+
+
+    img {
+        object-fit: cover;
+        max-height: 280px;
+        width: 100%;
+        padding: 0;
+        margin: 0;
+    }
+
+    .profile {
+        background: #F7F7F7;
+        height: 104px;
+        display: flex;
+        gap: 16px;
+        align-items: center;
+        padding: 0 150px;
+
+
+        img {
+            border-radius: 50%;
+            border: 2px solid #F7F7F7;
+            width: 160px;
+            height: 160px;
+            margin-top: -102px;
+        }
+
+        h1 {
+            font-size: 20px;
+            font-weight: 400;
+            line-height: 20px;
+            text-align: left;
+            margin-top: -25.5px;
+        }
+    }
+
+    .businessSheetData-s1 {
+        padding: 32px 150px;
+        display: flex;
+        align-items: start;
+        justify-content: center;
+        gap: 40px;
+        // background-color: red;
+
+
+        @media (max-width:992px) {
+            flex-direction: column;
+            padding: 24px 16px;
+        }
+
+
+        .left {
+            flex: 1; 
+            width: 100%; 
+        }
+
+        .right {
+            flex: 1;
+            width: 100%; 
+
+        }
+
+
+
+    }
+
+    .businessSheetData-s2 {
+        // padding: 0 150px;
+        position: relative;
+
+        img {
+            position: absolute;
+            max-height: fit-content;
+            width: 100%;
+            height: 1113px;
+            z-index: -1;
+        }
+
+    }
+
+
+}

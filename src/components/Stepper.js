@@ -3,6 +3,8 @@ import "./styles/Stepper.scss"
 import Button from './global/Button';
 import useLocalStorage from '../hooks/useLocalStorage';
 import Modal, { ModalButton, ModalContent } from './Modal';
+import BusinessSheetTemplate from './BusinessSheetTemplate';
+import PreviewHeader from './PreviewHeader';
 
 const Stepper = ({ children, data }) => {
 
@@ -28,9 +30,6 @@ const Stepper = ({ children, data }) => {
 
     useEffect(() => {
         setValue("activeStep", Number(activeStep))
-        console.log(children)
-        console.log(Children.toArray(children)[activeStep])
-
     }, [activeStep, setValue, children])
 
     return (
@@ -53,7 +52,8 @@ const Stepper = ({ children, data }) => {
                         <Button content={"プレビュー"} variant={"white"} onClick={handleTogglePreview} />
                     </ModalButton>
                     <ModalContent isOpen={previewModel} onClose={handleTogglePreview}>
-                        <h1>content </h1>
+                        <PreviewHeader />
+                        <BusinessSheetTemplate data={data}/>
                     </ModalContent>
                 </Modal>
             </div>
