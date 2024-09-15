@@ -7,10 +7,10 @@ const BusinessSheetTemplate = ({ data }) => {
 
     return (
         <div className="BusinessSheet">
-            <img src="/images/cover.png" alt="cover" />
+            <img src={data.coverImage} alt="cover" />
 
             <div className="profile">
-                <img src="/images/profile.png" alt="cover" />
+                <img src={data.profileImage} alt="profile" />
                 <h1 className="userName">{userName}</h1>
             </div>
 
@@ -33,7 +33,7 @@ const BusinessSheetTemplate = ({ data }) => {
             </div>
 
             <div className="businessSheetData-s2">
-                {/* <img src="/images/cover.png" alt="cover" /> */}
+                {/* <img src={data.backgroundImage} alt="background" /> */}
                 <div>
 
                 </div>

@@ -8,7 +8,7 @@ import PreviewHeader from './PreviewHeader';
 
 const Stepper = ({ children, data }) => {
 
-    const [getValue, setValue] = useLocalStorage()
+    const {getValue, setValue} = useLocalStorage()
     const [activeStep, setActiveStep] = useState(Number(getValue("activeStep")));
     const [previewModel, setPreviewModal] = useState(false)
 
@@ -24,8 +24,6 @@ const Stepper = ({ children, data }) => {
         console.log(data)
         setPreviewModal(prev => !prev)
     }
-
-
 
 
     useEffect(() => {

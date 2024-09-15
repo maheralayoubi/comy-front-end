@@ -8,6 +8,7 @@ const useLocalStorage = () => {
     }
 
     const setValue = (key, value) => {
+        console.log(key, value)
         localStorage.setItem(key, value)
     }
 
@@ -16,7 +17,7 @@ const useLocalStorage = () => {
     }
 
 
-    return [getValue, setValue, clearAll]
+    return {getValue, setValue, clearAll}
 }
 
 export default useLocalStorage
