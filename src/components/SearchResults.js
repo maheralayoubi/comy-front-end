@@ -18,7 +18,10 @@ const SearchResults = () => {
     return (
         <div className="search-results">
             <h2>検索結果</h2>
-            <input type="text" placeholder="検索" className="search-box" />
+            <div className="search-results-container">
+                <input type="text" placeholder="検索" className="search-box" />
+                <img src="/images/search.svg" alt="Search" className="search-icon" />
+            </div>
             <div className="user-list">
                 {users.map((user) => (
                     <div className="user-card" key={user.id}>
