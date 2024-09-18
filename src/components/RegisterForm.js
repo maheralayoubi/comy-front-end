@@ -7,6 +7,7 @@ import './styles/RegisterForm.scss';
 
 const RegisterForm = () => {
     const [name, setName] = useState('');
+    const [category, setCategory] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
@@ -27,7 +28,7 @@ const RegisterForm = () => {
             return;
         }
 
-        const userData = { name, email, password };
+        const userData = { name, email, password, category };
         setMessage('');
         setError('');
         try {
@@ -56,6 +57,15 @@ const RegisterForm = () => {
                     placeholder="名前を入力"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
+                />
+
+                <label htmlFor="category">カテゴリー</label>
+                <input
+                    type="text"
+                    id="category"
+                    placeholder="カテゴリーを入力"
+                    value={category}
+                    onChange={(e) => setCategory(e.target.value)}
                 />
 
                 <label htmlFor="email">メールアドレス</label>
@@ -103,7 +113,7 @@ const RegisterForm = () => {
                     />
                 </div>
 
-                <button type="submit" disabled={!name || !email || !password || !confirmPassword}>
+                <button type="submit" disabled={!name || !category || !email || !password || !confirmPassword}>
                     新規アカウント登録
                 </button>
             </form>
