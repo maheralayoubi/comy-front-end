@@ -34,12 +34,11 @@ const RegisterForm = () => {
         try {
             const result = await registerUser(userData);
             if (result.status === 201) {
-                // Redirect to the mail confirmation page and pass the email
                 navigate('/mail-confirmation', { state: { email } });
             } else if (result.status === 400) {
-                setError(result.data.message); // "Invalid input or user already exists"
+                setError(result.data.message);
             } else if (result.status === 500) {
-                setError(result.data.message); // "Internal server error"
+                setError(result.data.message);
             }
         } catch (error) {
             setError('Something went wrong. Please try again.');
@@ -57,7 +56,9 @@ const RegisterForm = () => {
                     placeholder="名前を入力"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
+                    maxLength={30}
                 />
+                <p className="input-limit-message">※30文字以内</p>
 
                 <label htmlFor="category">カテゴリー</label>
                 <input
@@ -66,7 +67,9 @@ const RegisterForm = () => {
                     placeholder="カテゴリーを入力"
                     value={category}
                     onChange={(e) => setCategory(e.target.value)}
+                    maxLength={30}
                 />
+                <p className="input-limit-message">※30文字以内</p>
 
                 <label htmlFor="email">メールアドレス</label>
                 <input
