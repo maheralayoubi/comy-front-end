@@ -34,7 +34,7 @@ const StripeCheckoutButton = () => {
                 onClick={handleClick}
                 disabled={!stripe}
             >
-                Subscribe for 12,000 Yen/Year
+                1年プラン/13,200円(一月当たり1,100円)
             </button>
         </div>
     );

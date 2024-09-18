@@ -54,6 +54,9 @@ const TermsOfUse = () => {
                 type="button"
                 disabled={!isChecked}
                 className={isChecked ? "enabled" : "disabled"}
+                onClick={() => {
+                    window.location.href = "/choose-payment";
+                }}
             >
                 次へ
             </button>
