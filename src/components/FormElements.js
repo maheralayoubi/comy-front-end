@@ -1,5 +1,6 @@
 import React from 'react'
 import "./styles/FormElements.scss"
+import useLocalStorage from '../hooks/useLocalStorage';
 
 // textarea components
 export const TextArea = ({ placeholder, maxLength, value, onChange, name }) => {
@@ -23,7 +24,6 @@ export const Input = ({ lable, placeholder, maxLength, value, onChange, name }) 
         </div>
     )
 }
-
 
 // fonts components
 const fonts = [
@@ -55,7 +55,6 @@ export const Fonts = ({ title, onChange, name, value }) => {
 }
 
 
-
 // themes components
 const themes = ["#333333", "#CC0000", "#FF8800", "#007E33", "#0099CC"]
 
@@ -79,6 +78,40 @@ export const Themes = ({ title, value, onChange, name }) => {
                     </label>
                 )}
             </div>
+        </div>
+    )
+}
+
+// upload cover image
+export const UploadImage = ({ title, value, onChange, name, setBusinessSheetData }) => {
+
+    const { setValue } = useLocalStorage()
+
+    const resetImage = () => {
+
+        setValue(name, "");
+
+        setBusinessSheetData(prevState => ({
+            ...prevState,
+            [name]: `/images/${name}.png`
+        }));
+    }
+
+    return (
+        <div className='uploadImage'>
+            <span className='title'>{title}</span>
+            <div className='uploadWrapper'>
+                <img className={`imageValue ${name}`} src={value} alt={name} />
+                <div className='controls'>
+                    <label className='update' htmlFor={name}>
+                        <img src="/images/update.png" alt="update" />
+                    </label>
+                    <span className='delete' onClick={resetImage}>
+                        <img src="/images/delete.png" alt="delete" />
+                    </span>
+                </div>
+            </div>
+            <input type='file' id={name} name={name} onChange={onChange} />
         </div>
     )
 }

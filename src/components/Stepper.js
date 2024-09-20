@@ -2,11 +2,15 @@ import React, { useState, Children, useEffect } from 'react';
 import "./styles/Stepper.scss"
 import Button from './global/Button';
 import useLocalStorage from '../hooks/useLocalStorage';
+import Modal, { ModalButton, ModalContent } from './Modal';
+import BusinessSheetTemplate from './BusinessSheetTemplate';
+import PreviewHeader from './PreviewHeader';
 
 const Stepper = ({ children, data }) => {
 
-    const [getValue, setValue, clearAll] = useLocalStorage()
+    const {getValue, setValue} = useLocalStorage()
     const [activeStep, setActiveStep] = useState(Number(getValue("activeStep")));
+    const [previewModel, setPreviewModal] = useState(false)
 
     const handleNext = () => {
         setActiveStep(prev => Math.min(prev + 1, Children.count(children) - 1));
@@ -15,17 +19,16 @@ const Stepper = ({ children, data }) => {
     const handlePrev = () => {
         setActiveStep(prev => Math.max(0, prev - 1));
     };
-    const handlePreview = () => {
+
+    const handleTogglePreview = () => {
         console.log(data)
-        clearAll()
+        setPreviewModal(prev => !prev)
     }
-
-
 
 
     useEffect(() => {
         setValue("activeStep", Number(activeStep))
-    }, [activeStep, setValue])
+    }, [activeStep, setValue, children])
 
     return (
         <div className="stepper-container">
@@ -42,7 +45,15 @@ const Stepper = ({ children, data }) => {
                 {activeStep !== 0 &&
                     <Button content={"戻る"} variant={"gray"} onClick={handlePrev} disabled={activeStep === 0} />}
                 <Button content={"次へ"} variant={"dark"} onClick={handleNext} disabled={activeStep === Children.count(children) - 1} />
-                <Button content={"プレビュー"} variant={"white"} onClick={handlePreview} />
+                <Modal>
+                    <ModalButton>
+                        <Button content={"プレビュー"} variant={"white"} onClick={handleTogglePreview} />
+                    </ModalButton>
+                    <ModalContent isOpen={previewModel} onClose={handleTogglePreview}>
+                        <PreviewHeader />
+                        <BusinessSheetTemplate data={data}/>
+                    </ModalContent>
+                </Modal>
             </div>
 
             <button className='skipBtn' onClick={handleNext}>
