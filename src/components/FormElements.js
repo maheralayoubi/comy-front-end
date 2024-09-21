@@ -50,6 +50,7 @@ export const Input = ({
   );
 };
 
+
 // fonts components
 const fonts = [
   "Noto Sans JP",
@@ -123,7 +124,6 @@ export const UploadImage = ({
 
   const resetImage = () => {
     setValue(name, "");
-
     setBusinessSheetData((prevState) => ({
       ...prevState,
       [name]: `/images/${name}.png`,

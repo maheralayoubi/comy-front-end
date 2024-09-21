@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import Header from "../components/global/Header";
 import Stepper, { Step } from "../components/Stepper";
@@ -12,7 +13,6 @@ import useLocalStorage from "../hooks/useLocalStorage";
 
 const BusinessSheetCreation = () => {
   const { getValue, setValue } = useLocalStorage();
-
   const [businessSheetData, setBusinessSheetData] = useState({
     memberBiography: getValue("memberBiography"),
     aboutBusiness: getValue("aboutBusiness"),
@@ -341,3 +341,4 @@ const BusinessSheetCreation = () => {
 };
 
 export default BusinessSheetCreation;
+
