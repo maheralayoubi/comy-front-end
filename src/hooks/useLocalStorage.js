@@ -1,23 +1,24 @@
+import { useMemo } from 'react';
 
 const useLocalStorage = () => {
-
     const getValue = (key) => {
-        const value = localStorage.getItem(key)
-        if (!value) return ""
-        return value
-    }
+        const value = localStorage.getItem(key);
+        return value || "";
+    };
 
     const setValue = (key, value) => {
-        console.log(key, value)
-        localStorage.setItem(key, value)
-    }
+        localStorage.setItem(key, value);
+    };
 
     const clearAll = () => {
-        localStorage.clear()
-    }
+        localStorage.clear();
+    };
 
+    return useMemo(() => ({
+        getValue,
+        setValue,
+        clearAll
+    }), []);
+};
 
-    return {getValue, setValue, clearAll}
-}
-
-export default useLocalStorage
+export default useLocalStorage;

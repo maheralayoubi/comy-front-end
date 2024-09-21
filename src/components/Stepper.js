@@ -6,14 +6,16 @@ import Modal, { ModalButton, ModalContent } from './Modal';
 import BusinessSheetTemplate from './BusinessSheetTemplate';
 import PreviewHeader from './PreviewHeader';
 
-const Stepper = ({ children, data }) => {
+const Stepper = ({ children, data ,handleInit}) => {
 
-    const {getValue, setValue} = useLocalStorage()
+    const { getValue, setValue } = useLocalStorage()
     const [activeStep, setActiveStep] = useState(Number(getValue("activeStep")));
     const [previewModel, setPreviewModal] = useState(false)
+    const numberOfChildern = Children.count(children)
+
 
     const handleNext = () => {
-        setActiveStep(prev => Math.min(prev + 1, Children.count(children) - 1));
+        setActiveStep(prev => Math.min(prev + 1, numberOfChildern - 1));
     };
 
     const handlePrev = () => {
@@ -21,8 +23,14 @@ const Stepper = ({ children, data }) => {
     };
 
     const handleTogglePreview = () => {
-        console.log(data)
         setPreviewModal(prev => !prev)
+    }
+
+    const handleSubmit = () => {
+        console.log(data)
+        setActiveStep(0)
+        handleInit()
+        
     }
 
 
@@ -33,25 +41,26 @@ const Stepper = ({ children, data }) => {
     return (
         <div className="stepper-container">
 
-            <span className='steps-number'>{activeStep + 1}/{Children.count(children)}</span>
+            <span className='steps-number'>{activeStep + 1}/{numberOfChildern}</span>
 
-            <progress className='progress-bar' value={activeStep + 1} max={Children.count(children)}></progress>
+            <progress className='progress-bar' value={activeStep + 1} max={numberOfChildern}></progress>
 
             <div className="steps">
                 {Children.toArray(children)[activeStep]}
             </div>
 
             <div className="button-group">
-                {activeStep !== 0 &&
-                    <Button content={"戻る"} variant={"gray"} onClick={handlePrev} disabled={activeStep === 0} />}
-                <Button content={"次へ"} variant={"dark"} onClick={handleNext} disabled={activeStep === Children.count(children) - 1} />
+                {activeStep !== 0 && <Button content={"戻る"} variant={"gray"} onClick={handlePrev} />}
+                {activeStep !== numberOfChildern - 1 && <Button content={"次へ"} variant={"dark"} onClick={handleNext} disabled={activeStep === numberOfChildern - 1} />}
+                {activeStep === numberOfChildern - 1 && <Button content={"提出する"} variant={"dark"} onClick={handleSubmit} />}
+
                 <Modal>
                     <ModalButton>
                         <Button content={"プレビュー"} variant={"white"} onClick={handleTogglePreview} />
                     </ModalButton>
                     <ModalContent isOpen={previewModel} onClose={handleTogglePreview}>
                         <PreviewHeader />
-                        <BusinessSheetTemplate data={data}/>
+                        <BusinessSheetTemplate data={data} />
                     </ModalContent>
                 </Modal>
             </div>

@@ -1,13 +1,13 @@
 import React from 'react'
 import "./styles/FormElements.scss"
-import useLocalStorage from '../hooks/useLocalStorage';
+// import useLocalStorage from '../hooks/useLocalStorage';
 
 // textarea components
 export const TextArea = ({ placeholder, maxLength, value, onChange, name }) => {
     return (
         <div className='textArea'>
-            <span className='maxLength'>{value?.toString().length}/{maxLength}文字</span>
-            <textarea name={name} placeholder={placeholder} maxLength={maxLength} value={value} onChange={onChange} />
+            <span className={`maxLength ${value?.toString().length === maxLength ? "red" : ""}`}>{value?.toString().length}/{maxLength}文字</span>
+            <textarea name={name} placeholder={placeholder} maxLength={maxLength} value={value || ""} onChange={onChange} />
         </div>
     )
 }
@@ -18,9 +18,9 @@ export const Input = ({ lable, placeholder, maxLength, value, onChange, name }) 
         <div className='input'>
             <div className='lableContainer'>
                 <label htmlFor={name}>{lable}</label>
-                <span className='maxLength'>{value?.toString().length}/{maxLength}文字</span>
+                <span className={`maxLength ${value?.toString().length === maxLength ? "red" : ""}`}>{value?.toString().length}/{maxLength}文字</span>
             </div>
-            <input type='text' id={name} name={name} placeholder={placeholder} maxLength={maxLength} value={value} onChange={onChange} />
+            <input type='text' id={name} name={name} placeholder={placeholder} maxLength={maxLength} value={value || ""} onChange={onChange} />
         </div>
     )
 }
@@ -85,11 +85,11 @@ export const Themes = ({ title, value, onChange, name }) => {
 // upload cover image
 export const UploadImage = ({ title, value, onChange, name, setBusinessSheetData }) => {
 
-    const { setValue } = useLocalStorage()
+    // const { setValue } = useLocalStorage()
 
     const resetImage = () => {
 
-        setValue(name, "");
+        // setValue(name, "");
 
         setBusinessSheetData(prevState => ({
             ...prevState,
