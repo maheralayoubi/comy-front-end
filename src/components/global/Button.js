@@ -1,11 +1,16 @@
-import "./styles/Button.scss"
+import "./styles/Button.scss";
 
-const Button = ({content,variant,onClick,disabled}) => {
+const Button = ({ content, variant, onClick, disabled }) => {
   return (
-    <button type="button" className={`btn ${variant}`} onClick={onClick} disabled={disabled}>
+    <button
+      type="button"
+      className={`btn ${variant}`}
+      onClick={onClick}
+      disabled={disabled}
+    >
       {content}
     </button>
-  )
-}
+  );
+};
 
-export default Button
+export default Button;
