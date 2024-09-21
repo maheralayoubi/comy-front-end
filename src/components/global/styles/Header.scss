@@ -1,67 +1,66 @@
 .header {
-    height: 60px;
+  height: 60px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 30px;
+  background-color: rgba(255, 255, 255, 1);
+  border-bottom: rgba(230, 230, 230, 1) 1px solid;
+
+  &-left {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    padding: 0 30px;
-    background-color: rgba(255, 255, 255, 1);
-    border-bottom: rgba(230, 230, 230, 1) 1px solid;
+    gap: 8%;
 
-    &-left {
-        display: flex;
-        align-items: center;
-        gap: 8%;
-
-        .logo {
-            width: 115px;
-            margin-right: 20px;
-        }
-
-        .search-container {
-            position: relative;
-
-            .search-input {
-                height: 35px;
-                width: 250px;
-                padding: 0 40px 0 20px;
-                border: 1px solid rgba(230, 230, 230, 1);
-                border-radius: 20px;
-                font-size: 14px;
-                outline: none;
-            }
-
-            .search-icon {
-                position: absolute;
-                right: 10px;
-                top: 50%;
-                transform: translateY(-50%);
-            }
-        }
+    .logo {
+      width: 115px;
+      margin-right: 20px;
     }
 
-    &-right {
-        display: flex;
-        align-items: center;
+    .search-container {
+      position: relative;
 
-        .account-icon {
-            margin-right: 8px;
-        }
+      .search-input {
+        height: 35px;
+        width: 250px;
+        padding: 0 40px 0 20px;
+        border: 1px solid rgba(230, 230, 230, 1);
+        border-radius: 20px;
+        font-size: 14px;
+        outline: none;
+      }
 
-        .account-text {
-            font-size: 16px;
-            color: rgba(51, 51, 51, 1);
-        }
+      .search-icon {
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+      }
     }
-    
+  }
+
+  &-right {
+    display: flex;
+    align-items: center;
+
+    .account-icon {
+      margin-right: 8px;
+    }
+
+    .account-text {
+      font-size: 16px;
+      color: rgba(51, 51, 51, 1);
+    }
+  }
 }
 
 @media (max-width: 768px) {
-    .header {
-        padding: 0 15px;
+  .header {
+    padding: 0 15px;
 
-        &-left .search-container,
-        &-right {
-            display: none;
-        }
+    &-left .search-container,
+    &-right {
+      display: none;
     }
+  }
 }
