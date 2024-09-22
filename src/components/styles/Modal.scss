@@ -8,7 +8,7 @@
   width: 100%;
   height: 100%;
   overflow: auto;
-  transition: top 0s ease-in-out 0.3s;
+  transition: top 0s ease-in-out .3s;
 
   &.active {
     top: 0;
@@ -17,7 +17,7 @@
     .overlay {
       top: 0;
       opacity: 1;
-      transition: opacity 0.3s ease-in-out 0s;
+      transition: opacity .3s ease-in-out 0s;
     }
 
     .modalBox {
@@ -35,7 +35,7 @@
     height: 100%;
     opacity: 0;
     background-color: rgba(0, 0, 0, 0.4);
-    transition: opacity 0.3s ease-in-out 0.3s;
+    transition: opacity .3s ease-in-out .3s;
   }
 
   .modalBox {
@@ -49,7 +49,8 @@
     width: 90%;
     position: relative;
     overflow-x: hidden;
-    transition: all 0.3s ease-in-out;
+    transition: all .3s ease-in-out;
+
 
     .closeBtn {
       background-color: #fefefe;
@@ -70,7 +71,7 @@
       margin: 0;
       min-width: fit-content !important;
       width: fit-content;
-      transition: all 0.5s;
+      transition: all .5s;
 
       &:hover {
         color: black;
@@ -84,7 +85,9 @@
       // scale: .8;
     }
   }
+
 }
+
 
 /* Animations */
 @keyframes fadeIn {
