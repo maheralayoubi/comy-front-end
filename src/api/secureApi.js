@@ -3,7 +3,7 @@
 import { HEADERS } from "../constants/headers";
 import axios from "axios";
 
-const API_URL = `${process.env.APP_BACKEND_URL}`;
+const API_URL = `${process.env.REACT_APP_BACKEND_URL}`;
 const AUTH_URL = `${API_URL}/auth`;
 
 const secureApi = axios.create({
