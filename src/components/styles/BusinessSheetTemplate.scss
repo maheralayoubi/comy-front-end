@@ -1,5 +1,4 @@
 .BusinessSheet {
-
   img {
     object-fit: cover;
     max-height: 280px;
@@ -126,6 +125,7 @@
 
       }
 
+
       .goldenGoose {
         // min-height: 215px;
         width: 100%;
@@ -139,6 +139,25 @@
           display: -webkit-box;
 
         }
+
+        @media (max-width:992px) {
+          grid-template-columns: 1fr;
+          grid-gap: 8px;
+        }
+
+      }
+
+
+      .goldenFarmer {
+        // min-height: 106px;
+        // display: flex;
+        // align-items: center;
+        // justify-content: start;
+        // gap: 16px;
+        width: 100%;
+        display: grid;
+        grid-template-columns: auto 1fr 1fr 1fr;
+        grid-gap: 16px;
 
         @media (max-width:992px) {
           grid-template-columns: 1fr;

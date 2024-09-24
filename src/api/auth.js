@@ -1,7 +1,7 @@
-import { HEADERS } from '../constants/headers'
+import { HEADERS } from "../constants/headers"
 
-import axios from 'axios'
-import secureApi from './secureApi'
+import axios from "axios"
+import secureApi from "./secureApi"
 
 const API_URL = `${process.env.REACT_APP_BACKEND_URL}`
 const AUTH_URL = `${API_URL}/auth`
@@ -9,6 +9,7 @@ const AUTH_URL = `${API_URL}/auth`
 const handleApiResponse = async (apiCall) => {
     try {
         const response = await apiCall()
+        console.log(response)
         return { data: response.data, status: response.status }
     } catch (error) {
         if (error.response) {
@@ -20,7 +21,7 @@ const handleApiResponse = async (apiCall) => {
 
 export const checkAuth = async () => {
     try {
-        const response = await secureApi.get('/check-auth')
+        const response = await secureApi.get("/check-auth")
         console.log(response.data)
         return response.data.isAuthenticated
     } catch {
