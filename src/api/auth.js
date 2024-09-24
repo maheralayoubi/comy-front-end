@@ -9,7 +9,6 @@ const AUTH_URL = `${API_URL}/auth`
 const handleApiResponse = async (apiCall) => {
     try {
         const response = await apiCall()
-        console.log(response)
         return { data: response.data, status: response.status }
     } catch (error) {
         if (error.response) {
