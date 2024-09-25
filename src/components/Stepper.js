@@ -3,10 +3,8 @@ import "./styles/Stepper.scss"
 import Button from "./global/Button"
 import { useNavigate } from "react-router-dom"
 import useLocalStorage from "../hooks/useLocalStorage"
-import Modal, { ModalButton, ModalContent } from "./Modal"
-import BusinessSheetTemplate from "./BusinessSheetTemplate"
-import PreviewHeader from "./PreviewHeader"
 import { createBusinessSheet } from "../api/businessSheet"
+import PreviewModal from "./PreviewModal"
 
 const Stepper = ({ children, data, handleInit }) => {
     const { getValue, setValue, clearAll } = useLocalStorage()
@@ -86,23 +84,11 @@ const Stepper = ({ children, data, handleInit }) => {
                         onClick={handleSubmit}
                     />
                 )}
-
-                <Modal>
-                    <ModalButton>
-                        <Button
-                            content={"プレビュー"}
-                            variant={"white"}
-                            onClick={handleTogglePreview}
-                        />
-                    </ModalButton>
-                    <ModalContent
-                        isOpen={previewModel}
-                        onClose={handleTogglePreview}
-                    >
-                        <PreviewHeader />
-                        <BusinessSheetTemplate data={data} />
-                    </ModalContent>
-                </Modal>
+                <PreviewModal
+                    data={data}
+                    isOpen={previewModel}
+                    onClose={handleTogglePreview}
+                />
             </div>
 
             <button className="skipBtn" onClick={handleNext}>

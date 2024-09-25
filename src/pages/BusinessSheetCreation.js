@@ -35,7 +35,7 @@ const BusinessSheetCreation = () => {
             headerBackgroundImage: null,
             profileImage: null,
             referralSheetBackgroundImage: null,
-            colorPreference: getValue("themeColor") || "",
+            colorPreference: getValue("colorPreference") || "",
             fontPreference: getValue("fontPreference") || "",
         })
     }, [getValue])
