@@ -9,3 +9,17 @@ export const createBusinessSheet = (businessSheetData) =>
             headers: HEADERS_FORM_DATA,
         })
     )
+
+export const getBusinessSheet = (businessSheetData) =>
+    handleApiResponse(() =>
+        secureApi.get(`${API_URL}/business-sheets`, businessSheetData, {
+            headers: HEADERS_FORM_DATA,
+        })
+    )
+
+export const editBusinessSheet = (businessSheetData) =>
+    handleApiResponse(() =>
+        secureApi.put(`${API_URL}/business-sheets`, businessSheetData, {
+            headers: HEADERS_FORM_DATA,
+        })
+    )

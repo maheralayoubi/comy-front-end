@@ -1,17 +1,18 @@
-import React from 'react'
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
-import TopPage from './pages/TopPage'
-import Register from './pages/Register'
-import Login from './pages/Login'
-import UpdatePasswordForm from './pages/UpdatePasswordForm'
-import MailConfirmation from './pages/MailConfirmation'
-import TermsOfUse from './pages/TermsOfUse'
-import AccountCreationCompleted from './pages/AccountCreationCompleted'
-import ForgotPasswordForm from './pages/ForgotPasswordForm'
-import BusinessSheetCreation from './pages/BusinessSheetCreation'
-import ChoosePayment from './pages/ChoosePayment'
-import StripePayment from './pages/StripePayment'
-import SearchResults from './pages/SearchResults'
+import React from "react"
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom"
+import TopPage from "./pages/TopPage"
+import Register from "./pages/Register"
+import Login from "./pages/Login"
+import UpdatePasswordForm from "./pages/UpdatePasswordForm"
+import MailConfirmation from "./pages/MailConfirmation"
+import TermsOfUse from "./pages/TermsOfUse"
+import AccountCreationCompleted from "./pages/AccountCreationCompleted"
+import ForgotPasswordForm from "./pages/ForgotPasswordForm"
+import BusinessSheetCreation from "./pages/BusinessSheetCreation"
+import ChoosePayment from "./pages/ChoosePayment"
+import StripePayment from "./pages/StripePayment"
+import SearchResults from "./pages/SearchResults"
+import Profile from "./pages/Profile"
 
 const App = () => {
     return (
@@ -41,6 +42,8 @@ const App = () => {
                     path="/business-sheet-creation"
                     element={<BusinessSheetCreation />}
                 />
+
+                <Route path="/profile" element={<Profile />} />
                 <Route path="/choose-payment" element={<ChoosePayment />} />
                 <Route path="/stripe-payment" element={<StripePayment />} />
                 <Route path="/search-results" element={<SearchResults />} />

@@ -1,7 +1,7 @@
 import "./styles/BusinessSheetTemplate.scss"
 import { Card, CardTitle, ChildCard, SectionTitle, CardData } from "./Cards"
 
-const BusinessSheetTemplate = ({ data }) => {
+const BusinessSheetTemplate = ({ data, isEdit }) => {
     const userName = "佐野真吾（さの しんご）"
 
     return (
@@ -15,9 +15,11 @@ const BusinessSheetTemplate = ({ data }) => {
         >
             <img
                 src={
-                    data?.headerBackgroundImage
-                        ? URL.createObjectURL(data.headerBackgroundImage)
-                        : "/images/headerBackgroundImage.png"
+                    isEdit && data?.headerBackgroundImageUrl
+                        ? data.headerBackgroundImageUrl
+                        : data?.headerBackgroundImage
+                          ? URL.createObjectURL(data.headerBackgroundImage)
+                          : "/images/headerBackgroundImage.png"
                 }
                 alt="cover"
             />
@@ -25,9 +27,11 @@ const BusinessSheetTemplate = ({ data }) => {
             <div className="profile">
                 <img
                     src={
-                        data?.profileImage
-                            ? URL.createObjectURL(data.profileImage)
-                            : "/images/profileImage.png"
+                        isEdit && data?.profileImageUrl
+                            ? data.profileImageUrl
+                            : data?.profileImage
+                              ? URL.createObjectURL(data.profileImage)
+                              : "/images/profileImage.png"
                     }
                     alt="profile"
                 />
@@ -78,11 +82,13 @@ const BusinessSheetTemplate = ({ data }) => {
             <div className="businessSheetData-s2">
                 <img
                     src={
-                        data?.referralSheetBackgroundImage
-                            ? URL.createObjectURL(
-                                  data.referralSheetBackgroundImage
-                              )
-                            : "/images/referralSheetBackgroundImage.png"
+                        isEdit && data?.referralSheetBackgroundImageUrl
+                            ? data.referralSheetBackgroundImageUrl
+                            : data?.referralSheetBackgroundImage
+                              ? URL.createObjectURL(
+                                    data.referralSheetBackgroundImage
+                                )
+                              : "/images/referralSheetBackgroundImage.png"
                     }
                     alt="background"
                 />

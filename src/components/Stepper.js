@@ -33,7 +33,7 @@ const Stepper = ({ children, data, handleInit }) => {
                 setActiveStep(0)
                 clearAll()
                 handleInit()
-                navigate("/")
+                navigate("/profile")
                 console.log("succsessfull")
             }
         } catch (error) {
