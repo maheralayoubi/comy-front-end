@@ -1,7 +1,7 @@
 /* The Modal (background) */
 .modal {
   position: fixed;
-  z-index: 11;
+  z-index: 100000000000;
   left: 0;
   top: 0;
   top: -100vh;
@@ -46,11 +46,31 @@
     scale: 0;
     z-index: 20;
     border: 1px solid #888;
-    width: 90%;
+    min-height: 100px;
     position: relative;
     overflow-x: hidden;
     transition: all .3s ease-in-out;
 
+    &.sm {
+      width: 572px;
+    }
+
+    &.md {
+      width: 60%;
+    }
+
+    &.lg {
+      width: 90%;
+    }
+
+    @media (max-width:992px) {
+
+      &.lg,
+      &.md,
+      &.sm {
+        width: 90%;
+      }
+    }
 
     .closeBtn {
       background-color: #fefefe;
@@ -82,7 +102,7 @@
     }
 
     .modalBoxChildern {
-      // scale: .8;
+      color: #000;
     }
   }
 

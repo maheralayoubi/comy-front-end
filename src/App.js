@@ -13,6 +13,7 @@ import ChoosePayment from "./pages/ChoosePayment"
 import StripePayment from "./pages/StripePayment"
 import SearchResults from "./pages/SearchResults"
 import Profile from "./pages/Profile"
+import Preview from "./pages/Preview"
 
 const App = () => {
     return (
@@ -44,6 +45,7 @@ const App = () => {
                 />
 
                 <Route path="/profile" element={<Profile />} />
+                <Route path="/Preview/:id" element={<Preview />} />
                 <Route path="/choose-payment" element={<ChoosePayment />} />
                 <Route path="/stripe-payment" element={<StripePayment />} />
                 <Route path="/search-results" element={<SearchResults />} />

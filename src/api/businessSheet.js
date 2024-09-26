@@ -10,9 +10,9 @@ export const createBusinessSheet = (businessSheetData) =>
         })
     )
 
-export const getBusinessSheet = (businessSheetData) =>
+export const getBusinessSheet = () =>
     handleApiResponse(() =>
-        secureApi.get(`${API_URL}/business-sheets`, businessSheetData, {
+        secureApi.get(`${API_URL}/business-sheets`, {
             headers: HEADERS_FORM_DATA,
         })
     )

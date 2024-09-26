@@ -9,7 +9,6 @@ import PreviewModal from "./PreviewModal"
 const Stepper = ({ children, data, handleInit }) => {
     const { getValue, setValue, clearAll } = useLocalStorage()
     const [activeStep, setActiveStep] = useState(Number(getValue("activeStep")))
-    const [previewModel, setPreviewModal] = useState(false)
     const numberOfChildern = Children.count(children)
     const navigate = useNavigate()
 
@@ -19,10 +18,6 @@ const Stepper = ({ children, data, handleInit }) => {
 
     const handlePrev = () => {
         setActiveStep((prev) => Math.max(0, prev - 1))
-    }
-
-    const handleTogglePreview = () => {
-        setPreviewModal((prev) => !prev)
     }
 
     const handleSubmit = async () => {
@@ -84,11 +79,7 @@ const Stepper = ({ children, data, handleInit }) => {
                         onClick={handleSubmit}
                     />
                 )}
-                <PreviewModal
-                    data={data}
-                    isOpen={previewModel}
-                    onClose={handleTogglePreview}
-                />
+                <PreviewModal data={data} />
             </div>
 
             <button className="skipBtn" onClick={handleNext}>
