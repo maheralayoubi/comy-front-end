@@ -1,11 +1,45 @@
 .BusinessSheet {
 
-  img {
-    object-fit: cover;
-    max-height: 280px;
-    width: 100%;
-    padding: 0;
-    margin: 0;
+  .headerBg {
+    position: relative;
+
+    img {
+      object-fit: cover;
+      max-height: 280px;
+      width: 100%;
+      padding: 0;
+      margin: 0;
+    }
+  }
+
+
+  .editProfile {
+    // padding: 0 150px;
+    position: absolute;
+    bottom: 16px;
+    right: 150px;
+    background-color: white;
+    padding: 4px 16px;
+    border-radius: 2px;
+    gap: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+
+    img {
+      width: 16px;
+      height: 16px;
+    }
+
+    span {
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 16px;
+      text-align: left;
+      color: #333333;
+
+    }
   }
 
   .profile {
@@ -26,6 +60,8 @@
       width: 160px;
       height: 160px;
       margin-top: -102px;
+      z-index: 100;
+
 
       @media (max-width:992px) {
         width: 80px;
@@ -34,13 +70,69 @@
 
     }
 
-    h1 {
-      font-size: 20px;
-      font-weight: 400;
-      line-height: 20px;
-      text-align: left;
-      margin-top: -25.5px;
+    .profileContent {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+
+      @media (max-width:992px) {
+        flex-direction: column;
+        align-items: start;
+      }
+
+      .userName {
+        font-size: 20px;
+        font-weight: 400;
+        line-height: 20px;
+        text-align: left;
+        // margin-top: -25.5px;
+      }
+
+      .copyContent {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        flex-direction: column;
+
+        @media (max-width:992px) {
+          flex-direction: row;
+          margin-left: -100px;
+        }
+
+        .copyImg {
+          width: 36px;
+          height: 36px;
+          background-color: #999999;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+
+          img {
+            width: 24px;
+            height: 24px;
+            margin: 0;
+            padding: 0;
+            border: none;
+          }
+        }
+
+
+
+        span {
+          font-size: 12px;
+          font-weight: 400;
+          line-height: 12px;
+          text-align: left;
+          color: #333333;
+        }
+      }
     }
+
   }
 
   .businessSheetData-s1 {
@@ -126,6 +218,7 @@
 
       }
 
+
       .goldenGoose {
         // min-height: 215px;
         width: 100%;
@@ -147,7 +240,26 @@
 
       }
 
-      .ourStrengths {
+
+      .goldenFarmer {
+        // min-height: 106px;
+        // display: flex;
+        // align-items: center;
+        // justify-content: start;
+        // gap: 16px;
+        width: 100%;
+        display: grid;
+        grid-template-columns: auto 1fr 1fr 1fr;
+        grid-gap: 16px;
+
+        @media (max-width:992px) {
+          grid-template-columns: 1fr;
+          grid-gap: 8px;
+        }
+
+      }
+
+      .companyStrengths {
         // min-height: 106px;
         width: 100%;
         display: grid;
@@ -167,7 +279,7 @@
 
       }
 
-      .powerWord {
+      .powerWords {
         // min-height: 142px;
         width: 100%;
         display: grid;

@@ -1,90 +1,332 @@
 import "./styles/BusinessSheetTemplate.scss"
-import { Card, CardTitle, ChildCard, SectionTitle, CardData } from "./Cards"
+import {
+    Card,
+    CardTitle,
+    CardTitle2,
+    ChildCard,
+    SectionTitle,
+    CardData,
+} from "./Cards"
+import EditDesignAndImgModal from "./EditDesignAndImgModal"
 
-const BusinessSheetTemplate = ({ data }) => {
+const BusinessSheetTemplate = ({ data, isEdit, handleEdit }) => {
+    const userName = "佐野真吾（さの しんご）"
 
-  const userName = "佐野真吾（さの しんご）"
+    const copyProfileUrl = () => {
+        navigator.clipboard
+            .writeText(`${window.location.origin}/preview/${data?.userId}`)
+            .then(() => {
+                alert("Text copied to clipboard")
+            })
+            .catch((err) => {
+                alert("Failed to copy text: ", err)
+            })
+    }
 
-  return (
-    <div className="BusinessSheet">
-      <img src={data?.coverImage} alt="cover" />
+    return (
+        <div
+            className="BusinessSheet"
+            style={{
+                fontFamily: data?.fontPreference
+                    ? `${data?.fontPreference} !important`
+                    : "sans-serif !important",
+            }}
+        >
+            <div className="headerBg">
+                <img
+                    src={
+                        isEdit && data?.headerBackgroundImageUrl
+                            ? `${data?.headerBackgroundImageUrl}?timestamp=${new Date().getTime()}`
+                            : data?.headerBackgroundImage
+                              ? URL.createObjectURL(data?.headerBackgroundImage)
+                              : "/images/headerBackgroundImage.png"
+                    }
+                    alt="cover"
+                />
 
-      <div className="profile">
-        <img src={data?.profileImage} alt="profile" />
-        <h1 className="userName">{userName}</h1>
-      </div>
-
-      <div className="businessSheetData-s1">
-
-        <div className="left">
-          <Card title={"メンバー略歴シート"} data={data?.memberBiography} theme={data?.themeColor} />
-          <Card title={"ビジネスについて"} data={data?.aboutBusiness} theme={data?.themeColor} />
-          <Card title={"個人的な情報"} data={data?.personalInformation} theme={data?.themeColor} />
-        </div>
-
-        <div className="right">
-          <SectionTitle title={"GAINSワークシート"} theme={data?.themeColor} />
-          <ChildCard title={"Goals / 目標"} data={data?.goals} />
-          <ChildCard title={"Accomplishment / 実績"} data={data?.achievements} />
-          <ChildCard title={"Interests / 興味・関心"} data={data?.interests} />
-          <ChildCard title={"Networks / 人脈"} data={data?.networks} />
-          <ChildCard title={"Skills / 能力"} data={data?.skills} />
-        </div>
-      </div>
-
-      <div className="businessSheetData-s2">
-        <img src={data?.backgroundImage} alt="background" />
-        <div className="section2Container">
-          <SectionTitle title={"リファーラルシート"} theme={data?.themeColor} />
-
-          <div className="goldenEgg">
-            <CardTitle title={"金のタマゴ"} theme={data?.themeColor} name="goldenEgg" />
-            <CardData rank={1} data={data?.goldenEgg1} />
-            <CardData rank={2} data={data?.goldenEgg2} />
-            <CardData rank={3} data={data?.goldenEgg3} />
-          </div>
-
-          <div className="goldenGoose">
-            <CardTitle title={"金のガチョウ"} theme={data?.themeColor} name="goldenGoose" />
-            <CardData rank={1} data={data?.goldenGoose1} />
-            <CardData rank={2} data={data?.goldenGoose2} />
-            <CardData rank={3} data={data?.goldenGoose3} />
-          </div>
-
-          <div className="ourStrengths">
-            <CardTitle title={"自社の強み"} theme={data?.themeColor} name="ourStrengths" />
-            <CardData data={data?.strengths} />
-          </div>
-
-          <div className="powerWord">
-            <CardTitle title={"パワーワード"} theme={data?.themeColor} name="powerWord" />
-            <div className="gridContainer">
-              <CardData data={data?.powerWord1} />
-              <CardData data={data?.powerWord2} />
-              <CardData data={data?.powerWord3} />
-              <CardData data={data?.powerWord4} />
-              <CardData data={data?.powerWord5} />
-              <CardData data={data?.powerWord6} />
+                {isEdit && (
+                    <EditDesignAndImgModal
+                        size={"sm"}
+                        title={"プロフィール"}
+                        handleEdit={handleEdit}
+                        theme={data?.colorPreference}
+                        data={data}
+                    />
+                )}
             </div>
-          </div>
 
-          <div className="products">
-            <CardTitle title={"アイテム / 商品・商材"} theme={data?.themeColor} name="products" />
-            <CardData data={data?.products1} />
-            <CardData data={data?.products2} />
-            <CardData data={data?.products3} />
-          </div>
+            <div className="profile">
+                <img
+                    src={
+                        isEdit && data?.profileImageUrl
+                            ? `${data.profileImageUrl}?timestamp=${new Date().getTime()}`
+                            : data?.profileImage
+                              ? URL.createObjectURL(data.profileImage)
+                              : "/images/profileImage.png"
+                    }
+                    alt="profile"
+                />
+                <div className="profileContent">
+                    <h1 className="userName">{userName}</h1>
+                    {isEdit && (
+                        <div className="copyContent">
+                            <div
+                                href={`/user/${data.userId}`}
+                                target="_blanck"
+                                className="copyImg"
+                                onClick={copyProfileUrl}
+                            >
+                                <img
+                                    src="/images/content_copy.png"
+                                    alt="copy content"
+                                />
+                            </div>
 
+                            <span>ビジネスシートのURLをコピー</span>
+                        </div>
+                    )}
+                </div>
+            </div>
+
+            <div className="businessSheetData-s1">
+                <div className="left">
+                    <Card
+                        title={"メンバー略歴シート"}
+                        data={data?.shortBiography}
+                        theme={data?.colorPreference}
+                        isEdit={isEdit}
+                        handleEdit={handleEdit}
+                        name="shortBiography"
+                        placeholder={"メンバー略歴を入力"}
+                        maxLength={400}
+                    />
+                    <Card
+                        title={"ビジネスについて"}
+                        data={data?.businessDescription}
+                        theme={data?.colorPreference}
+                        isEdit={isEdit}
+                        handleEdit={handleEdit}
+                        name="businessDescription"
+                        placeholder={"ビジネスについて入力"}
+                        maxLength={400}
+                    />
+                    <Card
+                        title={"個人的な情報"}
+                        data={data?.personalInformation}
+                        theme={data?.colorPreference}
+                        isEdit={isEdit}
+                        handleEdit={handleEdit}
+                        name="personalInformation"
+                        placeholder={"個人的な情報について入力"}
+                        maxLength={200}
+                    />
+                </div>
+
+                <div className="right">
+                    <SectionTitle
+                        title={"GAINSワークシート"}
+                        theme={data?.colorPreference}
+                    />
+                    <ChildCard
+                        title={"Goals / 目標"}
+                        data={data?.goals}
+                        theme={data?.colorPreference}
+                        isEdit={isEdit}
+                        handleEdit={handleEdit}
+                        name="goals"
+                        placeholder={"goals / 目標について入力"}
+                        maxLength={1000}
+                    />
+                    <ChildCard
+                        title={"Accomplishment / 実績"}
+                        data={data?.accomplishments}
+                        theme={data?.colorPreference}
+                        isEdit={isEdit}
+                        handleEdit={handleEdit}
+                        name="accomplishments"
+                        placeholder={"Accomplishment / 実績について入力"}
+                        maxLength={1000}
+                    />
+                    <ChildCard
+                        title={"Interests / 興味・関心"}
+                        data={data?.interests}
+                        theme={data?.colorPreference}
+                        isEdit={isEdit}
+                        handleEdit={handleEdit}
+                        name="interests"
+                        placeholder={"interests / 興味・関心について入力"}
+                        maxLength={1000}
+                    />
+                    <ChildCard
+                        title={"Networks / 人脈"}
+                        data={data?.networks}
+                        theme={data?.colorPreference}
+                        isEdit={isEdit}
+                        handleEdit={handleEdit}
+                        name="networks"
+                        placeholder={"networks / 人脈について入力"}
+                        maxLength={1000}
+                    />
+                    <ChildCard
+                        title={"Skills / 能力"}
+                        data={data?.skills}
+                        theme={data?.colorPreference}
+                        isEdit={isEdit}
+                        handleEdit={handleEdit}
+                        name="skills"
+                        placeholder={"skills / 能力について入力"}
+                        maxLength={1000}
+                    />
+                </div>
+            </div>
+
+            <div className="businessSheetData-s2">
+                <img
+                    src={
+                        isEdit && data?.referralSheetBackgroundImageUrl
+                            ? `${data.referralSheetBackgroundImageUrl}?timestamp=${new Date().getTime()}`
+                            : data?.referralSheetBackgroundImage
+                              ? URL.createObjectURL(
+                                    data.referralSheetBackgroundImage
+                                )
+                              : "/images/referralSheetBackgroundImage.png"
+                    }
+                    alt="background"
+                />
+                <div className="section2Container">
+                    <SectionTitle
+                        title={"リファーラルシート"}
+                        theme={data?.colorPreference}
+                    />
+
+                    <div className="goldenEgg">
+                        <CardTitle
+                            title={"金のタマゴ"}
+                            theme={data?.colorPreference}
+                            name="goldenEgg"
+                            isEdit={isEdit}
+                            data={data?.goldenEgg}
+                            handleEdit={handleEdit}
+                            placeholder={"金のタマゴについて入力"}
+                            maxLength={10}
+                        />
+                        {(data?.goldenEgg
+                            ? data?.goldenEgg
+                            : Array(3).fill("")
+                        ).map((item, index) => (
+                            <CardData
+                                key={index}
+                                rank={index + 1}
+                                data={item}
+                            />
+                        ))}
+                    </div>
+
+                    <div className="goldenGoose">
+                        <CardTitle
+                            title={"金のガチョウ"}
+                            theme={data?.colorPreference}
+                            name="goldenGoose"
+                            isEdit={isEdit}
+                            data={data?.goldenGoose}
+                            handleEdit={handleEdit}
+                            placeholder={"金のガチョウについて入力"}
+                            maxLength={40}
+                        />
+                        {(data?.goldenGoose
+                            ? data?.goldenGoose
+                            : Array(3).fill("")
+                        ).map((item, index) => (
+                            <CardData
+                                key={index}
+                                rank={index + 1}
+                                data={item}
+                            />
+                        ))}
+                    </div>
+
+                    <div className="goldenFarmer">
+                        <CardTitle
+                            title={"金のタマゴ"}
+                            theme={data?.colorPreference}
+                            name="goldenFarmer"
+                            isEdit={isEdit}
+                            data={data?.goldenFarmer}
+                            handleEdit={handleEdit}
+                            placeholder={"金のファーマーについて入力"}
+                            maxLength={10}
+                        />
+                        {(data?.goldenFarmer
+                            ? data?.goldenFarmer
+                            : Array(3).fill("")
+                        ).map((item, index) => (
+                            <CardData
+                                key={index}
+                                rank={index + 1}
+                                data={item}
+                            />
+                        ))}
+                    </div>
+
+                    <div className="companyStrengths">
+                        <CardTitle2
+                            title={"自社の強み"}
+                            theme={data?.colorPreference}
+                            name="companyStrengths"
+                            isEdit={isEdit}
+                            data={data?.companyStrengths}
+                            handleEdit={handleEdit}
+                            placeholder={"自社の強みについて入力"}
+                            maxLength={1000}
+                        />
+                        <CardData data={data?.companyStrengths} />
+                    </div>
+
+                    <div className="powerWords">
+                        <CardTitle
+                            title={"パワーワード"}
+                            theme={data?.colorPreference}
+                            name="powerWords"
+                            isEdit={isEdit}
+                            data={data?.powerWords}
+                            handleEdit={handleEdit}
+                            lable="パワーワード"
+                            placeholder={"パワーワードについて入力"}
+                            maxLength={40}
+                        />
+                        <div className="gridContainer">
+                            {(data?.powerWords
+                                ? data?.powerWords
+                                : Array(6).fill("")
+                            ).map((item, index) => (
+                                <CardData key={index} data={item} />
+                            ))}
+                        </div>
+                    </div>
+
+                    <div className="products">
+                        <CardTitle
+                            title={"アイテム / 商品・商材"}
+                            theme={data?.colorPreference}
+                            name="itemsProducts"
+                            isEdit={isEdit}
+                            data={data?.itemsProducts}
+                            handleEdit={handleEdit}
+                            placeholder={"アイテム / 商品・商材について入力"}
+                            lable="アイテム / 商品・商材"
+                            maxLength={40}
+                        />
+                        {(data?.itemsProducts
+                            ? data?.itemsProducts
+                            : Array(3).fill("")
+                        ).map((item, index) => (
+                            <CardData key={index} data={item} />
+                        ))}
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-
-
-    </div>
-
-
-
-
-  )
+    )
 }
 
 export default BusinessSheetTemplate

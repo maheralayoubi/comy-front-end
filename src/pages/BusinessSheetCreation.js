@@ -1,79 +1,72 @@
-import { useCallback, useEffect, useState } from 'react'
-import Header from '../components/global/Header'
-import Stepper, { Step } from '../components/Stepper'
+import { useCallback, useEffect, useState } from "react"
+import Header from "../components/global/Header"
+import Stepper, { Step } from "../components/Stepper"
 import {
     TextArea,
     Input,
     Fonts,
     Themes,
     UploadImage,
-} from '../components/FormElements'
-import useLocalStorage from '../hooks/useLocalStorage'
+} from "../components/FormElements"
+import useLocalStorage from "../hooks/useLocalStorage"
 
 const BusinessSheetCreation = () => {
-    const { getValue, setValue, clearAll } = useLocalStorage()
+    const { getValue, setValue } = useLocalStorage()
 
     const [businessSheetData, setBusinessSheetData] = useState(null)
 
     const handleInit = useCallback(() => {
-        console.log('clear')
-        clearAll()
+        console.log("clear")
         setBusinessSheetData({
-            memberBiography: getValue('memberBiography'),
-            aboutBusiness: getValue('aboutBusiness'),
-            personalInformation: getValue('personalInformation'),
-            goals: getValue('goals'),
-            achievements: getValue('achievements'),
-            interests: getValue('interests'),
-            networks: getValue('networks'),
-            skills: getValue('skills'),
-            goldenEgg1: getValue('goldenEgg1'),
-            goldenEgg2: getValue('goldenEgg2'),
-            goldenEgg3: getValue('goldenEgg3'),
-            goldenGoose1: getValue('goldenGoose1'),
-            goldenGoose2: getValue('goldenGoose2'),
-            goldenGoose3: getValue('goldenGoose3'),
-            strengths: getValue('strengths'),
-            powerWord1: getValue('powerWord1'),
-            powerWord2: getValue('powerWord2'),
-            powerWord3: getValue('powerWord3'),
-            powerWord4: getValue('powerWord4'),
-            powerWord5: getValue('powerWord5'),
-            powerWord6: getValue('powerWord6'),
-            products1: getValue('products1'),
-            products2: getValue('products2'),
-            products3: getValue('products3'),
-            themeColor: getValue('themeColor'),
-            font: getValue('font'),
-            coverImage: '/images/coverImage.png',
-            profileImage: '/images/profileImage.png',
-            backgroundImage: '/images/backgroundImage.png',
+            shortBiography: getValue("shortBiography") || "",
+            businessDescription: getValue("businessDescription") || "",
+            personalInformation: getValue("personalInformation") || "",
+            goals: getValue("goals") || "",
+            accomplishments: getValue("accomplishments") || "",
+            interests: getValue("interests") || "",
+            networks: getValue("networks") || "",
+            skills: getValue("skills") || "",
+            goldenEgg: getValue("goldenEgg") || Array(3).fill(""),
+            goldenGoose: getValue("goldenGoose") || Array(3).fill(""),
+            goldenFarmer: getValue("goldenFarmer") || Array(3).fill(""),
+            companyStrengths: getValue("companyStrengths") || "",
+            powerWords: getValue("powerWords") || Array(6).fill(""),
+            itemsProducts: getValue("itemsProducts") || Array(3).fill(""),
+            headerBackgroundImage: null,
+            profileImage: null,
+            referralSheetBackgroundImage: null,
+            colorPreference: getValue("colorPreference") || "",
+            fontPreference: getValue("fontPreference") || "",
         })
-    }, [clearAll, getValue])
+    }, [getValue])
 
     useEffect(() => {
         handleInit()
     }, [handleInit])
 
-    const handleChange = (e) => {
+    const handleChange = (e, index) => {
         const { name, value, files } = e.target
 
+        // is file
         if (files && files.length > 0) {
-            if (files && files.length > 0) {
-                const file = files[0]
-                const reader = new FileReader()
-
-                reader.onload = (event) => {
-                    // setValue(name, event.target.result);
-                    setBusinessSheetData((prevState) => ({
-                        ...prevState,
-                        [name]: event.target.result,
-                    }))
-                }
-
-                reader.readAsDataURL(file)
-            }
-        } else {
+            const file = files[0]
+            setBusinessSheetData((prevState) => ({
+                ...prevState,
+                [name]: file,
+            }))
+        }
+        // is array
+        else if (index !== undefined) {
+            businessSheetData[name][index] = value
+            const newArray = [...businessSheetData[name]]
+            setValue(name, newArray)
+            setBusinessSheetData((prevState) => ({
+                ...prevState,
+                [name]: newArray,
+            }))
+        }
+        // is string
+        else {
             setValue(name, value)
             setBusinessSheetData((prevState) => ({
                 ...prevState,
@@ -87,26 +80,29 @@ const BusinessSheetCreation = () => {
             <Header />
 
             <Stepper data={businessSheetData} handleInit={handleInit}>
+                {/* step 1 */}
                 <Step title="メンバー略歴シート">
                     <TextArea
                         placeholder="メンバー略歴を入力"
                         maxLength={400}
-                        value={businessSheetData?.memberBiography}
+                        value={businessSheetData?.shortBiography}
                         onChange={handleChange}
-                        name="memberBiography"
+                        name="shortBiography"
                     />
                 </Step>
 
+                {/* step 2 */}
                 <Step title="ビジネスについて">
                     <TextArea
                         placeholder="ビジネスについて入力"
                         maxLength={400}
-                        value={businessSheetData?.aboutBusiness}
+                        value={businessSheetData?.businessDescription}
                         onChange={handleChange}
-                        name="aboutBusiness"
+                        name="businessDescription"
                     />
                 </Step>
 
+                {/* step 3 */}
                 <Step title="個人的な情報">
                     <TextArea
                         placeholder="個人的な情報について入力"
@@ -117,9 +113,10 @@ const BusinessSheetCreation = () => {
                     />
                 </Step>
 
-                <Step title="Goals / 目標">
+                {/* step 4 */}
+                <Step title="goals / 目標">
                     <TextArea
-                        placeholder="Goals / 目標について入力"
+                        placeholder="goals / 目標について入力"
                         maxLength={1000}
                         value={businessSheetData?.goals}
                         onChange={handleChange}
@@ -127,19 +124,21 @@ const BusinessSheetCreation = () => {
                     />
                 </Step>
 
+                {/* step 5 */}
                 <Step title="Accomplishment / 実績">
                     <TextArea
                         placeholder="Accomplishment / 実績について入力"
                         maxLength={1000}
-                        value={businessSheetData?.achievements}
+                        value={businessSheetData?.accomplishments}
                         onChange={handleChange}
-                        name="achievements"
+                        name="accomplishments"
                     />
                 </Step>
 
-                <Step title="Interests / 興味・関心">
+                {/* step 6 */}
+                <Step title="interests / 興味・関心">
                     <TextArea
-                        placeholder="Interests / 興味・関心について入力"
+                        placeholder="interests / 興味・関心について入力"
                         maxLength={1000}
                         value={businessSheetData?.interests}
                         onChange={handleChange}
@@ -147,9 +146,10 @@ const BusinessSheetCreation = () => {
                     />
                 </Step>
 
-                <Step title="Networks / 人脈">
+                {/* step 7 */}
+                <Step title="networks / 人脈">
                     <TextArea
-                        placeholder="Networks / 人脈について入力"
+                        placeholder="networks / 人脈について入力"
                         maxLength={1000}
                         value={businessSheetData?.networks}
                         onChange={handleChange}
@@ -157,9 +157,10 @@ const BusinessSheetCreation = () => {
                     />
                 </Step>
 
-                <Step title="Skills / 能力">
+                {/* step 8 */}
+                <Step title="skills / 能力">
                     <TextArea
-                        placeholder="Skills / 能力について入力"
+                        placeholder="skills / 能力について入力"
                         maxLength={1000}
                         value={businessSheetData?.skills}
                         onChange={handleChange}
@@ -167,154 +168,104 @@ const BusinessSheetCreation = () => {
                     />
                 </Step>
 
+                {/* step 9 */}
                 <Step title="金のタマゴ">
-                    <Input
-                        lable="エリア1"
-                        placeholder="金のタマゴについて入力"
-                        maxLength={10}
-                        value={businessSheetData?.goldenEgg1}
-                        onChange={handleChange}
-                        name="goldenEgg1"
-                    />
-                    <Input
-                        lable="エリア2"
-                        placeholder="金のタマゴについて入力"
-                        maxLength={10}
-                        value={businessSheetData?.goldenEgg2}
-                        onChange={handleChange}
-                        name="goldenEgg2"
-                    />
-                    <Input
-                        lable="エリア3"
-                        placeholder="金のタマゴについて入力"
-                        maxLength={10}
-                        value={businessSheetData?.goldenEgg3}
-                        onChange={handleChange}
-                        name="goldenEgg3"
-                    />
+                    {businessSheetData?.goldenEgg.map((item, index) => (
+                        <Input
+                            key={index}
+                            index={index}
+                            lable={`エリア${index + 1}`}
+                            placeholder="金のタマゴについて入力"
+                            maxLength={10}
+                            value={item}
+                            onChange={(e) => handleChange(e, index)}
+                            name="goldenEgg"
+                        />
+                    ))}
                 </Step>
 
+                {/* step 10 */}
                 <Step title="金のガチョウ">
-                    <Input
-                        lable="エリア1"
-                        placeholder="金のガチョウについて入力"
-                        maxLength={40}
-                        value={businessSheetData?.goldenGoose1}
-                        onChange={handleChange}
-                        name="goldenGoose1"
-                    />
-                    <Input
-                        lable="エリア2"
-                        placeholder="金のガチョウについて入力"
-                        maxLength={40}
-                        value={businessSheetData?.goldenGoose2}
-                        onChange={handleChange}
-                        name="goldenGoose2"
-                    />
-                    <Input
-                        lable="エリア3"
-                        placeholder="金のガチョウについて入力"
-                        maxLength={40}
-                        value={businessSheetData?.goldenGoose3}
-                        onChange={handleChange}
-                        name="goldenGoose3"
-                    />
+                    {businessSheetData?.goldenGoose.map((item, index) => (
+                        <Input
+                            key={index}
+                            index={index}
+                            lable={`エリア${index + 1}`}
+                            placeholder="金のガチョウについて入力"
+                            maxLength={40}
+                            value={item}
+                            onChange={(e) => handleChange(e, index)}
+                            name="goldenGoose"
+                        />
+                    ))}
                 </Step>
 
+                {/* step 11 */}
+                <Step title="金のファーマー">
+                    {businessSheetData?.goldenFarmer.map((item, index) => (
+                        <Input
+                            key={index}
+                            index={index}
+                            lable={`エリア${index + 1}`}
+                            placeholder="金のファーマーについて入力"
+                            maxLength={10}
+                            value={item}
+                            onChange={(e) => handleChange(e, index)}
+                            name="goldenFarmer"
+                        />
+                    ))}
+                </Step>
+
+                {/* step 12 */}
                 <Step title="自社の強み">
                     <TextArea
                         placeholder="自社の強みについて入力"
                         maxLength={1000}
-                        value={businessSheetData?.strengths}
+                        value={businessSheetData?.companyStrengths}
                         onChange={handleChange}
-                        name="strengths"
+                        name="companyStrengths"
                     />
                 </Step>
 
+                {/* step 13 */}
                 <Step title="パワーワード">
-                    <Input
-                        lable="パワーワード1"
-                        placeholder="パワーワードについて入力"
-                        maxLength={40}
-                        value={businessSheetData?.powerWord1}
-                        onChange={handleChange}
-                        name="powerWord1"
-                    />
-                    <Input
-                        lable="パワーワード2"
-                        placeholder="パワーワードについて入力"
-                        maxLength={40}
-                        value={businessSheetData?.powerWord2}
-                        onChange={handleChange}
-                        name="powerWord2"
-                    />
-                    <Input
-                        lable="パワーワード3"
-                        placeholder="パワーワードについて入力"
-                        maxLength={40}
-                        value={businessSheetData?.powerWord3}
-                        onChange={handleChange}
-                        name="powerWord3"
-                    />
-                    <Input
-                        lable="パワーワード4"
-                        placeholder="パワーワードについて入力"
-                        maxLength={40}
-                        value={businessSheetData?.powerWord4}
-                        onChange={handleChange}
-                        name="powerWord4"
-                    />
-                    <Input
-                        lable="パワーワード5"
-                        placeholder="パワーワードについて入力"
-                        maxLength={40}
-                        value={businessSheetData?.powerWord5}
-                        onChange={handleChange}
-                        name="powerWord5"
-                    />
-                    <Input
-                        lable="パワーワード6"
-                        placeholder="パワーワードについて入力"
-                        maxLength={40}
-                        value={businessSheetData?.powerWord6}
-                        onChange={handleChange}
-                        name="powerWord6"
-                    />
+                    {businessSheetData?.powerWords.map((item, index) => (
+                        <Input
+                            key={index}
+                            index={index}
+                            lable={`パワーワード${index + 1}`}
+                            placeholder="パワーワードについて入力"
+                            maxLength={40}
+                            value={item}
+                            onChange={(e) => handleChange(e, index)}
+                            name="powerWords"
+                        />
+                    ))}
                 </Step>
 
+                {/* step 14 */}
                 <Step title="アイテム / 商品・商材">
-                    <Input
-                        lable="アイテム / 商品・商材1"
-                        placeholder="アイテム / 商品・商材について入力"
-                        maxLength={40}
-                        value={businessSheetData?.products1}
-                        onChange={handleChange}
-                        name="products1"
-                    />
-                    <Input
-                        lable="アイテム / 商品・商材2"
-                        placeholder="アイテム / 商品・商材について入力"
-                        maxLength={40}
-                        value={businessSheetData?.products2}
-                        onChange={handleChange}
-                        name="products2"
-                    />
-                    <Input
-                        lable="アイテム / 商品・商材3"
-                        placeholder="アイテム / 商品・商材について入力"
-                        maxLength={40}
-                        value={businessSheetData?.products3}
-                        onChange={handleChange}
-                        name="products3"
-                    />
+                    {businessSheetData?.itemsProducts.map((item, index) => (
+                        <Input
+                            key={index}
+                            index={index}
+                            lable={`アイテム / 商品・商材${index + 1}`}
+                            placeholder="アイテム / 商品・商材について入力"
+                            maxLength={40}
+                            value={item}
+                            onChange={(e) => handleChange(e, index)}
+                            name="itemsProducts"
+                        />
+                    ))}
                 </Step>
 
+                {/* step 15 */}
                 <Step title="カスタマイズ">
                     <UploadImage
                         title="ヘッダー背景画像を設定してください"
-                        value={businessSheetData?.coverImage}
+                        value={businessSheetData?.headerBackgroundImage}
                         onChange={handleChange}
-                        name="coverImage"
+                        name="headerBackgroundImage"
                         setBusinessSheetData={setBusinessSheetData}
                     />
                     <UploadImage
@@ -326,22 +277,22 @@ const BusinessSheetCreation = () => {
                     />
                     <UploadImage
                         title="リファーラルシートの背景画像をアップロードしてください"
-                        value={businessSheetData?.backgroundImage}
+                        value={businessSheetData?.referralSheetBackgroundImage}
                         onChange={handleChange}
-                        name="backgroundImage"
+                        name="referralSheetBackgroundImage"
                         setBusinessSheetData={setBusinessSheetData}
                     />
                     <Fonts
                         title="文字のタイプを選んでください"
-                        value={businessSheetData?.font}
+                        value={businessSheetData?.fontPreference}
                         onChange={handleChange}
-                        name="font"
+                        name="fontPreference"
                     />
                     <Themes
                         title="色を選んでください"
-                        value={businessSheetData?.themeColor}
+                        value={businessSheetData?.colorPreference}
                         onChange={handleChange}
-                        name="themeColor"
+                        name="colorPreference"
                     />
                 </Step>
             </Stepper>
