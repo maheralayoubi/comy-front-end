@@ -34,8 +34,10 @@
 
   .user-list {
     display: flex;
+    margin-top: 20px;
     flex-wrap: wrap;
     gap: 20px;
+    row-gap: 30px;
     justify-content: space-between;
   }
 
@@ -45,6 +47,10 @@
     align-items: center;
     width: 200px;
     text-align: center;
+
+    @media (max-width: 768px) {
+      width: 46%;
+    }
 
     .user-image {
       width: 120px;
@@ -57,12 +63,14 @@
       font-size: 16px;
       color: rgba(0, 0, 0, 1);
       font-weight: 400;
+      margin: 0;
     }
 
     .user-name {
       font-size: 20px;
       color: rgba(0, 0, 0, 1);
       font-weight: 700;
+      margin: 0;
     }
   }
 }
