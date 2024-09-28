@@ -12,6 +12,7 @@ import BusinessSheetCreation from "./pages/BusinessSheetCreation"
 import ChoosePayment from "./pages/ChoosePayment"
 import StripePayment from "./pages/StripePayment"
 import SearchResults from "./pages/SearchResults"
+import MemberList from "./pages/MemberList"
 import Profile from "./pages/Profile"
 import Preview from "./pages/Preview"
 
@@ -49,6 +50,7 @@ const App = () => {
                 <Route path="/choose-payment" element={<ChoosePayment />} />
                 <Route path="/stripe-payment" element={<StripePayment />} />
                 <Route path="/search-results" element={<SearchResults />} />
+                <Route path="/member-list" element={<MemberList />} />
             </Routes>
         </Router>
     )
