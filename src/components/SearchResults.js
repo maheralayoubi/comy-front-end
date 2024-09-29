@@ -1,85 +1,66 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { getSearchResults } from "../api/memberList";
 import "./styles/SearchResults.scss";
 
 const SearchResults = () => {
-  const users = [
-    {
-      id: 1,
-      name: "田中 翔子",
-      position: "税理士",
-      imgUrl: "https://via.placeholder.com/120",
-    },
-    {
-      id: 2,
-      name: "佐藤 剛",
-      position: "税理士",
-      imgUrl: "https://via.placeholder.com/120",
-    },
-    {
-      id: 3,
-      name: "中村 久美",
-      position: "税理士",
-      imgUrl: "https://via.placeholder.com/120",
-    },
-    {
-      id: 4,
-      name: "伊藤 健一",
-      position: "税理士",
-      imgUrl: "https://via.placeholder.com/120",
-    },
-    {
-      id: 5,
-      name: "小林 雅子",
-      position: "税理士",
-      imgUrl: "https://via.placeholder.com/120",
-    },
-    {
-      id: 6,
-      name: "山本 英二",
-      position: "税理士",
-      imgUrl: "https://via.placeholder.com/120",
-    },
-    {
-      id: 7,
-      name: "斉藤 美香",
-      position: "税理士",
-      imgUrl: "https://via.placeholder.com/120",
-    },
-    {
-      id: 8,
-      name: "鈴木 真一",
-      position: "税理士",
-      imgUrl: "https://via.placeholder.com/120",
-    },
-    {
-      id: 9,
-      name: "高橋 浩二",
-      position: "税理士",
-      imgUrl: "https://via.placeholder.com/120",
-    },
-    {
-      id: 10,
-      name: "松本 花子",
-      position: "税理士",
-      imgUrl: "https://via.placeholder.com/120",
-    },
-  ];
+  const [query, setQuery] = useState("");
+  const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+
+  const handleSearch = async (e) => {
+    setQuery(e.target.value);
+    if (e.target.value.trim()) {
+      setLoading(true);
+      setError(null);
+
+      try {
+        const data = await getSearchResults(e.target.value);
+        setUsers(data);
+      } catch (error) {
+        setError("検索に失敗しました。もう一度お試しください。");
+      } finally {
+        setLoading(false);
+      }
+    } else {
+      setUsers([]);
+    }
+  };
 
   return (
     <div className="search-results">
       <h2>検索結果</h2>
       <div className="search-results-container">
-        <input type="text" placeholder="検索" className="search-box" />
+        <input
+          type="text"
+          placeholder="検索"
+          className="search-box"
+          value={query}
+          onChange={handleSearch}
+        />
         <img src="/images/search.svg" alt="Search" className="search-icon" />
       </div>
+
+      {loading && <p>検索中...</p>}
+      {error && <p className="error-message">{error}</p>}
+
       <div className="user-list">
-        {users.map((user) => (
-          <div className="user-card" key={user.id}>
-            <img src={user.imgUrl} alt={user.name} className="user-image" />
-            <p className="user-position">{user.position}</p>
-            <p className="user-name">{user.name}</p>
-          </div>
-        ))}
+        {users.length > 0 ? (
+          users.map((user) => (
+            <div className="user-card" key={user.id}>
+              <img
+                src={user.profileImageUrl}
+                alt={user.name}
+                className="user-image"
+              />
+              <p className="user-position">{user.category}</p>
+              <p className="user-name">{user.name}</p>
+            </div>
+          ))
+        ) : (
+          !loading && <p>該当するユーザーが見つかりませんでした。</p>
+        )}
       </div>
     </div>
   );
