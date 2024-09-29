@@ -2,6 +2,7 @@
     max-width: 1100px;
     margin: 0 auto;
     padding: 20px;
+    min-height: 70vh;
 
     h2 {
         font-size: 24px;
@@ -16,7 +17,11 @@
         flex-wrap: wrap;
         gap: 20px;
         row-gap: 30px;
-        justify-content: space-between;
+        justify-content: flex-start;
+
+        @media (max-width: 768px) {
+            justify-content: space-between;
+        }
     }
 
     .user-card {
