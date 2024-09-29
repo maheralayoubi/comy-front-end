@@ -1,25 +1,19 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
 import "./styles/Header.scss";
 
 const Header = () => {
-  const history = useHistory();
-
-  const handleInputClick = () => {
-    history.push("/search-results");
-  };
-
   return (
     <header className="header">
       <div className="header-left">
         <img src="/images/comy-logo.png" alt="Logo" className="logo" />
         <div className="search-container">
-          <input
-            type="text"
-            placeholder="メンバー検索"
-            className="search-input"
-            onClick={handleInputClick}
-          />
+          <a href="/search-results">
+            <input
+              type="text"
+              placeholder="メンバー検索"
+              className="search-input"
+            />
+          </a>
           <img src="/images/search.svg" alt="Search" className="search-icon" />
         </div>
       </div>
