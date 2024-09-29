@@ -13,7 +13,7 @@
 
     .user-list {
         display: flex;
-        margin-top: 20px;
+        margin-top: 40px;
         flex-wrap: wrap;
         gap: 20px;
         row-gap: 30px;
@@ -21,6 +21,7 @@
 
         @media (max-width: 768px) {
             justify-content: space-between;
+            margin-top: 30px;
         }
     }
 
