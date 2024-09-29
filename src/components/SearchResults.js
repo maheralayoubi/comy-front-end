@@ -8,17 +8,18 @@ const SearchResults = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-
   const handleSearch = async (e) => {
-    setQuery(e.target.value);
-    if (e.target.value.trim()) {
+    const searchTerm = e.target.value;
+    setQuery(searchTerm);
+
+    if (searchTerm.trim()) {
       setLoading(true);
       setError(null);
 
       try {
-        const data = await getSearchResults(e.target.value);
-        setUsers(data);
-      } catch (error) {
+        const response = await getSearchResults(searchTerm);
+        setUsers(response);
+      } catch (err) {
         setError("検索に失敗しました。もう一度お試しください。");
       } finally {
         setLoading(false);
@@ -67,3 +68,4 @@ const SearchResults = () => {
 };
 
 export default SearchResults;
+
