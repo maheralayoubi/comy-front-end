@@ -19,7 +19,11 @@ const SearchResults = () => {
       try {
         const response = await getSearchResults(searchTerm);
         console.log(response);
-        setUsers(response);
+        if (response && response.data && response.data.length > 0) {
+          setUsers(response.data);
+        } else {
+          setUsers([]);
+        }
       } catch (err) {
         setError("検索に失敗しました。もう一度お試しください。");
       } finally {
@@ -29,6 +33,7 @@ const SearchResults = () => {
       setUsers([]);
     }
   };
+
 
   return (
     <div className="search-results">
