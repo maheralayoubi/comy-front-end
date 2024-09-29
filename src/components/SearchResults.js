@@ -18,6 +18,7 @@ const SearchResults = () => {
 
       try {
         const response = await getSearchResults(searchTerm);
+        console.log(response);
         setUsers(response);
       } catch (err) {
         setError("検索に失敗しました。もう一度お試しください。");
@@ -47,11 +48,11 @@ const SearchResults = () => {
       {error && <p className="error-message">{error}</p>}
 
       <div className="user-list">
-        {users.length > 0 ? (
+        {Array.isArray(users) && users.length > 0 ? (
           users.map((user) => (
             <div className="user-card" key={user.id}>
               <img
-                src={user.profileImageUrl}
+                src={user.profileImageUrl ? user.profileImageUrl : "https://via.placeholder.com/120"}
                 alt={user.name}
                 className="user-image"
               />
@@ -68,4 +69,5 @@ const SearchResults = () => {
 };
 
 export default SearchResults;
+
 
