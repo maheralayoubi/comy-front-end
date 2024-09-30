@@ -9,6 +9,7 @@ import PreviewModal from "./PreviewModal"
 const Stepper = ({ children, data, handleInit }) => {
     const { getValue, setValue, clearAll } = useLocalStorage()
     const [activeStep, setActiveStep] = useState(Number(getValue("activeStep")))
+    const [loading, setLoading] = useState(false)
     const numberOfChildern = Children.count(children)
     const navigate = useNavigate()
 
@@ -22,6 +23,7 @@ const Stepper = ({ children, data, handleInit }) => {
 
     const handleSubmit = async () => {
         try {
+            setLoading(true)
             const result = await createBusinessSheet(data)
             console.log(result)
             if (result.status === 201) {
@@ -33,6 +35,8 @@ const Stepper = ({ children, data, handleInit }) => {
             }
         } catch (error) {
             console.log(error)
+        } finally {
+            setLoading(false)
         }
     }
 
@@ -74,6 +78,7 @@ const Stepper = ({ children, data, handleInit }) => {
                 )}
                 {activeStep === numberOfChildern - 1 && (
                     <Button
+                        isLoading={loading}
                         content={"提出する"}
                         variant={"dark"}
                         onClick={handleSubmit}
@@ -82,9 +87,12 @@ const Stepper = ({ children, data, handleInit }) => {
                 <PreviewModal data={data} />
             </div>
 
-            <button className="skipBtn" onClick={handleNext}>
-                スキップ
-            </button>
+            {activeStep !== numberOfChildern - 1 && (
+                <button className="skipBtn" onClick={handleNext}>
+                    スキップ
+                </button>
+            )}
+
             <span className="orBtn">または</span>
             <span className="alreadyHaveSheet">
                 すでに略歴シートをお持ちの方はこちら

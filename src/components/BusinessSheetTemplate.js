@@ -10,7 +10,7 @@ import {
 import EditDesignAndImgModal from "./EditDesignAndImgModal"
 
 const BusinessSheetTemplate = ({ data, isEdit, handleEdit }) => {
-    const userName = "佐野真吾（さの しんご）"
+    const userName = data?.userName || ""
 
     const copyProfileUrl = () => {
         navigator.clipboard

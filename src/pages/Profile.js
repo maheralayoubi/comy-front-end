@@ -3,6 +3,7 @@ import Header from "../components/global/Header"
 import Footer from "../components/global/Footer"
 import BusinessSheetTemplate from "../components/BusinessSheetTemplate"
 import { getBusinessSheet, editBusinessSheet } from "../api/businessSheet"
+import { SpinnerPage } from "../components/global/Spinner"
 
 const Profile = () => {
     const [businessSheetData, setBusinessSheetData] = useState(null)
@@ -11,23 +12,16 @@ const Profile = () => {
         const getData = async () => {
             const response = await getBusinessSheet()
             setBusinessSheetData(response.data)
-            // console.log(
-            //     `${response.data.profileImageUrl}?timestamp=${new Date().getTime()}`
-            // )
         }
         getData()
     }, [])
 
     const handleEdit = async (updatedData) => {
-        setBusinessSheetData(null)
         console.log("update")
         await editBusinessSheet(updatedData)
-        console.log(updatedData)
+        setBusinessSheetData(null)
         const response = await getBusinessSheet()
         setBusinessSheetData(response.data)
-        // console.log(
-        //     `${response.data.profileImageUrl}?timestamp=${new Date().getTime()}`
-        // )
     }
 
     return (
@@ -40,7 +34,7 @@ const Profile = () => {
                     handleEdit={handleEdit}
                 />
             ) : (
-                <span>loading ...</span>
+                <SpinnerPage />
             )}
             <Footer />
         </div>
