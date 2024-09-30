@@ -66,14 +66,14 @@ const EditDesignAndImgModal = ({ size, title, handleEdit, theme }) => {
                             name="profileImage"
                             setBusinessSheetData={setUpdatedData}
                         />
-                        {/* 
+
                         <Input
                             lable="氏名"
                             placeholder="氏名"
                             value={updatedData.userName}
                             onChange={handleChange}
                             name="userName"
-                        /> */}
+                        />
                         <UploadImage
                             title="リファーラルシートの背景画像をアップロードしてください"
                             value={updatedData?.referralSheetBackgroundImage}

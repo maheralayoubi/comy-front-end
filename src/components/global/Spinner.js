@@ -8,7 +8,7 @@ const Spinner = () => {
 export const SpinnerPage = () => {
     return (
         <div className="loaderContainer">
-            <span class="loaderPage"></span>
+            <span className="loaderPage"></span>
         </div>
     )
 }
