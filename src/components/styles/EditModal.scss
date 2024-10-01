@@ -11,6 +11,10 @@
         margin: 24px 0;
     }
 
+    .children > * {
+        margin-bottom: 24px;
+    }
+
     .controlButtons {
         display: flex;
         align-items: center;

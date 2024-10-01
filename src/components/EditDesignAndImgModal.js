@@ -4,9 +4,19 @@ import "./styles/EditModal.scss"
 import { Input, UploadImage, Fonts, Themes } from "./FormElements"
 import Spinner from "./global/Spinner"
 
-const EditDesignAndImgModal = ({ size, title, handleEdit, theme }) => {
+const EditDesignAndImgModal = ({ size, title, handleEdit, theme, data }) => {
     const [toggle, setToggle] = useState(false)
-    const [updatedData, setUpdatedData] = useState({})
+
+    const [updatedData, setUpdatedData] = useState({
+        headerBackgroundImage: data.headerBackgroundImageUrl,
+        profileImage: data.profileImageUrl,
+        referralSheetBackgroundImage: data.referralSheetBackgroundImageUrl,
+        fontPreference: data.fontPreference,
+        colorPreference: data.colorPreference,
+        userName: data.userName,
+        userCategory: "category",
+    })
+
     const [loading, setLoading] = useState(false)
 
     const handleChange = (e) => {
@@ -70,10 +80,21 @@ const EditDesignAndImgModal = ({ size, title, handleEdit, theme }) => {
                         <Input
                             lable="氏名"
                             placeholder="氏名"
+                            maxLength={20}
                             value={updatedData.userName}
                             onChange={handleChange}
                             name="userName"
                         />
+
+                        <Input
+                            lable="カテゴリー"
+                            placeholder="カテゴリー"
+                            maxLength={20}
+                            value={updatedData.userCategory}
+                            onChange={handleChange}
+                            name="userCategory"
+                        />
+
                         <UploadImage
                             title="リファーラルシートの背景画像をアップロードしてください"
                             value={updatedData?.referralSheetBackgroundImage}

@@ -143,7 +143,9 @@ export const UploadImage = ({
                     className={`imageValue ${name}`}
                     src={
                         value
-                            ? URL.createObjectURL(value)
+                            ? typeof value === "string"
+                                ? value
+                                : URL.createObjectURL(value)
                             : `/images/${name}.png`
                     }
                     alt={name}

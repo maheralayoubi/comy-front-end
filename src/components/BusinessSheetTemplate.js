@@ -10,7 +10,8 @@ import {
 import EditDesignAndImgModal from "./EditDesignAndImgModal"
 
 const BusinessSheetTemplate = ({ data, isEdit, handleEdit }) => {
-    const userName = data?.userName || ""
+    const userName = data?.userName || "name"
+    const userCategory = data?.userCategory || "category"
 
     const copyProfileUrl = () => {
         navigator.clipboard
@@ -67,7 +68,10 @@ const BusinessSheetTemplate = ({ data, isEdit, handleEdit }) => {
                     alt="profile"
                 />
                 <div className="profileContent">
-                    <h1 className="userName">{userName}</h1>
+                    <div className="userData">
+                        <h6 className="userCategory">{userCategory}</h6>
+                        <h1 className="userName">{userName}</h1>
+                    </div>
                     {isEdit && (
                         <div className="copyContent">
                             <div

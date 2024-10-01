@@ -5,6 +5,7 @@ import visibilityIcon from "../assets/images/visibility.svg"
 import visibilityOffIcon from "../assets/images/visibility_off.svg"
 import "./styles/RegisterForm.scss"
 import Spinner from "./global/Spinner"
+import { validateRegisterInputs } from "../utils/validations"
 
 const RegisterForm = () => {
     const [name, setName] = useState("")
@@ -25,12 +26,15 @@ const RegisterForm = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault()
-        if (password !== confirmPassword) {
-            setError("Passwords do not match.")
+
+        const userData = { name, email, password, category }
+        const validateInput = validateRegisterInputs(userData)
+
+        if (validateInput) {
+            setError(validateInput)
             return
         }
 
-        const userData = { name, email, password, category }
         setMessage("")
         setError("")
         try {

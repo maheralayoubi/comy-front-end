@@ -71,7 +71,6 @@ export const CardTitle = ({
 
     const handleChange = (e, index) => {
         const { name, value } = e.target
-        console.log(data)
         data[index] = value
         const newArray = [...data]
 

@@ -1,11 +1,13 @@
 import React, { useState } from "react"
 import { forgotPassword } from "../api/auth"
 import "./styles/ForgotPasswordForm.scss"
+import Spinner from "./global/Spinner"
 
 const ForgotPasswordForm = () => {
     const [email, setEmail] = useState("")
     const [message, setMessage] = useState("")
     const [error, setError] = useState("")
+    const [loading, setLoading] = useState(false)
 
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -13,6 +15,7 @@ const ForgotPasswordForm = () => {
         setError("")
 
         try {
+            setLoading(true)
             const response = await forgotPassword(email)
             if (response.status === 200) {
                 setMessage(response.data.message)
@@ -24,6 +27,8 @@ const ForgotPasswordForm = () => {
             }
         } catch (error) {
             setError("Something went wrong. Please try again.")
+        } finally {
+            setLoading(false)
         }
     }
 
@@ -42,6 +47,7 @@ const ForgotPasswordForm = () => {
 
                 <button type="submit" disabled={!email}>
                     送信
+                    {loading && <Spinner />}
                 </button>
             </form>
 
