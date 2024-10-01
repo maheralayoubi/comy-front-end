@@ -2,17 +2,21 @@ import React, { useState } from "react"
 import Modal, { ModalButton, ModalContent } from "./Modal"
 import Button from "./global/Button"
 import "./styles/EditModal.scss"
+import Spinner from "./global/Spinner"
 
 const EditModal = ({ size, title, children, handleEdit, theme }) => {
     const [toggle, setToggle] = useState(false)
+    const [loading, setLoading] = useState(false)
 
     const onToggle = () => {
         setToggle((prev) => !prev)
     }
 
     const onEdit = async () => {
+        setLoading(true)
         await handleEdit()
         onToggle()
+        setLoading(false)
     }
 
     return (
@@ -34,6 +38,7 @@ const EditModal = ({ size, title, children, handleEdit, theme }) => {
                             キャンセル
                         </button>
                         <button
+                            type="button"
                             className="update"
                             style={{
                                 backgroundColor: theme ? theme : "#999999",
@@ -41,6 +46,7 @@ const EditModal = ({ size, title, children, handleEdit, theme }) => {
                             onClick={onEdit}
                         >
                             更新する
+                            {loading && <Spinner />}
                         </button>
                     </div>
                 </div>

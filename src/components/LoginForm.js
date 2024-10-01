@@ -4,6 +4,7 @@ import { loginUser, checkAuth } from "../api/auth"
 import visibilityIcon from "../assets/images/visibility.svg"
 import visibilityOffIcon from "../assets/images/visibility_off.svg"
 import "./styles/Login.scss"
+import Spinner from "./global/Spinner"
 
 const LoginForm = () => {
     const [email, setEmail] = useState("")
@@ -11,6 +12,8 @@ const LoginForm = () => {
     const [passwordVisible, setPasswordVisible] = useState(false)
     const [message, setMessage] = useState("")
     const [error, setError] = useState("")
+    const [loading, setLoading] = useState(false)
+
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -35,6 +38,7 @@ const LoginForm = () => {
         setMessage("")
         setError("")
         try {
+            setLoading(true)
             const result = await loginUser(userData)
 
             if (result.status === 200) {
@@ -51,6 +55,8 @@ const LoginForm = () => {
         } catch (error) {
             // Handling unexpected errors (network issues, etc.)
             setError("Something went wrong. Please try again.")
+        } finally {
+            setLoading(false)
         }
     }
 
@@ -93,6 +99,7 @@ const LoginForm = () => {
 
                 <button type="submit" disabled={!email || !password}>
                     ログイン
+                    {loading && <Spinner />}
                 </button>
 
                 <div className="register-link">

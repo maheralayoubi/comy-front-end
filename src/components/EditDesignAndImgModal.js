@@ -1,11 +1,13 @@
 import React, { useState } from "react"
 import Modal, { ModalButton, ModalContent } from "./Modal"
 import "./styles/EditModal.scss"
-import { UploadImage, Fonts, Themes } from "./FormElements"
+import { Input, UploadImage, Fonts, Themes } from "./FormElements"
+import Spinner from "./global/Spinner"
 
-const EditDesignAndImgModal = ({ size, title, handleEdit, theme, data }) => {
+const EditDesignAndImgModal = ({ size, title, handleEdit, theme }) => {
     const [toggle, setToggle] = useState(false)
     const [updatedData, setUpdatedData] = useState({})
+    const [loading, setLoading] = useState(false)
 
     const handleChange = (e) => {
         const { name, value, files } = e.target
@@ -32,8 +34,10 @@ const EditDesignAndImgModal = ({ size, title, handleEdit, theme, data }) => {
     }
 
     const onEdit = async () => {
+        setLoading(true)
         await handleEdit(updatedData)
         onToggle()
+        setLoading(false)
     }
 
     return (
@@ -62,6 +66,14 @@ const EditDesignAndImgModal = ({ size, title, handleEdit, theme, data }) => {
                             name="profileImage"
                             setBusinessSheetData={setUpdatedData}
                         />
+
+                        <Input
+                            lable="氏名"
+                            placeholder="氏名"
+                            value={updatedData.userName}
+                            onChange={handleChange}
+                            name="userName"
+                        />
                         <UploadImage
                             title="リファーラルシートの背景画像をアップロードしてください"
                             value={updatedData?.referralSheetBackgroundImage}
@@ -87,6 +99,7 @@ const EditDesignAndImgModal = ({ size, title, handleEdit, theme, data }) => {
                             キャンセル
                         </button>
                         <button
+                            type="button"
                             className="update"
                             style={{
                                 backgroundColor: theme ? theme : "#999999",
@@ -94,6 +107,7 @@ const EditDesignAndImgModal = ({ size, title, handleEdit, theme, data }) => {
                             onClick={onEdit}
                         >
                             更新する
+                            {loading && <Spinner />}
                         </button>
                     </div>
                 </div>

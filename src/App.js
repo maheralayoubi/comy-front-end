@@ -46,7 +46,7 @@ const App = () => {
                 />
 
                 <Route path="/profile" element={<Profile />} />
-                <Route path="/Preview/:id" element={<Preview />} />
+                <Route path="/preview/:id" element={<Preview />} />
                 <Route path="/choose-payment" element={<ChoosePayment />} />
                 <Route path="/stripe-payment" element={<StripePayment />} />
                 <Route path="/search-results" element={<SearchResults />} />

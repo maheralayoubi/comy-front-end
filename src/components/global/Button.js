@@ -1,6 +1,7 @@
 import "./styles/Button.scss"
+import Spinner from "./Spinner"
 
-const Button = ({ content, variant, onClick, disabled, style }) => {
+const Button = ({ content, variant, onClick, disabled, style, isLoading }) => {
     return (
         <button
             type="button"
@@ -10,6 +11,7 @@ const Button = ({ content, variant, onClick, disabled, style }) => {
             style={style}
         >
             {content}
+            {isLoading && <Spinner />}
         </button>
     )
 }
