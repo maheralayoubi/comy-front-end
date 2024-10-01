@@ -2,7 +2,7 @@ import React from "react"
 import "./styles/Spinner.scss"
 
 const Spinner = () => {
-    return <span class="loader"></span>
+    return <span className="loader"></span>
 }
 
 export const SpinnerPage = () => {

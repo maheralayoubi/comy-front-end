@@ -1,99 +1,99 @@
 .choose-payment-container {
-  max-width: 380px;
-  height: 100%;
-  min-height: 65vh;
-  margin: 0 auto;
-  padding: 20px;
+    max-width: 380px;
+    height: 100%;
+    min-height: 65vh;
+    margin: 0 auto;
+    padding: 20px;
 
-  h2 {
-    color: rgba(51, 51, 51, 1);
-    font-size: 24px;
-    font-weight: 700;
-    margin-bottom: 20px;
-    text-align: center;
-  }
-
-  .plan-selection {
-    display: flex;
-    align-items: center;
-    margin-bottom: 20px;
-
-    input {
-      margin-right: 10px;
+    h2 {
+        color: rgba(51, 51, 51, 1);
+        font-size: 24px;
+        font-weight: 700;
+        margin-bottom: 20px;
+        text-align: center;
     }
 
-    label {
-      color: rgba(51, 51, 51, 1);
-      font-size: 16px;
-      font-weight: 400;
+    .plan-selection {
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+
+        input {
+            margin-right: 10px;
+        }
+
+        label {
+            color: rgba(51, 51, 51, 1);
+            font-size: 16px;
+            font-weight: 400;
+        }
     }
-  }
 
-  .payment-buttons {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 20px;
+    .payment-buttons {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 20px;
 
-    .payment-button {
-      width: 48%;
-      padding: 12px;
-      font-size: 16px;
-      border: none;
-      border-radius: 4px;
-      font-weight: 600;
-      cursor: pointer;
-      background-color: rgba(51, 51, 51, 1);
-      color: rgba(255, 255, 255, 1);
-      text-align: center;
+        .payment-button {
+            width: 48%;
+            padding: 12px;
+            font-size: 16px;
+            border: none;
+            border-radius: 4px;
+            font-weight: 600;
+            cursor: pointer;
+            background-color: rgba(51, 51, 51, 1);
+            color: rgba(255, 255, 255, 1);
+            text-align: center;
 
-      &.active {
-        background-color: rgba(
-          0,
-          0,
-          0,
-          1
-        ); // Darker background for selected button
-      }
+            &.active {
+                background-color: rgba(
+                    0,
+                    0,
+                    0,
+                    1
+                ); // Darker background for selected button
+            }
 
-      &:disabled {
-        background-color: rgba(153, 153, 153, 1);
+            &:disabled {
+                background-color: rgba(153, 153, 153, 1);
+                color: rgba(255, 255, 255, 1);
+            }
+        }
+    }
+
+    .next-button {
+        margin-top: 20px;
+        width: 100%;
+        padding: 12px;
+        font-size: 16px;
+        border: none;
+        border-radius: 4px;
+        font-weight: 600;
+        cursor: pointer;
+        background-color: rgba(51, 51, 51, 1);
         color: rgba(255, 255, 255, 1);
-      }
-    }
-  }
+        text-align: center;
 
-  .next-button {
-    margin-top: 20px;
-    width: 100%;
-    padding: 12px;
-    font-size: 16px;
-    border: none;
-    border-radius: 4px;
-    font-weight: 600;
-    cursor: pointer;
-    background-color: rgba(51, 51, 51, 1);
-    color: rgba(255, 255, 255, 1);
-    text-align: center;
-
-    &:disabled {
-      background-color: rgba(153, 153, 153, 1);
-      color: rgba(255, 255, 255, 1);
+        &:disabled {
+            background-color: rgba(153, 153, 153, 1);
+            color: rgba(255, 255, 255, 1);
+        }
     }
-  }
 }
 
 @media (max-width: 768px) {
-  .choose-payment-container {
-    padding: 15px;
-    height: 100%;
+    .choose-payment-container {
+        padding: 15px;
+        height: 100%;
 
-    h2 {
-      text-align: left;
-      font-size: 20px;
-    }
+        h2 {
+            text-align: left;
+            font-size: 20px;
+        }
 
-    .payment-buttons .payment-button {
-      width: 48%;
+        .payment-buttons .payment-button {
+            width: 48%;
+        }
     }
-  }
 }

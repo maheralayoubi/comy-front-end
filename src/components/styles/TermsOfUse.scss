@@ -1,86 +1,86 @@
 .terms-of-use-container {
-  max-width: 525px;
-  text-align: center;
-  height: 100%;
-  margin: 0 auto;
-  padding: 20px;
-
-  h2 {
-    color: rgba(51, 51, 51, 1);
-    font-size: 24px;
-    font-weight: 700;
-    margin-bottom: 20px;
+    max-width: 525px;
     text-align: center;
-  }
-
-  .terms-box {
-    border: 1px solid rgba(230, 230, 230, 1);
-    border-radius: 4px;
-    height: 600px;
-    overflow-y: scroll;
-    padding: 15px;
-    margin-bottom: 20px;
-
-    p {
-      color: rgba(51, 51, 51, 1);
-      font-size: 15px;
-      line-height: 1.6;
-      text-align: left;
-    }
-  }
-
-  .checkbox-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 20px;
-
-    input[type="checkbox"] {
-      margin-right: 10px;
-    }
-
-    label {
-      color: rgba(51, 51, 51, 1);
-      font-size: 16px;
-    }
-  }
-
-  button[type="button"] {
-    width: 100%;
-    max-width: 360px;
-    padding: 12px;
-    font-size: 16px;
-    border: none;
-    border-radius: 4px;
-    font-weight: 600;
-    cursor: pointer;
-    color: rgba(255, 255, 255, 1);
-  }
-
-  .enabled {
-    background-color: rgba(51, 51, 51, 1);
-  }
-
-  .disabled {
-    background-color: rgba(153, 153, 153, 1);
-  }
-
-  @media (max-width: 768px) {
-    padding: 15px;
     height: 100%;
+    margin: 0 auto;
+    padding: 20px;
 
     h2 {
-      font-size: 20px;
-      text-align: left;
-    }
-
-    button[type="button"] {
-      margin-bottom: 10px;
-      margin-top: 10%;
+        color: rgba(51, 51, 51, 1);
+        font-size: 24px;
+        font-weight: 700;
+        margin-bottom: 20px;
+        text-align: center;
     }
 
     .terms-box {
-      height: 400px;
+        border: 1px solid rgba(230, 230, 230, 1);
+        border-radius: 4px;
+        height: 600px;
+        overflow-y: scroll;
+        padding: 15px;
+        margin-bottom: 20px;
+
+        p {
+            color: rgba(51, 51, 51, 1);
+            font-size: 15px;
+            line-height: 1.6;
+            text-align: left;
+        }
     }
-  }
+
+    .checkbox-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 20px;
+
+        input[type="checkbox"] {
+            margin-right: 10px;
+        }
+
+        label {
+            color: rgba(51, 51, 51, 1);
+            font-size: 16px;
+        }
+    }
+
+    button[type="button"] {
+        width: 100%;
+        max-width: 360px;
+        padding: 12px;
+        font-size: 16px;
+        border: none;
+        border-radius: 4px;
+        font-weight: 600;
+        cursor: pointer;
+        color: rgba(255, 255, 255, 1);
+    }
+
+    .enabled {
+        background-color: rgba(51, 51, 51, 1);
+    }
+
+    .disabled {
+        background-color: rgba(153, 153, 153, 1);
+    }
+
+    @media (max-width: 768px) {
+        padding: 15px;
+        height: 100%;
+
+        h2 {
+            font-size: 20px;
+            text-align: left;
+        }
+
+        button[type="button"] {
+            margin-bottom: 10px;
+            margin-top: 10%;
+        }
+
+        .terms-box {
+            height: 400px;
+        }
+    }
 }

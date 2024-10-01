@@ -1,66 +1,66 @@
 .header {
-  height: 60px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 30px;
-  background-color: rgba(255, 255, 255, 1);
-  border-bottom: rgba(230, 230, 230, 1) 1px solid;
-
-  &-left {
+    height: 60px;
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    gap: 8%;
+    padding: 0 30px;
+    background-color: rgba(255, 255, 255, 1);
+    border-bottom: rgba(230, 230, 230, 1) 1px solid;
 
-    .logo {
-      width: 115px;
-      margin-right: 20px;
+    &-left {
+        display: flex;
+        align-items: center;
+        gap: 8%;
+
+        .logo {
+            width: 115px;
+            margin-right: 20px;
+        }
+
+        .search-container {
+            position: relative;
+
+            .search-input {
+                height: 35px;
+                width: 250px;
+                padding: 0 40px 0 20px;
+                border: 1px solid rgba(230, 230, 230, 1);
+                border-radius: 20px;
+                font-size: 14px;
+                outline: none;
+            }
+
+            .search-icon {
+                position: absolute;
+                right: 10px;
+                top: 50%;
+                transform: translateY(-50%);
+            }
+        }
     }
 
-    .search-container {
-      position: relative;
+    &-right {
+        display: flex;
+        align-items: center;
 
-      .search-input {
-        height: 35px;
-        width: 250px;
-        padding: 0 40px 0 20px;
-        border: 1px solid rgba(230, 230, 230, 1);
-        border-radius: 20px;
-        font-size: 14px;
-        outline: none;
-      }
+        .account-icon {
+            margin-right: 8px;
+        }
 
-      .search-icon {
-        position: absolute;
-        right: 10px;
-        top: 50%;
-        transform: translateY(-50%);
-      }
+        .account-text {
+            font-size: 16px;
+            color: rgba(51, 51, 51, 1);
+        }
     }
-  }
-
-  &-right {
-    display: flex;
-    align-items: center;
-
-    .account-icon {
-      margin-right: 8px;
-    }
-
-    .account-text {
-      font-size: 16px;
-      color: rgba(51, 51, 51, 1);
-    }
-  }
 }
 
 @media (max-width: 768px) {
-  .header {
-    padding: 0 15px;
+    .header {
+        padding: 0 15px;
 
-    &-left .search-container,
-    &-right {
-      display: none;
+        &-left .search-container,
+        &-right {
+            display: none;
+        }
     }
-  }
 }
