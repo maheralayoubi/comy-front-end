@@ -44,10 +44,9 @@ const LoginForm = () => {
             if (result.status === 200) {
                 setMessage("Login successful!")
                 navigate("/profile")
-                // TODO: Store token and redirect, e.g., localStorage.setItem('token', result.data.token)
             } else if (result.status === 400) {
                 setError("Invalid credentials.")
-            } else if (result.status === 401) {
+            } else if (result.status === 403) {
                 setError("Please verify your email before logging in.")
             } else if (result.status === 500) {
                 setError("Internal server error. Please try again later.")
