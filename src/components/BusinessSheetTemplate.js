@@ -9,9 +9,8 @@ import {
 } from "./Cards";
 import EditDesignAndImgModal from "./EditDesignAndImgModal";
 
-const BusinessSheetTemplate = ({ data, isEdit, handleEdit }) => {
-  const userName = data?.userName || "name";
-  const userCategory = data?.userCategory || "category";
+const BusinessSheetTemplate = ({ data, isEdit, handleEdit, setBusinessSheetData }) => {
+
 
   const copyProfileUrl = () => {
     navigator.clipboard
@@ -49,7 +48,7 @@ const BusinessSheetTemplate = ({ data, isEdit, handleEdit }) => {
           <EditDesignAndImgModal
             size={"sm"}
             title={"プロフィール"}
-            handleEdit={handleEdit}
+            setBusinessSheetData={setBusinessSheetData}
             theme={data?.colorPreference}
             data={data}
           />
@@ -60,22 +59,22 @@ const BusinessSheetTemplate = ({ data, isEdit, handleEdit }) => {
         <img
           src={
             isEdit && data?.profileImageUrl
-              ? `${data.profileImageUrl}?timestamp=${new Date().getTime()}`
+              ? `${data?.profileImageUrl}?timestamp=${new Date().getTime()}`
               : data?.profileImage
-                ? URL.createObjectURL(data.profileImage)
+                ? URL.createObjectURL(data?.profileImage)
                 : "/images/profileImage.png"
           }
           alt="profile"
         />
         <div className="profileContent">
           <div className="userData">
-            <h6 className="userCategory">{userCategory}</h6>
-            <h1 className="userName">{userName}</h1>
+            <h6 className="userCategory">{data?.userCategory}</h6>
+            <h1 className="userName">{data?.userName}</h1>
           </div>
           {isEdit && (
             <div className="copyContent">
               <div
-                href={`/user/${data.userId}`}
+                href={`/user/${data?.userId}`}
                 target="_blanck"
                 className="copyImg"
                 onClick={copyProfileUrl}
@@ -185,9 +184,9 @@ const BusinessSheetTemplate = ({ data, isEdit, handleEdit }) => {
         <img
           src={
             isEdit && data?.referralSheetBackgroundImageUrl
-              ? `${data.referralSheetBackgroundImageUrl}?timestamp=${new Date().getTime()}`
+              ? `${data?.referralSheetBackgroundImageUrl}?timestamp=${new Date().getTime()}`
               : data?.referralSheetBackgroundImage
-                ? URL.createObjectURL(data.referralSheetBackgroundImage)
+                ? URL.createObjectURL(data?.referralSheetBackgroundImage)
                 : "/images/referralSheetBackgroundImage.png"
           }
           alt="background"
