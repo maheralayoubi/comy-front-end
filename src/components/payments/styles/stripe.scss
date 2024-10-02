@@ -1,41 +1,20 @@
 .stripe-checkout-container {
-    max-width: 380px;
-    height: 100%;
-    min-height: 65vh;
-    margin: 0 auto;
-    padding: 20px;
+  max-width: 380px;
+  height: 100%;
+  min-height: 65vh;
+  margin: 0 auto;
+  padding: 20px;
 
-    h2 {
-        color: rgba(51, 51, 51, 1);
-        font-size: 24px;
-        font-weight: 700;
-        margin-bottom: 20px;
-        text-align: center;
-    }
+  h2 {
+    color: rgba(51, 51, 51, 1);
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    text-align: center;
+  }
 
-    .stripe-button {
-        margin-top: 30%;
-        width: 100%;
-        padding: 12px;
-        font-size: 16px;
-        border: none;
-        border-radius: 4px;
-        font-weight: 600;
-        cursor: pointer;
-        background-color: rgba(51, 51, 51, 1);
-        color: rgba(255, 255, 255, 1);
-        text-align: center;
-
-        &:disabled {
-            background-color: rgba(153, 153, 153, 1);
-            color: rgba(255, 255, 255, 1);
-        }
-    }
-}
-
-/* styles/stripe.scss */
-
-.stripe-button {
+  .stripe-button {
+    margin-top: 30%;
     width: 100%;
     padding: 12px;
     font-size: 16px;
@@ -48,13 +27,34 @@
     text-align: center;
 
     &:disabled {
-        background-color: rgba(153, 153, 153, 1);
-        color: rgba(255, 255, 255, 1);
+      background-color: rgba(153, 153, 153, 1);
+      color: rgba(255, 255, 255, 1);
     }
+  }
+}
+
+/* styles/stripe.scss */
+
+.stripe-button {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  border: none;
+  border-radius: 4px;
+  font-weight: 600;
+  cursor: pointer;
+  background-color: rgba(51, 51, 51, 1);
+  color: rgba(255, 255, 255, 1);
+  text-align: center;
+
+  &:disabled {
+    background-color: rgba(153, 153, 153, 1);
+    color: rgba(255, 255, 255, 1);
+  }
 }
 
 @media (max-width: 768px) {
-    .stripe-button {
-        margin-top: 90%;
-    }
+  .stripe-button {
+    margin-top: 90%;
+  }
 }
