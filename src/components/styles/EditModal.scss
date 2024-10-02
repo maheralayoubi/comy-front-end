@@ -1,37 +1,41 @@
 .editModal {
-    .title {
-        font-size: 20px;
-        font-weight: 700;
-        line-height: 28.96px;
-        text-align: left;
-        color: #333333;
+  .title {
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 28.96px;
+    text-align: left;
+    color: #333333;
+  }
+
+  .children {
+    margin: 24px 0;
+  }
+
+  .children > * {
+    margin-bottom: 24px;
+  }
+
+  .controlButtons {
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    gap: 16px;
+
+    button {
+      padding: 10px 16px;
+      border-radius: 4px;
+      outline: none;
+      border: none;
+      color: #ffffff;
+      cursor: pointer;
     }
 
-    .children {
-        margin: 24px 0;
+    .cancel {
+      background-color: #999999;
     }
 
-    .controlButtons {
-        display: flex;
-        align-items: center;
-        justify-content: end;
-        gap: 16px;
-
-        button {
-            padding: 10px 16px;
-            border-radius: 4px;
-            outline: none;
-            border: none;
-            color: #ffffff;
-            cursor: pointer;
-        }
-
-        .cancel {
-            background-color: #999999;
-        }
-
-        .update {
-            background-color: #999999;
-        }
+    .update {
+      background-color: #999999;
     }
+  }
 }

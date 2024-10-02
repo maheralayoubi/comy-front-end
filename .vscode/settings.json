@@ -1,4 +1,4 @@
 {
-    "prettier.requireConfig": true,
-    "prettier.useEditorConfig": false
+  "prettier.requireConfig": true,
+  "prettier.useEditorConfig": false
 }

@@ -1,45 +1,45 @@
 .btn {
-    padding: 10px 16px 10px 16px;
-    border-radius: 4px;
-    font-size: 16px;
-    font-weight: 500;
-    line-height: 24px;
-    letter-spacing: 0.04em;
-    outline: none;
-    border: none;
-    cursor: pointer;
+  padding: 10px 16px 10px 16px;
+  border-radius: 4px;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+  letter-spacing: 0.04em;
+  outline: none;
+  border: none;
+  cursor: pointer;
 
-    &:disabled {
-        cursor: not-allowed;
-        opacity: 0.9;
-    }
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.9;
+  }
 }
 
 .edit {
-    padding: 6px 16px;
-    border-radius: 20px;
-    background-color: #ffffff;
-    font-size: 16px;
-    font-weight: 500;
-    line-height: 16px;
-    color: #999999;
-    border: 1px solid #999999;
-    cursor: pointer;
-    outline: none;
+  padding: 6px 16px;
+  border-radius: 20px;
+  background-color: #ffffff;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 16px;
+  color: #999999;
+  border: 1px solid #999999;
+  cursor: pointer;
+  outline: none;
 }
 
 .gray {
-    background-color: #999999;
-    color: #ffffff;
+  background-color: #999999;
+  color: #ffffff;
 }
 
 .dark {
-    background-color: #333333;
-    color: #ffffff;
+  background-color: #333333;
+  color: #ffffff;
 }
 
 .white {
-    border: 1px solid #333333;
-    background-color: #ffffff;
-    color: #333333;
+  border: 1px solid #333333;
+  background-color: #ffffff;
+  color: #333333;
 }

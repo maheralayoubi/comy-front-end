@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import TopPage from "./pages/TopPage";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
-import UpdatePasswordForm from "./pages/UpdatePasswordForm";
+import ResetPasswordForm from "./pages/ResetPasswordForm";
 import MailConfirmation from "./pages/MailConfirmation";
 import TermsOfUse from "./pages/TermsOfUse";
 import AccountCreationCompleted from "./pages/AccountCreationCompleted";
@@ -27,14 +27,20 @@ const App = () => {
         <Route path="/forgot-password" element={<ForgotPasswordForm />} />
         <Route path="/preview/:id" element={<Preview />} />
         <Route path="/mail-confirmation" element={<MailConfirmation />} />
+        <Route path="/reset-password" element={<ResetPasswordForm />} />
 
         {/* Protected routes */}
         <Route element={<ProtectedRoutes />}>
           <Route path="/" element={<TopPage />} />
-          <Route path="/update-password" element={<UpdatePasswordForm />} />
           <Route path="/terms-of-use" element={<TermsOfUse />} />
-          <Route path="/account-creation-completed" element={<AccountCreationCompleted />} />
-          <Route path="/business-sheet-creation" element={<BusinessSheetCreation />} />
+          <Route
+            path="/account-creation-completed"
+            element={<AccountCreationCompleted />}
+          />
+          <Route
+            path="/business-sheet-creation"
+            element={<BusinessSheetCreation />}
+          />
           <Route path="/profile" element={<Profile />} />
           <Route path="/choose-payment" element={<ChoosePayment />} />
           <Route path="/stripe-payment" element={<StripePayment />} />

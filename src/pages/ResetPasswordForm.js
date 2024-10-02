@@ -1,16 +1,16 @@
 import React from "react";
-import SearchResults from "../components/SearchResults";
+import ResetPasswordForm from "../components/ResetPasswordForm";
 import Header from "../components/global/Header";
 import Footer from "../components/global/Footer";
 
-const Register = () => {
+const Login = () => {
   return (
     <div>
       <Header />
-      <SearchResults />
+      <ResetPasswordForm />
       <Footer />
     </div>
   );
 };
 
-export default Register;
+export default Login;
