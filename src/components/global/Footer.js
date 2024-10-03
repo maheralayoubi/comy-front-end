@@ -21,7 +21,7 @@ const Footer = () => {
 
       <div className="footer__logo">
         <img
-          src="/images/comy-logo.png"
+          src="/images/Logo_comy.png"
           alt="Logo"
           className="footer__logo-img"
         />

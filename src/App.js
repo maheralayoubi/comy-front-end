@@ -14,6 +14,8 @@ import StripePayment from "./pages/StripePayment";
 import SearchResults from "./pages/SearchResults";
 import MemberList from "./pages/MemberList";
 import ProtectedRoutes from "./components/ProtectedRoutes";
+import ProtectedProfile from "./components/ProtectedProfile";
+import ProtectedPayment from "./components/ProtectedPayment";
 import Profile from "./pages/Profile";
 import Preview from "./pages/Preview";
 
@@ -37,11 +39,15 @@ const App = () => {
             path="/account-creation-completed"
             element={<AccountCreationCompleted />}
           />
-          <Route
-            path="/business-sheet-creation"
-            element={<BusinessSheetCreation />}
-          />
-          <Route path="/profile" element={<Profile />} />
+          <Route element={<ProtectedPayment />}>
+            <Route
+              path="/business-sheet-creation"
+              element={<BusinessSheetCreation />}
+            />
+          </Route>
+          <Route element={<ProtectedProfile />}>
+            <Route path="/profile" element={<Profile />} />
+          </Route>
           <Route path="/choose-payment" element={<ChoosePayment />} />
           <Route path="/stripe-payment" element={<StripePayment />} />
           <Route path="/search-results" element={<SearchResults />} />

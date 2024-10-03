@@ -9,9 +9,8 @@ import {
 } from "./Cards";
 import EditDesignAndImgModal from "./EditDesignAndImgModal";
 
-const BusinessSheetTemplate = ({ data, isEdit, handleEdit }) => {
-  const userName = data?.userName || "name";
-  const userCategory = data?.userCategory || "category";
+const BusinessSheetTemplate = ({ data, isEdit, isPreview, handleEdit, setBusinessSheetData }) => {
+
 
   const copyProfileUrl = () => {
     navigator.clipboard
@@ -36,20 +35,23 @@ const BusinessSheetTemplate = ({ data, isEdit, handleEdit }) => {
       <div className="headerBg">
         <img
           src={
-            isEdit && data?.headerBackgroundImageUrl
-              ? `${data?.headerBackgroundImageUrl}?timestamp=${new Date().getTime()}`
-              : data?.headerBackgroundImage
-                ? URL.createObjectURL(data?.headerBackgroundImage)
-                : "/images/headerBackgroundImage.png"
+            isPreview && data?.headerBackgroundImageUrl ?
+              data?.headerBackgroundImageUrl :
+              isEdit && data?.headerBackgroundImageUrl
+                ? `${data?.headerBackgroundImageUrl}?timestamp=${new Date().getTime()}`
+                : data?.headerBackgroundImage
+                  ? URL.createObjectURL(data?.headerBackgroundImage)
+                  : "/images/headerBackgroundImage.png"
           }
           alt="cover"
         />
+
 
         {isEdit && (
           <EditDesignAndImgModal
             size={"sm"}
             title={"プロフィール"}
-            handleEdit={handleEdit}
+            setBusinessSheetData={setBusinessSheetData}
             theme={data?.colorPreference}
             data={data}
           />
@@ -59,23 +61,25 @@ const BusinessSheetTemplate = ({ data, isEdit, handleEdit }) => {
       <div className="profile">
         <img
           src={
-            isEdit && data?.profileImageUrl
-              ? `${data.profileImageUrl}?timestamp=${new Date().getTime()}`
-              : data?.profileImage
-                ? URL.createObjectURL(data.profileImage)
-                : "/images/profileImage.png"
+            isPreview && data?.profileImageUrl ?
+              data?.profileImageUrl :
+              isEdit && data?.profileImageUrl
+                ? `${data?.profileImageUrl}?timestamp=${new Date().getTime()}`
+                : data?.profileImage
+                  ? URL.createObjectURL(data?.profileImage)
+                  : "/images/profileImage.png"
           }
           alt="profile"
         />
         <div className="profileContent">
           <div className="userData">
-            <h6 className="userCategory">{userCategory}</h6>
-            <h1 className="userName">{userName}</h1>
+            <h6 className="userCategory">{data?.userCategory}</h6>
+            <h1 className="userName">{data?.userName}</h1>
           </div>
           {isEdit && (
             <div className="copyContent">
               <div
-                href={`/user/${data.userId}`}
+                href={`/user/${data?.userId}`}
                 target="_blanck"
                 className="copyImg"
                 onClick={copyProfileUrl}
@@ -184,11 +188,13 @@ const BusinessSheetTemplate = ({ data, isEdit, handleEdit }) => {
       <div className="businessSheetData-s2">
         <img
           src={
-            isEdit && data?.referralSheetBackgroundImageUrl
-              ? `${data.referralSheetBackgroundImageUrl}?timestamp=${new Date().getTime()}`
-              : data?.referralSheetBackgroundImage
-                ? URL.createObjectURL(data.referralSheetBackgroundImage)
-                : "/images/referralSheetBackgroundImage.png"
+            isPreview && data?.referralSheetBackgroundImageUrl ?
+              data?.referralSheetBackgroundImageUrl :
+              isEdit && data?.referralSheetBackgroundImageUrl
+                ? `${data?.referralSheetBackgroundImageUrl}?timestamp=${new Date().getTime()}`
+                : data?.referralSheetBackgroundImage
+                  ? URL.createObjectURL(data?.referralSheetBackgroundImage)
+                  : "/images/referralSheetBackgroundImage.png"
           }
           alt="background"
         />

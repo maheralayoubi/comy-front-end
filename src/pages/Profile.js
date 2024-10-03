@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Header from "../components/global/Header";
 import Footer from "../components/global/Footer";
 import BusinessSheetTemplate from "../components/BusinessSheetTemplate";
-import { getBusinessSheet, editBusinessSheet } from "../api/businessSheet";
+import { editBusinessSheet } from "../api/businessSheet";
 import { SpinnerPage } from "../components/global/Spinner";
 import useLocalStorage from "../hooks/useLocalStorage";
 
@@ -12,24 +12,18 @@ const Profile = () => {
 
   useEffect(() => {
     console.log("get sheet");
-    clearAll();
-    const getData = async () => {
-      const response = await getBusinessSheet();
-      setValue("businessSheetData", response.data);
-      setBusinessSheetData(getValue("businessSheetData"));
-    };
-    getData();
+    setBusinessSheetData(getValue("businessSheetData"));
   }, [getValue, setValue, clearAll]);
 
   const handleEdit = async (updatedData) => {
     console.log("update");
     await editBusinessSheet(updatedData);
-    // setBusinessSheetData(null)
-    // const response = await getBusinessSheet()
+
     const updatedBusinessSheetData = {
       ...businessSheetData,
       ...updatedData,
     };
+
     setValue("businessSheetData", updatedBusinessSheetData);
     setBusinessSheetData(getValue("businessSheetData"));
   };
@@ -40,6 +34,7 @@ const Profile = () => {
       {businessSheetData ? (
         <BusinessSheetTemplate
           data={businessSheetData}
+          setBusinessSheetData={setBusinessSheetData}
           isEdit={true}
           handleEdit={handleEdit}
         />

@@ -1,12 +1,15 @@
 import React from "react";
 import "./styles/PreviewHeader.scss";
+import { Link } from "react-router-dom";
+
 
 const PreviewHeader = () => {
   return (
     <header className="PreviewHeader">
       <div className="PreviewHeader-left">
-        <img src="/images/comy-logo.png" alt="Logo" className="logo" />
-      </div>
+        <Link to="/">
+          <img src="/images/Logo_comy.png" alt="Logo" className="logo" />
+        </Link>      </div>
     </header>
   );
 };

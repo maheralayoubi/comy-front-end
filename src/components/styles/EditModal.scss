@@ -1,3 +1,8 @@
+button[disabled] {
+  opacity: .6;
+  cursor: not-allowed !important;
+}
+
 .editModal {
   .title {
     font-size: 20px;
@@ -11,7 +16,7 @@
     margin: 24px 0;
   }
 
-  .children > * {
+  .children>* {
     margin-bottom: 24px;
   }
 
