@@ -9,7 +9,7 @@ import {
 } from "./Cards";
 import EditDesignAndImgModal from "./EditDesignAndImgModal";
 
-const BusinessSheetTemplate = ({ data, isEdit, handleEdit, setBusinessSheetData }) => {
+const BusinessSheetTemplate = ({ data, isEdit, isPreview, handleEdit, setBusinessSheetData }) => {
 
 
   const copyProfileUrl = () => {
@@ -35,14 +35,17 @@ const BusinessSheetTemplate = ({ data, isEdit, handleEdit, setBusinessSheetData 
       <div className="headerBg">
         <img
           src={
-            isEdit && data?.headerBackgroundImageUrl
-              ? `${data?.headerBackgroundImageUrl}?timestamp=${new Date().getTime()}`
-              : data?.headerBackgroundImage
-                ? URL.createObjectURL(data?.headerBackgroundImage)
-                : "/images/headerBackgroundImage.png"
+            isPreview && data?.headerBackgroundImageUrl ?
+              data?.headerBackgroundImageUrl :
+              isEdit && data?.headerBackgroundImageUrl
+                ? `${data?.headerBackgroundImageUrl}?timestamp=${new Date().getTime()}`
+                : data?.headerBackgroundImage
+                  ? URL.createObjectURL(data?.headerBackgroundImage)
+                  : "/images/headerBackgroundImage.png"
           }
           alt="cover"
         />
+
 
         {isEdit && (
           <EditDesignAndImgModal
@@ -58,11 +61,13 @@ const BusinessSheetTemplate = ({ data, isEdit, handleEdit, setBusinessSheetData 
       <div className="profile">
         <img
           src={
-            isEdit && data?.profileImageUrl
-              ? `${data?.profileImageUrl}?timestamp=${new Date().getTime()}`
-              : data?.profileImage
-                ? URL.createObjectURL(data?.profileImage)
-                : "/images/profileImage.png"
+            isPreview && data?.profileImageUrl ?
+              data?.profileImageUrl :
+              isEdit && data?.profileImageUrl
+                ? `${data?.profileImageUrl}?timestamp=${new Date().getTime()}`
+                : data?.profileImage
+                  ? URL.createObjectURL(data?.profileImage)
+                  : "/images/profileImage.png"
           }
           alt="profile"
         />
@@ -183,11 +188,13 @@ const BusinessSheetTemplate = ({ data, isEdit, handleEdit, setBusinessSheetData 
       <div className="businessSheetData-s2">
         <img
           src={
-            isEdit && data?.referralSheetBackgroundImageUrl
-              ? `${data?.referralSheetBackgroundImageUrl}?timestamp=${new Date().getTime()}`
-              : data?.referralSheetBackgroundImage
-                ? URL.createObjectURL(data?.referralSheetBackgroundImage)
-                : "/images/referralSheetBackgroundImage.png"
+            isPreview && data?.referralSheetBackgroundImageUrl ?
+              data?.referralSheetBackgroundImageUrl :
+              isEdit && data?.referralSheetBackgroundImageUrl
+                ? `${data?.referralSheetBackgroundImageUrl}?timestamp=${new Date().getTime()}`
+                : data?.referralSheetBackgroundImage
+                  ? URL.createObjectURL(data?.referralSheetBackgroundImage)
+                  : "/images/referralSheetBackgroundImage.png"
           }
           alt="background"
         />

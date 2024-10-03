@@ -24,8 +24,6 @@ export const editBusinessSheet = (businessSheetData) =>
     }),
   );
 
-
-
 export const editUserData = (userData) =>
   handleApiResponse(() =>
     secureApi.patch(`${API_URL}/user`, userData, {
@@ -33,4 +31,16 @@ export const editUserData = (userData) =>
     }),
   );
 
+export const getUserSheetById = (userId) =>
+  handleApiResponse(() =>
+    secureApi.get(`${API_URL}/business-sheets/${userId}`, {
+      headers: HEADERS_FORM_DATA,
+    }),
+  );
 
+export const getPaymentActivation = () =>
+  handleApiResponse(() =>
+    secureApi.get(`${API_URL}/payment-active`, {
+      headers: HEADERS,
+    }),
+  );

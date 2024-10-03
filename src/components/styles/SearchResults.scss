@@ -4,6 +4,20 @@
   padding: 20px;
   min-height: 70vh;
 
+  .loadUser {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+
+    .loader {
+      margin-left: 50px;
+    }
+
+    .loader::before {
+      border: 3px solid #333333 !important;
+    }
+  }
+
   h2 {
     font-size: 24px;
     font-weight: 900;
@@ -50,6 +64,10 @@
 
     @media (max-width: 768px) {
       justify-content: space-between;
+    }
+
+    a {
+      text-decoration: none;
     }
   }
 

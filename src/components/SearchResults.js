@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { getSearchResults } from "../api/memberList";
 import "./styles/SearchResults.scss";
+import { Link } from "react-router-dom";
+import Spinner from "./global/Spinner";
 
 const SearchResults = () => {
   const [query, setQuery] = useState("");
@@ -18,7 +20,6 @@ const SearchResults = () => {
 
       try {
         const response = await getSearchResults(searchTerm);
-        console.log(response);
         if (response && response.data && response.data.length > 0) {
           setUsers(response.data);
         } else {
@@ -48,13 +49,18 @@ const SearchResults = () => {
         <img src="/images/search.svg" alt="Search" className="search-icon" />
       </div>
 
-      {loading && <p>検索中...</p>}
+      {loading &&
+        <div className="loadUser">
+          <p>検索中... </p>
+          <Spinner />
+        </div>}
       {error && <p className="error-message">{error}</p>}
 
       <div className="user-list">
         {Array.isArray(users) && users.length > 0
           ? users.map((user) => (
-              <div className="user-card" key={user.id}>
+            <div className="user-card" key={user.id}>
+              <Link to={`/preview/${user.id}`} target="_blanck">
                 <img
                   src={
                     user.profileImageUrl
@@ -66,8 +72,9 @@ const SearchResults = () => {
                 />
                 <p className="user-position">{user.category}</p>
                 <p className="user-name">{user.name}</p>
-              </div>
-            ))
+              </Link>
+            </div>
+          ))
           : !loading && <p>該当するユーザーが見つかりませんでした。</p>}
       </div>
     </div>

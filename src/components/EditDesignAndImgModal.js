@@ -8,7 +8,12 @@ import { editBusinessSheet, editUserData } from "../api/businessSheet"
 
 
 const EditDesignAndImgModal = ({ size, title, setBusinessSheetData, theme, data }) => {
+
+  // const imagesBaseUrl = `${process.env.REACT_APP_AWS_IMAGES_URL}/${data.userId}`
+  const imagesBaseUrl = `https://comy-test.s3.ap-northeast-1.amazonaws.com/users/${data.userId}`
+
   const [toggle, setToggle] = useState(false);
+  const [loading, setLoading] = useState(false);
   const { setValue, getValue } = useLocalStorage();
 
   const [updatedData, setUpdatedData] = useState({
@@ -21,7 +26,6 @@ const EditDesignAndImgModal = ({ size, title, setBusinessSheetData, theme, data 
     userCategory: data.userCategory,
   });
 
-  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
@@ -49,8 +53,6 @@ const EditDesignAndImgModal = ({ size, title, setBusinessSheetData, theme, data 
 
   const onEdit = async () => {
     console.log("update");
-
-    const imagesBaseUrl = `https://comy-test.s3.ap-northeast-1.amazonaws.com/users/${data.userId}`
 
     setLoading(true);
 
@@ -156,6 +158,7 @@ const EditDesignAndImgModal = ({ size, title, setBusinessSheetData, theme, data 
               キャンセル
             </button>
             <button
+              disabled={!updatedData.userName.trim() || !updatedData.userCategory.trim()}
               type="button"
               className="update"
               style={{

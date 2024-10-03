@@ -15,6 +15,7 @@ import SearchResults from "./pages/SearchResults";
 import MemberList from "./pages/MemberList";
 import ProtectedRoutes from "./components/ProtectedRoutes";
 import ProtectedProfile from "./components/ProtectedProfile";
+import ProtectedPayment from "./components/ProtectedPayment";
 import Profile from "./pages/Profile";
 import Preview from "./pages/Preview";
 
@@ -38,10 +39,12 @@ const App = () => {
             path="/account-creation-completed"
             element={<AccountCreationCompleted />}
           />
-          <Route
-            path="/business-sheet-creation"
-            element={<BusinessSheetCreation />}
-          />
+          <Route element={<ProtectedPayment />}>
+            <Route
+              path="/business-sheet-creation"
+              element={<BusinessSheetCreation />}
+            />
+          </Route>
           <Route element={<ProtectedProfile />}>
             <Route path="/profile" element={<Profile />} />
           </Route>
