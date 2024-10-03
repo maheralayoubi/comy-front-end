@@ -64,10 +64,9 @@ const EditDesignAndImgModal = ({ size, title, setBusinessSheetData, theme, data 
       colorPreference: updatedData.colorPreference,
     }
 
-    const userData = { name: updatedData.userName }
+    const userData = { name: updatedData.userName, category: updatedData.userCategory }
     await editBusinessSheet(userBussinessData);
     await editUserData(userData);
-
     setValue("businessSheetData", { ...data, ...updatedData });
 
     if (typeof updatedData.headerBackgroundImage === "object" && updatedData.headerBackgroundImage !== null) {
