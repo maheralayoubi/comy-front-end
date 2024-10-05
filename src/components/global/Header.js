@@ -1,8 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import "./styles/Header.scss";
+import MobileMenu from "../MobileMenu";
+import useLocalStorage from "../../hooks/useLocalStorage";
 
 const Header = () => {
+  const { getValue } = useLocalStorage();
   return (
     <header className="header">
       <div className="header-left">
@@ -23,13 +26,16 @@ const Header = () => {
       <div className="header-right">
         <Link to="/profile">
           <img
-            src="/images/account_circle.svg"
+            src={getValue("profileImageUrl") ? getValue("profileImageUrl") : "/images/account_circle.svg"}
             alt="Account"
             className="account-icon"
           />
           <span className="account-text">マイページ</span>
         </Link>
       </div>
+
+      <MobileMenu />
+
     </header>
   );
 };

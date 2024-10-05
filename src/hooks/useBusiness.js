@@ -16,6 +16,7 @@ export const useBusiness = () => {
 
         if (response.status === 200) {
           setHaveBusiness(true);
+          setValue("profileImageUrl", response.data.profileImageUrl)
           setValue("businessSheetData", response.data);
         }
         else {
