@@ -26,7 +26,11 @@ const Header = () => {
       <div className="header-right">
         <Link to="/profile">
           <img
-            src={getValue("profileImageUrl") ? getValue("profileImageUrl") : "/images/account_circle.svg"}
+            src={
+              getValue("profileImageUrl")
+                ? getValue("profileImageUrl")
+                : "/images/account_circle.svg"
+            }
             alt="Account"
             className="account-icon"
           />
@@ -35,7 +39,6 @@ const Header = () => {
       </div>
 
       <MobileMenu />
-
     </header>
   );
 };

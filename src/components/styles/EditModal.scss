@@ -1,5 +1,5 @@
 button[disabled] {
-  opacity: .6;
+  opacity: 0.6;
   cursor: not-allowed !important;
 }
 
@@ -16,7 +16,7 @@ button[disabled] {
     margin: 24px 0;
   }
 
-  .children>* {
+  .children > * {
     margin-bottom: 24px;
   }
 

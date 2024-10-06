@@ -9,9 +9,13 @@ import {
 } from "./Cards";
 import EditDesignAndImgModal from "./EditDesignAndImgModal";
 
-const BusinessSheetTemplate = ({ data, isEdit, isPreview, handleEdit, setBusinessSheetData }) => {
-
-
+const BusinessSheetTemplate = ({
+  data,
+  isEdit,
+  isPreview,
+  handleEdit,
+  setBusinessSheetData,
+}) => {
   const copyProfileUrl = () => {
     navigator.clipboard
       .writeText(`${window.location.origin}/preview/${data?.userId}`)
@@ -27,17 +31,15 @@ const BusinessSheetTemplate = ({ data, isEdit, isPreview, handleEdit, setBusines
     <div
       className="BusinessSheet"
       style={{
-        fontFamily: data?.fontPreference
-          ? `${data?.fontPreference} !important`
-          : "sans-serif !important",
+        fontFamily: data?.fontPreference && `${data?.fontPreference}`,
       }}
     >
       <div className="headerBg">
         <img
           src={
-            isPreview && data?.headerBackgroundImageUrl ?
-              data?.headerBackgroundImageUrl :
-              isEdit && data?.headerBackgroundImageUrl
+            isPreview && data?.headerBackgroundImageUrl
+              ? data?.headerBackgroundImageUrl
+              : isEdit && data?.headerBackgroundImageUrl
                 ? `${data?.headerBackgroundImageUrl}?timestamp=${new Date().getTime()}`
                 : data?.headerBackgroundImage
                   ? URL.createObjectURL(data?.headerBackgroundImage)
@@ -45,7 +47,6 @@ const BusinessSheetTemplate = ({ data, isEdit, isPreview, handleEdit, setBusines
           }
           alt="cover"
         />
-
 
         {isEdit && (
           <EditDesignAndImgModal
@@ -61,9 +62,9 @@ const BusinessSheetTemplate = ({ data, isEdit, isPreview, handleEdit, setBusines
       <div className="profile">
         <img
           src={
-            isPreview && data?.profileImageUrl ?
-              data?.profileImageUrl :
-              isEdit && data?.profileImageUrl
+            isPreview && data?.profileImageUrl
+              ? data?.profileImageUrl
+              : isEdit && data?.profileImageUrl
                 ? `${data?.profileImageUrl}?timestamp=${new Date().getTime()}`
                 : data?.profileImage
                   ? URL.createObjectURL(data?.profileImage)
@@ -188,9 +189,9 @@ const BusinessSheetTemplate = ({ data, isEdit, isPreview, handleEdit, setBusines
       <div className="businessSheetData-s2">
         <img
           src={
-            isPreview && data?.referralSheetBackgroundImageUrl ?
-              data?.referralSheetBackgroundImageUrl :
-              isEdit && data?.referralSheetBackgroundImageUrl
+            isPreview && data?.referralSheetBackgroundImageUrl
+              ? data?.referralSheetBackgroundImageUrl
+              : isEdit && data?.referralSheetBackgroundImageUrl
                 ? `${data?.referralSheetBackgroundImageUrl}?timestamp=${new Date().getTime()}`
                 : data?.referralSheetBackgroundImage
                   ? URL.createObjectURL(data?.referralSheetBackgroundImage)

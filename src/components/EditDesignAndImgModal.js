@@ -4,13 +4,17 @@ import "./styles/EditModal.scss";
 import { Input, UploadImage, Fonts, Themes } from "./FormElements";
 import Spinner from "./global/Spinner";
 import useLocalStorage from "../hooks/useLocalStorage";
-import { editBusinessSheet, editUserData } from "../api/businessSheet"
+import { editBusinessSheet, editUserData } from "../api/businessSheet";
 
-
-const EditDesignAndImgModal = ({ size, title, setBusinessSheetData, theme, data }) => {
-
+const EditDesignAndImgModal = ({
+  size,
+  title,
+  setBusinessSheetData,
+  theme,
+  data,
+}) => {
   // const imagesBaseUrl = `${process.env.REACT_APP_AWS_IMAGES_URL}/${data.userId}`
-  const imagesBaseUrl = `https://comy-test.s3.ap-northeast-1.amazonaws.com/users/${data.userId}`
+  const imagesBaseUrl = `https://comy-test.s3.ap-northeast-1.amazonaws.com/users/${data.userId}`;
 
   const [toggle, setToggle] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -25,7 +29,6 @@ const EditDesignAndImgModal = ({ size, title, setBusinessSheetData, theme, data 
     userName: data.userName,
     userCategory: data.userCategory,
   });
-
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
@@ -62,30 +65,53 @@ const EditDesignAndImgModal = ({ size, title, setBusinessSheetData, theme, data 
       referralSheetBackgroundImage: updatedData.referralSheetBackgroundImage,
       fontPreference: updatedData.fontPreference,
       colorPreference: updatedData.colorPreference,
-    }
+    };
 
-    const userData = { name: updatedData.userName, category: updatedData.userCategory }
+    const userData = {
+      name: updatedData.userName,
+      category: updatedData.userCategory,
+    };
     await editBusinessSheet(userBussinessData);
     await editUserData(userData);
     setValue("businessSheetData", { ...data, ...updatedData });
 
-    if (typeof updatedData.headerBackgroundImage === "object" && updatedData.headerBackgroundImage !== null) {
-      setValue("businessSheetData", { ...data, ...updatedData, headerBackgroundImageUrl: `${imagesBaseUrl}/header-background` });
+    if (
+      typeof updatedData.headerBackgroundImage === "object" &&
+      updatedData.headerBackgroundImage !== null
+    ) {
+      setValue("businessSheetData", {
+        ...data,
+        ...updatedData,
+        headerBackgroundImageUrl: `${imagesBaseUrl}/header-background`,
+      });
     }
 
-    if (typeof updatedData.profileImage === "object" && updatedData.profileImage !== null) {
-      setValue("businessSheetData", { ...data, ...updatedData, profileImageUrl: `${imagesBaseUrl}/profile` });
+    if (
+      typeof updatedData.profileImage === "object" &&
+      updatedData.profileImage !== null
+    ) {
+      setValue("businessSheetData", {
+        ...data,
+        ...updatedData,
+        profileImageUrl: `${imagesBaseUrl}/profile`,
+      });
     }
 
-    if (typeof updatedData.referralSheetBackgroundImage === "object" && updatedData.referralSheetBackgroundImage !== null) {
-      setValue("businessSheetData", { ...data, ...updatedData, referralSheetBackgroundImageUrl: `${imagesBaseUrl}/referral-background` });
+    if (
+      typeof updatedData.referralSheetBackgroundImage === "object" &&
+      updatedData.referralSheetBackgroundImage !== null
+    ) {
+      setValue("businessSheetData", {
+        ...data,
+        ...updatedData,
+        referralSheetBackgroundImageUrl: `${imagesBaseUrl}/referral-background`,
+      });
     }
 
     setBusinessSheetData(getValue("businessSheetData"));
     onToggle();
     setLoading(false);
   };
-
 
   return (
     <Modal>
@@ -157,7 +183,9 @@ const EditDesignAndImgModal = ({ size, title, setBusinessSheetData, theme, data 
               キャンセル
             </button>
             <button
-              disabled={!updatedData.userName.trim() || !updatedData.userCategory.trim()}
+              disabled={
+                !updatedData.userName.trim() || !updatedData.userCategory.trim()
+              }
               type="button"
               className="update"
               style={{

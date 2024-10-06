@@ -12,7 +12,6 @@ const MemberList = () => {
   const [itemsPerPage] = useState(30);
   const totalPages = Math.ceil(users?.length / itemsPerPage);
 
-
   useEffect(() => {
     getMemberList()
       .then((response) => {
@@ -23,23 +22,16 @@ const MemberList = () => {
       });
   }, []);
 
-
-
   // Function to handle pagination
   const paginate = (pageNumber) => {
     setCurrentPage(pageNumber);
     window.scrollTo({ top: 0 });
-
   };
 
   // Slice users array for current page
   const paginatedUsers = users
-    ? users.slice(
-      (currentPage - 1) * itemsPerPage,
-      currentPage * itemsPerPage
-    )
+    ? users.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)
     : [];
-
 
   if (error) {
     return <div>{error}</div>;
@@ -49,7 +41,7 @@ const MemberList = () => {
     <div className="member-list">
       <h2>メンバー一覧</h2>
       {!users && <SpinnerPage />}
-      {users &&
+      {users && (
         <>
           <div className="user-list">
             {paginatedUsers?.map((user) => (
@@ -67,10 +59,13 @@ const MemberList = () => {
             ))}
           </div>
 
-          <Pagination paginate={paginate} currentPage={currentPage} totalPages={totalPages} />
+          <Pagination
+            paginate={paginate}
+            currentPage={currentPage}
+            totalPages={totalPages}
+          />
         </>
-
-      }
+      )}
     </div>
   );
 };

@@ -1,91 +1,87 @@
 .mobile-menu {
-    display: none;
+  display: none;
 
-    .toggler {
-        cursor: pointer;
+  .toggler {
+    cursor: pointer;
 
-        img {
-            width: 24px;
-            height: 24px;
-        }
+    img {
+      width: 24px;
+      height: 24px;
     }
+  }
 
-    .menu-list {
-        position: absolute;
-        top: 50px;
-        left: 0;
-        background-color: white;
-        z-index: 100000;
+  .menu-list {
+    position: absolute;
+    top: 50px;
+    left: 0;
+    background-color: white;
+    z-index: 100000;
+    width: 100%;
+    height: 100vh;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    padding-top: 28px;
+
+    li {
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 16px;
+      text-align: left;
+      margin: 0;
+      border-bottom: 1px solid #e6e6e6;
+
+      &:hover {
+        background-color: #e6e6e6;
+      }
+
+      a {
+        padding: 28px 12px;
+        text-decoration: none;
         width: 100%;
-        height: 100vh;
-        list-style: none;
-        margin: 0;
-        padding: 0;
-        padding-top: 28px;
+        display: flex;
+        color: #333333;
+        align-items: center;
+      }
 
-        li {
-            font-size: 16px;
-            font-weight: 400;
-            line-height: 16px;
-            text-align: left;
-            margin: 0;
-            border-bottom: 1px solid #E6E6E6;
+      .account-icon {
+        margin-right: 8px;
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+      }
 
+      .account-text {
+        font-size: 16px;
+        color: rgba(51, 51, 51, 1);
+      }
 
-            &:hover {
-                background-color: #E6E6E6;
-            }
+      .search-container {
+        position: relative;
 
-
-            a {
-                padding: 28px 12px;
-                text-decoration: none;
-                width: 100%;
-                display: flex;
-                color: #333333;
-                align-items: center;
-
-            }
-
-
-            .account-icon {
-                margin-right: 8px;
-                width: 24px;
-                height: 24px;
-                border-radius: 50%;
-            }
-
-            .account-text {
-                font-size: 16px;
-                color: rgba(51, 51, 51, 1);
-            }
-
-            .search-container {
-                position: relative;
-
-                .search-input {
-                    height: 35px;
-                    width: 100%;
-                    margin-right: 24px;
-                    box-sizing: border-box;
-                    padding: 0 40px 0 20px;
-                    border: 1px solid rgba(230, 230, 230, 1);
-                    border-radius: 20px;
-                    font-size: 14px;
-                    outline: none;
-                }
-
-                .search-icon {
-                    position: absolute;
-                    right: 40px;
-                    top: 50%;
-                    transform: translateY(-50%);
-                }
-            }
+        .search-input {
+          height: 35px;
+          width: 100%;
+          margin-right: 24px;
+          box-sizing: border-box;
+          padding: 0 40px 0 20px;
+          border: 1px solid rgba(230, 230, 230, 1);
+          border-radius: 20px;
+          font-size: 14px;
+          outline: none;
         }
-    }
 
-    @media (max-width: 768px) {
-        display: block;
+        .search-icon {
+          position: absolute;
+          right: 40px;
+          top: 50%;
+          transform: translateY(-50%);
+        }
+      }
     }
+  }
+
+  @media (max-width: 768px) {
+    display: block;
+  }
 }
