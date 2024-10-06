@@ -14,7 +14,7 @@ const SearchResults = () => {
     const searchTerm = e.target.value;
     setQuery(searchTerm);
 
-    if (searchTerm.trim()) {
+    if (searchTerms.trim()) {
       setLoading(true);
       setError(null);
 
