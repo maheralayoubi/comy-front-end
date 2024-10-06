@@ -9,7 +9,7 @@ const MemberList = () => {
   const [users, setUsers] = useState(null);
   const [error, setError] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(100);
+  const [itemsPerPage] = useState(30);
   const totalPages = Math.ceil(users?.length / itemsPerPage);
 
 

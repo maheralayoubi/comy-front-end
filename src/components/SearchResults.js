@@ -3,15 +3,20 @@ import { getSearchResults } from "../api/memberList";
 import "./styles/SearchResults.scss";
 import { Link } from "react-router-dom";
 import Spinner from "./global/Spinner";
+import Pagination from "./Pagination";
 
 const SearchResults = () => {
   const [query, setQuery] = useState("");
-  const [users, setUsers] = useState([]);
+  const [users, setUsers] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(30);
+  const totalPages = Math.ceil(users?.length / itemsPerPage);
 
   const handleSearch = async (e) => {
     const searchTerm = e.target.value;
+    setCurrentPage(1)
     setQuery(searchTerm);
 
     if (searchTerm.trim()) {
@@ -34,6 +39,22 @@ const SearchResults = () => {
       setUsers([]);
     }
   };
+
+  // Function to handle pagination
+  const paginate = (pageNumber) => {
+    setCurrentPage(pageNumber);
+    window.scrollTo({ top: 0 });
+
+  };
+
+  // Slice users array for current page
+  const paginatedUsers = users
+    ? users.slice(
+      (currentPage - 1) * itemsPerPage,
+      currentPage * itemsPerPage
+    )
+    : [];
+
 
   return (
     <div className="search-results">
@@ -58,23 +79,29 @@ const SearchResults = () => {
 
       <div className="user-list">
         {Array.isArray(users) && users.length > 0
-          ? users.map((user) => (
-            <div className="user-card" key={user.id}>
-              <Link to={`/preview/${user.id}`} target="_blanck">
-                <img
-                  src={
-                    user.profileImageUrl
-                      ? user.profileImageUrl
-                      : "https://via.placeholder.com/120"
-                  }
-                  alt={user.name}
-                  className="user-image"
-                />
-                <p className="user-position">{user.category}</p>
-                <p className="user-name">{user.name}</p>
-              </Link>
-            </div>
-          ))
+          ? <>
+            {
+              paginatedUsers.map((user) => (
+                <div className="user-card" key={user.id}>
+                  <Link to={`/preview/${user.id}`} target="_blanck">
+                    <img
+                      src={
+                        user.profileImageUrl
+                          ? user.profileImageUrl
+                          : "https://via.placeholder.com/120"
+                      }
+                      alt={user.name}
+                      className="user-image"
+                    />
+                    <p className="user-position">{user.category}</p>
+                    <p className="user-name">{user.name}</p>
+                  </Link>
+                </div>
+              ))
+            }
+
+            <Pagination paginate={paginate} currentPage={currentPage} totalPages={totalPages} />
+          </>
           : !loading && <p>該当するユーザーが見つかりませんでした。</p>}
       </div>
     </div>
