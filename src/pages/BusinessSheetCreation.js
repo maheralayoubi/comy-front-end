@@ -296,7 +296,6 @@ const BusinessSheetCreation = () => {
           />
         </Step>
       </Stepper>
-
     </>
   );
 };

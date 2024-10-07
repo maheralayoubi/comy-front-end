@@ -61,7 +61,7 @@ const LoginForm = () => {
 
   return (
     <div className="login-form-container">
-      <h2>新規アカウント登録</h2>
+      <h2>ログイン</h2>
       <form onSubmit={handleSubmit}>
         <label htmlFor="email">メールアドレス</label>
         <input

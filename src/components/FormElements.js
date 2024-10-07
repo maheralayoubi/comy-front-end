@@ -82,7 +82,7 @@ export const Fonts = ({ title, onChange, name, value }) => {
               checked={value === item}
               onChange={(e) => onChange(e)}
             />
-            <span style={{ fontFamily: item }}>あア</span>
+            <span style={{ fontFamily: `${item}` }}>あア</span>
           </label>
         ))}
       </div>

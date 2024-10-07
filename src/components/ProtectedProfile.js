@@ -10,7 +10,11 @@ const ProtectedProfile = () => {
     return <SpinnerPage />;
   }
 
-  return haveBusiness ? <Outlet /> : <Navigate to="/business-sheet-creation" replace />;
+  return haveBusiness ? (
+    <Outlet />
+  ) : (
+    <Navigate to="/business-sheet-creation" replace />
+  );
 };
 
 export default ProtectedProfile;
