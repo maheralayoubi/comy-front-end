@@ -90,6 +90,7 @@ const EditDesignAndImgModal = ({
       typeof updatedData.profileImage === "object" &&
       updatedData.profileImage !== null
     ) {
+      setValue("profileImageUrl", `${imagesBaseUrl}/profile`);
       setValue("businessSheetData", {
         ...data,
         ...updatedData,
