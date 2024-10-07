@@ -5,16 +5,16 @@ const Footer = () => {
   return (
     <footer className="footer">
       <div className="footer__links">
-        <a href="/" className="footer__link">
+        <a href="https://comy.jp/" className="footer__link" target="_blank">
           LPページ
         </a>
-        <a href="/" className="footer__link">
+        <a href="https://comy.jp/terms-of-service/" className="footer__link" target="_blank">
           利用規約
         </a>
-        <a href="/" className="footer__link">
+        <a href="https://comy.jp/privacy-policy/" className="footer__link" target="_blank">
           プライバシーポリシー
         </a>
-        <a href="/" className="footer__link">
+        <a href="https://comy.jp/contact/" className="footer__link" target="_blank">
           お問い合わせ
         </a>
       </div>
