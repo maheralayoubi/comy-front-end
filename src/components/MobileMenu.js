@@ -9,6 +9,7 @@ const MobileMenu = () => {
 
   const onToggle = () => {
     setShowMenu((pre) => !pre);
+    console.log("to")
   };
 
   const itemList = [
@@ -72,8 +73,8 @@ const MobileMenu = () => {
             <Link to="/profile">
               <img
                 src={
-                  getValue("profileImageUrl")
-                    ? getValue("profileImageUrl")
+                  !!getValue("profileImageUrl")
+                    ? `${getValue("profileImageUrl")}?timestamp=${new Date().getTime()}`
                     : "/images/account_circle.svg"
                 }
                 alt="Account"

@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { getBusinessSheet } from "../api/businessSheet";
 import useLocalStorage from "../hooks/useLocalStorage";
+import { tryAgainMsg } from "../constants/messages";
 
 export const useBusiness = () => {
   const [haveBusiness, setHaveBusiness] = useState(null);
@@ -21,7 +22,7 @@ export const useBusiness = () => {
           setHaveBusiness(false);
         }
       } catch (error) {
-        console.error("user not have Business Sheet Data", error);
+        console.error(tryAgainMsg, error);
       } finally {
         setIsLoading(false);
       }

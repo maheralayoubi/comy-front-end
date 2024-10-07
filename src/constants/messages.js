@@ -1,0 +1,11 @@
+export const invalidEmailMsg = "Invalid email address .";
+export const invalidPasswordMsg = "Password must be at least 8 characters long, contain a number and an uppercase letter .";
+export const invalidConfirmPasswordMsg = "Passwords do not match .";
+export const tryAgainMsg = "Something went wrong. Please try again."
+export const successfullLoginMsg = "Login successful!"
+export const invalidCredentialsMsg = "Invalid credentials."
+export const verifyEmailMsg = "Please verify your email before logging in."
+export const serverErrorMsg = "Internal server error. Please try again later."
+export const successfulCopyMsg = "privew Url copied Succsessfully"
+export const updatedPasswordMsg = "パスワードを更新しました。新しいパスワードでログインできます。"
+export const notMatchingUserMsg = "該当するユーザーが見つかりませんでした。"

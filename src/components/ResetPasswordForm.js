@@ -5,6 +5,8 @@ import visibilityOffIcon from "../assets/images/visibility_off.svg";
 import "./styles/ResetPasswordForm.scss";
 import Spinner from "./global/Spinner";
 import { validateResetPasswordInput } from "../utils/validations";
+import { updatedPasswordMsg, tryAgainMsg } from "../constants/messages";
+
 
 const ResetPasswordForm = () => {
   const [newPassword, setNewPassword] = useState("");
@@ -52,17 +54,15 @@ const ResetPasswordForm = () => {
       const data = await response.json();
 
       if (response.ok) {
-        setMessage(
-          "パスワードを更新しました。新しいパスワードでログインできます。",
-        );
+        setMessage(updatedPasswordMsg);
         setTimeout(() => {
           window.location.href = "/login";
         }, 1500);
       } else {
-        setMessage(data.message || "エラーが発生しました。");
+        setMessage(data.message || tryAgainMsg);
       }
     } catch (error) {
-      setMessage("サーバーエラーが発生しました。");
+      setMessage(tryAgainMsg);
     } finally {
       setLoading(false);
     }
@@ -116,8 +116,7 @@ const ResetPasswordForm = () => {
         <p
           style={{
             color:
-              message ===
-              "パスワードを更新しました。新しいパスワードでログインできます。"
+              message === updatedPasswordMsg
                 ? "green"
                 : "red",
           }}

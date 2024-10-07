@@ -6,6 +6,8 @@ import visibilityOffIcon from "../assets/images/visibility_off.svg";
 import "./styles/RegisterForm.scss";
 import Spinner from "./global/Spinner";
 import { validateRegisterInputs } from "../utils/validations";
+import { tryAgainMsg } from "../constants/messages";
+
 
 const RegisterForm = () => {
   const [name, setName] = useState("");
@@ -51,7 +53,7 @@ const RegisterForm = () => {
         setError(result.data.message);
       }
     } catch (error) {
-      setError("Something went wrong. Please try again.");
+      setError(tryAgainMsg);
     } finally {
       setLoading(false);
     }

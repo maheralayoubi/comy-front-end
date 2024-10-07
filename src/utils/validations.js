@@ -1,7 +1,4 @@
-const invalidEmailMessage = "Invalid email address .";
-const invalidPasswordMessage =
-  "Password must be at least 8 characters long, contain a number and an uppercase letter .";
-const invalidConfirmPasswordMessage = "Passwords do not match .";
+import { invalidEmailMsg, invalidPasswordMsg, invalidConfirmPasswordMsg } from "../constants/messages";
 
 const validateEmail = (email) => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -14,22 +11,22 @@ const validatePassword = (password) => {
 };
 
 export const validateRegisterInputs = (registerData) => {
-  if (!validateEmail(registerData.email)) return invalidEmailMessage;
+  if (!validateEmail(registerData.email)) return invalidEmailMsg;
 
-  if (!validatePassword(registerData.password)) return invalidPasswordMessage;
+  if (!validatePassword(registerData.password)) return invalidPasswordMsg;
 
   if (registerData.password !== registerData.confirmPassword)
-    return invalidConfirmPasswordMessage;
+    return invalidConfirmPasswordMsg;
 
   return null;
 };
 
 export const validateResetPasswordInput = (resetPasswordData) => {
   if (!validatePassword(resetPasswordData.newPassword))
-    return invalidPasswordMessage;
+    return invalidPasswordMsg;
 
   if (resetPasswordData.newPassword !== resetPasswordData.confirmNewPassword)
-    return invalidConfirmPasswordMessage;
+    return invalidConfirmPasswordMsg;
 
   return null;
 };

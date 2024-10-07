@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
+
 import Header from "../components/global/Header";
 import Stepper, { Step } from "../components/Stepper";
 import {
@@ -8,7 +9,9 @@ import {
   Themes,
   UploadImage,
 } from "../components/FormElements";
+
 import useLocalStorage from "../hooks/useLocalStorage";
+
 
 const BusinessSheetCreation = () => {
   const { getValue, setValue } = useLocalStorage();
@@ -80,6 +83,7 @@ const BusinessSheetCreation = () => {
       <Header />
 
       <Stepper data={businessSheetData} handleInit={handleInit}>
+
         {/* step 1 */}
         <Step title="メンバー略歴シート">
           <TextArea

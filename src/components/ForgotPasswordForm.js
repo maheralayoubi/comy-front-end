@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { forgotPassword } from "../api/auth";
 import "./styles/ForgotPasswordForm.scss";
 import Spinner from "./global/Spinner";
+import { tryAgainMsg } from "../constants/messages";
+
 
 const ForgotPasswordForm = () => {
   const [email, setEmail] = useState("");
@@ -21,11 +23,11 @@ const ForgotPasswordForm = () => {
         setMessage(response.data.message);
       } else {
         setError(
-          response.data.message || "Something went wrong. Please try again.",
+          response.data.message || tryAgainMsg,
         );
       }
     } catch (error) {
-      setError("Something went wrong. Please try again.");
+      setError(tryAgainMsg);
     } finally {
       setLoading(false);
     }
