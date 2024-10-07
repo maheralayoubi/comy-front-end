@@ -1,12 +1,13 @@
 import React from "react";
 import Header from "../components/global/Header";
 import Footer from "../components/global/Footer";
+import TopPage from "../components/TopPage";
 
 const Register = () => {
   return (
     <div>
       <Header />
-      <h2>This is the Top Page</h2>
+      <TopPage/>
       <Footer />
     </div>
   );
