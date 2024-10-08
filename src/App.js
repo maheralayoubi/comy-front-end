@@ -1,5 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+
+// pages
 import TopPage from "./pages/TopPage";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
@@ -13,11 +15,13 @@ import ChoosePayment from "./pages/ChoosePayment";
 import StripePayment from "./pages/StripePayment";
 import SearchResults from "./pages/SearchResults";
 import MemberList from "./pages/MemberList";
+import Profile from "./pages/Profile";
+import Preview from "./pages/Preview";
+
+// protecting component
 import ProtectedRoutes from "./components/ProtectedRoutes";
 import ProtectedProfile from "./components/ProtectedProfile";
 import ProtectedPayment from "./components/ProtectedPayment";
-import Profile from "./pages/Profile";
-import Preview from "./pages/Preview";
 
 const App = () => {
   return (

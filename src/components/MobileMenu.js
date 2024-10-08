@@ -19,22 +19,22 @@ const MobileMenu = () => {
     },
     {
       id: "2",
-      to: "/",
+      to: "https://comy.jp/",
       content: "LPページ",
     },
     {
       id: "3",
-      to: "/",
+      to: "https://comy.jp/terms-of-service/",
       content: "利用規約",
     },
     {
       id: "4",
-      to: "/",
+      to: "https://comy.jp/privacy-policy/",
       content: "プライバシーポリシー",
     },
     {
       id: "5",
-      to: "/",
+      to: "https://comy.jp/contact/",
       content: "お問い合わせ",
     },
   ];
@@ -72,8 +72,8 @@ const MobileMenu = () => {
             <Link to="/profile">
               <img
                 src={
-                  getValue("profileImageUrl")
-                    ? getValue("profileImageUrl")
+                  !!getValue("profileImageUrl")
+                    ? `${getValue("profileImageUrl")}?timestamp=${new Date().getTime()}`
                     : "/images/account_circle.svg"
                 }
                 alt="Account"

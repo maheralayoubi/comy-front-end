@@ -7,7 +7,7 @@ const Register = () => {
   return (
     <div>
       <Header />
-      <TopPage/>
+      <TopPage />
       <Footer />
     </div>
   );

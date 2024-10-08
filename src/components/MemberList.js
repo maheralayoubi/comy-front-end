@@ -4,6 +4,7 @@ import "./styles/MemberList.scss";
 import { SpinnerPage } from "./global/Spinner";
 import { Link } from "react-router-dom";
 import Pagination from "./Pagination";
+import { tryAgainMsg } from "../constants/messages";
 
 const MemberList = () => {
   const [users, setUsers] = useState(null);
@@ -18,7 +19,7 @@ const MemberList = () => {
         setUsers(response.data);
       })
       .catch((error) => {
-        setError("ユーザー情報を取得できませんでした。");
+        setError(tryAgainMsg);
       });
   }, []);
 

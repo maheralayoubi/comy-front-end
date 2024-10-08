@@ -1,4 +1,5 @@
 import React from "react";
+
 import MailConfirmation from "../components/MailConfirmation";
 import Header from "../components/global/Header";
 import Footer from "../components/global/Footer";

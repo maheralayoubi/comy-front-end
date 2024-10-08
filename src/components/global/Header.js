@@ -27,8 +27,8 @@ const Header = () => {
         <Link to="/profile">
           <img
             src={
-              getValue("profileImageUrl")
-                ? getValue("profileImageUrl")
+              !!getValue("profileImageUrl")
+                ? `${getValue("profileImageUrl")}?timestamp=${new Date().getTime()}`
                 : "/images/account_circle.svg"
             }
             alt="Account"

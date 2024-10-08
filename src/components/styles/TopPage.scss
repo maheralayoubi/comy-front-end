@@ -91,7 +91,7 @@
         height: 24px;
         padding: 6px 16px 6px 16px;
         border-radius: 20px;
-        color:  #333333;
+        color: #333333;
         font-family: Noto Sans JP;
         font-size: 12px;
         font-weight: 700;
@@ -108,7 +108,7 @@
       }
     }
   }
-  #ai-slider img  {
+  #ai-slider img {
     height: 100% !important;
   }
 }
@@ -118,9 +118,10 @@
     margin: {
       top: 24px;
       bottom: 60px;
-    };
-    .swiper  {
-      .swiper-button-next,.swiper-button-prev {
+    }
+    .swiper {
+      .swiper-button-next,
+      .swiper-button-prev {
         width: 24px;
         height: 24px;
         overflow: hidden;
@@ -143,9 +144,9 @@
           border-radius: 10px;
           padding-left: 24px;
           .text h3 {
-          font-size: 32px;
-          font-weight: 900;
-          line-height: 32px;
+            font-size: 32px;
+            font-weight: 900;
+            line-height: 32px;
           }
           .text p:first-of-type {
             width: 138px;
@@ -162,5 +163,4 @@
       }
     }
   }
-
 }

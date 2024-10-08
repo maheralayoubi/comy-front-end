@@ -1,4 +1,5 @@
 import React from "react";
+
 import ChoosePayment from "../components/ChoosePayment";
 import Header from "../components/global/Header";
 import Footer from "../components/global/Footer";

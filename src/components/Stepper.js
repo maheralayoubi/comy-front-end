@@ -25,7 +25,6 @@ const Stepper = ({ children, data, handleInit }) => {
     try {
       setLoading(true);
       const result = await createBusinessSheet(data);
-      console.log(result);
       if (result.status === 201) {
         setActiveStep(0);
         clearAll();

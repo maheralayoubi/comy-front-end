@@ -8,6 +8,7 @@ import {
   CardData,
 } from "./Cards";
 import EditDesignAndImgModal from "./EditDesignAndImgModal";
+import { tryAgainMsg, successfulCopyMsg } from "../constants/messages";
 
 const BusinessSheetTemplate = ({
   data,
@@ -20,10 +21,10 @@ const BusinessSheetTemplate = ({
     navigator.clipboard
       .writeText(`${window.location.origin}/preview/${data?.userId}`)
       .then(() => {
-        alert("Text copied to clipboard");
+        alert(successfulCopyMsg);
       })
       .catch((err) => {
-        alert("Failed to copy text: ", err);
+        alert(tryAgainMsg);
       });
   };
 
