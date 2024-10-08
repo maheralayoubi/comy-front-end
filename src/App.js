@@ -35,10 +35,10 @@ const App = () => {
         <Route path="/preview/:id" element={<Preview />} />
         <Route path="/mail-confirmation" element={<MailConfirmation />} />
         <Route path="/reset-password" element={<ResetPasswordForm />} />
+        <Route path="/" element={<TopPage />} />
 
         {/* Protected routes */}
         <Route element={<ProtectedRoutes />}>
-          <Route path="/" element={<TopPage />} />
           <Route path="/terms-of-use" element={<TermsOfUse />} />
           <Route
             path="/account-creation-completed"
