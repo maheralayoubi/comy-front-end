@@ -27,7 +27,7 @@
   }
 
   .overlay {
-    position: absolute;
+    position: fixed;
     z-index: 10;
     left: 0;
     top: -1000px;
@@ -64,7 +64,6 @@
     }
 
     @media (max-width: 992px) {
-
       &.lg,
       &.md,
       &.sm {
@@ -83,6 +82,7 @@
       position: absolute;
       top: 0px;
       right: 0px;
+      padding: 0 10px;
       width: fit-content;
       height: fit-content;
       display: flex;

@@ -8,7 +8,6 @@ import Spinner from "./global/Spinner";
 import { validateRegisterInputs } from "../utils/validations";
 import { tryAgainMsg } from "../constants/messages";
 
-
 const RegisterForm = () => {
   const [name, setName] = useState("");
   const [category, setCategory] = useState("");

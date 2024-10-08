@@ -4,7 +4,6 @@ import "./styles/ForgotPasswordForm.scss";
 import Spinner from "./global/Spinner";
 import { tryAgainMsg } from "../constants/messages";
 
-
 const ForgotPasswordForm = () => {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
@@ -22,9 +21,7 @@ const ForgotPasswordForm = () => {
       if (response.status === 200) {
         setMessage(response.data.message);
       } else {
-        setError(
-          response.data.message || tryAgainMsg,
-        );
+        setError(response.data.message || tryAgainMsg);
       }
     } catch (error) {
       setError(tryAgainMsg);

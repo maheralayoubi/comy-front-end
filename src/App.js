@@ -23,7 +23,6 @@ import ProtectedRoutes from "./components/ProtectedRoutes";
 import ProtectedProfile from "./components/ProtectedProfile";
 import ProtectedPayment from "./components/ProtectedPayment";
 
-
 const App = () => {
   return (
     <Router>

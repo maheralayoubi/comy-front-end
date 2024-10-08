@@ -1,5 +1,6 @@
 import React from "react";
 import "./styles/FormElements.scss";
+
 // import useLocalStorage from '../hooks/useLocalStorage';
 
 // textarea components
@@ -165,7 +166,6 @@ export const UploadImage = ({
         name={name}
         onChange={onChange}
         accept="image/*"
-        max-size="5000000"
       />
     </div>
   );

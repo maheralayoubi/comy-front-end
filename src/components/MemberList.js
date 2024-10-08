@@ -6,7 +6,6 @@ import { Link } from "react-router-dom";
 import Pagination from "./Pagination";
 import { tryAgainMsg } from "../constants/messages";
 
-
 const MemberList = () => {
   const [users, setUsers] = useState(null);
   const [error, setError] = useState(null);

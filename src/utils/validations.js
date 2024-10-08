@@ -1,4 +1,8 @@
-import { invalidEmailMsg, invalidPasswordMsg, invalidConfirmPasswordMsg } from "../constants/messages";
+import {
+  invalidEmailMsg,
+  invalidPasswordMsg,
+  invalidConfirmPasswordMsg,
+} from "../constants/messages";
 
 const validateEmail = (email) => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;

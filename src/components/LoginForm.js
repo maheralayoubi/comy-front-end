@@ -5,8 +5,13 @@ import visibilityIcon from "../assets/images/visibility.svg";
 import visibilityOffIcon from "../assets/images/visibility_off.svg";
 import "./styles/Login.scss";
 import Spinner from "./global/Spinner";
-import { tryAgainMsg, successfullLoginMsg, invalidCredentialsMsg, verifyEmailMsg, serverErrorMsg } from "../constants/messages";
-
+import {
+  tryAgainMsg,
+  successfullLoginMsg,
+  invalidCredentialsMsg,
+  verifyEmailMsg,
+  serverErrorMsg,
+} from "../constants/messages";
 
 const LoginForm = () => {
   const [email, setEmail] = useState("");

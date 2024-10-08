@@ -10,7 +10,6 @@ import {
 import EditDesignAndImgModal from "./EditDesignAndImgModal";
 import { tryAgainMsg, successfulCopyMsg } from "../constants/messages";
 
-
 const BusinessSheetTemplate = ({
   data,
   isEdit,

@@ -7,9 +7,7 @@ import { SpinnerPage } from "../components/global/Spinner";
 
 import { getUserSheetById } from "../api/businessSheet";
 
-
 const Preview = () => {
-
   const { id } = useParams();
   const [businessSheetData, setBusinessSheetData] = useState(null);
 

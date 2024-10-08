@@ -6,7 +6,6 @@ import Spinner from "./global/Spinner";
 import Pagination from "./Pagination";
 import { tryAgainMsg, notMatchingUserMsg } from "../constants/messages";
 
-
 const SearchResults = () => {
   const [query, setQuery] = useState("");
   const [users, setUsers] = useState(null);

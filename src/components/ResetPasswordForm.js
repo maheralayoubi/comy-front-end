@@ -7,7 +7,6 @@ import Spinner from "./global/Spinner";
 import { validateResetPasswordInput } from "../utils/validations";
 import { updatedPasswordMsg, tryAgainMsg } from "../constants/messages";
 
-
 const ResetPasswordForm = () => {
   const [newPassword, setNewPassword] = useState("");
   const [confirmNewPassword, setConfirmNewPassword] = useState("");
@@ -115,10 +114,7 @@ const ResetPasswordForm = () => {
       {message && (
         <p
           style={{
-            color:
-              message === updatedPasswordMsg
-                ? "green"
-                : "red",
+            color: message === updatedPasswordMsg ? "green" : "red",
           }}
         >
           {message}
