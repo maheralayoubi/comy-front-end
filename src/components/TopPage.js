@@ -45,10 +45,10 @@ const TopPage = () => {
           pagination={{ clickable: true }}
           navigation
         >
-          {slides.map((slide) => (
-            <SwiperSlide className="slider" id={slide.id && slide.id}>
+          {slides.map((slide, index) => (
+            <SwiperSlide className="slider" key={index}>
               <div className="photo" id={slide.id && slide.id}>
-                <img src={slide.img} alt="ai" />
+                <img src={slide.img} alt={slide.title} />
                 <div className="text">
                   <p>{slide.subtitle}</p>
                   <h3>{slide.title}</h3>
