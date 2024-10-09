@@ -38,9 +38,12 @@ export const getUserSheetById = (userId) =>
     }),
   );
 
-export const getPaymentActivation = () =>
-  handleApiResponse(() =>
-    secureApi.get(`${API_URL}/payment-active`, {
-      headers: HEADERS,
-    }),
-  );
+export const checkActivate = async () => {
+  try {
+    const response = await secureApi.get("/user/subscription-status");
+    console.log(response.data);
+    return response.data.isActive;
+  } catch {
+    return false;
+  }
+};

@@ -1,5 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 // pages
 import TopPage from "./pages/TopPage";
@@ -25,40 +27,52 @@ import ProtectedPayment from "./components/ProtectedPayment";
 
 const App = () => {
   return (
-    <Router>
-      <Routes>
-        {/* Public routes */}
-        <Route path="/register" element={<Register />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/forgot-password" element={<ForgotPasswordForm />} />
-        <Route path="/preview/:id" element={<Preview />} />
-        <Route path="/mail-confirmation" element={<MailConfirmation />} />
-        <Route path="/reset-password" element={<ResetPasswordForm />} />
-        <Route path="/" element={<TopPage />} />
+    <>
+      <ToastContainer
+        position="bottom-left"
+        autoClose={2000}
+        newestOnTop={false}
+        closeOnClick
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+      />
+      <Router>
+        <Routes>
+          {/* Public routes */}
+          <Route path="/register" element={<Register />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/forgot-password" element={<ForgotPasswordForm />} />
+          <Route path="/preview/:id" element={<Preview />} />
+          <Route path="/mail-confirmation" element={<MailConfirmation />} />
+          <Route path="/reset-password" element={<ResetPasswordForm />} />
+          <Route path="/" element={<TopPage />} />
 
-        {/* Protected routes */}
-        <Route element={<ProtectedRoutes />}>
-          <Route path="/terms-of-use" element={<TermsOfUse />} />
-          <Route
-            path="/account-creation-completed"
-            element={<AccountCreationCompleted />}
-          />
-          <Route element={<ProtectedPayment />}>
+          {/* Protected routes */}
+          <Route element={<ProtectedRoutes />}>
+            <Route path="/terms-of-use" element={<TermsOfUse />} />
             <Route
-              path="/business-sheet-creation"
-              element={<BusinessSheetCreation />}
+              path="/account-creation-completed"
+              element={<AccountCreationCompleted />}
             />
+            <Route element={<ProtectedPayment />}>
+              <Route
+                path="/business-sheet-creation"
+                element={<BusinessSheetCreation />}
+              />
+            </Route>
+            <Route element={<ProtectedProfile />}>
+              <Route path="/profile" element={<Profile />} />
+            </Route>
+            <Route path="/choose-payment" element={<ChoosePayment />} />
+            <Route path="/stripe-payment" element={<StripePayment />} />
+            <Route path="/search-results" element={<SearchResults />} />
+            <Route path="/member-list" element={<MemberList />} />
           </Route>
-          <Route element={<ProtectedProfile />}>
-            <Route path="/profile" element={<Profile />} />
-          </Route>
-          <Route path="/choose-payment" element={<ChoosePayment />} />
-          <Route path="/stripe-payment" element={<StripePayment />} />
-          <Route path="/search-results" element={<SearchResults />} />
-          <Route path="/member-list" element={<MemberList />} />
-        </Route>
-      </Routes>
-    </Router>
+        </Routes>
+      </Router>
+    </>
   );
 };
 
