@@ -41,16 +41,21 @@
 
       @media (max-width: 600px) {
         height: 45px;
-        width: 96%;
+        width: 100%;
       }
     }
 
     .search-icon {
       position: absolute;
-      right: 0;
+      right: 1%;
       width: 25px;
-      top: 36%;
+      top: 33%;
       transform: translateY(-50%);
+
+      @media (max-width: 768px) {
+        right: 2%;
+        top: 31%;
+      }
     }
   }
 
