@@ -11,7 +11,6 @@ import EditDesignAndImgModal from "./EditDesignAndImgModal";
 import { tryAgainMsg, successfulCopyMsg } from "../constants/messages";
 import { toast } from "react-toastify";
 
-
 const BusinessSheetTemplate = ({
   data,
   isEdit,
@@ -25,7 +24,7 @@ const BusinessSheetTemplate = ({
       .then(() => {
         toast(successfulCopyMsg, {
           className: "toastStyle",
-        })
+        });
       })
       .catch((err) => {
         alert(tryAgainMsg);
