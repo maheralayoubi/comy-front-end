@@ -40,11 +40,13 @@ const Footer = () => {
       </div>
 
       <div className="footer__logo">
-        <img
-          src="/images/Logo_comy.png"
-          alt="Logo"
-          className="footer__logo-img"
-        />
+        <a href="/">
+          <img
+            src="/images/Logo_comy.png"
+            alt="Logo"
+            className="footer__logo-img"
+          />
+        </a>
       </div>
 
       <div className="footer__copyright">
