@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 // import styles
 import "./styles/TopPage.scss";
 // Import Swiper React components
@@ -8,6 +8,8 @@ import { Navigation, Pagination } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
+import { getMemberList } from "../api/memberList";
+import { SpinnerPage } from "./global/Spinner";
 
 const TopPage = () => {
   const slides = [
@@ -31,6 +33,34 @@ const TopPage = () => {
       subtitle: "COMYの取扱説明書",
     },
   ];
+
+  const [error, setError] = useState(null);
+  const [users, setUsers] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    getMemberList()
+      .then((response) => {
+        const allUsersData = response.data;
+        const cutUsers = allUsersData.slice(0, 10);
+        console.log(cutUsers);
+        setUsers(cutUsers);
+      })
+      .catch((error) => {
+        setError("ユーザー情報を取得できませんでした。");
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  }, []);
+
+  if (isLoading) {
+    return <SpinnerPage />;
+  }
+
+  if (error) {
+    return <div>{error}</div>;
+  }
 
   return (
     <>
@@ -59,7 +89,7 @@ const TopPage = () => {
           ))}
         </Swiper>
       </div>
-      <div className="search-results">
+      <div className="search-results-top-search">
         <h2>検索結果</h2>
         <div className="search-results-container">
           <a href="/search-results">
@@ -71,6 +101,22 @@ const TopPage = () => {
           </a>
           <img src="/images/search.svg" alt="Search" className="search-icon" />
         </div>
+      </div>
+      <div className="member-list-top-list">
+        <h2>COMYユーザー</h2>
+        <div className="users">
+          {users &&
+            users.map((user, index) => (
+              <div className="user" key={index}>
+                <img src={user.profileImageUrl} alt={user.name} />
+                <p>{user.name}</p>
+                <p>{user.category}</p>
+              </div>
+            ))}
+        </div>
+        <a href="/search-results">
+            <button>さらに見る</button>
+          </a>
       </div>
     </>
   );
