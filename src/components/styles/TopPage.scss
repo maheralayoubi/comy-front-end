@@ -389,3 +389,34 @@
     }
   }
 }
+.links {
+  padding: 80px calc(12% - 10px);
+  background: #FAF8F2;
+  font-family: Noto Sans JP;
+  text-align: left;
+  color: #333333;
+  h2 {
+    padding-bottom: 24px;
+    border-bottom: 1px solid #E8E8E8;
+    font-size: 24px;
+    line-height: 24px;
+    @media (max-width:768px) {
+      font-size: 14px;
+      line-height: 14px;
+    }
+  }
+  ul {
+    list-style-type: none;
+    li {
+    font-size: 16px;
+    line-height: 16px;
+    font-weight: 700;
+      padding: 24px 0;
+      border-bottom: 1px solid #E8E8E8;
+      @media (max-width: 768px) {
+        font-size: 14px;
+      line-height: 14px;
+      }
+    }
+  }
+}
