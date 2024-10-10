@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import { getPaymentActivation } from "../api/businessSheet";
+import { checkActivate } from "../api/businessSheet";
+import { tryAgainMsg } from "../constants/messages";
 
 export const useActivePayment = () => {
   const [isPay, setIsPay] = useState(null);
@@ -8,11 +9,10 @@ export const useActivePayment = () => {
   useEffect(() => {
     const verifyPayment = async () => {
       try {
-        const response = await getPaymentActivation();
-        setIsPay(response || true);
+        const response = await checkActivate();
+        setIsPay(response);
       } catch (error) {
-        console.error("Check payment failed:", error);
-        setIsPay(true);
+        console.error(tryAgainMsg, error);
       } finally {
         setIsLoading(false);
       }

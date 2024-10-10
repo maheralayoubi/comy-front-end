@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
+
 import Header from "../components/global/Header";
 import Stepper, { Step } from "../components/Stepper";
 import {
@@ -8,7 +9,9 @@ import {
   Themes,
   UploadImage,
 } from "../components/FormElements";
+
 import useLocalStorage from "../hooks/useLocalStorage";
+import { compression } from "../utils/imageCompression";
 
 const BusinessSheetCreation = () => {
   const { getValue, setValue } = useLocalStorage();
@@ -44,12 +47,12 @@ const BusinessSheetCreation = () => {
     handleInit();
   }, [handleInit]);
 
-  const handleChange = (e, index) => {
+  const handleChange = async (e, index) => {
     const { name, value, files } = e.target;
 
     // is file
     if (files && files.length > 0) {
-      const file = files[0];
+      const file = await compression(files[0]);
       setBusinessSheetData((prevState) => ({
         ...prevState,
         [name]: file,

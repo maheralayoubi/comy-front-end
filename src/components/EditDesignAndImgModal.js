@@ -5,6 +5,7 @@ import { Input, UploadImage, Fonts, Themes } from "./FormElements";
 import Spinner from "./global/Spinner";
 import useLocalStorage from "../hooks/useLocalStorage";
 import { editBusinessSheet, editUserData } from "../api/businessSheet";
+import { compression } from "../utils/imageCompression";
 
 const EditDesignAndImgModal = ({
   size,
@@ -30,12 +31,12 @@ const EditDesignAndImgModal = ({
     userCategory: data.userCategory,
   });
 
-  const handleChange = (e) => {
+  const handleChange = async (e) => {
     const { name, value, files } = e.target;
 
     // is file
     if (files && files.length > 0) {
-      const file = files[0];
+      const file = await compression(files[0]);
       setUpdatedData((prevState) => ({
         ...prevState,
         [name]: file,
@@ -90,6 +91,7 @@ const EditDesignAndImgModal = ({
       typeof updatedData.profileImage === "object" &&
       updatedData.profileImage !== null
     ) {
+      setValue("profileImageUrl", `${imagesBaseUrl}/profile`);
       setValue("businessSheetData", {
         ...data,
         ...updatedData,

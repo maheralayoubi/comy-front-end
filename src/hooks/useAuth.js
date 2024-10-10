@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { checkAuth } from "../api/auth";
+import { tryAgainMsg } from "../constants/messages";
 
 export const useAuth = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(null);
@@ -11,7 +12,7 @@ export const useAuth = () => {
         const authStatus = await checkAuth();
         setIsAuthenticated(authStatus);
       } catch (error) {
-        console.error("Authentication check failed:", error);
+        console.error(tryAgainMsg, error);
         setIsAuthenticated(false);
       } finally {
         setIsLoading(false);

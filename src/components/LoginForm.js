@@ -5,6 +5,13 @@ import visibilityIcon from "../assets/images/visibility.svg";
 import visibilityOffIcon from "../assets/images/visibility_off.svg";
 import "./styles/Login.scss";
 import Spinner from "./global/Spinner";
+import {
+  tryAgainMsg,
+  successfullLoginMsg,
+  invalidCredentialsMsg,
+  verifyEmailMsg,
+  serverErrorMsg,
+} from "../constants/messages";
 
 const LoginForm = () => {
   const [email, setEmail] = useState("");
@@ -42,18 +49,18 @@ const LoginForm = () => {
       const result = await loginUser(userData);
 
       if (result.status === 200) {
-        setMessage("Login successful!");
+        setMessage(successfullLoginMsg);
         navigate("/profile");
       } else if (result.status === 400) {
-        setError("Invalid credentials.");
+        setError(invalidCredentialsMsg);
       } else if (result.status === 403) {
-        setError("Please verify your email before logging in.");
+        setError(verifyEmailMsg);
       } else if (result.status === 500) {
-        setError("Internal server error. Please try again later.");
+        setError(serverErrorMsg);
       }
     } catch (error) {
       // Handling unexpected errors (network issues, etc.)
-      setError("Something went wrong. Please try again.");
+      setError(tryAgainMsg);
     } finally {
       setLoading(false);
     }

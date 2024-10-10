@@ -4,6 +4,7 @@ import "./styles/SearchResults.scss";
 import { Link } from "react-router-dom";
 import Spinner from "./global/Spinner";
 import Pagination from "./Pagination";
+import { tryAgainMsg, notMatchingUserMsg } from "../constants/messages";
 
 const SearchResults = () => {
   const [query, setQuery] = useState("");
@@ -31,7 +32,7 @@ const SearchResults = () => {
           setUsers([]);
         }
       } catch (err) {
-        setError("検索に失敗しました。もう一度お試しください。");
+        setError(tryAgainMsg);
       } finally {
         setLoading(false);
       }
@@ -101,7 +102,7 @@ const SearchResults = () => {
             />
           </>
         ) : (
-          !loading && <p>該当するユーザーが見つかりませんでした。</p>
+          !loading && <p>{notMatchingUserMsg}</p>
         )}
       </div>
     </div>

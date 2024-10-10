@@ -8,6 +8,8 @@ import {
   CardData,
 } from "./Cards";
 import EditDesignAndImgModal from "./EditDesignAndImgModal";
+import { tryAgainMsg, successfulCopyMsg } from "../constants/messages";
+import { toast } from "react-toastify";
 
 const BusinessSheetTemplate = ({
   data,
@@ -20,10 +22,12 @@ const BusinessSheetTemplate = ({
     navigator.clipboard
       .writeText(`${window.location.origin}/preview/${data?.userId}`)
       .then(() => {
-        alert("Text copied to clipboard");
+        toast(successfulCopyMsg, {
+          className: "toastStyle",
+        });
       })
       .catch((err) => {
-        alert("Failed to copy text: ", err);
+        alert(tryAgainMsg);
       });
   };
 

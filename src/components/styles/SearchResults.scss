@@ -41,29 +41,37 @@
 
       @media (max-width: 600px) {
         height: 45px;
-        width: 96%;
+        width: 100%;
       }
     }
 
     .search-icon {
       position: absolute;
-      right: 0;
+      right: 1%;
       width: 25px;
-      top: 36%;
+      top: 33%;
       transform: translateY(-50%);
+
+      @media (max-width: 768px) {
+        right: 2%;
+        top: 31%;
+      }
     }
   }
 
   .user-list {
     display: flex;
-    margin-top: 20px;
+    margin-top: 40px;
     flex-wrap: wrap;
-    gap: 20px;
-    row-gap: 30px;
-    justify-content: flex-start;
+    gap: 75px;
+    row-gap: 40px;
+    justify-content: center;
 
     @media (max-width: 768px) {
       justify-content: space-between;
+      margin-top: 30px;
+      gap: 11px;
+      row-gap: 24px;
     }
 
     a {
@@ -75,11 +83,11 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 200px;
+    width: 160px;
     text-align: center;
 
     @media (max-width: 768px) {
-      width: 46%;
+      width: 100px;
     }
 
     .user-image {
@@ -87,6 +95,11 @@
       height: 120px;
       border-radius: 80px;
       margin-bottom: 10px;
+
+      @media (max-width: 768px) {
+        width: 60px;
+        height: 60px;
+      }
     }
 
     .user-position {
@@ -94,6 +107,10 @@
       color: rgba(0, 0, 0, 1);
       font-weight: 400;
       margin: 0;
+
+      @media (max-width: 768px) {
+        font-size: 14px;
+      }
     }
 
     .user-name {
@@ -101,6 +118,10 @@
       color: rgba(0, 0, 0, 1);
       font-weight: 700;
       margin: 0;
+
+      @media (max-width: 768px) {
+        font-size: 16px;
+      }
     }
   }
 }

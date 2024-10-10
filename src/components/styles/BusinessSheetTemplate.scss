@@ -1,3 +1,9 @@
+.toastStyle {
+  background-color: #333333 !important;
+  color: #fff !important;
+  font-size: 14px !important;
+}
+
 .BusinessSheet {
   .headerBg {
     position: relative;
@@ -55,17 +61,21 @@
       padding: 0px 16px;
     }
 
-    img {
+    img[alt="profile"] {
       border-radius: 50%;
       border: 2px solid #f7f7f7;
       width: 160px;
+      min-width: 160px;
       height: 160px;
+      min-height: 160px;
       margin-top: -102px;
       z-index: 100;
 
       @media (max-width: 992px) {
         width: 80px;
+        min-width: 80px;
         height: 80px;
+        min-height: 80px;
       }
     }
 
@@ -118,7 +128,7 @@
 
         @media (max-width: 992px) {
           flex-direction: row;
-          margin-left: -100px;
+          margin-left: -80px;
         }
 
         .copyImg {

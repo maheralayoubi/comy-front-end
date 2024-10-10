@@ -1,4 +1,5 @@
 import React from "react";
+
 import SearchResults from "../components/SearchResults";
 import Header from "../components/global/Header";
 import Footer from "../components/global/Footer";

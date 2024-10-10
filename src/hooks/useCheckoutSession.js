@@ -1,5 +1,6 @@
 import { useCallback } from "react";
 import secureApi from "../api/secureApi";
+import { tryAgainMsg } from "../constants/messages";
 
 const CHECKOUT_SESSION_ENDPOINT = "create-checkout-session";
 
@@ -9,7 +10,7 @@ const useCheckoutSession = () => {
       const response = await secureApi.post(CHECKOUT_SESSION_ENDPOINT);
       return response.data;
     } catch (error) {
-      console.error("Error creating checkout session:", error);
+      console.error(tryAgainMsg, error);
       throw error;
     }
   }, []);
