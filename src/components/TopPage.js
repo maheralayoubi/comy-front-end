@@ -43,7 +43,6 @@ const TopPage = () => {
       .then((response) => {
         const allUsersData = response.data;
         const cutUsers = allUsersData.slice(0, 10);
-        console.log(cutUsers);
         setUsers(cutUsers);
       })
       .catch((error) => {
@@ -117,7 +116,7 @@ const TopPage = () => {
               </div>
             ))}
         </div>
-        <a href="/search-results">
+        <a href="/member-list">
           <button>さらに見る</button>
         </a>
       </div>
