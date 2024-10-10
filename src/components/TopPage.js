@@ -10,6 +10,7 @@ import "swiper/css/pagination";
 import "swiper/css/navigation";
 import { getMemberList } from "../api/memberList";
 import { SpinnerPage } from "./global/Spinner";
+import UserCard from "./UserCard";
 
 const TopPage = () => {
   const slides = [
@@ -63,6 +64,7 @@ const TopPage = () => {
 
   return (
     <>
+
       <div className="gallery">
         <Swiper
           spaceBetween={40}
@@ -91,6 +93,7 @@ const TopPage = () => {
           ))}
         </Swiper>
       </div>
+
       <div className="search-results-top-search">
         <h2>検索結果</h2>
         <div className="search-results-container">
@@ -104,22 +107,20 @@ const TopPage = () => {
           <img src="/images/search.svg" alt="Search" className="search-icon" />
         </div>
       </div>
+
       <div className="member-list-top-list">
         <h2>COMYユーザー</h2>
         <div className="users">
           {users &&
-            users.map((user, index) => (
-              <div className="user" key={index}>
-                <img src={user.profileImageUrl} alt={user.name} />
-                <p>{user.name}</p>
-                <p>{user.category}</p>
-              </div>
+            users.map((user) => (
+              <UserCard key={user.id} user={user} />
             ))}
         </div>
         <a href="/member-list">
           <button>さらに見る</button>
         </a>
       </div>
+
       <div className="features">
         <h2>COMYの今後の追加機能紹介</h2>
         {slides.map((slide) => (
@@ -136,6 +137,7 @@ const TopPage = () => {
           </div>
         ))}
       </div>
+
       <div className="links">
         <h2>ニュース</h2>
         <ul>
@@ -146,6 +148,7 @@ const TopPage = () => {
           <li>新機能追加！</li>
         </ul>
       </div>
+
     </>
   );
 };
