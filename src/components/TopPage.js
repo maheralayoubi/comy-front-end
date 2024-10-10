@@ -77,7 +77,7 @@ const TopPage = () => {
         >
           {slides.map((slide, index) => (
             <SwiperSlide className="slider" key={index}>
-              <div className="photo" id={slide.id && slide.id}>
+              <div className="photo photo-common disable-select" id={slide.id && slide.id}>
                 <img src={slide.img} alt={slide.title} />
                 <div className="text">
                   <p>{slide.subtitle}</p>
@@ -118,6 +118,20 @@ const TopPage = () => {
             <button>さらに見る</button>
           </a>
       </div>
+      <div className="features">
+        <h2>COMYの今後の追加機能紹介</h2>
+        {slides.map((slide) => (
+          <div className="photo photo-common disable-select" key={slide.id || slide.title}>
+            <img src={slide.img} alt={slide.title} />
+            <div className="text">
+              <p>{slide.subtitle}</p>
+              <h3>{slide.title}</h3>
+              <p>{slide.description}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+
     </>
   );
 };

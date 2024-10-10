@@ -4,6 +4,13 @@
   padding: 0;
 }
 
+.disable-select {
+  -webkit-user-select: none;  
+  -moz-user-select: none;    
+  -ms-user-select: none;      
+  user-select: none;
+}
+
 .gallery {
   margin: {
     top: 40px;
@@ -56,60 +63,60 @@
     }
   }
   .slider {
-    border-radius: 40px;
     width: 100%;
-    height: 324px;
-    div.photo {
-      position: relative;
-      overflow: hidden;
-      width: 100%;
-      height: 100%;
-      border-radius: 40px;
-      display: flex;
-      align-items: center;
-      padding-left: 100px;
-      color: white;
-      img {
-        width: 100%;
-        height: auto;
-        position: absolute;
-        left: 0;
-        top: 0;
-        z-index: -2;
-      }
-      .text h3 {
-        font-family: Noto Sans JP;
-        font-size: 32px;
-        font-weight: 900;
-        line-height: 32px;
-        text-align: left;
-        margin: 16px 0;
-      }
-      .text p:first-of-type {
-        background-color: white;
-        width: 138px;
-        height: 24px;
-        padding: 6px 16px 6px 16px;
-        border-radius: 20px;
-        color: #333333;
-        font-family: Noto Sans JP;
-        font-size: 12px;
-        font-weight: 700;
-        line-height: 12px;
-        text-align: left;
-        text-wrap: nowrap;
-      }
-      .text p:last-of-type {
-        font-family: Noto Sans JP;
-        font-size: 16px;
-        font-weight: 500;
-        line-height: 16px;
-        text-align: left;
-      }
-    }
   }
-  #ai-slider img {
-    height: 100% !important;
+}
+
+.photo-common {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  padding-left: 100px;
+  color: white;
+  height: 324px;
+
+  img {
+    width: 100%;
+    height: auto;
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: -2;
+  }
+
+  .text h3 {
+    font-family: Noto Sans JP;
+    font-size: 32px;
+    font-weight: 900;
+    line-height: 32px;
+    text-align: left;
+    margin: 16px 0;
+  }
+
+  .text p:first-of-type {
+    background-color: white;
+    width: 138px;
+    height: 24px;
+    padding: 6px 16px;
+    border-radius: 20px;
+    color: #333333;
+    font-family: Noto Sans JP;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 12px;
+    text-align: left;
+    text-wrap: nowrap;
+  }
+
+  .text p:last-of-type {
+    font-family: Noto Sans JP;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 16px;
+    text-align: left;
   }
 }
 
@@ -139,28 +146,32 @@
       .slider {
         height: 140px;
         width: 343px;
-        div.photo {
-          height: 140px;
-          border-radius: 10px;
-          padding-left: 24px;
-          .text h3 {
-            font-size: 32px;
-            font-weight: 900;
-            line-height: 32px;
-          }
-          .text p:first-of-type {
-            width: 138px;
-            height: 20px;
-            padding: 4px 16px 4px 16px;
-            border-radius: 20px;
-          }
-          .text p:last-of-type {
-            font-size: 12px;
-            font-weight: 500;
-            line-height: 12px;
-          }
-        }
       }
+    }
+  }
+  
+  .photo-common {
+    height: 140px;
+    border-radius: 10px;
+    padding-left: 24px;
+
+    .text h3 {
+      font-size: 32px;
+      font-weight: 900;
+      line-height: 32px;
+    }
+
+    .text p:first-of-type {
+      width: 138px;
+      height: 20px;
+      padding: 4px 16px;
+      border-radius: 20px;
+    }
+
+    .text p:last-of-type {
+      font-size: 12px;
+      font-weight: 500;
+      line-height: 12px;
     }
   }
 }
@@ -238,14 +249,45 @@
     }
   }
   .search-results-container a .search-input {
-    padding: 15px !important;
-    font-size: 14px !important;
-    line-height: 14px;
-    &::placeholder {
-      font-size: 14px;
-      line-height: 14px;
+    padding: 16px 15px !important;
+    height: 100%;
+    font-size: 12px;
+    line-height: 16px;
+  }
+}
+
+.features {
+  margin: 80px auto;
+  padding: 0 20px;
+  @media (max-width:768px) {
+    margin: 40px auto 60px auto;
+  }
+  h2 {
+    width: 100%;
+    font-family: Noto Sans JP;
+    font-size: 40px;
+    font-weight: 900;
+    line-height: 40px;
+    text-align: center;
+    margin:0 auto 24px auto;
+    @media (max-width: 768px) {
+      font-size: 28px;
+      line-height: 33.6px;
+      padding: 0 80px;
     }
   }
+  div.photo {
+    max-width: 1100px;
+    margin: 0 auto;
+    
+  }
+  }
+  .features div.photo:nth-child(3) {
+    margin: 32px auto;
+    @media (max-width: 768px) {
+      margin: 16px 0;
+    }
+  
 }
 
 .member-list-top-list {
