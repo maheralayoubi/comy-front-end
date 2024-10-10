@@ -77,7 +77,10 @@ const TopPage = () => {
         >
           {slides.map((slide, index) => (
             <SwiperSlide className="slider" key={index}>
-              <div className="photo photo-common disable-select" id={slide.id && slide.id}>
+              <div
+                className="photo photo-common disable-select"
+                id={slide.id && slide.id}
+              >
                 <img src={slide.img} alt={slide.title} />
                 <div className="text">
                   <p>{slide.subtitle}</p>
@@ -115,13 +118,16 @@ const TopPage = () => {
             ))}
         </div>
         <a href="/search-results">
-            <button>さらに見る</button>
-          </a>
+          <button>さらに見る</button>
+        </a>
       </div>
       <div className="features">
         <h2>COMYの今後の追加機能紹介</h2>
         {slides.map((slide) => (
-          <div className="photo photo-common disable-select" key={slide.id || slide.title}>
+          <div
+            className="photo photo-common disable-select"
+            key={slide.id || slide.title}
+          >
             <img src={slide.img} alt={slide.title} />
             <div className="text">
               <p>{slide.subtitle}</p>
@@ -132,12 +138,14 @@ const TopPage = () => {
         ))}
       </div>
       <div className="links">
-          <h2>ニュース</h2>
-          <ul>
-            <li>ローンチセール実施中！今なら20％オフで1年間お試しできますのでお見逃しなく！</li>
-            <li>総ユーザー数1,000人突破！</li>
-            <li>新機能追加！</li>
-          </ul>
+        <h2>ニュース</h2>
+        <ul>
+          <li>
+            ローンチセール実施中！今なら20％オフで1年間お試しできますのでお見逃しなく！
+          </li>
+          <li>総ユーザー数1,000人突破！</li>
+          <li>新機能追加！</li>
+        </ul>
       </div>
     </>
   );
