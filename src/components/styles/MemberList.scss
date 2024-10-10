@@ -19,7 +19,7 @@ a {
     display: flex;
     margin-top: 40px;
     flex-wrap: wrap;
-    gap: 75px;
+    gap: 60px;
     row-gap: 40px;
     justify-content: center;
 
@@ -28,52 +28,6 @@ a {
       margin-top: 30px;
       gap: 11px;
       row-gap: 24px;
-    }
-  }
-
-  .user-card {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 160px;
-    text-align: center;
-
-    @media (max-width: 768px) {
-      width: 100px;
-    }
-
-    .user-image {
-      width: 120px;
-      height: 120px;
-      border-radius: 80px;
-      margin-bottom: 10px;
-
-      @media (max-width: 768px) {
-        width: 60px;
-        height: 60px;
-      }
-    }
-
-    .user-position {
-      font-size: 16px;
-      color: rgba(0, 0, 0, 1);
-      font-weight: 400;
-      margin: 0;
-
-      @media (max-width: 768px) {
-        font-size: 14px;
-      }
-    }
-
-    .user-name {
-      font-size: 20px;
-      color: rgba(0, 0, 0, 1);
-      font-weight: 700;
-      margin: 0;
-
-      @media (max-width: 768px) {
-        font-size: 16px;
-      }
     }
   }
 }

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 // import styles
 import "./styles/TopPage.scss";
 // Import Swiper React components
@@ -8,6 +8,9 @@ import { Navigation, Pagination } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
+import { getMemberList } from "../api/memberList";
+import { SpinnerPage } from "./global/Spinner";
+import UserCard from "./UserCard";
 
 const TopPage = () => {
   const slides = [
@@ -32,11 +35,39 @@ const TopPage = () => {
     },
   ];
 
+  const [error, setError] = useState(null);
+  const [users, setUsers] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    getMemberList()
+      .then((response) => {
+        const allUsersData = response.data;
+        const cutUsers = allUsersData.slice(0, 10);
+        setUsers(cutUsers);
+      })
+      .catch((error) => {
+        setError("ユーザー情報を取得できませんでした。");
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  }, []);
+
+  if (isLoading) {
+    return <SpinnerPage />;
+  }
+
+  if (error) {
+    return <div>{error}</div>;
+  }
+
   return (
     <>
+
       <div className="gallery">
         <Swiper
-          spaceBetween={50}
+          spaceBetween={40}
           modules={[Navigation, Pagination]}
           centeredSlides
           loop
@@ -46,13 +77,12 @@ const TopPage = () => {
           navigation
         >
           {slides.map((slide, index) => (
-            <SwiperSlide
-              key={index}
-              className="slider"
-              id={slide.id && slide.id}
-            >
-              <div className="photo" id={slide.id && slide.id}>
-                <img src={slide.img} alt="ai" />
+            <SwiperSlide className="slider" key={index}>
+              <div
+                className="photo photo-common disable-select"
+                id={slide.id && slide.id}
+              >
+                <img src={slide.img} alt={slide.title} />
                 <div className="text">
                   <p>{slide.subtitle}</p>
                   <h3>{slide.title}</h3>
@@ -63,6 +93,62 @@ const TopPage = () => {
           ))}
         </Swiper>
       </div>
+
+      <div className="search-results-top-search">
+        <h2>検索結果</h2>
+        <div className="search-results-container">
+          <a href="/search-results">
+            <input
+              type="text"
+              placeholder="メンバー検索"
+              className="search-input"
+            />
+          </a>
+          <img src="/images/search.svg" alt="Search" className="search-icon" />
+        </div>
+      </div>
+
+      <div className="member-list-top-list">
+        <h2>COMYユーザー</h2>
+        <div className="users">
+          {users &&
+            users.map((user) => (
+              <UserCard key={user.id} user={user} />
+            ))}
+        </div>
+        <a href="/member-list">
+          <button>さらに見る</button>
+        </a>
+      </div>
+
+      <div className="features">
+        <h2>COMYの今後の追加機能紹介</h2>
+        {slides.map((slide) => (
+          <div
+            className="photo photo-common disable-select"
+            key={slide.id || slide.title}
+          >
+            <img src={slide.img} alt={slide.title} />
+            <div className="text">
+              <p>{slide.subtitle}</p>
+              <h3>{slide.title}</h3>
+              <p>{slide.description}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div className="links">
+        <h2>ニュース</h2>
+        <ul>
+          <li>
+            ローンチセール実施中！今なら20％オフで1年間お試しできますのでお見逃しなく！
+          </li>
+          <li>総ユーザー数1,000人突破！</li>
+          <li>新機能追加！</li>
+        </ul>
+      </div>
+
     </>
   );
 };
