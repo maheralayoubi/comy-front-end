@@ -124,6 +124,11 @@ describe('Input Validation:', () => {
       cy.get('button[type=submit]').click();
       cy.contains('認証情報が無効です。');
     })
+    it('Leave either the email or password empty and try to log in. Ensure the login button remains disabled.' , () => {
+      cy.get('#email').type(email);
+      cy.get('#password').clear();
+      cy.get('button[type=submit]').should('be.disabled');
+    })
 }) 
 
 
