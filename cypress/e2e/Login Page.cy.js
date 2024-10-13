@@ -118,6 +118,12 @@ describe('Input Validation:', () => {
       cy.get('button[type=submit]').click();
       cy.url().should('include', 'profile');
     })
+    it('Enter a valid email and incorrect password, click “ログイン”, and check that an error message (e.g., “Invalid credentials”) appears.', () => {
+      cy.get('#email').type(email);
+      cy.get('#password').type('password123');
+      cy.get('button[type=submit]').click();
+      cy.contains('認証情報が無効です。');
+    })
 }) 
 
 
