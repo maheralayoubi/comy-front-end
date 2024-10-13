@@ -89,7 +89,13 @@ describe('Input Validation:', () => {
     it('Enter a valid email and leave the password field empty. Ensure the login button stays disabled.' , () => {
       cy.get('#password').type('password123');
       cy.get('button[type="submit"]').should('be.disabled');
-  })
+    })
+    it('Enter a valid email and incorrect password. Submit the form and check that an appropriate error message is displayed.', () => {
+      cy.get("#email").type(email);
+      cy.get('#password').type('password123');
+      cy.get('button[type="submit"]').click();
+      cy.contains('認証情報が無効です。');
+    })
 })
 
 
