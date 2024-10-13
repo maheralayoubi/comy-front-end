@@ -112,7 +112,13 @@ describe('Input Validation:', () => {
       cy.get('.password-toggle').click();
       cy.get('#password').should('have.attr', 'type', 'password');
     })
-})
+    it('Input a valid email and correct password, click “ログイン”, and verify successful redirection to the Profile.', () => {
+      cy.get('#email').type(email);
+      cy.get('#password').type(password);
+      cy.get('button[type=submit]').click();
+      cy.url().should('include', 'profile');
+    })
+}) 
 
 
 
