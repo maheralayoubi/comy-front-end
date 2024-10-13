@@ -100,6 +100,12 @@ describe('Input Validation:', () => {
       cy.get("#password").type(password);
       cy.get('#password').should('have.attr' , 'type' , 'password');
     })
+    it('Click the toggle icon and ensure the password is visible (not masked).', () => {
+      cy.get('#password').type(password);
+      cy.get('.password-toggle').click();
+      cy.get('#password').should('have.attr', 'type', 'text');
+    });
+    
 })
 
 
