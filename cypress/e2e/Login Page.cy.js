@@ -105,7 +105,13 @@ describe('Input Validation:', () => {
       cy.get('.password-toggle').click();
       cy.get('#password').should('have.attr', 'type', 'text');
     });
-    
+    it('Click again to ensure the password is masked.' , () => {
+      cy.get('#password').type(password);
+      cy.get('.password-toggle').click();
+      cy.get('#password').should('have.attr', 'type', 'text');
+      cy.get('.password-toggle').click();
+      cy.get('#password').should('have.attr', 'type', 'password');
+    })
 })
 
 
