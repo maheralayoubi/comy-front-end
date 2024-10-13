@@ -96,6 +96,10 @@ describe('Input Validation:', () => {
       cy.get('button[type="submit"]').click();
       cy.contains('認証情報が無効です。');
     })
+    it('Verify that the password is hidden (masked) when first entered.' , () => {
+      cy.get("#password").type(password);
+      cy.get('#password').should('have.attr' , 'type' , 'password');
+    })
 })
 
 
