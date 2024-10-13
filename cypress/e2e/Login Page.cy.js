@@ -85,8 +85,11 @@ describe('Input Validation:', () => {
         const message = $input[0].validationMessage;
         expect(message).to.include('@');
       });
-  });
-  
+    });
+    it('Enter a valid email and leave the password field empty. Ensure the login button stays disabled.' , () => {
+      cy.get('#password').type('password123');
+      cy.get('button[type="submit"]').should('be.disabled');
+  })
 })
 
 
