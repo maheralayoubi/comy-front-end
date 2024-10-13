@@ -76,6 +76,17 @@ describe('Input Validation:', () => {
     cy.get('#email').type(email)
     cy.get('button[type="submit"]').should('be.disabled');
   })
+  it('Should show error messages for an invalid email format and password', () => {
+    cy.get("#email").type("user@");
+    cy.get("#password").type("password123");
+    cy.get('button[type="submit"]').click();
+    cy.get("#email")
+      .then(($input) => {
+        const message = $input[0].validationMessage;
+        expect(message).to.include('@');
+      });
+  });
+  
 })
 
 
