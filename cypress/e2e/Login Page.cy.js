@@ -190,14 +190,30 @@ const password = "Hakamaldeen17";
 //   });
 // });
 
-describe('Register Here Link:', () => {
+// describe('Register Here Link:', () => {
+//   beforeEach(() => {
+//     cy.visit('/login');
+//   });
+
+//   it('Click on the “新規登録はこちら” (Register Here) link and verify redirection to the registration page.', () => {
+//     cy.get('a[href="/register"]').click();
+//     cy.url().should("include", "/register");
+//   });
+// });
+
+describe('API Responses:', () => {
   beforeEach(() => {
     cy.visit('/login');
+  })
+  it('Mock a successful login response and verify user redirection and token handling.', () => {
+    cy.intercept('POST', 'http://localhost:5000/auth/login', {
+      statusCode: 200,
+      body: { token: 'mocked-jwt-token' }
+    }).as('loginRequest');
+    cy.get('#email').type(email);
+    cy.get('#password').type(password);
+    cy.get('button[type=submit]').click();
+    cy.wait('@loginRequest').its('response.statusCode').should('eq', 200);
+    cy.url().should('include', '/profile');
   });
-
-  it('Click on the “新規登録はこちら” (Register Here) link and verify redirection to the registration page.', () => {
-    cy.get('a[href="/register"]').click();
-    cy.url().should("include", "/register");
-  });
-});
-
+} )
