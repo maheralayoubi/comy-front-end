@@ -50,7 +50,7 @@ const App = () => {
 
           {/* Protected routes */}
           <Route element={<ProtectedRoutes />}>
-          <Route path="/" element={<TopPage />} />
+            <Route path="/" element={<TopPage />} />
             <Route path="/terms-of-use" element={<TermsOfUse />} />
             <Route
               path="/account-creation-completed"

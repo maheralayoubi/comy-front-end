@@ -2,7 +2,11 @@ import React, { useState } from "react";
 import { forgotPassword } from "../api/auth";
 import "./styles/ForgotPasswordForm.scss";
 import Spinner from "./global/Spinner";
-import { tryAgainMsg } from "../constants/messages";
+import {
+  tryAgainMsg,
+  sendEmailForResetPasswordMsg,
+  userNotFoundMsg,
+} from "../constants/messages";
 
 const ForgotPasswordForm = () => {
   const [email, setEmail] = useState("");
@@ -19,9 +23,10 @@ const ForgotPasswordForm = () => {
       setLoading(true);
       const response = await forgotPassword(email);
       if (response.status === 200) {
-        setMessage(response.data.message);
+        setMessage(sendEmailForResetPasswordMsg);
+        setEmail("");
       } else {
-        setError(response.data.message || tryAgainMsg);
+        setError(userNotFoundMsg);
       }
     } catch (error) {
       setError(tryAgainMsg);
@@ -36,6 +41,7 @@ const ForgotPasswordForm = () => {
       <form onSubmit={handleSubmit}>
         <label htmlFor="email">メールアドレス</label>
         <input
+          autoFocus
           type="email"
           id="email"
           placeholder="メールアドレスを入力"

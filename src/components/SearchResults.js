@@ -77,7 +77,6 @@ const SearchResults = () => {
       <div className="user-list">
         {Array.isArray(users) && users.length > 0 ? (
           <>
-
             {paginatedUsers.map((user) => (
               <UserCard key={user.id} user={user} />
             ))}
