@@ -201,35 +201,74 @@ const password = "Hakamaldeen17";
 //   });
 // });
 
-describe('API Responses:', () => {
+// describe('API Responses:', () => {
+//   beforeEach(() => {
+//     cy.visit('/login');
+//   })
+//   it('Mock a successful login response and verify user redirection and token handling.', () => {
+//     cy.intercept('POST', 'http://localhost:5000/auth/login', {
+//       statusCode: 200,
+//       body: { token: 'mocked-jwt-token' }
+//     }).as('loginRequest');
+//     cy.get('#email').type(email);
+//     cy.get('#password').type(password);
+//     cy.get('button[type=submit]').click();
+//     cy.wait('@loginRequest').its('response.statusCode').should('eq', 200);
+//     cy.url().should('include', '/profile');
+//   });
+//   it('Mock an API response for a failed login (e.g., invalid email/password) and ensure the correct error message is displayed to the user.', () => {
+//     // Intercept the API request and mock a failed response with a 400 status code
+//     cy.intercept('POST', 'http://localhost:5000/auth/login', {
+//       statusCode: 400,
+//       body: {
+//         message: '認証情報が無効です。'
+//       },
+//     }).as('loginRequest');
+//     cy.visit('/login');
+//     cy.get('#email').type(email);
+//     cy.get('#password').type('password123');
+//     cy.get('button[type=submit]').click();  
+//     cy.wait('@loginRequest').its('response.statusCode').should('eq', 400);
+//     cy.contains('認証情報が無効です。').should('be.visible');
+//   });
+  
+// } )
+
+describe('Responsive Design Testing:', () => {
   beforeEach(() => {
     cy.visit('/login');
-  })
-  it('Mock a successful login response and verify user redirection and token handling.', () => {
-    cy.intercept('POST', 'http://localhost:5000/auth/login', {
-      statusCode: 200,
-      body: { token: 'mocked-jwt-token' }
-    }).as('loginRequest');
-    cy.get('#email').type(email);
-    cy.get('#password').type(password);
-    cy.get('button[type=submit]').click();
-    cy.wait('@loginRequest').its('response.statusCode').should('eq', 200);
-    cy.url().should('include', '/profile');
   });
-  it('Mock an API response for a failed login (e.g., invalid email/password) and ensure the correct error message is displayed to the user.', () => {
-    // Intercept the API request and mock a failed response with a 400 status code
-    cy.intercept('POST', 'http://localhost:5000/auth/login', {
-      statusCode: 400,
-      body: {
-        message: '認証情報が無効です。'
-      },
-    }).as('loginRequest');
-    cy.visit('/login');
-    cy.get('#email').type(email);
-    cy.get('#password').type('password123');
-    cy.get('button[type=submit]').click();  
-    cy.wait('@loginRequest').its('response.statusCode').should('eq', 400);
-    cy.contains('認証情報が無効です。').should('be.visible');
+  const viewports = [
+    { device: 'mobile', width: 375, height: 667 },
+    { device: 'tablet', width: 768, height: 1024 },
+    { device: 'desktop', width: 1280, height: 800 }
+  ];
+  viewports.forEach(({ device, width, height }) => {
+    it(`should display and align login form elements correctly on ${device} (${width}x${height})`, () => {
+      cy.viewport(width, height);
+      
+      // Verify that the login form elements are visible
+      cy.get('#email').should('be.visible');
+      cy.get('#password').should('be.visible');
+      cy.get('button[type="submit"]').should('be.visible');
+
+      // Check for proper alignment (e.g., centered)
+      cy.get('button[type="submit"]').should('have.css', 'text-align', 'center');
+
+      // Optionally, check the layout of elements
+      cy.get('#email').invoke('outerWidth').should('be.gte', 150);
+      cy.get('#password').invoke('outerWidth').should('be.gte', 150);
+      cy.get('button[type="submit"]').invoke('outerWidth').should('be.gte', 100);
+
+      // Verify functionality - fill form and ensure the button enables
+      cy.get('#email').type(email);
+      cy.get('#password').type(password);
+      cy.get('button[type="submit"]').should('not.be.disabled');
+      // Verify functionality - empty email or password and ensure the button is disabled
+      cy.get('#email').type(email);
+      cy.get('#password').clear();
+      cy.get('button[type="submit"]').should('be.disabled');
+    });
   });
-  
-} )
+});
+
