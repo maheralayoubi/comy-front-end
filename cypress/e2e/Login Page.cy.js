@@ -167,25 +167,37 @@ const password = "Hakamaldeen17";
 //   });
 // });
 
-describe('Forgot Password Link:', () => {
+// describe('Forgot Password Link:', () => {
+//   beforeEach(() => {
+//     cy.visit('/login');
+//   });
+
+//   it('Click on the “パスワードを忘れた方はこちら” (Forgot Password) link and verify redirection.', () => {
+//     cy.get('a[href="/forgot-password"]').should("exist").click();
+//     cy.url().should("include", "/forgot-password");
+//   });
+
+//   it('Ensure the password recovery page elements (e.g., email input, submit button) are functional.', () => {
+//     cy.get('a[href="/forgot-password"]').click();
+//     cy.url().should("include", "/forgot-password");
+
+//     cy.get('#email')
+//       .should('exist')
+//       .type(email)
+//       .should('have.value', email);
+
+//     cy.get('button[type="submit"]').should('exist').should('not.be.disabled');
+//   });
+// });
+
+describe('Register Here Link:', () => {
   beforeEach(() => {
     cy.visit('/login');
   });
 
-  it('Click on the “パスワードを忘れた方はこちら” (Forgot Password) link and verify redirection.', () => {
-    cy.get('a[href="/forgot-password"]').should("exist").click();
-    cy.url().should("include", "/forgot-password");
-  });
-
-  it('Ensure the password recovery page elements (e.g., email input, submit button) are functional.', () => {
-    cy.get('a[href="/forgot-password"]').click();
-    cy.url().should("include", "/forgot-password");
-
-    cy.get('#email')
-      .should('exist')
-      .type(email)
-      .should('have.value', email);
-
-    cy.get('button[type="submit"]').should('exist').should('not.be.disabled');
+  it('Click on the “新規登録はこちら” (Register Here) link and verify redirection to the registration page.', () => {
+    cy.get('a[href="/register"]').click();
+    cy.url().should("include", "/register");
   });
 });
+
