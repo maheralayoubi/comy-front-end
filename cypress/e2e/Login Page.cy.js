@@ -216,4 +216,20 @@ describe('API Responses:', () => {
     cy.wait('@loginRequest').its('response.statusCode').should('eq', 200);
     cy.url().should('include', '/profile');
   });
+  it('Mock an API response for a failed login (e.g., invalid email/password) and ensure the correct error message is displayed to the user.', () => {
+    // Intercept the API request and mock a failed response with a 400 status code
+    cy.intercept('POST', 'http://localhost:5000/auth/login', {
+      statusCode: 400,
+      body: {
+        message: '認証情報が無効です。'
+      },
+    }).as('loginRequest');
+    cy.visit('/login');
+    cy.get('#email').type(email);
+    cy.get('#password').type('password123');
+    cy.get('button[type=submit]').click();  
+    cy.wait('@loginRequest').its('response.statusCode').should('eq', 400);
+    cy.contains('認証情報が無効です。').should('be.visible');
+  });
+  
 } )
