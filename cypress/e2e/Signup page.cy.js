@@ -86,4 +86,14 @@ describe('Input Field Validation:' , () => {
       expect(message).to.include("@");
     });
   })
+  
+  it('Enter different values into the password and re-enter password fields. The form should show an error message and prevent submission.', () => {
+    typeInInput('#name', name);
+    typeInInput('#category', category);
+    typeInInput('#email', email);
+    typeInInput('#password', password);
+    typeInInput('#confirmPassword', 'password123');
+    cy.get('button[type="submit"]').click();
+    cy.contains('パスワードが一致しません。').should('be.visible');
+  });
 })
