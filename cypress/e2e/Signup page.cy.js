@@ -69,8 +69,21 @@ describe('Input Field Validation:' , () => {
     typeInInput('#confirmPassword' , password)
     cy.get('button[type="submit"]').should('be.disabled')
   })
-
+  
   it('Try entering more than 30 characters into the “カテゴリー” field and ensure the form prevents it.' , () => {
     typeInInput('#category', "A".repeat(40)).invoke('val').should('have.length.at.most', 30)
+  })
+  
+  it('Should show a validation message when an invalid email format is entered.' , () => {
+    typeInInput('#name', name)
+    typeInInput('#category' , category);
+    typeInInput('#email' , 'user@');
+    typeInInput('#password' , password);
+    typeInInput('#confirmPassword' , password)
+    cy.get('button[type="submit"]').click();
+    cy.get("#email").then(($input) => {
+      const message = $input[0].validationMessage;
+      expect(message).to.include("@");
+    });
   })
 })
