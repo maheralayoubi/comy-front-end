@@ -25,4 +25,9 @@ describe('Check Page Elements:' , () => {
   it('Ensure the “メールアドレス” (Email Address) input field is present and accepts input.' , () => {
     cy.get('#email').should('exist').type(email).should('have.value', email);
   })
+
+  it('Verify that the two password fields (for password and re-enter password) are present and accept input.' , () => {
+    cy.get("#password").should('exist').type(password).should('have.value', password)
+    cy.get('#confirmPassword').should('exist').type(password).should('have.value', password)
+  })
 })
