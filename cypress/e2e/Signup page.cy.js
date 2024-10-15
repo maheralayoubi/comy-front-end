@@ -30,4 +30,8 @@ describe('Check Page Elements:' , () => {
     cy.get("#password").should('exist').type(password).should('have.value', password)
     cy.get('#confirmPassword').should('exist').type(password).should('have.value', password)
   })
+
+  it('Verify the “新規アカウント登録” (Register) button is present and disabled initially.' , () => {
+    cy.get('button[type="submit"]').should('be.visible').should('be.disabled')
+  })
 })
