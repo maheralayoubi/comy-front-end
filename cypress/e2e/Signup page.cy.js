@@ -57,4 +57,8 @@ describe('Input Field Validation:' , () => {
     typeInInput('#confirmPassword' , password)
     cy.get('button[type="submit"]').should('be.disabled')
   })
+
+  it('Try entering more than 30 characters into the “名前” field and ensure the form either prevents it.', () => {
+    typeInInput('#name', "A".repeat(40)).invoke('val').should('have.length.at.most', 30)
+  })
 })
