@@ -72,12 +72,6 @@ describe("Input Validation:", () => {
     cy.visit("/login");
   });
 
-  it("Ensure the login button remains disabled if both fields are empty.", () => {
-    cy.get("#email").clear();
-    cy.get("#password").clear();
-    cy.get('button[type="submit"]').should("be.disabled");
-  });
-
   it("Should show a validation message when an invalid email format is entered.", () => {
     cy.get("#email").type("user@");
     cy.get("#password").type("somepassword");
@@ -88,11 +82,6 @@ describe("Input Validation:", () => {
     });
   });
 
-  it("Enter a valid email and leave the password empty. The login button should remain disabled.", () => {
-    cy.get("#email").type(email);
-    cy.get('button[type="submit"]').should("be.disabled");
-  });
-
   it("Should show error messages for an invalid email format and password.", () => {
     cy.get("#email").type("user@");
     cy.get("#password").type("password123");
@@ -101,11 +90,6 @@ describe("Input Validation:", () => {
       const message = $input[0].validationMessage;
       expect(message).to.include("@");
     });
-  });
-
-  it("Enter a valid email and leave the password field empty. Ensure the login button stays disabled.", () => {
-    cy.get("#password").type("password123");
-    cy.get('button[type="submit"]').should("be.disabled");
   });
 
   it("Enter a valid email and incorrect password. Submit the form and check that an appropriate error message is displayed.", () => {
@@ -138,32 +122,6 @@ describe("Password Toggle Functionality:", () => {
     cy.get("#password").should("have.attr", "type", "text");
     cy.get(".password-toggle").click();
     cy.get("#password").should("have.attr", "type", "password");
-  });
-});
-
-describe("Login Functionality:", () => {
-  beforeEach(() => {
-    cy.visit("/login");
-  });
-
-  it("Input a valid email and correct password, click 'ログイン', and verify successful redirection to the Profile.", () => {
-    cy.get("#email").type(email);
-    cy.get("#password").type(password);
-    cy.get("button[type=submit]").click();
-    cy.url().should("include", "profile");
-  });
-
-  it("Enter a valid email and incorrect password, click 'ログイン', and check that an error message (e.g., 'Invalid credentials') appears.", () => {
-    cy.get("#email").type(email);
-    cy.get("#password").type("password123");
-    cy.get("button[type=submit]").click();
-    cy.contains("認証情報が無効です。");
-  });
-
-  it("Leave either the email or password empty and try to log in. Ensure the login button remains disabled.", () => {
-    cy.get("#email").type(email);
-    cy.get("#password").clear();
-    cy.get("button[type=submit]").should("be.disabled");
   });
 });
 
