@@ -34,4 +34,9 @@ describe('Check Page Elements:' , () => {
   it('Verify the “新規アカウント登録” (Register) button is present and disabled initially.' , () => {
     cy.get('button[type="submit"]').should('be.visible').should('be.disabled')
   })
+
+  it('Verify the “ログインはこちら” (Go to Login) link is present and clickable.' , () => {
+    cy.get('a[href="/login"]').should('be.visible').click();
+    cy.url().should("include", '/login')
+  })
 })
