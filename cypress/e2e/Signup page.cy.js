@@ -21,4 +21,8 @@ describe('Check Page Elements:' , () => {
   it('Ensure the “カテゴリー” (Category) input field is present and accepts input.' , () => {
     cy.get('#category').should('exist').type(category).should('have.value', category)
   })
+
+  it('Ensure the “メールアドレス” (Email Address) input field is present and accepts input.' , () => {
+    cy.get('#email').should('exist').type(email).should('have.value', email);
+  })
 })
