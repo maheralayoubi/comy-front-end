@@ -96,4 +96,14 @@ describe('Input Field Validation:' , () => {
     cy.get('button[type="submit"]').click();
     cy.contains('パスワードが一致しません。').should('be.visible');
   });
+  
+  it('If the system enforces password strength, enter a weak password (e.g., less than 8 characters or no special characters) and verify that the appropriate error is displayed.' , () => {
+    typeInInput('#name', name);
+    typeInInput('#category', category);
+    typeInInput('#email', email);
+    typeInInput('#password', 'pass');
+    typeInInput('#confirmPassword', 'pass');
+    cy.get('button[type="submit"]').click();
+    cy.contains('パスワードは8文字以上で、数字と大文字を含む必要があります。').should('be.visible');
+  })
 })
