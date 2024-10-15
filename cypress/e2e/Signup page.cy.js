@@ -15,5 +15,8 @@ describe('Check Page Elements:' , () => {
   it('Ensure the “名前” (Name) input field is present and accepts input.' , () => {
     cy.get('#name').should('exist').type('Hakam aldeen').should('have.value', 'Hakam aldeen')
   })
-  
+
+  it('Ensure the “カテゴリー” (Category) input field is present and accepts input.' , () => {
+    cy.get('#category').should('exist').type('Frontend Developer').should('have.value', 'Frontend Developer')
+  })
 })
