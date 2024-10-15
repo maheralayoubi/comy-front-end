@@ -117,4 +117,15 @@ describe(' Password Visibility Toggle Functionality:' , () => {
     typeInInput('#password', password).should("have.attr", "type", "password");
     typeInInput('#confirmPassword', password).should("have.attr", "type", "password");
   })
+  
+  it('Click the visibility toggle icon and ensure that the password becomes visible (not masked) & Click the icon again to ensure the password is masked again.' , () => {
+    typeInInput('#password', password).should("have.attr", "type", "password");
+    typeInInput('#confirmPassword', password).should("have.attr", "type", "password");
+    cy.get('.password-toggle').first().click()
+    cy.get("#password").should("have.attr", "type", "text");
+    cy.get("#confirmPassword").should("have.attr", "type", "text");
+    cy.get('.password-toggle').first().click()
+    cy.get("#password").should("have.attr", "type", "password");
+    cy.get("#confirmPassword").should("have.attr", "type", "password");
+  })
 })
