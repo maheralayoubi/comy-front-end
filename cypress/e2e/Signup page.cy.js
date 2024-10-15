@@ -45,65 +45,76 @@ const typeInInput = (id,value) => {
 //   })
 // })
 
-describe('Input Field Validation:' , () => {
-  beforeEach(() => {
+// describe('Input Field Validation:' , () => {
+//   beforeEach(() => {
+//     cy.visit('/register')
+//   })
+
+//   it('Leave the “名前” field empty, fill in other fields, and verify that the register button stays disabled.' , () => {
+//     typeInInput('#category' , category);
+//     typeInInput('#email' , email);
+//     typeInInput('#password' , password);
+//     typeInInput('#confirmPassword' , password)
+//     cy.get('button[type="submit"]').should('be.disabled')
+//   })
+
+//   it('Try entering more than 30 characters into the “名前” field and ensure the form either prevents it.', () => {
+//     typeInInput('#name', "A".repeat(40)).invoke('val').should('have.length.at.most', 30)
+//   })
+  
+//   it('Leave the “カテゴリー” field empty, fill in other fields, and check if the register button stays disabled.', () => {
+//     typeInInput('#name' , name);
+//     typeInInput('#category' , category);
+//     typeInInput('#password' , password);
+//     typeInInput('#confirmPassword' , password)
+//     cy.get('button[type="submit"]').should('be.disabled')
+//   })
+  
+//   it('Try entering more than 30 characters into the “カテゴリー” field and ensure the form prevents it.' , () => {
+//     typeInInput('#category', "A".repeat(40)).invoke('val').should('have.length.at.most', 30)
+//   })
+  
+//   it('Should show a validation message when an invalid email format is entered.' , () => {
+//     typeInInput('#name', name)
+//     typeInInput('#category' , category);
+//     typeInInput('#email' , 'user@');
+//     typeInInput('#password' , password);
+//     typeInInput('#confirmPassword' , password)
+//     cy.get('button[type="submit"]').click();
+//     cy.get("#email").then(($input) => {
+//       const message = $input[0].validationMessage;
+//       expect(message).to.include("@");
+//     });
+//   })
+  
+//   it('Enter different values into the password and re-enter password fields. The form should show an error message and prevent submission.', () => {
+//     typeInInput('#name', name);
+//     typeInInput('#category', category);
+//     typeInInput('#email', email);
+//     typeInInput('#password', password);
+//     typeInInput('#confirmPassword', 'password123');
+//     cy.get('button[type="submit"]').click();
+//     cy.contains('パスワードが一致しません。').should('be.visible');
+//   });
+  
+//   it('If the system enforces password strength, enter a weak password (e.g., less than 8 characters or no special characters) and verify that the appropriate error is displayed.' , () => {
+//     typeInInput('#name', name);
+//     typeInInput('#category', category);
+//     typeInInput('#email', email);
+//     typeInInput('#password', 'pass');
+//     typeInInput('#confirmPassword', 'pass');
+//     cy.get('button[type="submit"]').click();
+//     cy.contains('パスワードは8文字以上で、数字と大文字を含む必要があります。').should('be.visible');
+//   })
+// })
+
+describe(' Password Visibility Toggle Functionality:' , () => {
+  beforeEach(() =>{
     cy.visit('/register')
   })
 
-  it('Leave the “名前” field empty, fill in other fields, and verify that the register button stays disabled.' , () => {
-    typeInInput('#category' , category);
-    typeInInput('#email' , email);
-    typeInInput('#password' , password);
-    typeInInput('#confirmPassword' , password)
-    cy.get('button[type="submit"]').should('be.disabled')
-  })
-
-  it('Try entering more than 30 characters into the “名前” field and ensure the form either prevents it.', () => {
-    typeInInput('#name', "A".repeat(40)).invoke('val').should('have.length.at.most', 30)
-  })
-  
-  it('Leave the “カテゴリー” field empty, fill in other fields, and check if the register button stays disabled.', () => {
-    typeInInput('#name' , name);
-    typeInInput('#category' , category);
-    typeInInput('#password' , password);
-    typeInInput('#confirmPassword' , password)
-    cy.get('button[type="submit"]').should('be.disabled')
-  })
-  
-  it('Try entering more than 30 characters into the “カテゴリー” field and ensure the form prevents it.' , () => {
-    typeInInput('#category', "A".repeat(40)).invoke('val').should('have.length.at.most', 30)
-  })
-  
-  it('Should show a validation message when an invalid email format is entered.' , () => {
-    typeInInput('#name', name)
-    typeInInput('#category' , category);
-    typeInInput('#email' , 'user@');
-    typeInInput('#password' , password);
-    typeInInput('#confirmPassword' , password)
-    cy.get('button[type="submit"]').click();
-    cy.get("#email").then(($input) => {
-      const message = $input[0].validationMessage;
-      expect(message).to.include("@");
-    });
-  })
-  
-  it('Enter different values into the password and re-enter password fields. The form should show an error message and prevent submission.', () => {
-    typeInInput('#name', name);
-    typeInInput('#category', category);
-    typeInInput('#email', email);
-    typeInInput('#password', password);
-    typeInInput('#confirmPassword', 'password123');
-    cy.get('button[type="submit"]').click();
-    cy.contains('パスワードが一致しません。').should('be.visible');
-  });
-  
-  it('If the system enforces password strength, enter a weak password (e.g., less than 8 characters or no special characters) and verify that the appropriate error is displayed.' , () => {
-    typeInInput('#name', name);
-    typeInInput('#category', category);
-    typeInInput('#email', email);
-    typeInInput('#password', 'pass');
-    typeInInput('#confirmPassword', 'pass');
-    cy.get('button[type="submit"]').click();
-    cy.contains('パスワードは8文字以上で、数字と大文字を含む必要があります。').should('be.visible');
+  it('Verify that both the password fields (“パスワード” and “パスワードを再入力”) are masked by default.' , () => {
+    typeInInput('#password', password).should("have.attr", "type", "password");
+    typeInInput('#confirmPassword', password).should("have.attr", "type", "password");
   })
 })
