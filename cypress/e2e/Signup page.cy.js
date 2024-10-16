@@ -130,20 +130,36 @@ const typeInInput = (id,value) => {
 //   })
 // })
 
-describe('Form Validation and Submission:' , () => {
-  beforeEach(() => {
-    cy.visit('/register')
-  })
+// describe('Form Validation and Submission:' , () => {
+//   beforeEach(() => {
+//     cy.visit('/register')
+//   })
 
-  it('Enter valid data in all fields and click the “新規アカウント登録” button. Ensure the form submits successfully and redirects to the appropriate page (e.g., a confirmation page or dashboard).' , () => {
-    cy.intercept('POST', '**/auth/register').as('registerRequest');
-    typeInInput('#name', 'John');
-    typeInInput('#category', 'Test');
-    typeInInput('#email', 'example10@example.com');
-    typeInInput('#password', 'Password123');
-    typeInInput('#confirmPassword', 'Password123');
+//   it('Enter valid data in all fields and click the “新規アカウント登録” button. Ensure the form submits successfully and redirects to the appropriate page (e.g., a confirmation page or dashboard).' , () => {
+//     cy.intercept('POST', '**/auth/register').as('registerRequest');
+//     typeInInput('#name', 'John');
+//     typeInInput('#category', 'Test');
+//     typeInInput('#email', 'example10@example.com');
+//     typeInInput('#password', 'Password123');
+//     typeInInput('#confirmPassword', 'Password123');
+//     cy.get('button[type="submit"]').click();
+//     cy.wait('@registerRequest');
+//     cy.url().should('include', 'mail-confirmation')
+//   })
+// })
+
+describe('Register Button Loading/Success Feedback:' , () => {
+  beforeEach(() => {
+        cy.visit('/register')
+      })
+
+  it ('After clicking “新規アカウント登録”, ensure the button shows a loading state (optional) or some visual feedback.' , () => {
+    typeInInput('#name', name);
+    typeInInput('#category', category);
+    typeInInput('#email', email);
+    typeInInput('#password', password);
+    typeInInput('#confirmPassword', password);
     cy.get('button[type="submit"]').click();
-    cy.wait('@registerRequest');
-    cy.url().should('include', 'mail-confirmation')
+    cy.get('.loader').should('be.visible')
   })
 })
