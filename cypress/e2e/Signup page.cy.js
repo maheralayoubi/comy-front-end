@@ -108,24 +108,42 @@ const typeInInput = (id,value) => {
 //   })
 // })
 
-describe(' Password Visibility Toggle Functionality:' , () => {
-  beforeEach(() =>{
+// describe(' Password Visibility Toggle Functionality:' , () => {
+//   beforeEach(() =>{
+//     cy.visit('/register')
+//   })
+
+//   it('Verify that both the password fields (“パスワード” and “パスワードを再入力”) are masked by default.' , () => {
+//     typeInInput('#password', password).should("have.attr", "type", "password");
+//     typeInInput('#confirmPassword', password).should("have.attr", "type", "password");
+//   })
+  
+//   it('Click the visibility toggle icon and ensure that the password becomes visible (not masked) & Click the icon again to ensure the password is masked again.' , () => {
+//     typeInInput('#password', password).should("have.attr", "type", "password");
+//     typeInInput('#confirmPassword', password).should("have.attr", "type", "password");
+//     cy.get('.password-toggle').first().click()
+//     cy.get("#password").should("have.attr", "type", "text");
+//     cy.get("#confirmPassword").should("have.attr", "type", "text");
+//     cy.get('.password-toggle').first().click()
+//     cy.get("#password").should("have.attr", "type", "password");
+//     cy.get("#confirmPassword").should("have.attr", "type", "password");
+//   })
+// })
+
+describe('Form Validation and Submission:' , () => {
+  beforeEach(() => {
     cy.visit('/register')
   })
 
-  it('Verify that both the password fields (“パスワード” and “パスワードを再入力”) are masked by default.' , () => {
-    typeInInput('#password', password).should("have.attr", "type", "password");
-    typeInInput('#confirmPassword', password).should("have.attr", "type", "password");
-  })
-  
-  it('Click the visibility toggle icon and ensure that the password becomes visible (not masked) & Click the icon again to ensure the password is masked again.' , () => {
-    typeInInput('#password', password).should("have.attr", "type", "password");
-    typeInInput('#confirmPassword', password).should("have.attr", "type", "password");
-    cy.get('.password-toggle').first().click()
-    cy.get("#password").should("have.attr", "type", "text");
-    cy.get("#confirmPassword").should("have.attr", "type", "text");
-    cy.get('.password-toggle').first().click()
-    cy.get("#password").should("have.attr", "type", "password");
-    cy.get("#confirmPassword").should("have.attr", "type", "password");
+  it('Enter valid data in all fields and click the “新規アカウント登録” button. Ensure the form submits successfully and redirects to the appropriate page (e.g., a confirmation page or dashboard).' , () => {
+    cy.intercept('POST', '**/auth/register').as('registerRequest');
+    typeInInput('#name', 'John');
+    typeInInput('#category', 'Test');
+    typeInInput('#email', 'example10@example.com');
+    typeInInput('#password', 'Password123');
+    typeInInput('#confirmPassword', 'Password123');
+    cy.get('button[type="submit"]').click();
+    cy.wait('@registerRequest');
+    cy.url().should('include', 'mail-confirmation')
   })
 })
