@@ -163,3 +163,14 @@ describe('Register Button Loading/Success Feedback:' , () => {
     cy.get('.loader').should('be.visible')
   })
 })
+
+describe('Redirect to Login:' , () => {
+  beforeEach(() => {
+    cy.visit('/register')
+  })
+
+  it('Click on “ログインはこちら” (Go to Login) and ensure it redirects the user to the login page.' , () => {
+    cy.get('a[href="/login"]').should('be.visible').click();
+    cy.url().should('include', 'login')
+  })
+})
