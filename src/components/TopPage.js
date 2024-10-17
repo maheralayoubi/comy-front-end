@@ -64,7 +64,6 @@ const TopPage = () => {
 
   return (
     <>
-
       <div className="gallery">
         <Swiper
           spaceBetween={40}
@@ -111,10 +110,7 @@ const TopPage = () => {
       <div className="member-list-top-list">
         <h2>COMYユーザー</h2>
         <div className="users">
-          {users &&
-            users.map((user) => (
-              <UserCard key={user.id} user={user} />
-            ))}
+          {users && users.map((user) => <UserCard key={user.id} user={user} />)}
         </div>
         <a href="/member-list">
           <button>さらに見る</button>
@@ -148,7 +144,6 @@ const TopPage = () => {
           <li>新機能追加！</li>
         </ul>
       </div>
-
     </>
   );
 };

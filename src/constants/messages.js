@@ -13,3 +13,7 @@ export const successfulCopyMsg = "プレビューURLのコピーに成功しま�
 export const updatedPasswordMsg =
   "パスワードを更新しました。新しいパスワードでログインできます。";
 export const notMatchingUserMsg = "該当するユーザーが見つかりませんでした。";
+export const sendEmailForResetPasswordMsg =
+  "パスワードリセットメールを送信しました。受信箱をご確認ください。";
+export const userNotFoundMsg = "ユーザーが見つかりません";
+export const userExistMsg = "ユーザーはすでに存在します";

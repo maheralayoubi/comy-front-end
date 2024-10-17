@@ -6,7 +6,6 @@ import Pagination from "./Pagination";
 import { tryAgainMsg } from "../constants/messages";
 import UserCard from "./UserCard";
 
-
 const MemberList = () => {
   const [users, setUsers] = useState(null);
   const [error, setError] = useState(null);

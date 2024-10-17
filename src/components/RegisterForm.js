@@ -6,7 +6,11 @@ import visibilityOffIcon from "../assets/images/visibility_off.svg";
 import "./styles/RegisterForm.scss";
 import Spinner from "./global/Spinner";
 import { validateRegisterInputs } from "../utils/validations";
-import { tryAgainMsg } from "../constants/messages";
+import {
+  tryAgainMsg,
+  userExistMsg,
+  serverErrorMsg,
+} from "../constants/messages";
 
 const RegisterForm = () => {
   const [name, setName] = useState("");
@@ -47,9 +51,9 @@ const RegisterForm = () => {
       if (result.status === 201) {
         navigate("/mail-confirmation", { state: { email } });
       } else if (result.status === 400) {
-        setError(result.data.message);
+        setError(userExistMsg);
       } else if (result.status === 500) {
-        setError(result.data.message);
+        setError(serverErrorMsg);
       }
     } catch (error) {
       setError(tryAgainMsg);
@@ -64,6 +68,7 @@ const RegisterForm = () => {
       <form onSubmit={handleSubmit}>
         <label htmlFor="name">名前</label>
         <input
+          autoFocus
           type="text"
           id="name"
           placeholder="名前を入力"

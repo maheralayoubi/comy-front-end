@@ -76,6 +76,7 @@ const LoginForm = () => {
           id="email"
           placeholder="メールアドレスを入力"
           value={email}
+          autoFocus
           onChange={(e) => setEmail(e.target.value)}
         />
 

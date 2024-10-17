@@ -54,6 +54,8 @@ const ResetPasswordForm = () => {
 
       if (response.ok) {
         setMessage(updatedPasswordMsg);
+        setNewPassword("");
+        setConfirmNewPassword("");
         setTimeout(() => {
           window.location.href = "/login";
         }, 1500);
@@ -74,6 +76,7 @@ const ResetPasswordForm = () => {
         <label htmlFor="newPassword">新しいパスワード</label>
         <div className="password-input-container">
           <input
+            autoFocus
             type={passwordVisible ? "text" : "password"}
             id="newPassword"
             placeholder="パスワードを入力"
