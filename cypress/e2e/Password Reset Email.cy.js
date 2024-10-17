@@ -38,4 +38,9 @@ describe('Email Input Validation:' , () => {
       expect(message).to.include("@");
     });
   })
+
+  it('Enter a valid email format (e.g., “user@example.com”) and verify that the “送信” button becomes enabled.' , () => {
+    cy.get('#email').type(email)
+    cy.get('button[type="submit"]').should("be.enabled")
+  })
 })
