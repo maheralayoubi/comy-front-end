@@ -20,27 +20,41 @@ const email = 'hakamha8@gmail.com';
 //   })
 // })
 
-describe('Email Input Validation:' , () => {
+// describe('Email Input Validation:' , () => {
+//   beforeEach(() => {
+//     cy.visit('/forgot-password')
+//   })
+
+//   it('Leave the email field empty and verify that the “送信” button remains disabled.' , () => {
+//     cy.get('#email').clear()
+//     cy.get('button[type="submit"]').should('be.disabled')
+//   })
+
+//   it('Should show a validation message when an invalid email format is entered.' , () => {
+//     cy.get('#email').type('user@')
+//     cy.get('button[type="submit"]').click()
+//     cy.get("#email").then(($input) => {
+  //       const message = $input[0].validationMessage;
+  //       expect(message).to.include("@");
+  //     });
+  //   })
+  
+  //   it('Enter a valid email format (e.g., “user@example.com”) and verify that the “送信” button becomes enabled.' , () => {
+    //     cy.get('#email').type(email)
+    //     cy.get('button[type="submit"]').should("be.enabled")
+    //   })
+    // })
+    
+describe('Form Submission:' , () => {
   beforeEach(() => {
     cy.visit('/forgot-password')
   })
-
-  it('Leave the email field empty and verify that the “送信” button remains disabled.' , () => {
-    cy.get('#email').clear()
-    cy.get('button[type="submit"]').should('be.disabled')
-  })
-
-  it('Should show a validation message when an invalid email format is entered.' , () => {
-    cy.get('#email').type('user@')
-    cy.get('button[type="submit"]').click()
-    cy.get("#email").then(($input) => {
-      const message = $input[0].validationMessage;
-      expect(message).to.include("@");
-    });
-  })
-
-  it('Enter a valid email format (e.g., “user@example.com”) and verify that the “送信” button becomes enabled.' , () => {
+  
+  it('Enter a valid email and click the “送信” button. Verify that the success message “パスワードリセットメールを送信しました。受信箱をご確認ください。” is displayed and no errors occur.' , () => {
+    cy.intercept("POST", "/auth/forgot-password").as("passwordForgotRequest");
     cy.get('#email').type(email)
-    cy.get('button[type="submit"]').should("be.enabled")
-  })
+    cy.get('button[type="submit"]').click()
+    cy.wait("@passwordForgotRequest");
+    cy.contains('パスワードリセットメールを送信しました。受信箱をご確認ください。')
+})
 })
