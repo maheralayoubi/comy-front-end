@@ -29,4 +29,13 @@ describe('Email Input Validation:' , () => {
     cy.get('#email').clear()
     cy.get('button[type="submit"]').should('be.disabled')
   })
+
+  it('Should show a validation message when an invalid email format is entered.' , () => {
+    cy.get('#email').type('user@')
+    cy.get('button[type="submit"]').click()
+    cy.get("#email").then(($input) => {
+      const message = $input[0].validationMessage;
+      expect(message).to.include("@");
+    });
+  })
 })
