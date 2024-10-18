@@ -22,4 +22,8 @@ describe('Check Page Elements:' , () => {
   it('Verify that both password fields have the visibility toggle icon to show/hide the password.', () => {
     cy.get('.password-toggle').should("be.visible").should('exist')
   })
+
+  it('Verify that the “パスワードを更新” (Update Password) button is visible and disabled initially.' , () => {
+    cy.get('button[type="submit"]').should("be.visible").should('exist').should('be.disabled')
+  })
 })
