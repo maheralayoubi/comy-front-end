@@ -18,4 +18,8 @@ describe('Check Page Elements:' , () => {
     typeInInput('#newPassword' , newPassword).should('have.value', newPassword)
     typeInInput("#confirmNewPassword" , newPassword).should('have.value', newPassword)
   })
+
+  it('Verify that both password fields have the visibility toggle icon to show/hide the password.', () => {
+    cy.get('.password-toggle').should("be.visible").should('exist')
+  })
 })
