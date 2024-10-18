@@ -38,4 +38,11 @@ describe('Password Field Validation:' ,() =>{
     cy.get('#confirmNewPassword').clear()
     cy.get('button[type="submit"]').should('be.disabled')
   })
+
+  it('Enter a password shorter than the minimum required length (e.g., less than 8 characters) and verify that an error message is shown.' , () => {
+    typeInInput('#newPassword', 'fdfd')
+    typeInInput('#confirmNewPassword', 'fdfd')
+    cy.get('button[type="submit"]').click()
+    cy.contains('パスワードは8文字以上で、数字と大文字を含む必要があります。')
+  })
 })
