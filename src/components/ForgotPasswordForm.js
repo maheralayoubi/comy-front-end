@@ -22,6 +22,7 @@ const ForgotPasswordForm = () => {
     try {
       setLoading(true);
       const response = await forgotPassword(email);
+      console.log(response)
       if (response.status === 200) {
         setMessage(sendEmailForResetPasswordMsg);
         setEmail("");
@@ -49,7 +50,7 @@ const ForgotPasswordForm = () => {
           onChange={(e) => setEmail(e.target.value)}
         />
 
-        <button type="submit" disabled={!email}>
+        <button type="submit" disabled={!email || loading} >
           送信
           {loading && <Spinner />}
         </button>

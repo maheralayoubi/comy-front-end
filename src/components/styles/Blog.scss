@@ -17,14 +17,37 @@
     padding: 12px 16px;
   }
 
-  .shortTitle {
-    font-family: Noto Sans JP;
-    font-size: 14px;
-    font-weight: 400;
-    line-height: 16.1px;
-    text-align: left;
-    color: #999999;
+
+
+
+  .blogTitle {
     margin-bottom: 16px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .back {
+      color: #999999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      img {
+        padding: 0 8px;
+      }
+
+    }
+
+    .shortTitle {
+      font-family: Noto Sans JP;
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 16.1px;
+      text-align: left;
+      color: #999999;
+    }
+
   }
 
   .blogImg {

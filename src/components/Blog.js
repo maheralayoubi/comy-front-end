@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import blogs from "../data/blogs.json";
 import "./styles/Blog.scss";
 
@@ -7,7 +8,14 @@ const Blog = ({ id }) => {
   return (
     <div className="blog">
       <div className="blogContainer">
-        <h6 className="shortTitle">{blog.shortTitle}</h6>
+        <div className="blogTitle">
+          <Link className="back" to="/">ホーム
+            <img src="/images/arrow_forward_ios.png" alt="arrow" />
+          </Link>
+          <h6 className="shortTitle">
+            {blog.shortTitle}
+          </h6>
+        </div>
         <img className="blogImg" src={blog.image} alt={blog.title} />
         {/* <div className="blogImg"></div> */}
         <div className="data">
