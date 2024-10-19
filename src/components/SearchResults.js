@@ -57,6 +57,7 @@ const SearchResults = () => {
       <h2>検索結果</h2>
       <div className="search-results-container">
         <input
+          autoFocus
           type="text"
           placeholder="検索"
           className="search-box"
