@@ -6,6 +6,7 @@ import "./styles/ResetPasswordForm.scss";
 import Spinner from "./global/Spinner";
 import { validateResetPasswordInput } from "../utils/validations";
 import { updatedPasswordMsg, tryAgainMsg } from "../constants/messages";
+import { resetPassword } from "../api/auth";
 
 const ResetPasswordForm = () => {
   const [newPassword, setNewPassword] = useState("");
@@ -38,21 +39,10 @@ const ResetPasswordForm = () => {
       setLoading(true);
       setMessage("");
 
-      const response = await fetch(
-        `https://comy-api.vercel.app/auth/reset-password/${token}`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            accept: "application/json",
-          },
-          body: JSON.stringify({ newPassword }),
-        },
-      );
+      const response = await resetPassword(token, newPassword)
+      console.log(response)
 
-      const data = await response.json();
-
-      if (response.ok) {
+      if (response.status === 200) {
         setMessage(updatedPasswordMsg);
         setNewPassword("");
         setConfirmNewPassword("");
@@ -60,7 +50,7 @@ const ResetPasswordForm = () => {
           window.location.href = "/login";
         }, 1500);
       } else {
-        setMessage(data.message || tryAgainMsg);
+        setMessage(response.data.message || tryAgainMsg);
       }
     } catch (error) {
       setMessage(tryAgainMsg);
