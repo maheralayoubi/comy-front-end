@@ -45,4 +45,11 @@ describe('Password Field Validation:' ,() =>{
     cy.get('button[type="submit"]').click()
     cy.contains('パスワードは8文字以上で、数字と大文字を含む必要があります。')
   })
+
+  it('Enter different values in the “新しいパスワード” and “新しいパスワードを再入力” fields and verify that an error message is displayed.' , () => {
+    typeInInput('#newPassword', newPassword)
+    typeInInput('#confirmNewPassword', "password123")
+    cy.get('button[type="submit"]').click()
+    cy.contains("パスワードが一致しません。")
+})
 })
