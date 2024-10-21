@@ -3,7 +3,7 @@ import { getMemberList } from "../api/memberList";
 import "./styles/MemberList.scss";
 import { SpinnerPage } from "./global/Spinner";
 import Pagination from "./Pagination";
-import { tryAgainMsg } from "../constants/messages";
+import { messages } from "../constants/messages";
 import UserCard from "./UserCard";
 
 const MemberList = () => {
@@ -19,7 +19,7 @@ const MemberList = () => {
         setUsers(response.data);
       })
       .catch((error) => {
-        setError(tryAgainMsg);
+        setError(messages.tryAgain);
       });
   }, []);
 
