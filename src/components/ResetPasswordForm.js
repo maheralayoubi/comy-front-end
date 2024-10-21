@@ -39,7 +39,7 @@ const ResetPasswordForm = () => {
       setMessage("");
 
       const response = await fetch(
-        `https://comy-api.vercel.app/auth/reset-password/${token}`,
+        `${process.env.REACT_APP_BACKEND_URL}/auth/reset-password/${token}`,
         {
           method: "POST",
           headers: {
