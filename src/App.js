@@ -19,6 +19,7 @@ import SearchResults from "./pages/SearchResults";
 import MemberList from "./pages/MemberList";
 import Profile from "./pages/Profile";
 import Preview from "./pages/Preview";
+import Blog from "./pages/Blog";
 
 // protecting component
 import ProtectedRoutes from "./components/ProtectedRoutes";
@@ -47,6 +48,7 @@ const App = () => {
           <Route path="/preview/:id" element={<Preview />} />
           <Route path="/mail-confirmation" element={<MailConfirmation />} />
           <Route path="/reset-password" element={<ResetPasswordForm />} />
+          <Route path="/blog/:id" element={<Blog />} />
 
           {/* Protected routes */}
           <Route element={<ProtectedRoutes />}>

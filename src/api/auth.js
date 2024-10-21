@@ -26,3 +26,8 @@ export const forgotPassword = (email) =>
   handleApiResponse(() =>
     axios.post(`${AUTH_URL}/forgot-password`, { email }, { headers: HEADERS }),
   );
+
+export const resetPassword = (token, newPassword) =>
+  handleApiResponse(() =>
+    axios.post(`${AUTH_URL}/reset-password/${token}`, { newPassword }, { headers: HEADERS }),
+  );

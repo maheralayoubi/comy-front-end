@@ -11,6 +11,8 @@ import "swiper/css/navigation";
 import { getMemberList } from "../api/memberList";
 import { SpinnerPage } from "./global/Spinner";
 import UserCard from "./UserCard";
+import blogs from "../data/blogs.json";
+import { Link } from "react-router-dom";
 
 const TopPage = () => {
   const slides = [
@@ -137,11 +139,11 @@ const TopPage = () => {
       <div className="links">
         <h2>ニュース</h2>
         <ul>
-          <li>
-            ローンチセール実施中！今なら20％オフで1年間お試しできますのでお見逃しなく！
-          </li>
-          <li>総ユーザー数1,000人突破！</li>
-          <li>新機能追加！</li>
+          {blogs?.map((item) => (
+            <li key={item.id} className="blogLink">
+              <Link to={`/blog/${item.id}`}>{item.title}</Link>
+            </li>
+          ))}
         </ul>
       </div>
     </>

@@ -5,7 +5,8 @@ import visibilityOffIcon from "../assets/images/visibility_off.svg";
 import "./styles/ResetPasswordForm.scss";
 import Spinner from "./global/Spinner";
 import { validateResetPasswordInput } from "../utils/validations";
-import { updatedPasswordMsg, tryAgainMsg } from "../constants/messages";
+import { messages } from "../constants/messages";
+import { resetPassword } from "../api/auth";
 
 const ResetPasswordForm = () => {
   const [newPassword, setNewPassword] = useState("");
@@ -38,32 +39,21 @@ const ResetPasswordForm = () => {
       setLoading(true);
       setMessage("");
 
-      const response = await fetch(
-        `${process.env.REACT_APP_BACKEND_URL}/auth/reset-password/${token}`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            accept: "application/json",
-          },
-          body: JSON.stringify({ newPassword }),
-        },
-      );
+      const response = await resetPassword(token, newPassword)
+      console.log(response)
 
-      const data = await response.json();
-
-      if (response.ok) {
-        setMessage(updatedPasswordMsg);
+      if (response.status === 200) {
+        setMessage(messages.updatedPassword);
         setNewPassword("");
         setConfirmNewPassword("");
         setTimeout(() => {
           window.location.href = "/login";
         }, 1500);
       } else {
-        setMessage(data.message || tryAgainMsg);
+        setMessage(response.data.message || messages.tryAgain);
       }
     } catch (error) {
-      setMessage(tryAgainMsg);
+      setMessage(messages.tryAgain);
     } finally {
       setLoading(false);
     }
@@ -117,7 +107,7 @@ const ResetPasswordForm = () => {
       {message && (
         <p
           style={{
-            color: message === updatedPasswordMsg ? "green" : "red",
+            color: message === messages.updatedPassword ? "green" : "red",
           }}
         >
           {message}

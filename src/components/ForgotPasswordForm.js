@@ -3,9 +3,7 @@ import { forgotPassword } from "../api/auth";
 import "./styles/ForgotPasswordForm.scss";
 import Spinner from "./global/Spinner";
 import {
-  tryAgainMsg,
-  sendEmailForResetPasswordMsg,
-  userNotFoundMsg,
+  messages,
 } from "../constants/messages";
 
 const ForgotPasswordForm = () => {
@@ -22,14 +20,15 @@ const ForgotPasswordForm = () => {
     try {
       setLoading(true);
       const response = await forgotPassword(email);
+      console.log(response)
       if (response.status === 200) {
-        setMessage(sendEmailForResetPasswordMsg);
+        setMessage(messages.sendEmailForResetPassword);
         setEmail("");
       } else {
-        setError(userNotFoundMsg);
+        setError(messages.userNotFound);
       }
     } catch (error) {
-      setError(tryAgainMsg);
+      setError(messages.tryAgain);
     } finally {
       setLoading(false);
     }
@@ -49,7 +48,7 @@ const ForgotPasswordForm = () => {
           onChange={(e) => setEmail(e.target.value)}
         />
 
-        <button type="submit" disabled={!email}>
+        <button type="submit" disabled={!email || loading} >
           送信
           {loading && <Spinner />}
         </button>

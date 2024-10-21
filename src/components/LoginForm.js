@@ -6,61 +6,67 @@ import visibilityOffIcon from "../assets/images/visibility_off.svg";
 import "./styles/Login.scss";
 import Spinner from "./global/Spinner";
 import {
-  tryAgainMsg,
-  successfullLoginMsg,
-  invalidCredentialsMsg,
-  verifyEmailMsg,
-  serverErrorMsg,
+  messages,
 } from "../constants/messages";
 
 const LoginForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordVisible, setPasswordVisible] = useState(false);
-  const [message, setMessage] = useState("");
-  const [error, setError] = useState("");
+  const [message, setMessage] = useState({ type: "", content: "" });
   const [loading, setLoading] = useState(false);
-
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const verifyAuth = async () => {
+  const verifyAuth = async () => {
+    try {
       const isAuthenticated = await checkAuth();
       if (isAuthenticated) {
         navigate("/profile");
       } else {
         navigate("/login");
       }
-    };
+    } catch (error) {
+      console.error("Authentication check failed:", error);
+    }
+  };
+
+  useEffect(() => {
     verifyAuth();
   }, [navigate]);
 
-  const handlePasswordVisibility = () => {
-    setPasswordVisible(!passwordVisible);
-  };
+
+  const togglePasswordVisibility = () => setPasswordVisible((prev) => !prev);
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const userData = { email, password };
-    setMessage("");
-    setError("");
-    try {
-      setLoading(true);
-      const result = await loginUser(userData);
+    if (!email || !password) return;
 
-      if (result.status === 200) {
-        setMessage(successfullLoginMsg);
-        navigate("/profile");
-      } else if (result.status === 400) {
-        setError(invalidCredentialsMsg);
-      } else if (result.status === 403) {
-        setError(verifyEmailMsg);
-      } else if (result.status === 500) {
-        setError(serverErrorMsg);
+    setMessage({ type: "", content: "" });
+    setLoading(true);
+    try {
+      const userData = { email, password };
+      const result = await loginUser(userData);
+      switch (result.status) {
+        case 200:
+          setMessage({ type: "success", content: messages.successfulLoging });
+          navigate("/profile");
+          break;
+        case 400:
+          setMessage({ type: "error", content: messages.invalidCredentials });
+          break;
+        case 403:
+          setMessage({ type: "error", content: messages.verifyEmail });
+          break;
+        case 500:
+          setMessage({ type: "error", content: messages.serverError });
+          break;
+        default:
+          setMessage({ type: "error", content: message.tryAgain });
       }
     } catch (error) {
-      // Handling unexpected errors (network issues, etc.)
-      setError(tryAgainMsg);
+      setMessage({ type: "error", content: message.tryAgain });
+      console.error("Login failed:", error);
     } finally {
       setLoading(false);
     }
@@ -78,6 +84,7 @@ const LoginForm = () => {
           value={email}
           autoFocus
           onChange={(e) => setEmail(e.target.value)}
+          required
         />
 
         <label htmlFor="password">パスワード</label>
@@ -89,12 +96,13 @@ const LoginForm = () => {
             placeholder="パスワードを入力"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            required
           />
           <img
             src={passwordVisible ? visibilityOffIcon : visibilityIcon}
             alt="Toggle visibility"
             className="password-toggle"
-            onClick={handlePasswordVisibility}
+            onClick={togglePasswordVisibility}
           />
         </div>
 
@@ -102,7 +110,7 @@ const LoginForm = () => {
           <a href="/forgot-password">パスワードを忘れた方はこちら</a>
         </div>
 
-        <button type="submit" disabled={!email || !password}>
+        <button type="submit" disabled={loading}>
           ログイン
           {loading && <Spinner />}
         </button>
@@ -112,9 +120,12 @@ const LoginForm = () => {
         </div>
       </form>
 
-      {/* Displaying success or error messages */}
-      {message && <p style={{ color: "green" }}>{message}</p>}
-      {error && <p style={{ color: "red" }}>{error}</p>}
+      {/* Enhanced message display with dynamic styling */}
+      {message.content && (
+        <p style={{ color: message.type === "success" ? "green" : "red" }}>
+          {message.content}
+        </p>
+      )}
     </div>
   );
 };

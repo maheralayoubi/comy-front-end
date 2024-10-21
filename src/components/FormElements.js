@@ -13,6 +13,7 @@ export const TextArea = ({ placeholder, maxLength, value, onChange, name }) => {
         {value?.toString().length}/{maxLength}文字
       </span>
       <textarea
+        autoFocus
         name={name}
         placeholder={placeholder}
         maxLength={maxLength}
@@ -51,6 +52,7 @@ export const Input = ({
         maxLength={maxLength}
         value={value || ""}
         onChange={onChange}
+        autoFocus
       />
     </div>
   );

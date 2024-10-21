@@ -4,7 +4,7 @@ import "./styles/SearchResults.scss";
 import UserCard from "./UserCard";
 import Spinner from "./global/Spinner";
 import Pagination from "./Pagination";
-import { tryAgainMsg, notMatchingUserMsg } from "../constants/messages";
+import { messages } from "../constants/messages";
 
 const SearchResults = () => {
   const [query, setQuery] = useState("");
@@ -32,7 +32,7 @@ const SearchResults = () => {
           setUsers([]);
         }
       } catch (err) {
-        setError(tryAgainMsg);
+        setError(messages.tryAgain);
       } finally {
         setLoading(false);
       }
@@ -57,6 +57,7 @@ const SearchResults = () => {
       <h2>検索結果</h2>
       <div className="search-results-container">
         <input
+          autoFocus
           type="text"
           placeholder="検索"
           className="search-box"
@@ -88,7 +89,7 @@ const SearchResults = () => {
             />
           </>
         ) : (
-          !loading && <p>{notMatchingUserMsg}</p>
+          !loading && <p>{messages.notMatchingUser}</p>
         )}
       </div>
     </div>

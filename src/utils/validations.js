@@ -1,7 +1,5 @@
 import {
-  invalidEmailMsg,
-  invalidPasswordMsg,
-  invalidConfirmPasswordMsg,
+  messages,
 } from "../constants/messages";
 
 const validateEmail = (email) => {
@@ -15,22 +13,22 @@ const validatePassword = (password) => {
 };
 
 export const validateRegisterInputs = (registerData) => {
-  if (!validateEmail(registerData.email)) return invalidEmailMsg;
+  if (!validateEmail(registerData.email)) return messages.invalidEmail;
 
-  if (!validatePassword(registerData.password)) return invalidPasswordMsg;
+  if (!validatePassword(registerData.password)) return messages.invalidPassword;
 
   if (registerData.password !== registerData.confirmPassword)
-    return invalidConfirmPasswordMsg;
+    return messages.invalidConfirmPassword;
 
   return null;
 };
 
 export const validateResetPasswordInput = (resetPasswordData) => {
   if (!validatePassword(resetPasswordData.newPassword))
-    return invalidPasswordMsg;
+    return messages.invalidPassword;
 
   if (resetPasswordData.newPassword !== resetPasswordData.confirmNewPassword)
-    return invalidConfirmPasswordMsg;
+    return messages.invalidConfirmPassword;
 
   return null;
 };

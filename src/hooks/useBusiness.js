@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { getBusinessSheet } from "../api/businessSheet";
 import useLocalStorage from "../hooks/useLocalStorage";
-import { tryAgainMsg } from "../constants/messages";
+import { messages } from "../constants/messages";
 
 export const useBusiness = () => {
   const [haveBusiness, setHaveBusiness] = useState(null);
@@ -22,7 +22,7 @@ export const useBusiness = () => {
           setHaveBusiness(false);
         }
       } catch (error) {
-        console.error(tryAgainMsg, error);
+        console.error(messages.tryAgain, error);
       } finally {
         setIsLoading(false);
       }
