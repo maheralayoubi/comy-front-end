@@ -3,9 +3,7 @@ import { forgotPassword } from "../api/auth";
 import "./styles/ForgotPasswordForm.scss";
 import Spinner from "./global/Spinner";
 import {
-  tryAgainMsg,
-  sendEmailForResetPasswordMsg,
-  userNotFoundMsg,
+  messages,
 } from "../constants/messages";
 
 const ForgotPasswordForm = () => {
@@ -24,13 +22,13 @@ const ForgotPasswordForm = () => {
       const response = await forgotPassword(email);
       console.log(response)
       if (response.status === 200) {
-        setMessage(sendEmailForResetPasswordMsg);
+        setMessage(messages.sendEmailForResetPassword);
         setEmail("");
       } else {
-        setError(userNotFoundMsg);
+        setError(messages.userNotFound);
       }
     } catch (error) {
-      setError(tryAgainMsg);
+      setError(messages.tryAgain);
     } finally {
       setLoading(false);
     }

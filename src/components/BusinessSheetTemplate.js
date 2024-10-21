@@ -8,7 +8,7 @@ import {
   CardData,
 } from "./Cards";
 import EditDesignAndImgModal from "./EditDesignAndImgModal";
-import { tryAgainMsg, successfulCopyMsg } from "../constants/messages";
+import { messages } from "../constants/messages";
 import { toast } from "react-toastify";
 
 const BusinessSheetTemplate = ({
@@ -22,12 +22,12 @@ const BusinessSheetTemplate = ({
     navigator.clipboard
       .writeText(`${window.location.origin}/preview/${data?.userId}`)
       .then(() => {
-        toast(successfulCopyMsg, {
+        toast(messages.successfulCopy, {
           className: "toastStyle",
         });
       })
       .catch((err) => {
-        alert(tryAgainMsg);
+        alert(messages.tryAgain);
       });
   };
 

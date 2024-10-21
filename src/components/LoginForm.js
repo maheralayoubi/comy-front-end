@@ -6,11 +6,7 @@ import visibilityOffIcon from "../assets/images/visibility_off.svg";
 import "./styles/Login.scss";
 import Spinner from "./global/Spinner";
 import {
-  tryAgainMsg,
-  successfulLoginMsg,
-  invalidCredentialsMsg,
-  verifyEmailMsg,
-  serverErrorMsg,
+  messages,
 } from "../constants/messages";
 
 const LoginForm = () => {
@@ -53,23 +49,23 @@ const LoginForm = () => {
       const result = await loginUser(userData);
       switch (result.status) {
         case 200:
-          setMessage({ type: "success", content: successfulLoginMsg });
+          setMessage({ type: "success", content: messages.successfulLoging });
           navigate("/profile");
           break;
         case 400:
-          setMessage({ type: "error", content: invalidCredentialsMsg });
+          setMessage({ type: "error", content: messages.invalidCredentials });
           break;
         case 403:
-          setMessage({ type: "error", content: verifyEmailMsg });
+          setMessage({ type: "error", content: messages.verifyEmail });
           break;
         case 500:
-          setMessage({ type: "error", content: serverErrorMsg });
+          setMessage({ type: "error", content: messages.serverError });
           break;
         default:
-          setMessage({ type: "error", content: tryAgainMsg });
+          setMessage({ type: "error", content: message.tryAgain });
       }
     } catch (error) {
-      setMessage({ type: "error", content: tryAgainMsg });
+      setMessage({ type: "error", content: message.tryAgain });
       console.error("Login failed:", error);
     } finally {
       setLoading(false);

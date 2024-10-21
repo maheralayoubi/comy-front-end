@@ -7,9 +7,7 @@ import "./styles/RegisterForm.scss";
 import Spinner from "./global/Spinner";
 import { validateRegisterInputs } from "../utils/validations";
 import {
-  tryAgainMsg,
-  userExistMsg,
-  serverErrorMsg,
+  messages,
 } from "../constants/messages";
 
 const RegisterForm = () => {
@@ -51,12 +49,12 @@ const RegisterForm = () => {
       if (result.status === 201) {
         navigate("/mail-confirmation", { state: { email } });
       } else if (result.status === 400) {
-        setError(userExistMsg);
+        setError(messages.userExist);
       } else if (result.status === 500) {
-        setError(serverErrorMsg);
+        setError(messages.serverError);
       }
     } catch (error) {
-      setError(tryAgainMsg);
+      setError(messages.tryAgain);
     } finally {
       setLoading(false);
     }

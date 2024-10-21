@@ -5,7 +5,7 @@ import visibilityOffIcon from "../assets/images/visibility_off.svg";
 import "./styles/ResetPasswordForm.scss";
 import Spinner from "./global/Spinner";
 import { validateResetPasswordInput } from "../utils/validations";
-import { updatedPasswordMsg, tryAgainMsg } from "../constants/messages";
+import { messages } from "../constants/messages";
 import { resetPassword } from "../api/auth";
 
 const ResetPasswordForm = () => {
@@ -43,17 +43,17 @@ const ResetPasswordForm = () => {
       console.log(response)
 
       if (response.status === 200) {
-        setMessage(updatedPasswordMsg);
+        setMessage(messages.updatedPassword);
         setNewPassword("");
         setConfirmNewPassword("");
         setTimeout(() => {
           window.location.href = "/login";
         }, 1500);
       } else {
-        setMessage(response.data.message || tryAgainMsg);
+        setMessage(response.data.message || messages.tryAgain);
       }
     } catch (error) {
-      setMessage(tryAgainMsg);
+      setMessage(messages.tryAgain);
     } finally {
       setLoading(false);
     }
@@ -107,7 +107,7 @@ const ResetPasswordForm = () => {
       {message && (
         <p
           style={{
-            color: message === updatedPasswordMsg ? "green" : "red",
+            color: message === messages.updatedPassword ? "green" : "red",
           }}
         >
           {message}
