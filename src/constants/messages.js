@@ -3,7 +3,7 @@ export const invalidPasswordMsg =
   "パスワードは8文字以上で、数字と大文字を含む必要があります。";
 export const invalidConfirmPasswordMsg = "パスワードが一致しません。";
 export const tryAgainMsg = "エラーが発生しました。もう一度お試しください。";
-export const successfullLoginMsg = "ログインに成功しました！";
+export const successfulLoginMsg = "ログインに成功しました！";
 export const invalidCredentialsMsg = "認証情報が無効です。";
 export const verifyEmailMsg =
   "ログインする前にメールアドレスを確認してください。";
