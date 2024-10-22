@@ -110,7 +110,7 @@ const LoginForm = () => {
           <a href="/forgot-password">パスワードを忘れた方はこちら</a>
         </div>
 
-        <button type="submit" disabled={loading}>
+        <button type="submit" disabled={!email || !password || loading}>
           ログイン
           {loading && <Spinner />}
         </button>
