@@ -14,9 +14,9 @@ const AccountCreationCompleted = () => {
       >
         ビジネスシートを作る
       </button>
-      <div className="skip-link">
+      {/* <div className="skip-link">
         <a href="/register">スキップ</a>
-      </div>
+      </div> */}
     </div>
   );
 };
