@@ -225,6 +225,7 @@ describe("Responsive Design Testing:", () => {
       cy.get("#password").type(password);
       cy.get('button[type="submit"]').should("not.be.disabled");
       // Verify functionality - empty email or password and ensure the button is disabled
+      cy.get("#email").clear();
       cy.get("#email").type(email);
       cy.get("#password").clear();
       cy.get('button[type="submit"]').should("be.disabled");
