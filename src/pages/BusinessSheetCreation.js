@@ -117,9 +117,9 @@ const BusinessSheetCreation = () => {
         </Step>
 
         {/* step 4 */}
-        <Step title="goals / 目標">
+        <Step title="目標">
           <TextArea
-            placeholder="goals / 目標について入力"
+            placeholder="目標について入力"
             maxLength={1000}
             value={businessSheetData?.goals}
             onChange={handleChange}
@@ -128,9 +128,9 @@ const BusinessSheetCreation = () => {
         </Step>
 
         {/* step 5 */}
-        <Step title="Accomplishment / 実績">
+        <Step title="実績">
           <TextArea
-            placeholder="Accomplishment / 実績について入力"
+            placeholder="実績について入力"
             maxLength={1000}
             value={businessSheetData?.accomplishments}
             onChange={handleChange}
@@ -139,9 +139,9 @@ const BusinessSheetCreation = () => {
         </Step>
 
         {/* step 6 */}
-        <Step title="interests / 興味・関心">
+        <Step title="興味・関心">
           <TextArea
-            placeholder="interests / 興味・関心について入力"
+            placeholder="興味・関心について入力"
             maxLength={1000}
             value={businessSheetData?.interests}
             onChange={handleChange}
@@ -150,9 +150,9 @@ const BusinessSheetCreation = () => {
         </Step>
 
         {/* step 7 */}
-        <Step title="networks / 人脈">
+        <Step title="人脈">
           <TextArea
-            placeholder="networks / 人脈について入力"
+            placeholder="人脈について入力"
             maxLength={1000}
             value={businessSheetData?.networks}
             onChange={handleChange}
@@ -161,9 +161,9 @@ const BusinessSheetCreation = () => {
         </Step>
 
         {/* step 8 */}
-        <Step title="skills / 能力">
+        <Step title="能力">
           <TextArea
-            placeholder="skills / 能力について入力"
+            placeholder="能力について入力"
             maxLength={1000}
             value={businessSheetData?.skills}
             onChange={handleChange}
