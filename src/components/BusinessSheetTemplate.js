@@ -134,57 +134,57 @@ const BusinessSheetTemplate = ({
 
         <div className="right">
           <SectionTitle
-            title={"GAINSワークシート"}
+            title={"ビジネスシート"}
             theme={data?.colorPreference}
           />
           <ChildCard
-            title={"Goals / 目標"}
+            title={"目標"}
             data={data?.goals}
             theme={data?.colorPreference}
             isEdit={isEdit}
             handleEdit={handleEdit}
             name="goals"
-            placeholder={"goals / 目標について入力"}
+            placeholder={"目標について入力"}
             maxLength={1000}
           />
           <ChildCard
-            title={"Accomplishment / 実績"}
+            title={"実績"}
             data={data?.accomplishments}
             theme={data?.colorPreference}
             isEdit={isEdit}
             handleEdit={handleEdit}
             name="accomplishments"
-            placeholder={"Accomplishment / 実績について入力"}
+            placeholder={"実績について入力"}
             maxLength={1000}
           />
           <ChildCard
-            title={"Interests / 興味・関心"}
+            title={"興味・関心"}
             data={data?.interests}
             theme={data?.colorPreference}
             isEdit={isEdit}
             handleEdit={handleEdit}
             name="interests"
-            placeholder={"interests / 興味・関心について入力"}
+            placeholder={"興味・関心について入力"}
             maxLength={1000}
           />
           <ChildCard
-            title={"Networks / 人脈"}
+            title={"人脈"}
             data={data?.networks}
             theme={data?.colorPreference}
             isEdit={isEdit}
             handleEdit={handleEdit}
             name="networks"
-            placeholder={"networks / 人脈について入力"}
+            placeholder={"人脈について入力"}
             maxLength={1000}
           />
           <ChildCard
-            title={"Skills / 能力"}
+            title={"能力"}
             data={data?.skills}
             theme={data?.colorPreference}
             isEdit={isEdit}
             handleEdit={handleEdit}
             name="skills"
-            placeholder={"skills / 能力について入力"}
+            placeholder={"能力について入力"}
             maxLength={1000}
           />
         </div>
