@@ -30,6 +30,8 @@ const itemsProducts0 = "カスタムウェブアプリケーションの開発";
 const itemsProducts1 = "UX/UIデザインコンサルティング";
 const itemsProducts2 = "パフォーマンス最適化サービス";
 
+const titles = ['メンバー略歴シート' , 'ビジネスについて' , '個人的な情報' , '目標' , '実績' , '興味・関心' ,'人脈' , '能力' , '金のタマゴ' , '金のガチョウ' , '金のファーマー' , '自社の強み' , 'パワーワード' , 'アイテム / 商品・商材' , 'カスタマイズ']
+
 const typeInInput = (id, value) => {
   return cy.get(id).type(value);
 };
@@ -140,6 +142,14 @@ describe('Initial Load:', () => {
       cy.get(`#${key}`).should('have.value', storedValue.itemsProducts[key]);
     });
     cy.get('.btn.dark').click();
+  });
 
+  it('Verify that the Stepper component loads with all steps and titles rendered properly.', () => {
+    titles.forEach((title, index) => {
+      cy.contains(title).should('exist');
+      if (index !== titles.length - 1) {
+        cy.get('.btn.dark').click();
+      }
+    });
   });
 });
