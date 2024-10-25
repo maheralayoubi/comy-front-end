@@ -224,4 +224,20 @@ it('Verify that file uploads work correctly for UploadImage components.', () => 
   cy.get('.referralSheetBackgroundImage').should('have.attr', 'src').should('include', 'https://1000logos.net/wp-content/uploads/2016/11/google-logo.jpg');
 });
 
+it('Verify that the Fonts and Themes components display and apply the selected options correctly.' , () => {
+  for (let i = 1; i < 15; i++) {
+    cy.get('.btn.dark').click();
+  }
+
+  // Verify Fonts
+  cy.get('.fontsGrid .item').each((fontItem, index) => {
+    cy.wrap(fontItem).click();
+  });
+
+  // Verify Themes
+  cy.get('.themesGrid .item').each((themeItem, index) => {
+    cy.wrap(themeItem).click();
+  });
+});
+
 })
