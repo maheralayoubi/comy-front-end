@@ -49,7 +49,7 @@ const RegisterForm = () => {
       if (result.status === 201) {
         navigate("/mail-confirmation", { state: { email } });
       } else if (result.status === 400) {
-        setError(messages.userExist);
+        setError(messages.userExists);
       } else if (result.status === 500) {
         setError(messages.serverError);
       }

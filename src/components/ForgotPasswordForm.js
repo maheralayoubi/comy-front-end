@@ -20,7 +20,6 @@ const ForgotPasswordForm = () => {
     try {
       setLoading(true);
       const response = await forgotPassword(email);
-      console.log(response)
       if (response.status === 200) {
         setMessage(messages.sendEmailForResetPassword);
         setEmail("");
