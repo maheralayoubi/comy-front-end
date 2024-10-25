@@ -203,7 +203,7 @@ it('Verify that each step renders the appropriate input elements (TextArea, Inpu
   // Check itemsProducts inputs
   checkInputs(['itemsProducts0', 'itemsProducts1', 'itemsProducts2']);
   cy.get('.btn.dark').click();
-
+  
   // Check for image upload and font/theme grids
   cy.get('.headerBackgroundImage').should('exist');
   cy.get('.profileImage').should('exist');
@@ -211,4 +211,17 @@ it('Verify that each step renders the appropriate input elements (TextArea, Inpu
   cy.get('.fontsGrid .item').should('exist');
   cy.get('.theme .item').should('exist');
 });
+
+it('Verify that file uploads work correctly for UploadImage components.', () => {
+  for (let i = 1; i < 15; i++) {
+    cy.get('.btn.dark').click();
+  }
+  cy.get('.headerBackgroundImage').invoke('attr', 'src', 'https://1000logos.net/wp-content/uploads/2021/05/Google-logo.png');
+  cy.get('.profileImage').invoke('attr', 'src', 'https://pluspng.com/img-png/google-logo-png-open-2000.png');
+  cy.get('.referralSheetBackgroundImage').invoke('attr', 'src', 'https://1000logos.net/wp-content/uploads/2016/11/google-logo.jpg');
+  cy.get('.headerBackgroundImage').should('have.attr', 'src').should('include', 'https://1000logos.net/wp-content/uploads/2021/05/Google-logo.png');
+  cy.get('.profileImage').should('have.attr', 'src').should('include', 'https://pluspng.com/img-png/google-logo-png-open-2000.png');
+  cy.get('.referralSheetBackgroundImage').should('have.attr', 'src').should('include', 'https://1000logos.net/wp-content/uploads/2016/11/google-logo.jpg');
+});
+
 })
