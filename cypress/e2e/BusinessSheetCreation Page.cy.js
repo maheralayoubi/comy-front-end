@@ -69,6 +69,46 @@ const formData = {
         }
       };
 
+const lengthData = {
+  shortBiography: { selector: 'textarea', maxLength: 400 },
+  businessDescription: { selector: 'textarea', maxLength: 400 },
+  personalInformation: { selector: 'textarea', maxLength: 200 },
+  goals: { selector: 'textarea', maxLength: 1000 },
+  accomplishments: { selector: 'textarea', maxLength: 1000 },
+  interests: { selector: 'textarea', maxLength: 1000 },
+  networks: { selector: 'textarea', maxLength: 1000 },
+  skills: { selector: 'textarea', maxLength: 1000 },
+  goldenEggs: {
+    goldenEgg0: { selector: 'input', maxLength: 10 },
+    goldenEgg1: { selector: 'input', maxLength: 10 },
+    goldenEgg2: { selector: 'input', maxLength: 10 }
+  },
+  goldenGooses: {
+    goldenGoose0: { selector: 'input', maxLength: 40 },
+    goldenGoose1: { selector: 'input', maxLength: 40 },
+    goldenGoose2: { selector: 'input', maxLength: 40 }
+  },
+  goldenFarmers: {
+    goldenFarmer0: { selector: 'input', maxLength: 10 },
+    goldenFarmer1: { selector: 'input', maxLength: 10 },
+    goldenFarmer2: { selector: 'input', maxLength: 10 }
+  },
+  companyStrengths: { selector: 'textarea', maxLength: 1000 },
+  powerWords: {
+    powerWords0: { selector: 'input', maxLength: 40 },
+    powerWords1: { selector: 'input', maxLength: 40 },
+    powerWords2: { selector: 'input', maxLength: 40 },
+    powerWords3: { selector: 'input', maxLength: 40 },
+    powerWords4: { selector: 'input', maxLength: 40 },
+    powerWords5: { selector: 'input', maxLength: 40 }
+  },
+  itemsProducts: {
+    itemsProducts0: { selector: 'input', maxLength: 40 },
+    itemsProducts1: { selector: 'input', maxLength: 40 },
+    itemsProducts2: { selector: 'input', maxLength: 40 }
+  }
+};
+
 const titles = ['メンバー略歴シート' , 'ビジネスについて' , '個人的な情報' , '目標' , '実績' , '興味・関心' ,'人脈' , '能力' , '金のタマゴ' , '金のガチョウ' , '金のファーマー' , '自社の強み' , 'パワーワード' , 'アイテム / 商品・商材' , 'カスタマイズ']
 
 const typeInInput = (id, value) => {
@@ -86,6 +126,18 @@ const checkInputs = (ids) => {
   });
 };
 
+// Helper function to verify maxLength
+function verifyMaxLength(selector, maxLength) {
+  cy.get(selector)
+  .should('exist')
+  .should('have.attr', 'maxlength', maxLength.toString())
+  .then(() => {
+    const overLimitText = 'あ'.repeat(maxLength + 10);
+    cy.get(selector).clear().type(overLimitText);
+    cy.get(selector).invoke('val').should('have.length', maxLength);
+  })
+  .wait(100);
+}
 
 // describe('Initial Load:', () => {
 //   beforeEach(() => {
@@ -240,8 +292,124 @@ const checkInputs = (ids) => {
 
 // })
 
-describe('Stepper Functionality:', () => {
-    beforeEach(() => {
+// describe('Stepper Functionality:', () => {
+//     beforeEach(() => {
+//     cy.visit('/login');
+//     typeInInput('#email', email);
+//     typeInInput('#password', password);
+//     cy.get('button[type=submit]').click();
+//     cy.wait(10000).visit('business-sheet-creation');
+//   });
+
+//   it('Verify that a user can navigate through the steps.', () => {
+//     titles.forEach((title, index) => {
+//       cy.contains(title).should('be.visible');
+//       if (index > 0) {
+//         cy.get('.btn.gray').should('be.visible').click();
+//         cy.contains(titles[index - 1]).should('be.visible');
+//         cy.get('.btn.dark').should('be.visible').click();
+//       }
+//       if (index < titles.length - 1) {
+//         cy.get('.btn.dark').should('be.visible').click();
+//       }
+//     });
+//   });
+  
+//   it('Verify that step transitions do not reset the form inputs.', () => {
+//     const verifyAndFillInput = (selector, value) => {
+//       // Fill the input and verify it retains the value
+//       typeInInput(selector, value);
+//       cy.get(selector).should('have.value', value);
+//     };
+  
+//     // Step 1: Fill out main sections and verify values persist
+//     ['shortBiography', 'businessDescription', 'personalInformation', 'goals', 'accomplishments', 'interests', 'networks', 'skills']
+//       .forEach(key => {
+//         const selector = `textarea[name=${key}]`;
+//         verifyAndFillInput(selector, formData[key]);
+//         cy.get('.btn.dark').click();
+//       });
+  
+//     // Step 2: Verify goldenEggs inputs
+//     Object.keys(formData.goldenEggs).forEach(key => {
+//       const selector = `#${key}`;
+//       verifyAndFillInput(selector, formData.goldenEggs[key]);
+//     });
+//     cy.get('.btn.dark').click();
+  
+//     // Step 3: Verify goldenGooses inputs
+//     Object.keys(formData.goldenGooses).forEach(key => {
+//       const selector = `#${key}`;
+//       verifyAndFillInput(selector, formData.goldenGooses[key]);
+//     });
+//     cy.get('.btn.dark').click();
+  
+//     // Step 4: Verify goldenFarmers inputs
+//     Object.keys(formData.goldenFarmers).forEach(key => {
+//       const selector = `#${key}`;
+//       verifyAndFillInput(selector, formData.goldenFarmers[key]);
+//     });
+//     cy.get('.btn.dark').click();
+  
+//     // Step 5: Verify companyStrengths inputs
+//     ['companyStrengths'].forEach(key => {
+//       const selector = `textarea[name=${key}]`;
+//       verifyAndFillInput(selector, formData[key]);
+//     });
+//     cy.get('.btn.dark').click();
+  
+//     // Step 6: Verify powerWords inputs
+//     Object.keys(formData.powerWords).forEach(key => {
+//       const selector = `#${key}`;
+//       verifyAndFillInput(selector, formData.powerWords[key]);
+//     });
+//     cy.get('.btn.dark').click();
+  
+//     // Step 7: Verify itemsProducts inputs
+//     Object.keys(formData.itemsProducts).forEach(key => {
+//       const selector = `#${key}`;
+//       verifyAndFillInput(selector, formData.itemsProducts[key]);
+//     });
+//     cy.get('.btn.dark').click();
+  
+//     // Final check to confirm values persist throughout the process
+//     // Re-verify that all inputs still have the values set initially
+//     for(let i = 0; i < 14; i++) {
+//       cy.get('.btn.gray').click()
+//     }
+
+//     ['shortBiography', 'businessDescription', 'personalInformation', 'goals', 'accomplishments', 'interests', 'networks', 'skills'].forEach(key => {
+//       cy.get(`textarea[name=${key}]`).should('have.value', formData[key]);
+//       cy.get('.btn.dark').click()
+//     });
+//     Object.keys(formData.goldenEggs).forEach(key => {
+//       cy.get(`#${key}`).should('have.value', formData.goldenEggs[key]);
+//     });
+//     cy.get('.btn.dark').click()
+//     Object.keys(formData.goldenGooses).forEach(key => {
+//       cy.get(`#${key}`).should('have.value', formData.goldenGooses[key]);
+//     });
+//     cy.get('.btn.dark').click()
+//     Object.keys(formData.goldenFarmers).forEach(key => {
+//       cy.get(`#${key}`).should('have.value', formData.goldenFarmers[key]);
+//     });
+//     cy.get('.btn.dark').click()
+//     cy.get(`textarea[name=companyStrengths]`).should('have.value', formData.companyStrengths);
+//     cy.get('.btn.dark').click()
+//     Object.keys(formData.powerWords).forEach(key => {
+//       cy.get(`#${key}`).should('have.value', formData.powerWords[key]);
+//     });
+//     cy.get('.btn.dark').click()
+//     Object.keys(formData.itemsProducts).forEach(key => {
+//       cy.get(`#${key}`).should('have.value', formData.itemsProducts[key]);
+//     });
+//     cy.get('.btn.dark').click()
+//   });
+  
+// })
+
+describe('Validation:', () => {
+  beforeEach(() => {
     cy.visit('/login');
     typeInInput('#email', email);
     typeInInput('#password', password);
@@ -249,109 +417,20 @@ describe('Stepper Functionality:', () => {
     cy.wait(10000).visit('business-sheet-creation');
   });
 
-  it('Verify that a user can navigate through the steps.', () => {
-    titles.forEach((title, index) => {
-      cy.contains(title).should('be.visible');
-      if (index > 0) {
-        cy.get('.btn.gray').should('be.visible').click();
-        cy.contains(titles[index - 1]).should('be.visible');
-        cy.get('.btn.dark').should('be.visible').click();
-      }
-      if (index < titles.length - 1) {
-        cy.get('.btn.dark').should('be.visible').click();
-      }
-    });
-  });
-  
-  it('Verify that step transitions do not reset the form inputs.', () => {
-    const verifyAndFillInput = (selector, value) => {
-      // Fill the input and verify it retains the value
-      typeInInput(selector, value);
-      cy.get(selector).should('have.value', value);
-    };
-  
-    // Step 1: Fill out main sections and verify values persist
-    ['shortBiography', 'businessDescription', 'personalInformation', 'goals', 'accomplishments', 'interests', 'networks', 'skills']
-      .forEach(key => {
-        const selector = `textarea[name=${key}]`;
-        verifyAndFillInput(selector, formData[key]);
-        cy.get('.btn.dark').click();
+  it('Verify that each input field enforces the correct maxLength (e.g., 400 for biography, 1000 for goals, etc.).', () => {
+  Object.entries(lengthData).forEach(([key, field]) => {
+    if (field.maxLength === undefined) {
+      Object.entries(field).forEach(([subKey, subField]) => {
+        verifyMaxLength(`${subField.selector}[id=${subKey}]`, subField.maxLength);
       });
-  
-    // Step 2: Verify goldenEggs inputs
-    Object.keys(formData.goldenEggs).forEach(key => {
-      const selector = `#${key}`;
-      verifyAndFillInput(selector, formData.goldenEggs[key]);
-    });
-    cy.get('.btn.dark').click();
-  
-    // Step 3: Verify goldenGooses inputs
-    Object.keys(formData.goldenGooses).forEach(key => {
-      const selector = `#${key}`;
-      verifyAndFillInput(selector, formData.goldenGooses[key]);
-    });
-    cy.get('.btn.dark').click();
-  
-    // Step 4: Verify goldenFarmers inputs
-    Object.keys(formData.goldenFarmers).forEach(key => {
-      const selector = `#${key}`;
-      verifyAndFillInput(selector, formData.goldenFarmers[key]);
-    });
-    cy.get('.btn.dark').click();
-  
-    // Step 5: Verify companyStrengths inputs
-    ['companyStrengths'].forEach(key => {
-      const selector = `textarea[name=${key}]`;
-      verifyAndFillInput(selector, formData[key]);
-    });
-    cy.get('.btn.dark').click();
-  
-    // Step 6: Verify powerWords inputs
-    Object.keys(formData.powerWords).forEach(key => {
-      const selector = `#${key}`;
-      verifyAndFillInput(selector, formData.powerWords[key]);
-    });
-    cy.get('.btn.dark').click();
-  
-    // Step 7: Verify itemsProducts inputs
-    Object.keys(formData.itemsProducts).forEach(key => {
-      const selector = `#${key}`;
-      verifyAndFillInput(selector, formData.itemsProducts[key]);
-    });
-    cy.get('.btn.dark').click();
-  
-    // Final check to confirm values persist throughout the process
-    // Re-verify that all inputs still have the values set initially
-    for(let i = 0; i < 14; i++) {
-      cy.get('.btn.gray').click()
+      cy.get('.btn.dark').click();
+    } else {
+      // Handle top-level fields
+      verifyMaxLength(`${field.selector}[name=${key}]`, field.maxLength);
+      cy.get('.btn.dark').click();
     }
-
-    ['shortBiography', 'businessDescription', 'personalInformation', 'goals', 'accomplishments', 'interests', 'networks', 'skills'].forEach(key => {
-      cy.get(`textarea[name=${key}]`).should('have.value', formData[key]);
-      cy.get('.btn.dark').click()
-    });
-    Object.keys(formData.goldenEggs).forEach(key => {
-      cy.get(`#${key}`).should('have.value', formData.goldenEggs[key]);
-    });
-    cy.get('.btn.dark').click()
-    Object.keys(formData.goldenGooses).forEach(key => {
-      cy.get(`#${key}`).should('have.value', formData.goldenGooses[key]);
-    });
-    cy.get('.btn.dark').click()
-    Object.keys(formData.goldenFarmers).forEach(key => {
-      cy.get(`#${key}`).should('have.value', formData.goldenFarmers[key]);
-    });
-    cy.get('.btn.dark').click()
-    cy.get(`textarea[name=companyStrengths]`).should('have.value', formData.companyStrengths);
-    cy.get('.btn.dark').click()
-    Object.keys(formData.powerWords).forEach(key => {
-      cy.get(`#${key}`).should('have.value', formData.powerWords[key]);
-    });
-    cy.get('.btn.dark').click()
-    Object.keys(formData.itemsProducts).forEach(key => {
-      cy.get(`#${key}`).should('have.value', formData.itemsProducts[key]);
-    });
-    cy.get('.btn.dark').click()
+  });
   });
   
 })
+
