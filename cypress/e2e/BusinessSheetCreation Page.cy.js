@@ -166,8 +166,84 @@ const checkInputs = (ids) => {
 //   });
 // });
 
-describe('Form Inputs:', () => {
-  beforeEach(() => {
+// describe('Form Inputs:', () => {
+//   beforeEach(() => {
+//     cy.visit('/login');
+//     typeInInput('#email', email);
+//     typeInInput('#password', password);
+//     cy.get('button[type=submit]').click();
+//     cy.wait(10000).visit('business-sheet-creation');
+//   });
+
+// it('Verify that each step renders the appropriate input elements (TextArea, Input, UploadImage, Fonts, Themes).', () => {
+//   // Check textareas for first several steps
+//   for (let i = 0; i < 8; i++) {
+//     clickAndCheckTextarea();
+//   }
+
+//   // Check goldenEgg inputs
+//   checkInputs(['goldenEgg0', 'goldenEgg1', 'goldenEgg2']);
+//   cy.get('.btn.dark').click();
+
+//   // Check goldenGoose inputs
+//   checkInputs(['goldenGoose0', 'goldenGoose1', 'goldenGoose2']);
+//   cy.get('.btn.dark').click();
+
+//   // Check goldenFarmer inputs
+//   checkInputs(['goldenFarmer0', 'goldenFarmer1', 'goldenFarmer2']);
+//   cy.get('.btn.dark').click();
+
+//   // Check textarea on the next step
+//   clickAndCheckTextarea();
+
+//   // Check powerWords inputs
+//   checkInputs(['powerWords0', 'powerWords1', 'powerWords2', 'powerWords3', 'powerWords4', 'powerWords5']);
+//   cy.get('.btn.dark').click();
+
+//   // Check itemsProducts inputs
+//   checkInputs(['itemsProducts0', 'itemsProducts1', 'itemsProducts2']);
+//   cy.get('.btn.dark').click();
+  
+//   // Check for image upload and font/theme grids
+//   cy.get('.headerBackgroundImage').should('exist');
+//   cy.get('.profileImage').should('exist');
+//   cy.get('.referralSheetBackgroundImage').should('exist');
+//   cy.get('.fontsGrid .item').should('exist');
+//   cy.get('.theme .item').should('exist');
+// });
+
+// it('Verify that file uploads work correctly for UploadImage components.', () => {
+//   for (let i = 1; i < 15; i++) {
+//     cy.get('.btn.dark').click();
+//   }
+//   cy.get('.headerBackgroundImage').invoke('attr', 'src', 'https://1000logos.net/wp-content/uploads/2021/05/Google-logo.png');
+//   cy.get('.profileImage').invoke('attr', 'src', 'https://pluspng.com/img-png/google-logo-png-open-2000.png');
+//   cy.get('.referralSheetBackgroundImage').invoke('attr', 'src', 'https://1000logos.net/wp-content/uploads/2016/11/google-logo.jpg');
+//   cy.get('.headerBackgroundImage').should('have.attr', 'src').should('include', 'https://1000logos.net/wp-content/uploads/2021/05/Google-logo.png');
+//   cy.get('.profileImage').should('have.attr', 'src').should('include', 'https://pluspng.com/img-png/google-logo-png-open-2000.png');
+//   cy.get('.referralSheetBackgroundImage').should('have.attr', 'src').should('include', 'https://1000logos.net/wp-content/uploads/2016/11/google-logo.jpg');
+// });
+
+// it('Verify that the Fonts and Themes components display and apply the selected options correctly.' , () => {
+//   for (let i = 1; i < 15; i++) {
+//     cy.get('.btn.dark').click();
+//   }
+
+//   // Verify Fonts
+//   cy.get('.fontsGrid .item').each((fontItem, index) => {
+//     cy.wrap(fontItem).click();
+//   });
+
+//   // Verify Themes
+//   cy.get('.themesGrid .item').each((themeItem, index) => {
+//     cy.wrap(themeItem).click();
+//   });
+// });
+
+// })
+
+describe('Stepper Functionality:', () => {
+    beforeEach(() => {
     cy.visit('/login');
     typeInInput('#email', email);
     typeInInput('#password', password);
@@ -175,69 +251,18 @@ describe('Form Inputs:', () => {
     cy.wait(10000).visit('business-sheet-creation');
   });
 
-it('Verify that each step renders the appropriate input elements (TextArea, Input, UploadImage, Fonts, Themes).', () => {
-  // Check textareas for first several steps
-  for (let i = 0; i < 8; i++) {
-    clickAndCheckTextarea();
-  }
-
-  // Check goldenEgg inputs
-  checkInputs(['goldenEgg0', 'goldenEgg1', 'goldenEgg2']);
-  cy.get('.btn.dark').click();
-
-  // Check goldenGoose inputs
-  checkInputs(['goldenGoose0', 'goldenGoose1', 'goldenGoose2']);
-  cy.get('.btn.dark').click();
-
-  // Check goldenFarmer inputs
-  checkInputs(['goldenFarmer0', 'goldenFarmer1', 'goldenFarmer2']);
-  cy.get('.btn.dark').click();
-
-  // Check textarea on the next step
-  clickAndCheckTextarea();
-
-  // Check powerWords inputs
-  checkInputs(['powerWords0', 'powerWords1', 'powerWords2', 'powerWords3', 'powerWords4', 'powerWords5']);
-  cy.get('.btn.dark').click();
-
-  // Check itemsProducts inputs
-  checkInputs(['itemsProducts0', 'itemsProducts1', 'itemsProducts2']);
-  cy.get('.btn.dark').click();
+  it('Verify that a user can navigate through the steps.', () => {
+    titles.forEach((title, index) => {
+      cy.contains(title).should('be.visible');
+      if (index > 0) {
+        cy.get('.btn.gray').should('be.visible').click();
+        cy.contains(titles[index - 1]).should('be.visible');
+        cy.get('.btn.dark').should('be.visible').click();
+      }
+      if (index < titles.length - 1) {
+        cy.get('.btn.dark').should('be.visible').click();
+      }
+    });
+  });
   
-  // Check for image upload and font/theme grids
-  cy.get('.headerBackgroundImage').should('exist');
-  cy.get('.profileImage').should('exist');
-  cy.get('.referralSheetBackgroundImage').should('exist');
-  cy.get('.fontsGrid .item').should('exist');
-  cy.get('.theme .item').should('exist');
-});
-
-it('Verify that file uploads work correctly for UploadImage components.', () => {
-  for (let i = 1; i < 15; i++) {
-    cy.get('.btn.dark').click();
-  }
-  cy.get('.headerBackgroundImage').invoke('attr', 'src', 'https://1000logos.net/wp-content/uploads/2021/05/Google-logo.png');
-  cy.get('.profileImage').invoke('attr', 'src', 'https://pluspng.com/img-png/google-logo-png-open-2000.png');
-  cy.get('.referralSheetBackgroundImage').invoke('attr', 'src', 'https://1000logos.net/wp-content/uploads/2016/11/google-logo.jpg');
-  cy.get('.headerBackgroundImage').should('have.attr', 'src').should('include', 'https://1000logos.net/wp-content/uploads/2021/05/Google-logo.png');
-  cy.get('.profileImage').should('have.attr', 'src').should('include', 'https://pluspng.com/img-png/google-logo-png-open-2000.png');
-  cy.get('.referralSheetBackgroundImage').should('have.attr', 'src').should('include', 'https://1000logos.net/wp-content/uploads/2016/11/google-logo.jpg');
-});
-
-it('Verify that the Fonts and Themes components display and apply the selected options correctly.' , () => {
-  for (let i = 1; i < 15; i++) {
-    cy.get('.btn.dark').click();
-  }
-
-  // Verify Fonts
-  cy.get('.fontsGrid .item').each((fontItem, index) => {
-    cy.wrap(fontItem).click();
-  });
-
-  // Verify Themes
-  cy.get('.themesGrid .item').each((themeItem, index) => {
-    cy.wrap(themeItem).click();
-  });
-});
-
 })
