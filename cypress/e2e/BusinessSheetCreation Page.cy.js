@@ -29,6 +29,45 @@ const powerWords5 = "持続可能性";
 const itemsProducts0 = "カスタムウェブアプリケーションの開発";
 const itemsProducts1 = "UX/UIデザインコンサルティング";
 const itemsProducts2 = "パフォーマンス最適化サービス";
+const formData = {
+        shortBiography,
+        businessDescription,
+        personalInformation,
+        goals,
+        accomplishments,
+        interests,
+        networks,
+        skills,
+        goldenEggs: {
+          goldenEgg0,
+          goldenEgg1,
+          goldenEgg2
+        },
+        goldenGooses: {
+          goldenGoose0,
+          goldenGoose1,
+          goldenGoose2
+        },
+        goldenFarmers: {
+          goldenFarmer0,
+          goldenFarmer1,
+          goldenFarmer2
+        },
+        companyStrengths,
+        powerWords: {
+          powerWords0,
+          powerWords1,
+          powerWords2,
+          powerWords3,
+          powerWords4,
+          powerWords5
+        },
+        itemsProducts: {
+          itemsProducts0,
+          itemsProducts1,
+          itemsProducts2
+        }
+      };
 
 const titles = ['メンバー略歴シート' , 'ビジネスについて' , '個人的な情報' , '目標' , '実績' , '興味・関心' ,'人脈' , '能力' , '金のタマゴ' , '金のガチョウ' , '金のファーマー' , '自社の強み' , 'パワーワード' , 'アイテム / 商品・商材' , 'カスタマイズ']
 
@@ -62,51 +101,10 @@ const checkInputs = (ids) => {
 //   });
 
 //   it('Verify that the form data is initialized correctly from local storage (or with default values if not present).', () => {
-//     const formData = {
-//       shortBiography,
-//       businessDescription,
-//       personalInformation,
-//       goals,
-//       accomplishments,
-//       interests,
-//       networks,
-//       skills,
-//       goldenEggs: {
-//         goldenEgg0,
-//         goldenEgg1,
-//         goldenEgg2
-//       },
-//       goldenGooses: {
-//         goldenGoose0,
-//         goldenGoose1,
-//         goldenGoose2
-//       },
-//       goldenFarmers: {
-//         goldenFarmer0,
-//         goldenFarmer1,
-//         goldenFarmer2
-//       },
-//       companyStrengths,
-//       powerWords: {
-//         powerWords0,
-//         powerWords1,
-//         powerWords2,
-//         powerWords3,
-//         powerWords4,
-//         powerWords5
-//       },
-//       itemsProducts: {
-//         itemsProducts0,
-//         itemsProducts1,
-//         itemsProducts2
-//       }
-//     };
 //     localStorage.setItem('businessFormData', JSON.stringify(formData));
 //     cy.reload();
 
 //     const storedValue = JSON.parse(localStorage.getItem('businessFormData'));
-//     cy.log(storedValue);
-    
 //     // Fill the form for the main text fields
 //     ['shortBiography', 'businessDescription', 'personalInformation', 'goals', 'accomplishments', 'interests', 'networks', 'skills'].forEach(key => {
 //       typeInInput(`textarea[name=${key}]`, storedValue[key]);
@@ -263,6 +261,97 @@ describe('Stepper Functionality:', () => {
         cy.get('.btn.dark').should('be.visible').click();
       }
     });
+  });
+  
+  it('Verify that step transitions do not reset the form inputs.', () => {
+    const verifyAndFillInput = (selector, value) => {
+      // Fill the input and verify it retains the value
+      typeInInput(selector, value);
+      cy.get(selector).should('have.value', value);
+    };
+  
+    // Step 1: Fill out main sections and verify values persist
+    ['shortBiography', 'businessDescription', 'personalInformation', 'goals', 'accomplishments', 'interests', 'networks', 'skills']
+      .forEach(key => {
+        const selector = `textarea[name=${key}]`;
+        verifyAndFillInput(selector, formData[key]);
+        cy.get('.btn.dark').click();
+      });
+  
+    // Step 2: Verify goldenEggs inputs
+    Object.keys(formData.goldenEggs).forEach(key => {
+      const selector = `#${key}`;
+      verifyAndFillInput(selector, formData.goldenEggs[key]);
+    });
+    cy.get('.btn.dark').click();
+  
+    // Step 3: Verify goldenGooses inputs
+    Object.keys(formData.goldenGooses).forEach(key => {
+      const selector = `#${key}`;
+      verifyAndFillInput(selector, formData.goldenGooses[key]);
+    });
+    cy.get('.btn.dark').click();
+  
+    // Step 4: Verify goldenFarmers inputs
+    Object.keys(formData.goldenFarmers).forEach(key => {
+      const selector = `#${key}`;
+      verifyAndFillInput(selector, formData.goldenFarmers[key]);
+    });
+    cy.get('.btn.dark').click();
+  
+    // Step 5: Verify companyStrengths inputs
+    ['companyStrengths'].forEach(key => {
+      const selector = `textarea[name=${key}]`;
+      verifyAndFillInput(selector, formData[key]);
+    });
+    cy.get('.btn.dark').click();
+  
+    // Step 6: Verify powerWords inputs
+    Object.keys(formData.powerWords).forEach(key => {
+      const selector = `#${key}`;
+      verifyAndFillInput(selector, formData.powerWords[key]);
+    });
+    cy.get('.btn.dark').click();
+  
+    // Step 7: Verify itemsProducts inputs
+    Object.keys(formData.itemsProducts).forEach(key => {
+      const selector = `#${key}`;
+      verifyAndFillInput(selector, formData.itemsProducts[key]);
+    });
+    cy.get('.btn.dark').click();
+  
+    // Final check to confirm values persist throughout the process
+    // Re-verify that all inputs still have the values set initially
+    for(let i = 0; i < 14; i++) {
+      cy.get('.btn.gray').click()
+    }
+
+    ['shortBiography', 'businessDescription', 'personalInformation', 'goals', 'accomplishments', 'interests', 'networks', 'skills'].forEach(key => {
+      cy.get(`textarea[name=${key}]`).should('have.value', formData[key]);
+      cy.get('.btn.dark').click()
+    });
+    Object.keys(formData.goldenEggs).forEach(key => {
+      cy.get(`#${key}`).should('have.value', formData.goldenEggs[key]);
+    });
+    cy.get('.btn.dark').click()
+    Object.keys(formData.goldenGooses).forEach(key => {
+      cy.get(`#${key}`).should('have.value', formData.goldenGooses[key]);
+    });
+    cy.get('.btn.dark').click()
+    Object.keys(formData.goldenFarmers).forEach(key => {
+      cy.get(`#${key}`).should('have.value', formData.goldenFarmers[key]);
+    });
+    cy.get('.btn.dark').click()
+    cy.get(`textarea[name=companyStrengths]`).should('have.value', formData.companyStrengths);
+    cy.get('.btn.dark').click()
+    Object.keys(formData.powerWords).forEach(key => {
+      cy.get(`#${key}`).should('have.value', formData.powerWords[key]);
+    });
+    cy.get('.btn.dark').click()
+    Object.keys(formData.itemsProducts).forEach(key => {
+      cy.get(`#${key}`).should('have.value', formData.itemsProducts[key]);
+    });
+    cy.get('.btn.dark').click()
   });
   
 })
