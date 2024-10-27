@@ -62,10 +62,10 @@ const LoginForm = () => {
           setMessage({ type: "error", content: messages.serverError });
           break;
         default:
-          setMessage({ type: "error", content: message.tryAgain });
+          setMessage({ type: "error", content: messages.tryAgain });
       }
     } catch (error) {
-      setMessage({ type: "error", content: message.tryAgain });
+      setMessage({ type: "error", content: messages.tryAgain });
       console.error("Login failed:", error);
     } finally {
       setLoading(false);
