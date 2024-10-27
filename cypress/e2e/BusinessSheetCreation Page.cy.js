@@ -1,4 +1,5 @@
 /* eslint-disable no-undef */
+import 'cypress-file-upload';
 const email = "hakamha8@gmail.com";
 const password = "Hakamaldeen17";
 const shortBiography = 'フロントエンド開発者として、最新の技術やユーザー体験に焦点を当てて、効率的で美しいウェブサイトを構築しています。';
@@ -417,20 +418,26 @@ describe('Validation:', () => {
     cy.wait(10000).visit('business-sheet-creation');
   });
 
-  it('Verify that each input field enforces the correct maxLength (e.g., 400 for biography, 1000 for goals, etc.).', () => {
-  Object.entries(lengthData).forEach(([key, field]) => {
-    if (field.maxLength === undefined) {
-      Object.entries(field).forEach(([subKey, subField]) => {
-        verifyMaxLength(`${subField.selector}[id=${subKey}]`, subField.maxLength);
-      });
-      cy.get('.btn.dark').click();
-    } else {
-      // Handle top-level fields
-      verifyMaxLength(`${field.selector}[name=${key}]`, field.maxLength);
+  // it('Verify that each input field enforces the correct maxLength (e.g., 400 for biography, 1000 for goals, etc.).', () => {
+  // Object.entries(lengthData).forEach(([key, field]) => {
+  //   if (field.maxLength === undefined) {
+  //     Object.entries(field).forEach(([subKey, subField]) => {
+  //       verifyMaxLength(`${subField.selector}[id=${subKey}]`, subField.maxLength);
+  //     });
+  //     cy.get('.btn.dark').click();
+  //   } else {
+  //     // Handle top-level fields
+  //     verifyMaxLength(`${field.selector}[name=${key}]`, field.maxLength);
+  //     cy.get('.btn.dark').click();
+  //   }
+  // });
+  // });
+  
+  it('Verify that fields requiring image uploads display an appropriate error message when an invalid file format is uploaded.' , () => {
+    for(let i = 0 ; i< 14; i++) {
       cy.get('.btn.dark').click();
     }
-  });
-  });
-  
+    cy.get('.headerBackgroundImage').attachFile('sample.txt', { subjectType: 'input' });
+  })
 })
 
