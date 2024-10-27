@@ -49,7 +49,7 @@ const LoginForm = () => {
       const result = await loginUser(userData);
       switch (result.status) {
         case 200:
-          setMessage({ type: "success", content: messages.successfulLoging });
+          setMessage({ type: "success", content: messages.successfulLogin });
           navigate("/profile");
           break;
         case 400:
