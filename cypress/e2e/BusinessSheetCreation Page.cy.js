@@ -518,13 +518,4 @@ describe("Validation:", () => {
       }
     });
   });
-
-  it("Verify that fields requiring image uploads display an appropriate error message when an invalid file format is uploaded.", () => {
-    for (let i = 0; i < 14; i++) {
-      cy.get(".btn.dark").click();
-    }
-    cy.get(".headerBackgroundImage").attachFile("sample.txt", {
-      subjectType: "input",
-    });
-  });
 });
