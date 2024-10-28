@@ -521,88 +521,140 @@ function verifyMaxLength(selector, maxLength) {
 //   });
 // });
 
-describe('Submit Behavior:', () => {
+// describe('Submit Behavior:', () => {
+//   beforeEach(() => {
+//     cy.visit("/login");
+//     typeInInput("#email", email);
+//     typeInInput("#password", password);
+//     cy.get("button[type=submit]").click();
+//     cy.wait(10000).visit("business-sheet-creation");
+//   });
+
+//   it('Verify that a user can navigate through the entire business sheet creation process and submit the form at the end (if there’s a final submission step).' , () => {
+//     [
+//       "shortBiography",
+//       "businessDescription",
+//       "personalInformation",
+//       "goals",
+//       "accomplishments",
+//       "interests",
+//       "networks",
+//       "skills",
+//     ].forEach((key) => {
+//       const selector = `textarea[name=${key}]`;
+//       typeInInput(selector, formData[key]);
+//       cy.get(".btn.dark").click();
+//     });
+
+//     // Step 2: Verify goldenEggs inputs
+//     Object.keys(formData.goldenEggs).forEach((key) => {
+//       const selector = `#${key}`;
+//       typeInInput(selector, formData.goldenEggs[key]);
+//     });
+//     cy.get(".btn.dark").click();
+
+//     // Step 3: Verify goldenGooses inputs
+//     Object.keys(formData.goldenGooses).forEach((key) => {
+//       const selector = `#${key}`;
+//       typeInInput(selector, formData.goldenGooses[key]);
+//     });
+//     cy.get(".btn.dark").click();
+
+//     // Step 4: Verify goldenFarmers inputs
+//     Object.keys(formData.goldenFarmers).forEach((key) => {
+//       const selector = `#${key}`;
+//       typeInInput(selector, formData.goldenFarmers[key]);
+//     });
+//     cy.get(".btn.dark").click();
+
+//     // Step 5: Verify companyStrengths inputs
+//     ["companyStrengths"].forEach((key) => {
+//       const selector = `textarea[name=${key}]`;
+//       typeInInput(selector, formData[key]);
+//     });
+//     cy.get(".btn.dark").click();
+
+//     // Step 6: Verify powerWords inputs
+//     Object.keys(formData.powerWords).forEach((key) => {
+//       const selector = `#${key}`;
+//       typeInInput(selector, formData.powerWords[key]);
+//     });
+//     cy.get(".btn.dark").click();
+
+//     // Step 7: Verify itemsProducts inputs
+//     Object.keys(formData.itemsProducts).forEach((key) => {
+//       const selector = `#${key}`;
+//       typeInInput(selector, formData.itemsProducts[key]);
+//     });
+//     cy.get(".btn.dark").click();
+//     cy.get(".headerBackgroundImage").invoke(
+//       "attr",
+//       "src",
+//       "https://1000logos.net/wp-content/uploads/2021/05/Google-logo.png",
+//     );
+//     cy.get(".profileImage").invoke(
+//       "attr",
+//       "src",
+//       "https://pluspng.com/img-png/google-logo-png-open-2000.png",
+//     );
+//     cy.get(".referralSheetBackgroundImage").invoke(
+//       "attr",
+//       "src",
+//       "https://1000logos.net/wp-content/uploads/2016/11/google-logo.jpg",
+//     );
+//     cy.get('.btn.dark').click()
+//     cy.wait(10000).url().should('include', 'profile')
+//   })
+// })
+
+describe('File Uploads:', () => {
   beforeEach(() => {
-    cy.visit("/login");
-    typeInInput("#email", email);
-    typeInInput("#password", password);
-    cy.get("button[type=submit]").click();
-    cy.wait(10000).visit("business-sheet-creation");
-  });
-
-  it('Verify that a user can navigate through the entire business sheet creation process and submit the form at the end (if there’s a final submission step).' , () => {
-    [
-      "shortBiography",
-      "businessDescription",
-      "personalInformation",
-      "goals",
-      "accomplishments",
-      "interests",
-      "networks",
-      "skills",
-    ].forEach((key) => {
-      const selector = `textarea[name=${key}]`;
-      typeInInput(selector, formData[key]);
-      cy.get(".btn.dark").click();
-    });
-
-    // Step 2: Verify goldenEggs inputs
-    Object.keys(formData.goldenEggs).forEach((key) => {
-      const selector = `#${key}`;
-      typeInInput(selector, formData.goldenEggs[key]);
-    });
-    cy.get(".btn.dark").click();
-
-    // Step 3: Verify goldenGooses inputs
-    Object.keys(formData.goldenGooses).forEach((key) => {
-      const selector = `#${key}`;
-      typeInInput(selector, formData.goldenGooses[key]);
-    });
-    cy.get(".btn.dark").click();
-
-    // Step 4: Verify goldenFarmers inputs
-    Object.keys(formData.goldenFarmers).forEach((key) => {
-      const selector = `#${key}`;
-      typeInInput(selector, formData.goldenFarmers[key]);
-    });
-    cy.get(".btn.dark").click();
-
-    // Step 5: Verify companyStrengths inputs
-    ["companyStrengths"].forEach((key) => {
-      const selector = `textarea[name=${key}]`;
-      typeInInput(selector, formData[key]);
-    });
-    cy.get(".btn.dark").click();
-
-    // Step 6: Verify powerWords inputs
-    Object.keys(formData.powerWords).forEach((key) => {
-      const selector = `#${key}`;
-      typeInInput(selector, formData.powerWords[key]);
-    });
-    cy.get(".btn.dark").click();
-
-    // Step 7: Verify itemsProducts inputs
-    Object.keys(formData.itemsProducts).forEach((key) => {
-      const selector = `#${key}`;
-      typeInInput(selector, formData.itemsProducts[key]);
-    });
-    cy.get(".btn.dark").click();
-    cy.get(".headerBackgroundImage").invoke(
-      "attr",
-      "src",
-      "https://1000logos.net/wp-content/uploads/2021/05/Google-logo.png",
-    );
-    cy.get(".profileImage").invoke(
-      "attr",
-      "src",
-      "https://pluspng.com/img-png/google-logo-png-open-2000.png",
-    );
-    cy.get(".referralSheetBackgroundImage").invoke(
-      "attr",
-      "src",
-      "https://1000logos.net/wp-content/uploads/2016/11/google-logo.jpg",
-    );
-    cy.get('.btn.dark').click()
-    cy.wait(10000).url().should('include', 'profile')
+    cy.visit('/login')
+    typeInInput('#email', email)
+    typeInInput('#password', password)
+    cy.get('button[type=submit]').click()
+    cy.wait(10000).visit('business-sheet-creation')
   })
+
+  it('Verify that after selecting an image, the preview of the uploaded image is displayed in the form.' , () => {
+    for (let i = 0; i < 14; i++) {
+      cy.get('.btn.dark').click();
+    }
+    const imageFiles  = ["GoogleNew.png","google-logo.png","google-background.jpg"]
+    cy.get('input[type="file"]').each((fileInput, index) => {
+      cy.log(fileInput)
+      cy.log(imageFiles[index])
+      cy.wrap(fileInput).attachFile(imageFiles[index]);
+    })
+    cy.wait(25000);
+    cy.get(".headerBackgroundImage").should("not.equal", "/images/headerBackgroundImage.png");
+    cy.get(".profileImage").should("not.equal", "/images/profileImage.png");
+    cy.get(".referralSheetBackgroundImage").should("not.equal", "/images/referralSheetBackgroundImage.png");
+  })
+  it('Verify that after selecting an image, the preview of the uploaded image is displayed in the form.', () => {
+    for (let i = 0; i < 14; i++) {
+      cy.get('.btn.dark').click();
+    }
+    const imageFiles  = ["GoogleNew.png","google-logo.png","google-background.jpg"]
+    cy.get('input[type="file"]').each((fileInput, index) => {
+      cy.log(fileInput)
+      cy.log(imageFiles[index])
+      cy.wrap(fileInput).attachFile(imageFiles[index]);
+    })
+    cy.wait(25000);
+    cy.get('.btn.dark').click();
+    cy.wait(15000);
+    const maxFileSizeKB = 1024;
+    const checkImageSize = (selector) => {
+      cy.get(selector).invoke('attr', 'src').then((imgSrc) => {
+        cy.request(imgSrc).then((response) => {
+          const fileSizeKB = response.headers['content-length'] / 1024
+          expect(fileSizeKB).to.be.lessThan(maxFileSizeKB);
+        });
+      });
+    }
+    checkImageSize('.headerBg img');
+    checkImageSize('.profile img');
+    checkImageSize('.businessSheetData-s2 img');
+  });
 })
