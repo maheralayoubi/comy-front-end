@@ -1,3 +1,11 @@
+.error {
+  color: red;
+  font-weight: 400;
+  font-size: 12px;
+  margin-top: 0;
+}
+
+
 .register-form-container {
   max-width: 380px;
   height: 100%;
@@ -53,13 +61,6 @@
 
   .input-limit-message {
     color: rgba(153, 153, 153, 1);
-    font-weight: 400;
-    font-size: 12px;
-    margin-top: 0;
-  }
-
-  .error {
-    color: red;
     font-weight: 400;
     font-size: 12px;
     margin-top: 0;

@@ -4,7 +4,7 @@ import ResetPasswordForm from "../components/ResetPasswordForm";
 import Header from "../components/global/Header";
 import Footer from "../components/global/Footer";
 
-const Login = () => {
+const ResetPassword = () => {
   return (
     <div>
       <Header />
@@ -14,4 +14,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default ResetPassword;

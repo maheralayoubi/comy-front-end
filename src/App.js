@@ -7,11 +7,11 @@ import "react-toastify/dist/ReactToastify.css";
 import TopPage from "./pages/TopPage";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
-import ResetPasswordForm from "./pages/ResetPasswordForm";
+import ResetPassword from "./pages/ResetPassword";
 import MailConfirmation from "./pages/MailConfirmation";
 import TermsOfUse from "./pages/TermsOfUse";
 import AccountCreationCompleted from "./pages/AccountCreationCompleted";
-import ForgotPasswordForm from "./pages/ForgotPasswordForm";
+import ForgotPassword from "./pages/ForgotPassword";
 import BusinessSheetCreation from "./pages/BusinessSheetCreation";
 import ChoosePayment from "./pages/ChoosePayment";
 import StripePayment from "./pages/StripePayment";
@@ -44,10 +44,11 @@ const App = () => {
           {/* Public routes */}
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/forgot-password" element={<ForgotPasswordForm />} />
-          <Route path="/preview/:id" element={<Preview />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="/mail-confirmation" element={<MailConfirmation />} />
-          <Route path="/reset-password" element={<ResetPasswordForm />} />
+
+          <Route path="/preview/:id" element={<Preview />} />
           <Route path="/blog/:id" element={<Blog />} />
 
           {/* Protected routes */}

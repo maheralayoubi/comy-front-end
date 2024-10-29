@@ -4,7 +4,7 @@ import ForgotPasswordForm from "../components/ForgotPasswordForm";
 import Header from "../components/global/Header";
 import Footer from "../components/global/Footer";
 
-const Login = () => {
+const ForgotPassword = () => {
   return (
     <div>
       <Header />
@@ -14,4 +14,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default ForgotPassword;
