@@ -8,7 +8,7 @@ const Footer = () => {
   const navigate = useNavigate();
   const location = useLocation();
   
-  const shouldHideLogout = ['/login', '/register'].includes(location.pathname);
+  const shouldHideLogout = ['/login', '/register', '/forgot-password'].includes(location.pathname);
   
   const handleLogout = async () => {
     try {
