@@ -6,106 +6,50 @@
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: 2rem 0;
-  width: 100%;
+  gap: 4%;
+}
 
-  &__links {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    gap: 0;
-    margin-bottom: 1.5rem;
-  }
+.footer__links {
+  display: flex;
+  gap: 0;
+}
 
-  &__link {
-    padding: 0 20px;
-    border-right: 1px solid rgba(204, 204, 204, 1);
-    color: rgba(55, 65, 81, 1);
-    font-size: 16px;
-    text-decoration: none;
-    transition: all 0.2s ease-in-out;
+.footer__link {
+  padding: 0 20px;
+  border-right: 1px solid rgba(204, 204, 204, 1);
+  color: rgba(0, 0, 0, 1);
+  font-size: 16px;
+  text-decoration: none;
+  cursor: pointer;
 
-    &:hover {
-      color: rgba(17, 24, 39, 1);
+  &:last-child {
+    border-right: none;
+
+    @media (max-width: 768px) {
+      margin-top: 10px;
     }
-
-    &:last-child {
-      border-right: none;
-    }
-  }
-
-  &__logout {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.5rem 1rem;
-    margin-left: 0.5rem;
-    background: transparent;
-    border: none;
-    border-radius: 0.5rem;
-    color: rgba(55, 65, 81, 1);
-    font-size: 16px;
-    cursor: pointer;
-    transition: all 0.2s ease-in-out;
-
-    svg {
-      width: 16px;
-      height: 16px;
-      transition: transform 0.2s ease-in-out;
-    }
-
-    &:hover {
-      background-color: rgba(243, 244, 246, 1);
-      color: rgba(17, 24, 39, 1);
-
-      svg {
-        transform: translateX(4px);
-      }
-    }
-
-    &:focus {
-      outline: none;
-      box-shadow: 0 0 0 2px rgba(229, 231, 235, 1);
-    }
-
-    &:active {
-      background-color: rgba(238, 238, 238, 1);
-    }
-  }
-
-  &__logo {
-    margin: 1rem 0;
-    
-    img {
-      width: 88px;
-      height: auto;
-    }
-  }
-
-  &__copyright {
-    font-size: 12px;
-    color: rgba(153, 153, 153, 1);
   }
 }
 
+.footer__logo {
+  margin: 16px 0;
+}
+
+.footer__logo-img {
+  width: 88px;
+}
+
+.footer__copyright {
+  font-size: 12px;
+  color: rgba(153, 153, 153, 1);
+}
+
 @media (max-width: 768px) {
-  .footer {
-    height: auto;
-    padding: 2rem 1rem;
-
-    &__links {
-      flex-direction: column;
-      gap: 1rem;
-    }
-
-    &__link {
-      border-right: none;
-      padding: 0.5rem 1rem;
-    }
-
-    &__logout {
-      margin: 0.5rem 0;
-    }
+  .footer__links {
+    padding-top: 20px;
+    display: flex;
+    row-gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
   }
 }
