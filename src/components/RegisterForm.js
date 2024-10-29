@@ -1,23 +1,40 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { object, string, ref } from 'yup';
+
 import { registerUser } from "../api/auth";
+import Spinner from "./global/Spinner";
+import useFormData from "../hooks/useFormData";
+
+
+import "./styles/RegisterForm.scss";
+import { messages } from "../constants/messages";
+
+// icons
 import visibilityIcon from "../assets/images/visibility.svg";
 import visibilityOffIcon from "../assets/images/visibility_off.svg";
-import "./styles/RegisterForm.scss";
-import Spinner from "./global/Spinner";
-import { validateRegisterInputs } from "../utils/validations";
-import {
-  messages,
-} from "../constants/messages";
+
 
 const RegisterForm = () => {
-  const [name, setName] = useState("");
-  const [category, setCategory] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+
+  const registerSchema = object().shape({
+    name: string().required(),
+    category: string().required(),
+    password: string().required().matches(/^(?=.*\d)(?=.*[A-Z]).{8,}$/, messages.invalidPassword),
+    confirmPassword: string().required().oneOf([ref('password'), null], messages.invalidConfirmPassword),
+    email: string().email().required(),
+  });
+
+  const { formData, handleChange, errors, validateField, submitForm } = useFormData({
+    name: "",
+    category: "",
+    password: "",
+    confirmPassword: "",
+    email: ""
+  }, registerSchema)
+
+
   const [passwordVisible, setPasswordVisible] = useState(false);
-  const [message, setMessage] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -29,40 +46,35 @@ const RegisterForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError("")
 
-    const userData = { name, email, password, category };
-    const validateInput = validateRegisterInputs({
-      ...userData,
-      confirmPassword,
+    await submitForm(async (data) => {
+      const userData = { name: data.name, email: data.email, password: data.password, category: data.category };
+      try {
+        setLoading(true);
+        const result = await registerUser(userData);
+        if (result.status === 201) {
+          navigate("/mail-confirmation", { state: { email: userData.email } });
+        } else if (result.status === 400) {
+          setError(messages.userExists);
+        } else if (result.status === 500) {
+          setError(messages.serverError);
+        }
+      } catch (error) {
+        setError(messages.tryAgain);
+      } finally {
+        setLoading(false);
+      }
+
     });
 
-    if (validateInput) {
-      setError(validateInput);
-      return;
-    }
 
-    setMessage("");
-    setError("");
-    try {
-      setLoading(true);
-      const result = await registerUser(userData);
-      if (result.status === 201) {
-        navigate("/mail-confirmation", { state: { email } });
-      } else if (result.status === 400) {
-        setError(messages.userExists);
-      } else if (result.status === 500) {
-        setError(messages.serverError);
-      }
-    } catch (error) {
-      setError(messages.tryAgain);
-    } finally {
-      setLoading(false);
-    }
   };
 
   return (
     <div className="register-form-container">
       <h2>新規アカウント登録</h2>
+
       <form onSubmit={handleSubmit}>
         <label htmlFor="name">名前</label>
         <input
@@ -70,8 +82,9 @@ const RegisterForm = () => {
           type="text"
           id="name"
           placeholder="名前を入力"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
+          value={formData.name}
+          onFocus={() => validateField('name')}
+          onChange={handleChange}
           maxLength={30}
         />
         <p className="input-limit-message">※30文字以内</p>
@@ -81,10 +94,11 @@ const RegisterForm = () => {
           type="text"
           id="category"
           placeholder="カテゴリーを入力"
-          value={category}
-          onChange={(e) => setCategory(e.target.value)}
+          value={formData.category}
+          onChange={handleChange}
           maxLength={30}
         />
+        {errors.category && <div className="error">{errors.category}</div>}
         <p className="input-limit-message">※30文字以内</p>
 
         <label htmlFor="email">メールアドレス</label>
@@ -92,9 +106,10 @@ const RegisterForm = () => {
           type="email"
           id="email"
           placeholder="メールアドレスを入力"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          value={formData.email}
+          onChange={handleChange}
         />
+        {errors.email && <div className="error">{errors.email}</div>}
 
         <label htmlFor="password">パスワード</label>
         <div className="password-input-container">
@@ -103,8 +118,8 @@ const RegisterForm = () => {
             id="password"
             className="password-input"
             placeholder="パスワードを入力"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            value={formData.password}
+            onChange={handleChange}
           />
           <img
             src={passwordVisible ? visibilityOffIcon : visibilityIcon}
@@ -113,6 +128,8 @@ const RegisterForm = () => {
             onClick={handlePasswordVisibility}
           />
         </div>
+        {errors.password && <div className="error">{errors.password}</div>}
+
 
         <label htmlFor="confirmPassword">パスワードを再入力</label>
         <div className="password-input-container">
@@ -121,8 +138,8 @@ const RegisterForm = () => {
             id="confirmPassword"
             className="password-input"
             placeholder="パスワードを再入力"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
+            value={formData.confirmPassword}
+            onChange={handleChange}
           />
           <img
             src={passwordVisible ? visibilityOffIcon : visibilityIcon}
@@ -131,11 +148,12 @@ const RegisterForm = () => {
             onClick={handlePasswordVisibility}
           />
         </div>
+        {errors.confirmPassword && <div className="error">{errors.confirmPassword}</div>}
 
         <button
           type="submit"
           disabled={
-            !name || !category || !email || !password || !confirmPassword
+            !formData.name || !formData.category || !formData.email || !formData.password || !formData.confirmPassword
           }
         >
           新規アカウント登録
@@ -143,7 +161,6 @@ const RegisterForm = () => {
         </button>
       </form>
 
-      {message && <p style={{ color: "green" }}>{message}</p>}
       {error && <p style={{ color: "red" }}>{error}</p>}
 
       <div className="login-link">

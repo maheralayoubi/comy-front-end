@@ -41,6 +41,14 @@
       font-size: 15px;
       color: rgba(117, 117, 120, 1);
     }
+
+    // &:invalid {
+    //   outline-color: red !important;
+    // }
+
+    // &:valid {
+    //   outline-color: green !important;
+    // }
   }
 
   .input-limit-message {
@@ -49,6 +57,14 @@
     font-size: 12px;
     margin-top: 0;
   }
+
+  .error {
+    color: red;
+    font-weight: 400;
+    font-size: 12px;
+    margin-top: 0;
+  }
+
 
   .password-input-container {
     position: relative;
