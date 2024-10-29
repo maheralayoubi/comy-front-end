@@ -21,6 +21,9 @@ export const registerUser = (userData) =>
 export const loginUser = (userData) =>
   handleApiResponse(() => secureApi.post(`${AUTH_URL}/login`, userData));
 
+export const logoutUser = (userData) => 
+  handleApiResponse(() => secureApi.post(`${AUTH_URL}/logout`, userData));
+
 // Should not be called with secureApi as users can't be authenticated when they forget their password.
 export const forgotPassword = (email) =>
   handleApiResponse(() =>
