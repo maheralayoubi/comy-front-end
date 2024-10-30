@@ -211,13 +211,13 @@ const BusinessSheetTemplate = ({
 
           <div className="goldenEgg">
             <CardTitle
-              title={"金のタマゴ"}
+              title={"金のファーマー"}
               theme={data?.colorPreference}
               name="goldenEgg"
               isEdit={isEdit}
               data={data?.goldenEgg}
               handleEdit={handleEdit}
-              placeholder={"金のタマゴについて入力"}
+              placeholder={"金のファーマーについて入力"}
               maxLength={10}
             />
             {(data?.goldenEgg ? data?.goldenEgg : Array(3).fill("")).map(
@@ -247,7 +247,7 @@ const BusinessSheetTemplate = ({
 
           <div className="goldenFarmer">
             <CardTitle
-              title={"金のタマゴ"}
+              title={"金のファーマー"}
               theme={data?.colorPreference}
               name="goldenFarmer"
               isEdit={isEdit}
