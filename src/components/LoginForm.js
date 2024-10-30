@@ -99,7 +99,7 @@ const LoginForm = () => {
             required
           />
           <img
-            src={passwordVisible ? visibilityOffIcon : visibilityIcon}
+            src={passwordVisible ? visibilityIcon : visibilityOffIcon}
             alt="Toggle visibility"
             className="password-toggle"
             onClick={togglePasswordVisibility}
