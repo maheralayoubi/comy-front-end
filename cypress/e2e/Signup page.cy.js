@@ -153,7 +153,7 @@ describe("Form Validation and Submission:", () => {
     cy.intercept("POST", "**/auth/register").as("registerRequest");
     typeInInput("#name", "John");
     typeInInput("#category", "Test");
-    typeInInput("#email", "example15@example.com");
+    typeInInput("#email", "example17@example.com");
     typeInInput("#password", "Password123");
     typeInInput("#confirmPassword", "Password123");
     cy.get('button[type="submit"]').click();
