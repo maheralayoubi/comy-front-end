@@ -127,7 +127,7 @@ const TopPage = () => {
 
       <div className="features">
         <h2>COMYの今後の追加機能紹介</h2>
-        {slides.map((slide) => (
+        {slides.slice(0, 3).map((slide) => (
           <div
             className="photo photo-common disable-select"
             key={slide.id || slide.title}
