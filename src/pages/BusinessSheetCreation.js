@@ -172,13 +172,13 @@ const BusinessSheetCreation = () => {
         </Step>
 
         {/* step 9 */}
-        <Step title="金のタマゴ">
+        <Step title="金のファーマー">
           {businessSheetData?.goldenEgg.map((item, index) => (
             <Input
               key={index}
               index={index}
               lable={`エリア${index + 1}`}
-              placeholder="金のタマゴについて入力"
+              placeholder="金のファーマーについて入力"
               maxLength={10}
               value={item}
               onChange={(e) => handleChange(e, index)}
