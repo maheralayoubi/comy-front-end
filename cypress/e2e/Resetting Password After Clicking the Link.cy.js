@@ -101,17 +101,18 @@ describe("Password Visibility Toggle:", () => {
 describe("Enter email and open new password page", () => {
   const inboxId = "32659e04-54f6-4700-b97a-1bd55d4999ae";
   const emailAddress = `${inboxId}@mailslurp.net`;
-  const apiKey = "8316efce68b66e4f6ebb31f7322b367aa3a8411c9d24d928bc59d816e993d265";
+  const apiKey =
+    "8316efce68b66e4f6ebb31f7322b367aa3a8411c9d24d928bc59d816e993d265";
   beforeEach(() => {
-    cy.visit('/register');
-    typeInInput("#name", 'John');
-    typeInInput("#category", 'backend developer');
+    cy.visit("/register");
+    typeInInput("#name", "John");
+    typeInInput("#category", "backend developer");
     typeInInput("#email", emailAddress);
     typeInInput("#password", "Password123");
     typeInInput("#confirmPassword", "Password123");
     cy.get('button[type="submit"]').click();
-    cy.wait(15000)
-  })
+    cy.wait(15000);
+  });
   it("should click to forgot password, enter a new password, and log in", () => {
     let lastCheckedAt = new Date().toISOString();
     const typeInInput = (selector, value) => {
@@ -124,7 +125,7 @@ describe("Enter email and open new password page", () => {
         headers: { "x-api-key": apiKey },
       }).then((response) => {
         const newEmails = response.body.filter(
-          (email) => new Date(email.createdAt) > new Date(lastCheckedAt)
+          (email) => new Date(email.createdAt) > new Date(lastCheckedAt),
         );
         if (newEmails.length > 0) {
           const latestEmail = newEmails[0];
@@ -153,7 +154,7 @@ describe("Enter email and open new password page", () => {
           });
         } else {
           cy.wait(5000);
-          checkInboxForEmail()
+          checkInboxForEmail();
         }
       });
     };
