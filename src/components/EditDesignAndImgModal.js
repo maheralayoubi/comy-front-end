@@ -113,6 +113,7 @@ const EditDesignAndImgModal = ({
     setBusinessSheetData(getValue("businessSheetData"));
     onToggle();
     setLoading(false);
+    window.location.reload();
   };
 
   return (

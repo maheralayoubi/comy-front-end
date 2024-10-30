@@ -10,7 +10,7 @@ const Header = () => {
     <header className="header">
       <div className="header-left">
         <Link to="/">
-          <img src="images/Logo_comy.svg" alt="Logo" className="logo" />
+          <img src="/images/Logo_comy.svg" alt="Logo" className="logo" />
         </Link>
         <div className="search-container">
           <a href="/search-results">

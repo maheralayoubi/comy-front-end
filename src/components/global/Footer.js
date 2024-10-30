@@ -66,7 +66,7 @@ const Footer = () => {
       <div className="footer__logo">
         <a href="/">
           <img
-            src="images/Logo_comy.svg"
+            src="/images/Logo_comy.svg"
             alt="Logo"
             className="footer__logo-img"
           />
