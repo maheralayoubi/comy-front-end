@@ -120,9 +120,11 @@ const TopPage = () => {
         <div className="users">
           {users && users.slice().reverse().map((user) => <UserCard key={user.id} user={user} />)}
         </div>
-        <a href="/member-list">
-          <button>さらに見る</button>
-        </a>
+        <div className="see-more-members">
+          <a href="/member-list">
+            <button>さらに見る</button>
+          </a>
+        </div>
       </div>
 
       <div className="features">

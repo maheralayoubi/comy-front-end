@@ -286,7 +286,7 @@ export const ChildCard = ({
             src="/images/arrow.png"
             alt="arrow"
           />
-          <span>一部を表示</span>
+          <span>{showMore ? "一部を表示" : "もっと見る"}</span>
         </div>
       )}
     </div>
