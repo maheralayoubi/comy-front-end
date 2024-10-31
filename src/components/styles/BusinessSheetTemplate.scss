@@ -74,6 +74,8 @@
       min-height: 160px;
       margin-top: -102px;
       z-index: 100;
+      -o-object-fit: cover;
+      object-fit: cover;
 
       @media (max-width: 992px) {
         width: 80px;

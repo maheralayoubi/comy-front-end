@@ -14,6 +14,8 @@
     height: 120px;
     border-radius: 80px;
     margin-bottom: 10px;
+    object-fit: cover;
+    -o-object-fit: cover;
 
     @media (max-width: 768px) {
       width: 60px;

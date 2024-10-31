@@ -118,7 +118,7 @@ const TopPage = () => {
       <div className="member-list-top-list">
         <h2>COMYユーザー</h2>
         <div className="users">
-          {users && users.map((user) => <UserCard key={user.id} user={user} />)}
+          {users && users.slice().reverse().map((user) => <UserCard key={user.id} user={user} />)}
         </div>
         <a href="/member-list">
           <button>さらに見る</button>
