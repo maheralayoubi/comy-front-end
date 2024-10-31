@@ -391,6 +391,10 @@
         line-height: 24px;
         letter-spacing: 0.04em;
         text-align: center;
+
+        @media (max-width: 380px) {
+          width: 340px;
+        }
       }
     }
   }
