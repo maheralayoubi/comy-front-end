@@ -1,4 +1,5 @@
 /* eslint-disable no-undef */
+const titles = ['メンバー略歴シート', 'ビジネスについて', '個人的な情報', 'ビジネスシート', '目標', '実績', '興味・関心', '人脈', '能力','リファーラルシート', '金のタマゴ', '金のガチョウ', '金のファーマー', '自社の強み', 'パワーワード', 'アイテム / 商品・商材']
 describe('Form Initialization:', () => {
   beforeEach(() => {
     cy.visit('/login')
@@ -25,5 +26,11 @@ describe('Form Initialization:', () => {
     // Check each section for default or backend text
     checkForDefaultText('.cardContent')
     checkForDefaultText('.section2Container p')
+  })
+
+  it('Verify that all section titles (e.g., "ビジネスについて", "個人的な情報") are rendered correctly on page load.', () => {
+    titles.map((title) =>(
+      cy.contains(title)
+    ))
   })
 })
