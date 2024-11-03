@@ -49,7 +49,7 @@ const RegisterForm = () => {
       if (result.status === 201) {
         navigate("/mail-confirmation", { state: { email } });
       } else if (result.status === 400) {
-        setError(messages.userExist);
+        setError(messages.userExists);
       } else if (result.status === 500) {
         setError(messages.serverError);
       }
@@ -99,7 +99,7 @@ const RegisterForm = () => {
         <label htmlFor="password">パスワード</label>
         <div className="password-input-container">
           <input
-            type={passwordVisible ? "text" : "password"}
+            type={passwordVisible ? "password" : "text"}
             id="password"
             className="password-input"
             placeholder="パスワードを入力"
@@ -117,7 +117,7 @@ const RegisterForm = () => {
         <label htmlFor="confirmPassword">パスワードを再入力</label>
         <div className="password-input-container">
           <input
-            type={passwordVisible ? "text" : "password"}
+            type={passwordVisible ? "password" : "text"}
             id="confirmPassword"
             className="password-input"
             placeholder="パスワードを再入力"

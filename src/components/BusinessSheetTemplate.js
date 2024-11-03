@@ -247,7 +247,7 @@ const BusinessSheetTemplate = ({
 
           <div className="goldenFarmer">
             <CardTitle
-              title={"金のタマゴ"}
+              title={"金のファーマー"}
               theme={data?.colorPreference}
               name="goldenFarmer"
               isEdit={isEdit}

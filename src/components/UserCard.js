@@ -9,7 +9,7 @@ const UserCard = ({ user }) => {
           src={
             user.profileImageUrl
               ? user.profileImageUrl
-              : "https://via.placeholder.com/120"
+              : "images/profileImage.png"
           }
           alt={user.name}
           className="user-image"

@@ -49,7 +49,7 @@ const LoginForm = () => {
       const result = await loginUser(userData);
       switch (result.status) {
         case 200:
-          setMessage({ type: "success", content: messages.successfulLoging });
+          setMessage({ type: "success", content: messages.successfulLogin });
           navigate("/profile");
           break;
         case 400:
@@ -62,10 +62,10 @@ const LoginForm = () => {
           setMessage({ type: "error", content: messages.serverError });
           break;
         default:
-          setMessage({ type: "error", content: message.tryAgain });
+          setMessage({ type: "error", content: messages.tryAgain });
       }
     } catch (error) {
-      setMessage({ type: "error", content: message.tryAgain });
+      setMessage({ type: "error", content: messages.tryAgain });
       console.error("Login failed:", error);
     } finally {
       setLoading(false);
@@ -99,7 +99,7 @@ const LoginForm = () => {
             required
           />
           <img
-            src={passwordVisible ? visibilityOffIcon : visibilityIcon}
+            src={passwordVisible ? visibilityIcon : visibilityOffIcon}
             alt="Toggle visibility"
             className="password-toggle"
             onClick={togglePasswordVisibility}

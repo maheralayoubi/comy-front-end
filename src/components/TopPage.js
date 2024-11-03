@@ -24,6 +24,12 @@ const TopPage = () => {
       id: "ai-slider",
     },
     {
+      img: "/images/MemberSearch.png",
+      title: "メンバー検索",
+      description: "事業のコラボレーションにピッタリな人を見つける",
+      subtitle: "COMYの取扱説明書",
+    },
+    {
       img: "/images/BulletinBoard.png",
       title: "掲示板",
       description: "メンバーと気軽に繋がれるオンラインの居場所",
@@ -112,16 +118,18 @@ const TopPage = () => {
       <div className="member-list-top-list">
         <h2>COMYユーザー</h2>
         <div className="users">
-          {users && users.map((user) => <UserCard key={user.id} user={user} />)}
+          {users && users.slice().reverse().map((user) => <UserCard key={user.id} user={user} />)}
         </div>
-        <a href="/member-list">
-          <button>さらに見る</button>
-        </a>
+        <div className="see-more-members">
+          <a href="/member-list">
+            <button>さらに見る</button>
+          </a>
+        </div>
       </div>
 
       <div className="features">
         <h2>COMYの今後の追加機能紹介</h2>
-        {slides.map((slide) => (
+        {slides.slice(0, 3).map((slide) => (
           <div
             className="photo photo-common disable-select"
             key={slide.id || slide.title}
@@ -136,7 +144,7 @@ const TopPage = () => {
         ))}
       </div>
 
-      <div className="links">
+      {/* <div className="links">
         <h2>ニュース</h2>
         <ul>
           {blogs?.map((item) => (
@@ -145,7 +153,7 @@ const TopPage = () => {
             </li>
           ))}
         </ul>
-      </div>
+      </div> */}
     </>
   );
 };

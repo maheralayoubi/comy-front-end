@@ -86,10 +86,10 @@ const Stepper = ({ children, data, handleInit }) => {
         </button>
       )}
 
-      <span className="orBtn">または</span>
+      {/* <span className="orBtn">または</span>
       <span className="alreadyHaveSheet">
         すでに略歴シートをお持ちの方はこちら
-      </span>
+      </span> */}
     </div>
   );
 };

@@ -1,7 +1,23 @@
-import React from "react";
-import "./styles/Footer.scss";
+import React from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { logoutUser } from '../../api/auth';
+import './styles/Footer.scss';
 
 const Footer = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const shouldHideLogout = ['/login', '/register', '/forgot-password', '/mail-confirmation'].includes(location.pathname);
+
+  const handleLogout = async () => {
+    try {
+      await logoutUser();
+      navigate('/login');
+    } catch (error) {
+      console.error('Logout failed:', error);
+    }
+  };
+
   return (
     <footer className="footer">
       <div className="footer__links">
@@ -37,12 +53,20 @@ const Footer = () => {
         >
           お問い合わせ
         </a>
+        {!shouldHideLogout && (
+          <div
+            onClick={handleLogout}
+            className="footer__logout"
+          >
+            <span className='footer__link'>ログアウト</span>
+          </div>
+        )}
       </div>
 
       <div className="footer__logo">
         <a href="/">
           <img
-            src="/images/Logo_comy.png"
+            src="/images/Logo_comy.svg"
             alt="Logo"
             className="footer__logo-img"
           />

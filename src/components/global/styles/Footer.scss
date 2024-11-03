@@ -9,6 +9,10 @@
   gap: 4%;
 }
 
+.footer__logout {
+  margin-top: -2px;
+}
+
 .footer__links {
   display: flex;
   gap: 0;
@@ -18,8 +22,9 @@
   padding: 0 20px;
   border-right: 1px solid rgba(204, 204, 204, 1);
   color: rgba(0, 0, 0, 1);
-  font-size: 16px;
+  font-size: 14px;
   text-decoration: none;
+  cursor: pointer;
 
   &:last-child {
     border-right: none;
@@ -45,8 +50,9 @@
 
 @media (max-width: 768px) {
   .footer__links {
+    padding-top: 20px;
     display: flex;
-    gap: 0;
+    row-gap: 10px;
     flex-wrap: wrap;
     justify-content: center;
   }
