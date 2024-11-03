@@ -1,15 +1,21 @@
 import { Link } from "react-router-dom";
-import blogs from "../data/blogs.json";
+
 import "./styles/Blog.scss";
 
-const Blog = ({ id }) => {
+// dummy data
+import blogs from "../data/blogs.json";
+
+
+const BlogDetails = ({ id }) => {
+
   const blog = blogs.find((item) => item.id === id);
 
   return (
     <div className="blog">
       <div className="blogContainer">
         <div className="blogTitle">
-          <Link className="back" to="/">ホーム
+          <Link className="back" to="/">
+            ホーム
             <img src="/images/arrow_forward_ios.png" alt="arrow" />
           </Link>
           <h6 className="shortTitle">
@@ -38,4 +44,4 @@ const Blog = ({ id }) => {
   );
 };
 
-export default Blog;
+export default BlogDetails;

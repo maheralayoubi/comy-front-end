@@ -1,18 +1,23 @@
 import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
-import visibilityIcon from "../assets/images/visibility.svg";
-import visibilityOffIcon from "../assets/images/visibility_off.svg";
+
 import "./styles/ResetPasswordForm.scss";
-import Spinner from "./global/Spinner";
-import { validateResetPasswordInput } from "../utils/validations";
+
 import { messages } from "../constants/messages";
 import { resetPassword } from "../api/auth";
+import { isFormComplete, resetPasswordSchema } from "../utils/formUtils";
+import Button from "./global/Button";
+import useFormData from "../hooks/useFormData";
+
+// icons
+import visibilityIcon from "../assets/images/visibility.svg";
+import visibilityOffIcon from "../assets/images/visibility_off.svg";
+
 
 const ResetPasswordForm = () => {
-  const [newPassword, setNewPassword] = useState("");
-  const [confirmNewPassword, setConfirmNewPassword] = useState("");
+
   const [passwordVisible, setPasswordVisible] = useState(false);
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState({ type: "", content: "" });
   const [loading, setLoading] = useState(false);
 
   const location = useLocation();
@@ -20,99 +25,117 @@ const ResetPasswordForm = () => {
   const query = new URLSearchParams(location.search);
   const token = query.get("token");
 
-  const handlePasswordVisibility = () => {
-    setPasswordVisible(!passwordVisible);
-  };
+  const { formData, handleChange, errors, submitForm } = useFormData({
+    newPassword: "",
+    confirmNewPassword: ""
+  }, resetPasswordSchema)
+
+  const togglePasswordVisibility = () => setPasswordVisible(prev => !prev);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const passwordData = { newPassword, confirmNewPassword };
-    const validateInput = validateResetPasswordInput(passwordData);
+    setMessage({ type: "", content: "" });
 
-    if (validateInput) {
-      setMessage(validateInput);
-      return;
-    }
+    await submitForm(async (data) => {
 
-    try {
-      setLoading(true);
-      setMessage("");
+      const { newPassword } = data
 
-      const response = await resetPassword(token, newPassword)
-      console.log(response)
+      try {
 
-      if (response.status === 200) {
-        setMessage(messages.updatedPassword);
-        setNewPassword("");
-        setConfirmNewPassword("");
-        setTimeout(() => {
-          window.location.href = "/login";
-        }, 1500);
-      } else {
-        setMessage(response.data.message || messages.tryAgain);
+        setLoading(true);
+        const result = await resetPassword(token, newPassword)
+
+        switch (result.status) {
+          case 200:
+            setMessage({ type: "success", content: messages.updatedPassword });
+            setTimeout(() => {
+              window.location.href = "/login";
+            }, 1500);
+            break;
+          case 500:
+            setMessage({ type: "error", content: messages.serverError });
+            break;
+          default:
+            setMessage({ type: "error", content: messages.tryAgain });
+        }
+
+      } catch (error) {
+        setMessage({ type: "error", content: messages.tryAgain });
+
+      } finally {
+        setLoading(false);
       }
-    } catch (error) {
-      setMessage(messages.tryAgain);
-    } finally {
-      setLoading(false);
-    }
+
+    });
+
   };
 
   return (
     <div className="update-password-form-container">
       <h2>パスワードの再設定</h2>
+
       <form onSubmit={handleSubmit}>
-        <label htmlFor="newPassword">新しいパスワード</label>
-        <div className="password-input-container">
-          <input
-            autoFocus
-            type={passwordVisible ? "password" : "text"}
-            id="newPassword"
-            placeholder="パスワードを入力"
-            value={newPassword}
-            onChange={(e) => setNewPassword(e.target.value)}
-          />
-          <img
-            src={passwordVisible ? visibilityOffIcon : visibilityIcon}
-            alt="Toggle visibility"
-            className="password-toggle"
-            onClick={handlePasswordVisibility}
-          />
-        </div>
 
-        <label htmlFor="confirmNewPassword">新しいパスワードを再入力</label>
-        <div className="password-input-container">
-          <input
-            type={passwordVisible ? "password" : "text"}
-            id="confirmNewPassword"
-            placeholder="パスワードを再入力"
-            value={confirmNewPassword}
-            onChange={(e) => setConfirmNewPassword(e.target.value)}
-          />
-          <img
-            src={passwordVisible ? visibilityOffIcon : visibilityIcon}
-            alt="Toggle visibility"
-            className="password-toggle"
-            onClick={handlePasswordVisibility}
-          />
-        </div>
+        {/* newPassword */}
+        <>
+          <label htmlFor="newPassword">新しいパスワード</label>
+          <div className="password-input-container">
+            <input
+              autoFocus
+              type={passwordVisible ? "text" : "password"}
+              id="newPassword"
+              placeholder="パスワードを入力"
+              value={formData.newPassword}
+              onChange={handleChange}
+            />
+            <img
+              src={passwordVisible ? visibilityOffIcon : visibilityIcon}
+              alt="Toggle visibility"
+              className="password-toggle"
+              onClick={togglePasswordVisibility}
+            />
+          </div>
+          {errors.newPassword && <div className="error">{errors.newPassword}</div>}
+        </>
 
-        <button type="submit" disabled={!newPassword || !confirmNewPassword}>
-          パスワードを更新
-          {loading && <Spinner />}
-        </button>
+        {/* confirmNewPassword */}
+        <>
+          <label htmlFor="confirmNewPassword">新しいパスワードを再入力</label>
+          <div className="password-input-container">
+            <input
+              type={passwordVisible ? "text" : "password"}
+              id="confirmNewPassword"
+              placeholder="パスワードを再入力"
+              value={formData.confirmNewPassword}
+              onChange={handleChange}
+            />
+            <img
+              src={passwordVisible ? visibilityOffIcon : visibilityIcon}
+              alt="Toggle visibility"
+              className="password-toggle"
+              onClick={togglePasswordVisibility}
+            />
+          </div>
+          {errors.confirmNewPassword && <div className="error">{errors.confirmNewPassword}</div>}
+        </>
+
+        <Button
+          type="submit"
+          content="パスワードを更新"
+          isLoading={loading}
+          disabled={!isFormComplete(formData) || loading}
+        />
+
       </form>
 
-      {message && (
-        <p
-          style={{
-            color: message === messages.updatedPassword ? "green" : "red",
-          }}
-        >
-          {message}
+      {/* Enhanced message display with dynamic styling */}
+      {message.content && (
+        <p style={{ color: message.type === "success" ? "green" : "red" }}>
+          {message.content}
         </p>
       )}
+
     </div>
   );
 };
