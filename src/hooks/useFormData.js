@@ -1,5 +1,7 @@
 import { useState, useCallback, useMemo } from 'react';
 
+import { compression } from "../utils/imageCompression";
+
 const useFormData = (initialValues, schema) => {
     const [formData, setFormData] = useState(initialValues);
     const [errors, setErrors] = useState({});
@@ -10,11 +12,26 @@ const useFormData = (initialValues, schema) => {
         return schema ? schema.clone() : null;
     }, [schema]);
 
-    const handleChange = useCallback((event) => {
-        const { id, value } = event.target;
-        setFormData(prevData => ({ ...prevData, [id]: value }));
-        setTouched(prevTouched => ({ ...prevTouched, [id]: true }));
-    }, []);
+    const handleChange = useCallback(async (event, index) => {
+        const { id, name, value, files } = event.target;
+        const fieldName = id || name; // Use id if available, otherwise use name
+
+        let newValue = value;
+        let updateFunction = (prevData) => ({ ...prevData, [fieldName]: newValue });
+
+        if (files && files.length > 0) {
+            newValue = await compression(files[0]);
+            updateFunction = (prevData) => ({ ...prevData, [fieldName]: newValue });
+        } else if (index !== undefined) {
+            newValue = [...formData[fieldName]];
+            newValue[index] = value;
+            updateFunction = (prevData) => ({ ...prevData, [fieldName]: newValue });
+        }
+
+        setFormData(updateFunction);
+        setTouched(prevTouched => ({ ...prevTouched, [fieldName]: true }));
+
+    }, [formData]);
 
     const handleBlur = useCallback((event) => {
         const { name } = event.target;
@@ -58,6 +75,21 @@ const useFormData = (initialValues, schema) => {
         setTouched({});
     }, [initialValues]);
 
+    const resetField = useCallback((fieldName) => {
+        setFormData(prevData => ({
+            ...prevData,
+            [fieldName]: initialValues[fieldName]
+        }));
+        setErrors(prevErrors => ({
+            ...prevErrors,
+            [fieldName]: ''
+        }));
+        setTouched(prevTouched => ({
+            ...prevTouched,
+            [fieldName]: false
+        }));
+    }, [initialValues]);
+
     const submitForm = useCallback(async (onSubmit) => {
         const isValid = await validateForm();
         // if (Object.keys(errors).length === 0) {
@@ -73,6 +105,7 @@ const useFormData = (initialValues, schema) => {
         errors,
         touched,
         isValidating,
+        resetField,
         handleChange,
         handleBlur,
         validateField,

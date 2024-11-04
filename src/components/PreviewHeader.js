@@ -8,7 +8,7 @@ const PreviewHeader = () => {
       <div className="PreviewHeader-left">
         <Link to="/">
           <img src="/images/Logo_comy.svg" alt="Logo" className="logo" />
-        </Link>{" "}
+        </Link>
       </div>
     </header>
   );

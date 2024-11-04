@@ -1,4 +1,7 @@
+
 import "./styles/BusinessSheetTemplate.scss";
+
+import EditDesignAndImgModal from "./EditDesignAndImgModal";
 import {
   Card,
   CardTitle,
@@ -7,9 +10,8 @@ import {
   SectionTitle,
   CardData,
 } from "./Cards";
-import EditDesignAndImgModal from "./EditDesignAndImgModal";
-import { messages } from "../constants/messages";
-import { toast } from "react-toastify";
+import CopySheetUrl from "./CopySheetUrl";
+
 
 const BusinessSheetTemplate = ({
   data,
@@ -18,18 +20,55 @@ const BusinessSheetTemplate = ({
   handleEdit,
   setBusinessSheetData,
 }) => {
-  const copyProfileUrl = () => {
-    navigator.clipboard
-      .writeText(`${window.location.origin}/preview/${data?.userId}`)
-      .then(() => {
-        toast(messages.successfulCopy, {
-          className: "toastStyle",
-        });
-      })
-      .catch((err) => {
-        alert(messages.tryAgain);
-      });
+
+  const getHeaderBackgroundSrc = (isPreview, isEdit, data) => {
+    if (isPreview && data.headerBackgroundImageUrl) {
+      return data.headerBackgroundImageUrl;
+    }
+
+    if (isEdit && data.headerBackgroundImageUrl) {
+      return `${data.headerBackgroundImageUrl}?timestamp=${new Date().getTime()}`;
+    }
+
+    if (data.headerBackgroundImage) {
+      return URL.createObjectURL(data.headerBackgroundImage);
+    }
+
+    return "/images/headerBackgroundImage.png";
   };
+
+  const getProfileImageSrc = (isPreview, isEdit, data) => {
+    if (isPreview && data.profileImageUrl) {
+      return data.profileImageUrl;
+    }
+
+    if (isEdit && data.profileImageUrl) {
+      return `${data.profileImageUrl}?timestamp=${new Date().getTime()}`;
+    }
+
+    if (data.profileImage) {
+      return URL.createObjectURL(data.profileImage);
+    }
+
+    return "/images/profileImage.png";
+  };
+
+  const getReferralSheetBackgroundSrc = (isPreview, isEdit, data) => {
+    if (isPreview && data.referralSheetBackgroundImageUrl) {
+      return data.referralSheetBackgroundImageUrl;
+    }
+
+    if (isEdit && data.referralSheetBackgroundImageUrl) {
+      return `${data.referralSheetBackgroundImageUrl}?timestamp=${new Date().getTime()}`;
+    }
+
+    if (data.referralSheetBackgroundImage) {
+      return URL.createObjectURL(data.referralSheetBackgroundImage);
+    }
+
+    return "/images/referralSheetBackgroundImage.png";
+  };
+
 
   return (
     <div
@@ -38,17 +77,12 @@ const BusinessSheetTemplate = ({
         fontFamily: data?.fontPreference && `${data?.fontPreference}`,
       }}
     >
+
+      {/* header bg section */}
       <div className="headerBg">
+
         <img
-          src={
-            isPreview && data?.headerBackgroundImageUrl
-              ? data?.headerBackgroundImageUrl
-              : isEdit && data?.headerBackgroundImageUrl
-                ? `${data?.headerBackgroundImageUrl}?timestamp=${new Date().getTime()}`
-                : data?.headerBackgroundImage
-                  ? URL.createObjectURL(data?.headerBackgroundImage)
-                  : "/images/headerBackgroundImage.png"
-          }
+          src={getHeaderBackgroundSrc(isPreview, isEdit, data)}
           alt="cover"
         />
 
@@ -63,43 +97,34 @@ const BusinessSheetTemplate = ({
         )}
       </div>
 
+      {/* profile section */}
       <div className="profile">
+
         <img
-          src={
-            isPreview && data?.profileImageUrl
-              ? data?.profileImageUrl
-              : isEdit && data?.profileImageUrl
-                ? `${data?.profileImageUrl}?timestamp=${new Date().getTime()}`
-                : data?.profileImage
-                  ? URL.createObjectURL(data?.profileImage)
-                  : "/images/profileImage.png"
-          }
+          src={getProfileImageSrc(isPreview, isEdit, data)}
           alt="profile"
         />
+
         <div className="profileContent">
           <div className="userData">
             <h6 className="userCategory">{data?.userCategory}</h6>
             <h1 className="userName">{data?.userName}</h1>
           </div>
-          {isEdit && (
-            <div className="copyContent">
-              <div
-                href={`/user/${data?.userId}`}
-                target="_blanck"
-                className="copyImg"
-                onClick={copyProfileUrl}
-              >
-                <img src="/images/content_copy.png" alt="copy content" />
-              </div>
 
-              <span>ビジネスシートのURLをコピー</span>
-            </div>
-          )}
+          {isEdit &&
+            <CopySheetUrl
+              userId={data?.userId}
+            />}
         </div>
+
       </div>
 
+      {/* main busniness info section */}
       <div className="businessSheetData-s1">
+
         <div className="left">
+
+          {/* shortBiography */}
           <Card
             title={"メンバー略歴シート"}
             data={data?.shortBiography}
@@ -110,6 +135,8 @@ const BusinessSheetTemplate = ({
             placeholder={"メンバー略歴を入力"}
             maxLength={400}
           />
+
+          {/* businessDescription */}
           <Card
             title={"ビジネスについて"}
             data={data?.businessDescription}
@@ -120,6 +147,8 @@ const BusinessSheetTemplate = ({
             placeholder={"ビジネスについて入力"}
             maxLength={400}
           />
+
+          {/* personalInformation */}
           <Card
             title={"個人的な情報"}
             data={data?.personalInformation}
@@ -130,6 +159,7 @@ const BusinessSheetTemplate = ({
             placeholder={"個人的な情報について入力"}
             maxLength={200}
           />
+
         </div>
 
         <div className="right">
@@ -137,6 +167,8 @@ const BusinessSheetTemplate = ({
             title={"ビジネスシート"}
             theme={data?.colorPreference}
           />
+
+          {/* goals */}
           <ChildCard
             title={"目標"}
             data={data?.goals}
@@ -147,6 +179,8 @@ const BusinessSheetTemplate = ({
             placeholder={"目標について入力"}
             maxLength={1000}
           />
+
+          {/* accomplishments */}
           <ChildCard
             title={"実績"}
             data={data?.accomplishments}
@@ -157,6 +191,8 @@ const BusinessSheetTemplate = ({
             placeholder={"実績について入力"}
             maxLength={1000}
           />
+
+          {/* interests */}
           <ChildCard
             title={"興味・関心"}
             data={data?.interests}
@@ -167,6 +203,8 @@ const BusinessSheetTemplate = ({
             placeholder={"興味・関心について入力"}
             maxLength={1000}
           />
+
+          {/* networks */}
           <ChildCard
             title={"人脈"}
             data={data?.networks}
@@ -177,6 +215,8 @@ const BusinessSheetTemplate = ({
             placeholder={"人脈について入力"}
             maxLength={1000}
           />
+
+          {/* skills */}
           <ChildCard
             title={"能力"}
             data={data?.skills}
@@ -187,28 +227,27 @@ const BusinessSheetTemplate = ({
             placeholder={"能力について入力"}
             maxLength={1000}
           />
+
         </div>
+
       </div>
 
+      {/* background cover section */}
       <div className="businessSheetData-s2">
+
         <img
-          src={
-            isPreview && data?.referralSheetBackgroundImageUrl
-              ? data?.referralSheetBackgroundImageUrl
-              : isEdit && data?.referralSheetBackgroundImageUrl
-                ? `${data?.referralSheetBackgroundImageUrl}?timestamp=${new Date().getTime()}`
-                : data?.referralSheetBackgroundImage
-                  ? URL.createObjectURL(data?.referralSheetBackgroundImage)
-                  : "/images/referralSheetBackgroundImage.png"
-          }
+          src={getReferralSheetBackgroundSrc(isPreview, isEdit, data)}
           alt="background"
         />
+
         <div className="section2Container">
+
           <SectionTitle
             title={"リファーラルシート"}
             theme={data?.colorPreference}
           />
 
+          {/* goldenEgg */}
           <div className="goldenEgg">
             <CardTitle
               title={"金のタマゴ"}
@@ -227,6 +266,7 @@ const BusinessSheetTemplate = ({
             )}
           </div>
 
+          {/* goldenGoose */}
           <div className="goldenGoose">
             <CardTitle
               title={"金のガチョウ"}
@@ -245,6 +285,7 @@ const BusinessSheetTemplate = ({
             )}
           </div>
 
+          {/* goldenFarmer */}
           <div className="goldenFarmer">
             <CardTitle
               title={"金のファーマー"}
@@ -263,6 +304,7 @@ const BusinessSheetTemplate = ({
             )}
           </div>
 
+          {/* companyStrengths */}
           <div className="companyStrengths">
             <CardTitle2
               title={"自社の強み"}
@@ -277,6 +319,7 @@ const BusinessSheetTemplate = ({
             <CardData data={data?.companyStrengths} />
           </div>
 
+          {/* powerWords */}
           <div className="powerWords">
             <CardTitle
               title={"パワーワード"}
@@ -298,6 +341,7 @@ const BusinessSheetTemplate = ({
             </div>
           </div>
 
+          {/* products */}
           <div className="products">
             <CardTitle
               title={"アイテム / 商品・商材"}
@@ -317,8 +361,11 @@ const BusinessSheetTemplate = ({
               <CardData key={index} data={item} />
             ))}
           </div>
+
         </div>
+
       </div>
+
     </div>
   );
 };

@@ -125,18 +125,9 @@ export const UploadImage = ({
   value,
   onChange,
   name,
-  setBusinessSheetData,
+  resetImage,
 }) => {
   // const { setValue } = useLocalStorage()
-
-  const resetImage = () => {
-    // setValue(name, "");
-
-    setBusinessSheetData((prevState) => ({
-      ...prevState,
-      [name]: null,
-    }));
-  };
 
   return (
     <div className="uploadImage">

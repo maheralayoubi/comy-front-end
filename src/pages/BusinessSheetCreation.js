@@ -2,6 +2,9 @@ import { useCallback, useEffect, useState } from "react";
 
 import Header from "../components/global/Header";
 import Stepper, { Step } from "../components/Stepper";
+import useLocalStorage from "../hooks/useLocalStorage";
+import useFormData from "../hooks/useFormData";
+import { businessSheetSchema } from "../utils/formUtils";
 import {
   TextArea,
   Input,
@@ -10,85 +13,75 @@ import {
   UploadImage,
 } from "../components/FormElements";
 
-import useLocalStorage from "../hooks/useLocalStorage";
-import { compression } from "../utils/imageCompression";
-
 const BusinessSheetCreation = () => {
+
   const { getValue, setValue } = useLocalStorage();
 
-  const [businessSheetData, setBusinessSheetData] = useState(null);
+  const { formData, handleChange, resetForm, resetField, submitForm } = useFormData({
+    shortBiography: getValue("shortBiography") || "",
+    businessDescription: getValue("businessDescription") || "",
+    personalInformation: getValue("personalInformation") || "",
+    goals: getValue("goals") || "",
+    accomplishments: getValue("accomplishments") || "",
+    interests: getValue("interests") || "",
+    networks: getValue("networks") || "",
+    skills: getValue("skills") || "",
+    goldenEgg: getValue("goldenEgg") || Array(3).fill(""),
+    goldenGoose: getValue("goldenGoose") || Array(3).fill(""),
+    goldenFarmer: getValue("goldenFarmer") || Array(3).fill(""),
+    companyStrengths: getValue("companyStrengths") || "",
+    powerWords: getValue("powerWords") || Array(6).fill(""),
+    itemsProducts: getValue("itemsProducts") || Array(3).fill(""),
+    headerBackgroundImage: null,
+    profileImage: null,
+    referralSheetBackgroundImage: null,
+    colorPreference: getValue("colorPreference") || "",
+    fontPreference: getValue("fontPreference") || "",
+  }, businessSheetSchema)
 
-  const handleInit = useCallback(() => {
-    console.log("clear");
-    setBusinessSheetData({
-      shortBiography: getValue("shortBiography") || "",
-      businessDescription: getValue("businessDescription") || "",
-      personalInformation: getValue("personalInformation") || "",
-      goals: getValue("goals") || "",
-      accomplishments: getValue("accomplishments") || "",
-      interests: getValue("interests") || "",
-      networks: getValue("networks") || "",
-      skills: getValue("skills") || "",
-      goldenEgg: getValue("goldenEgg") || Array(3).fill(""),
-      goldenGoose: getValue("goldenGoose") || Array(3).fill(""),
-      goldenFarmer: getValue("goldenFarmer") || Array(3).fill(""),
-      companyStrengths: getValue("companyStrengths") || "",
-      powerWords: getValue("powerWords") || Array(6).fill(""),
-      itemsProducts: getValue("itemsProducts") || Array(3).fill(""),
-      headerBackgroundImage: null,
-      profileImage: null,
-      referralSheetBackgroundImage: null,
-      colorPreference: getValue("colorPreference") || "",
-      fontPreference: getValue("fontPreference") || "",
-    });
-  }, [getValue]);
+  // const handleChange = async (e, index) => {
+  //   const { name, value, files } = e.target;
 
-  useEffect(() => {
-    handleInit();
-  }, [handleInit]);
-
-  const handleChange = async (e, index) => {
-    const { name, value, files } = e.target;
-
-    // is file
-    if (files && files.length > 0) {
-      const file = await compression(files[0]);
-      setBusinessSheetData((prevState) => ({
-        ...prevState,
-        [name]: file,
-      }));
-    }
-    // is array
-    else if (index !== undefined) {
-      businessSheetData[name][index] = value;
-      const newArray = [...businessSheetData[name]];
-      setValue(name, newArray);
-      setBusinessSheetData((prevState) => ({
-        ...prevState,
-        [name]: newArray,
-      }));
-    }
-    // is string
-    else {
-      setValue(name, value);
-      setBusinessSheetData((prevState) => ({
-        ...prevState,
-        [name]: value,
-      }));
-    }
-  };
+  //   // is file
+  //   if (files && files.length > 0) {
+  //     const file = await compression(files[0]);
+  //     setBusinessSheetData((prevState) => ({
+  //       ...prevState,
+  //       [name]: file,
+  //     }));
+  //   }
+  //   // is array
+  //   else if (index !== undefined) {
+  //     businessSheetData[name][index] = value;
+  //     const newArray = [...businessSheetData[name]];
+  //     setValue(name, newArray);
+  //     setBusinessSheetData((prevState) => ({
+  //       ...prevState,
+  //       [name]: newArray,
+  //     }));
+  //   }
+  //   // is string
+  //   else {
+  //     setValue(name, value);
+  //     setBusinessSheetData((prevState) => ({
+  //       ...prevState,
+  //       [name]: value,
+  //     }));
+  //   }
+  // };
 
   return (
     <>
       <Header />
 
-      <Stepper data={businessSheetData} handleInit={handleInit}>
+      <Stepper data={formData} handleInit={resetForm}>
+
         {/* step 1 */}
         <Step title="メンバー略歴シート">
           <TextArea
             placeholder="メンバー略歴を入力"
             maxLength={400}
-            value={businessSheetData?.shortBiography}
+            value={formData?.shortBiography}
             onChange={handleChange}
             name="shortBiography"
           />
@@ -99,7 +92,7 @@ const BusinessSheetCreation = () => {
           <TextArea
             placeholder="ビジネスについて入力"
             maxLength={400}
-            value={businessSheetData?.businessDescription}
+            value={formData?.businessDescription}
             onChange={handleChange}
             name="businessDescription"
           />
@@ -110,7 +103,7 @@ const BusinessSheetCreation = () => {
           <TextArea
             placeholder="個人的な情報について入力"
             maxLength={200}
-            value={businessSheetData?.personalInformation}
+            value={formData?.personalInformation}
             onChange={handleChange}
             name="personalInformation"
           />
@@ -121,7 +114,7 @@ const BusinessSheetCreation = () => {
           <TextArea
             placeholder="目標について入力"
             maxLength={1000}
-            value={businessSheetData?.goals}
+            value={formData?.goals}
             onChange={handleChange}
             name="goals"
           />
@@ -132,7 +125,7 @@ const BusinessSheetCreation = () => {
           <TextArea
             placeholder="実績について入力"
             maxLength={1000}
-            value={businessSheetData?.accomplishments}
+            value={formData?.accomplishments}
             onChange={handleChange}
             name="accomplishments"
           />
@@ -143,7 +136,7 @@ const BusinessSheetCreation = () => {
           <TextArea
             placeholder="興味・関心について入力"
             maxLength={1000}
-            value={businessSheetData?.interests}
+            value={formData?.interests}
             onChange={handleChange}
             name="interests"
           />
@@ -154,7 +147,7 @@ const BusinessSheetCreation = () => {
           <TextArea
             placeholder="人脈について入力"
             maxLength={1000}
-            value={businessSheetData?.networks}
+            value={formData?.networks}
             onChange={handleChange}
             name="networks"
           />
@@ -165,7 +158,7 @@ const BusinessSheetCreation = () => {
           <TextArea
             placeholder="能力について入力"
             maxLength={1000}
-            value={businessSheetData?.skills}
+            value={formData?.skills}
             onChange={handleChange}
             name="skills"
           />
@@ -173,7 +166,7 @@ const BusinessSheetCreation = () => {
 
         {/* step 9 */}
         <Step title="金のタマゴ">
-          {businessSheetData?.goldenEgg.map((item, index) => (
+          {formData?.goldenEgg.map((item, index) => (
             <Input
               key={index}
               index={index}
@@ -189,7 +182,7 @@ const BusinessSheetCreation = () => {
 
         {/* step 10 */}
         <Step title="金のガチョウ">
-          {businessSheetData?.goldenGoose.map((item, index) => (
+          {formData?.goldenGoose.map((item, index) => (
             <Input
               key={index}
               index={index}
@@ -205,7 +198,7 @@ const BusinessSheetCreation = () => {
 
         {/* step 11 */}
         <Step title="金のファーマー">
-          {businessSheetData?.goldenFarmer.map((item, index) => (
+          {formData?.goldenFarmer.map((item, index) => (
             <Input
               key={index}
               index={index}
@@ -224,7 +217,7 @@ const BusinessSheetCreation = () => {
           <TextArea
             placeholder="自社の強みについて入力"
             maxLength={1000}
-            value={businessSheetData?.companyStrengths}
+            value={formData?.companyStrengths}
             onChange={handleChange}
             name="companyStrengths"
           />
@@ -232,7 +225,7 @@ const BusinessSheetCreation = () => {
 
         {/* step 13 */}
         <Step title="パワーワード">
-          {businessSheetData?.powerWords.map((item, index) => (
+          {formData?.powerWords.map((item, index) => (
             <Input
               key={index}
               index={index}
@@ -248,7 +241,7 @@ const BusinessSheetCreation = () => {
 
         {/* step 14 */}
         <Step title="アイテム / 商品・商材">
-          {businessSheetData?.itemsProducts.map((item, index) => (
+          {formData?.itemsProducts.map((item, index) => (
             <Input
               key={index}
               index={index}
@@ -266,38 +259,41 @@ const BusinessSheetCreation = () => {
         <Step title="カスタマイズ">
           <UploadImage
             title="ヘッダー背景画像を設定してください"
-            value={businessSheetData?.headerBackgroundImage}
+            value={formData?.headerBackgroundImage}
             onChange={handleChange}
             name="headerBackgroundImage"
-            setBusinessSheetData={setBusinessSheetData}
+            resetImage={() => resetField("headerBackgroundImage")}
           />
           <UploadImage
             title="プロフィール画像を設定してください"
-            value={businessSheetData?.profileImage}
+            value={formData?.profileImage}
             onChange={handleChange}
             name="profileImage"
-            setBusinessSheetData={setBusinessSheetData}
+            resetImage={() => resetField("profileImage")}
+
           />
           <UploadImage
             title="リファーラルシートの背景画像をアップロードしてください"
-            value={businessSheetData?.referralSheetBackgroundImage}
+            value={formData?.referralSheetBackgroundImage}
             onChange={handleChange}
             name="referralSheetBackgroundImage"
-            setBusinessSheetData={setBusinessSheetData}
+            resetImage={() => resetField("referralSheetBackgroundImage")}
+
           />
           <Fonts
             title="文字のタイプを選んでください"
-            value={businessSheetData?.fontPreference}
+            value={formData?.fontPreference}
             onChange={handleChange}
             name="fontPreference"
           />
           <Themes
             title="色を選んでください"
-            value={businessSheetData?.colorPreference}
+            value={formData?.colorPreference}
             onChange={handleChange}
             name="colorPreference"
           />
         </Step>
+
       </Stepper>
     </>
   );
