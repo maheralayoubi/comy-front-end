@@ -1,4 +1,3 @@
-import { useCallback, useEffect, useState } from "react";
 
 import Header from "../components/global/Header";
 import Stepper, { Step } from "../components/Stepper";
@@ -15,9 +14,9 @@ import {
 
 const BusinessSheetCreation = () => {
 
-  const { getValue, setValue } = useLocalStorage();
+  const { getValue } = useLocalStorage();
 
-  const { formData, handleChange, resetForm, resetField, submitForm } = useFormData({
+  const { formData, handleChangeWithStore, resetForm, resetField, submitForm } = useFormData({
     shortBiography: getValue("shortBiography") || "",
     businessDescription: getValue("businessDescription") || "",
     personalInformation: getValue("personalInformation") || "",
@@ -39,42 +38,11 @@ const BusinessSheetCreation = () => {
     fontPreference: getValue("fontPreference") || "",
   }, businessSheetSchema)
 
-  // const handleChange = async (e, index) => {
-  //   const { name, value, files } = e.target;
-
-  //   // is file
-  //   if (files && files.length > 0) {
-  //     const file = await compression(files[0]);
-  //     setBusinessSheetData((prevState) => ({
-  //       ...prevState,
-  //       [name]: file,
-  //     }));
-  //   }
-  //   // is array
-  //   else if (index !== undefined) {
-  //     businessSheetData[name][index] = value;
-  //     const newArray = [...businessSheetData[name]];
-  //     setValue(name, newArray);
-  //     setBusinessSheetData((prevState) => ({
-  //       ...prevState,
-  //       [name]: newArray,
-  //     }));
-  //   }
-  //   // is string
-  //   else {
-  //     setValue(name, value);
-  //     setBusinessSheetData((prevState) => ({
-  //       ...prevState,
-  //       [name]: value,
-  //     }));
-  //   }
-  // };
-
   return (
     <>
       <Header />
 
-      <Stepper data={formData} handleInit={resetForm}>
+      <Stepper data={formData} submitForm={submitForm} handleInit={resetForm}>
 
         {/* step 1 */}
         <Step title="メンバー略歴シート">
@@ -82,7 +50,7 @@ const BusinessSheetCreation = () => {
             placeholder="メンバー略歴を入力"
             maxLength={400}
             value={formData?.shortBiography}
-            onChange={handleChange}
+            onChange={handleChangeWithStore}
             name="shortBiography"
           />
         </Step>
@@ -93,7 +61,7 @@ const BusinessSheetCreation = () => {
             placeholder="ビジネスについて入力"
             maxLength={400}
             value={formData?.businessDescription}
-            onChange={handleChange}
+            onChange={handleChangeWithStore}
             name="businessDescription"
           />
         </Step>
@@ -104,7 +72,7 @@ const BusinessSheetCreation = () => {
             placeholder="個人的な情報について入力"
             maxLength={200}
             value={formData?.personalInformation}
-            onChange={handleChange}
+            onChange={handleChangeWithStore}
             name="personalInformation"
           />
         </Step>
@@ -115,7 +83,7 @@ const BusinessSheetCreation = () => {
             placeholder="目標について入力"
             maxLength={1000}
             value={formData?.goals}
-            onChange={handleChange}
+            onChange={handleChangeWithStore}
             name="goals"
           />
         </Step>
@@ -126,7 +94,7 @@ const BusinessSheetCreation = () => {
             placeholder="実績について入力"
             maxLength={1000}
             value={formData?.accomplishments}
-            onChange={handleChange}
+            onChange={handleChangeWithStore}
             name="accomplishments"
           />
         </Step>
@@ -137,7 +105,7 @@ const BusinessSheetCreation = () => {
             placeholder="興味・関心について入力"
             maxLength={1000}
             value={formData?.interests}
-            onChange={handleChange}
+            onChange={handleChangeWithStore}
             name="interests"
           />
         </Step>
@@ -148,7 +116,7 @@ const BusinessSheetCreation = () => {
             placeholder="人脈について入力"
             maxLength={1000}
             value={formData?.networks}
-            onChange={handleChange}
+            onChange={handleChangeWithStore}
             name="networks"
           />
         </Step>
@@ -159,7 +127,7 @@ const BusinessSheetCreation = () => {
             placeholder="能力について入力"
             maxLength={1000}
             value={formData?.skills}
-            onChange={handleChange}
+            onChange={handleChangeWithStore}
             name="skills"
           />
         </Step>
@@ -174,7 +142,7 @@ const BusinessSheetCreation = () => {
               placeholder="金のタマゴについて入力"
               maxLength={10}
               value={item}
-              onChange={(e) => handleChange(e, index)}
+              onChange={(e) => handleChangeWithStore(e, index)}
               name="goldenEgg"
             />
           ))}
@@ -190,7 +158,7 @@ const BusinessSheetCreation = () => {
               placeholder="金のガチョウについて入力"
               maxLength={40}
               value={item}
-              onChange={(e) => handleChange(e, index)}
+              onChange={(e) => handleChangeWithStore(e, index)}
               name="goldenGoose"
             />
           ))}
@@ -206,7 +174,7 @@ const BusinessSheetCreation = () => {
               placeholder="金のファーマーについて入力"
               maxLength={10}
               value={item}
-              onChange={(e) => handleChange(e, index)}
+              onChange={(e) => handleChangeWithStore(e, index)}
               name="goldenFarmer"
             />
           ))}
@@ -218,7 +186,7 @@ const BusinessSheetCreation = () => {
             placeholder="自社の強みについて入力"
             maxLength={1000}
             value={formData?.companyStrengths}
-            onChange={handleChange}
+            onChange={handleChangeWithStore}
             name="companyStrengths"
           />
         </Step>
@@ -233,7 +201,7 @@ const BusinessSheetCreation = () => {
               placeholder="パワーワードについて入力"
               maxLength={40}
               value={item}
-              onChange={(e) => handleChange(e, index)}
+              onChange={(e) => handleChangeWithStore(e, index)}
               name="powerWords"
             />
           ))}
@@ -249,7 +217,7 @@ const BusinessSheetCreation = () => {
               placeholder="アイテム / 商品・商材について入力"
               maxLength={40}
               value={item}
-              onChange={(e) => handleChange(e, index)}
+              onChange={(e) => handleChangeWithStore(e, index)}
               name="itemsProducts"
             />
           ))}
@@ -260,14 +228,14 @@ const BusinessSheetCreation = () => {
           <UploadImage
             title="ヘッダー背景画像を設定してください"
             value={formData?.headerBackgroundImage}
-            onChange={handleChange}
+            onChange={handleChangeWithStore}
             name="headerBackgroundImage"
             resetImage={() => resetField("headerBackgroundImage")}
           />
           <UploadImage
             title="プロフィール画像を設定してください"
             value={formData?.profileImage}
-            onChange={handleChange}
+            onChange={handleChangeWithStore}
             name="profileImage"
             resetImage={() => resetField("profileImage")}
 
@@ -275,7 +243,7 @@ const BusinessSheetCreation = () => {
           <UploadImage
             title="リファーラルシートの背景画像をアップロードしてください"
             value={formData?.referralSheetBackgroundImage}
-            onChange={handleChange}
+            onChange={handleChangeWithStore}
             name="referralSheetBackgroundImage"
             resetImage={() => resetField("referralSheetBackgroundImage")}
 
@@ -283,13 +251,13 @@ const BusinessSheetCreation = () => {
           <Fonts
             title="文字のタイプを選んでください"
             value={formData?.fontPreference}
-            onChange={handleChange}
+            onChange={handleChangeWithStore}
             name="fontPreference"
           />
           <Themes
             title="色を選んでください"
             value={formData?.colorPreference}
-            onChange={handleChange}
+            onChange={handleChangeWithStore}
             name="colorPreference"
           />
         </Step>

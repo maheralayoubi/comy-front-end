@@ -1,4 +1,4 @@
-import { object, string, ref, array, file, maybe, } from 'yup';
+import { object, string, ref, array, mixed } from 'yup';
 import { messages } from "../constants/messages";
 
 const passwordRegx = /^(?=.*\d)(?=.*[A-Z]).{8,}$/
@@ -38,15 +38,15 @@ export const businessSheetSchema = object().shape({
     interests: string().max(1000),
     networks: string().max(1000),
     skills: string().max(1000),
-    goldenEgg: array(string()).ofLength(3),
-    goldenGoose: array(string()).ofLength(3),
-    goldenFarmer: array(string()).ofLength(3),
+    goldenEgg: array(string()).length(3),
+    goldenGoose: array(string()).length(3),
+    goldenFarmer: array(string()).length(3),
     companyStrengths: string().max(1000),
-    powerWords: array(string()).ofLength(6),
-    itemsProducts: array(string()).ofLength(3),
-    headerBackgroundImage: maybe(file()),
-    profileImage: maybe(file()),
-    referralSheetBackgroundImage: maybe(file()),
+    powerWords: array(string()).length(6),
+    itemsProducts: array(string()).length(3),
+    headerBackgroundImage: mixed().nullable(),
+    profileImage: mixed().nullable(),
+    referralSheetBackgroundImage: mixed().nullable(),
     colorPreference: string(),
     fontPreference: string(),
 });
