@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import Modal, { ModalButton, ModalContent } from "./Modal";
-import Button from "./global/Button";
+import Modal, { ModalButton, ModalContent } from "../Modal";
+import Button from "../global/Button";
 import "./styles/EditModal.scss";
-import Spinner from "./global/Spinner";
+import Spinner from "../global/Spinner";
 
 const EditModal = ({ size, title, children, handleEdit, theme }) => {
   const [toggle, setToggle] = useState(false);

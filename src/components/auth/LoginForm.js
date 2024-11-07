@@ -3,15 +3,15 @@ import { useNavigate } from "react-router-dom";
 
 import "./styles/Login.scss";
 
-import { loginUser, checkAuth } from "../api/auth";
-import { messages } from "../constants/messages";
-import useFormData from "../hooks/useFormData";
-import { loginSchema, isFormComplete } from "../utils/formUtils";
-import Button from "./global/Button";
+import { loginUser, checkAuth } from "../../api/auth";
+import { messages } from "../../constants/messages";
+import useFormData from "../../hooks/useFormData";
+import { loginSchema, isFormComplete } from "../../utils/formUtils";
+import Button from "../global/Button";
 
 // icon
-import visibilityIcon from "../assets/images/visibility.svg";
-import visibilityOffIcon from "../assets/images/visibility_off.svg";
+import visibilityIcon from "../../assets/images/visibility.svg";
+import visibilityOffIcon from "../../assets/images/visibility_off.svg";
 
 
 const LoginForm = () => {

@@ -2,7 +2,7 @@ import { toast } from "react-toastify";
 
 import "./styles/CopySheetUrl.scss"
 
-import { messages } from "../constants/messages";
+import { messages } from "../../constants/messages";
 
 
 const CopySheetUrl = ({ userId }) => {

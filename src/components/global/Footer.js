@@ -8,6 +8,28 @@ const Footer = () => {
   const location = useLocation();
 
   const shouldHideLogout = ['/login', '/register', '/forgot-password', '/mail-confirmation'].includes(location.pathname);
+  const footerLinks = [
+    {
+      id: "0",
+      name: "LPページ",
+      href: "https://comy.jp/"
+    },
+    {
+      id: "1",
+      name: "利用規約",
+      href: "https://comy.jp/terms-of-service/"
+    },
+    {
+      id: "2",
+      name: "プライバシーポリシー",
+      href: "https://comy.jp/privacy-policy/"
+    },
+    {
+      id: "3",
+      name: "お問い合わせ",
+      href: "https://comy.jp/contact/"
+    },
+  ]
 
   const handleLogout = async () => {
     try {
@@ -21,38 +43,17 @@ const Footer = () => {
   return (
     <footer className="footer">
       <div className="footer__links">
-        <a
-          href="https://comy.jp/"
-          className="footer__link"
-          target="_blank"
-          rel="noreferrer"
-        >
-          LPページ
-        </a>
-        <a
-          href="https://comy.jp/terms-of-service/"
-          className="footer__link"
-          target="_blank"
-          rel="noreferrer"
-        >
-          利用規約
-        </a>
-        <a
-          href="https://comy.jp/privacy-policy/"
-          className="footer__link"
-          target="_blank"
-          rel="noreferrer"
-        >
-          プライバシーポリシー
-        </a>
-        <a
-          href="https://comy.jp/contact/"
-          className="footer__link"
-          target="_blank"
-          rel="noreferrer"
-        >
-          お問い合わせ
-        </a>
+        {footerLinks.map(item =>
+          <a
+            key={item.id}
+            href={item.href}
+            className="footer__link"
+            target="_blank"
+            rel="noreferrer"
+          >
+            {item.name}
+          </a>
+        )}
         {!shouldHideLogout && (
           <div
             onClick={handleLogout}

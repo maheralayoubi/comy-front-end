@@ -2,11 +2,11 @@ import React, { useState } from "react";
 
 import "./styles/ForgotPasswordForm.scss";
 
-import { forgotPassword } from "../api/auth";
-import { messages } from "../constants/messages";
-import { isFormComplete, forgotPasswordSchema } from "../utils/formUtils";
-import Button from "./global/Button";
-import useFormData from "../hooks/useFormData";
+import { forgotPassword } from "../../api/auth";
+import { messages } from "../../constants/messages";
+import { isFormComplete, forgotPasswordSchema } from "../../utils/formUtils";
+import Button from "../global/Button";
+import useFormData from "../../hooks/useFormData";
 
 
 const ForgotPasswordForm = () => {

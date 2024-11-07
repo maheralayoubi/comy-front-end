@@ -3,15 +3,15 @@ import { useNavigate } from "react-router-dom";
 
 import "./styles/RegisterForm.scss";
 
-import { registerUser } from "../api/auth";
-import useFormData from "../hooks/useFormData";
-import { messages } from "../constants/messages";
-import { isFormComplete, registerSchema } from "../utils/formUtils";
-import Button from "./global/Button";
+import { registerUser } from "../../api/auth";
+import useFormData from "../../hooks/useFormData";
+import { messages } from "../../constants/messages";
+import { isFormComplete, registerSchema } from "../../utils/formUtils";
+import Button from "../global/Button";
 
 // icons 
-import visibilityIcon from "../assets/images/visibility.svg";
-import visibilityOffIcon from "../assets/images/visibility_off.svg";
+import visibilityIcon from "../../assets/images/visibility.svg";
+import visibilityOffIcon from "../../assets/images/visibility_off.svg";
 
 
 const RegisterForm = () => {

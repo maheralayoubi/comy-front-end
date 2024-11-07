@@ -1,20 +1,26 @@
 import React, { useEffect, useState } from "react";
+
 // import styles
 import "./styles/TopPage.scss";
+
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination } from "swiper/modules";
+
 // Import Swiper styles
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
+
 import { getMemberList } from "../api/memberList";
 import { SpinnerPage } from "./global/Spinner";
 import UserCard from "./UserCard";
 import blogs from "../data/blogs.json";
 import { Link } from "react-router-dom";
 
+
 const TopPage = () => {
+
   const slides = [
     {
       img: "/images/AIConsultation.png",

@@ -1,7 +1,7 @@
 import "./styles/Cards.scss";
 import { useState } from "react";
 import EditModal from "./EditModal";
-import { TextArea, Input } from "./FormElements";
+import { TextArea, Input } from "../global/FormElements";
 
 export const SectionTitle = ({
   title,

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./styles/MobileMenu.scss";
 import { Link } from "react-router-dom";
-import useLocalStorage from "../hooks/useLocalStorage";
+import useLocalStorage from "../../hooks/useLocalStorage";
 
 const MobileMenu = () => {
   const [showMenu, setShowMenu] = useState(false);

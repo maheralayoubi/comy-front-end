@@ -2,16 +2,16 @@ import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
 
 import "./styles/ResetPasswordForm.scss";
+import Button from "../global/Button";
 
-import { messages } from "../constants/messages";
-import { resetPassword } from "../api/auth";
-import { isFormComplete, resetPasswordSchema } from "../utils/formUtils";
-import Button from "./global/Button";
-import useFormData from "../hooks/useFormData";
+import { messages } from "../../constants/messages";
+import { resetPassword } from "../../api/auth";
+import { isFormComplete, resetPasswordSchema } from "../../utils/formUtils";
+import useFormData from "../../hooks/useFormData";
 
 // icons
-import visibilityIcon from "../assets/images/visibility.svg";
-import visibilityOffIcon from "../assets/images/visibility_off.svg";
+import visibilityIcon from "../../assets/images/visibility.svg";
+import visibilityOffIcon from "../../assets/images/visibility_off.svg";
 
 
 const ResetPasswordForm = () => {

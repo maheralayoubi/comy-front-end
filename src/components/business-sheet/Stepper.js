@@ -3,12 +3,12 @@ import { useNavigate } from "react-router-dom";
 
 import "./styles/Stepper.scss";
 
-import useLocalStorage from "../hooks/useLocalStorage";
-import { createBusinessSheet } from "../api/businessSheet";
+import useLocalStorage from "../../hooks/useLocalStorage";
+import { createBusinessSheet } from "../../api/businessSheet";
 
-import { messages } from "../constants/messages";
+import { messages } from "../../constants/messages";
 import PreviewModal from "./PreviewModal";
-import Button from "./global/Button";
+import Button from "../global/Button";
 
 
 const Stepper = ({ children, data, handleInit, submitForm }) => {
