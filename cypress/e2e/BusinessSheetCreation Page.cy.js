@@ -625,8 +625,6 @@ describe("File Uploads:", () => {
       "google-background.jpg",
     ];
     cy.get('input[type="file"]').each((fileInput, index) => {
-      cy.log(fileInput);
-      cy.log(imageFiles[index]);
       cy.wrap(fileInput).attachFile(imageFiles[index]);
     });
     cy.wait(25000);
@@ -640,7 +638,7 @@ describe("File Uploads:", () => {
       "/images/referralSheetBackgroundImage.png",
     );
   });
-  it("Verify that after selecting an image, the preview of the uploaded image is displayed in the form.", () => {
+  it("Verify that image files are compressed before being uploaded.", () => {
     for (let i = 0; i < 14; i++) {
       cy.get(".btn.dark").click();
     }
