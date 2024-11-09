@@ -1,8 +1,10 @@
 import React from "react";
 import { Navigate, Outlet } from "react-router-dom";
+
 import { useActivePayment } from "../hooks/useActivePayment";
 import { useBusiness } from "../hooks/useBusiness";
 import { SpinnerPage } from "./global/Spinner";
+
 
 const ProtectedPayment = () => {
   const { isPay, isLoading: isLoad } = useActivePayment();

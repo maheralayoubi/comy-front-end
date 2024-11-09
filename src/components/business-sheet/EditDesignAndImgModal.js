@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Modal, { ModalButton, ModalContent } from "../Modal";
+import Modal, { ModalButton, ModalContent } from "../global/Modal";
 import "./styles/EditModal.scss";
 import { Input, UploadImage, Fonts, Themes } from "../global/FormElements";
 import Spinner from "../global/Spinner";

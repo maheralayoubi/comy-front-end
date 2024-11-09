@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
-import PreviewHeader from "../components/PreviewHeader";
+import PreviewHeader from "../components/business-sheet/PreviewHeader";
 import BusinessSheetTemplate from "../components/business-sheet/BusinessSheetTemplate";
 import { SpinnerPage } from "../components/global/Spinner";
 import { getUserSheetById } from "../api/businessSheet";

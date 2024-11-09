@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { getMemberList } from "../api/memberList";
+import { getMemberList } from "../../api/memberList";
 import "./styles/MemberList.scss";
-import { SpinnerPage } from "./global/Spinner";
-import Pagination from "./Pagination";
-import { messages } from "../constants/messages";
-import UserCard from "./UserCard";
+import { SpinnerPage } from "../global/Spinner";
+import Pagination from "../global/Pagination";
+import { messages } from "../../constants/messages";
+import UserCard from "../top-pages/UserCard";
 
 const MemberList = () => {
   const [users, setUsers] = useState(null);

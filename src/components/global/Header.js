@@ -5,7 +5,7 @@ import "./styles/Header.scss";
 
 import MobileMenu from "./MobileMenu";
 import useLocalStorage from "../../hooks/useLocalStorage";
-import SearchItem from "../SearchItem";
+import SearchItem from "../global/SearchItem";
 
 const Header = () => {
 

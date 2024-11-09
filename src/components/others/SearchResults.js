@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import { getSearchResults } from "../api/memberList";
+import { getSearchResults } from "../../api/memberList";
 import "./styles/SearchResults.scss";
-import UserCard from "./UserCard";
-import Spinner from "./global/Spinner";
-import Pagination from "./Pagination";
-import { messages } from "../constants/messages";
+import UserCard from "../top-pages/UserCard";
+import Spinner from "../global/Spinner";
+import Pagination from "../global/Pagination";
+import { messages } from "../../constants/messages";
 
 const SearchResults = () => {
   const [query, setQuery] = useState("");

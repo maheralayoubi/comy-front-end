@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import Modal, { ModalButton, ModalContent } from "../Modal";
+import Modal, { ModalButton, ModalContent } from "../global/Modal";
 import Button from "../global/Button";
-import PreviewHeader from "../PreviewHeader";
+import PreviewHeader from "./PreviewHeader";
 import BusinessSheetTemplate from "./BusinessSheetTemplate";
 
 const PreviewModal = ({ data }) => {

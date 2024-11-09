@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import "./styles/Blog.scss";
 
 // dummy data
-import blogs from "../data/blogs.json";
+import blogs from "../../data/blogs.json";
 
 
 const BlogDetails = ({ id }) => {

@@ -46,12 +46,12 @@
     }
 
     .swiper-button-next::after {
-      content: url("../../../public/images/arrow_forward_ios.svg");
+      content: url("../../../../public/images/arrow_forward_ios.svg");
       transform: translateY(8px) rotate(180deg);
     }
 
     .swiper-button-prev::after {
-      content: url("../../../public/images/arrow_forward_ios.svg");
+      content: url("../../../../public/images/arrow_forward_ios.svg");
       transform: translateY(-8px);
     }
   }
@@ -224,7 +224,7 @@
   }
 }
 
-.search-results-top-search .search-results-container {
+.search-results-top-search .search-container {
   position: relative;
   display: flex;
   justify-content: space-between;

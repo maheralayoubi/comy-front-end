@@ -56,23 +56,25 @@ const App = () => {
           <Route element={<ProtectedRoutes />}>
             <Route path="/" element={<TopPage />} />
             <Route path="/terms-of-use" element={<TermsOfUse />} />
+            <Route path="/choose-payment" element={<ChoosePayment />} />
+            <Route path="/stripe-payment" element={<StripePayment />} />
+            <Route path="/search-results" element={<SearchResults />} />
+            <Route path="/member-list" element={<MemberList />} />
             <Route
               path="/account-creation-completed"
               element={<AccountCreationCompleted />}
             />
+            <Route element={<ProtectedProfile />}>
+              <Route path="/profile" element={<Profile />} />
+            </Route>
+
             <Route element={<ProtectedPayment />}>
               <Route
                 path="/business-sheet-creation"
                 element={<BusinessSheetCreation />}
               />
             </Route>
-            <Route element={<ProtectedProfile />}>
-              <Route path="/profile" element={<Profile />} />
-            </Route>
-            <Route path="/choose-payment" element={<ChoosePayment />} />
-            <Route path="/stripe-payment" element={<StripePayment />} />
-            <Route path="/search-results" element={<SearchResults />} />
-            <Route path="/member-list" element={<MemberList />} />
+
           </Route>
         </Routes>
       </Router>
