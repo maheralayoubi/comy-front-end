@@ -13,4 +13,8 @@ describe('Page Load and Basic Structure Verification:', () => {
     cy.visit("/member-list");
     cy.url().should("include", "member-list");
   })
+
+  it('Confirm the page contains the heading “メンバー一覧”.', () => {
+    cy.get('h2').should('be.visible').and('contain', 'メンバー一覧');
+  });
 })
