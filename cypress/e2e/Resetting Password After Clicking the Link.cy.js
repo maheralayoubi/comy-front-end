@@ -69,12 +69,12 @@ describe("Password Visibility Toggle:", () => {
     typeInInput("#newPassword", newPassword).should(
       "have.attr",
       "type",
-      "password",
+      "text",
     );
     typeInInput("#confirmNewPassword", newPassword).should(
       "have.attr",
       "type",
-      "password",
+      "text",
     );
   });
 
@@ -82,27 +82,27 @@ describe("Password Visibility Toggle:", () => {
     typeInInput("#newPassword", newPassword).should(
       "have.attr",
       "type",
-      "password",
+      "text",
     );
     typeInInput("#confirmNewPassword", newPassword).should(
       "have.attr",
       "type",
-      "password",
+      "text",
     );
-    cy.get(".password-toggle").first().click();
-    cy.get("#newPassword").should("have.attr", "type", "text");
-    cy.get("#confirmNewPassword").should("have.attr", "type", "text");
     cy.get(".password-toggle").first().click();
     cy.get("#newPassword").should("have.attr", "type", "password");
     cy.get("#confirmNewPassword").should("have.attr", "type", "password");
+    cy.get(".password-toggle").first().click();
+    cy.get("#newPassword").should("have.attr", "type", "text");
+    cy.get("#confirmNewPassword").should("have.attr", "type", "text");
   });
 });
 
 describe("Enter email and open new password page", () => {
-  const inboxId = "32659e04-54f6-4700-b97a-1bd55d4999ae";
+  const inboxId = "a82c05e5-6e94-466a-9da9-10d67413c9cd";
   const emailAddress = `${inboxId}@mailslurp.net`;
   const apiKey =
-    "8316efce68b66e4f6ebb31f7322b367aa3a8411c9d24d928bc59d816e993d265";
+    "21a71670144030ef179cbc828166939a293da983cc6326d16bc863c8d8303f59";
   beforeEach(() => {
     cy.visit("/register");
     typeInInput("#name", "John");
