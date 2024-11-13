@@ -23,7 +23,7 @@ const Preview = () => {
     <>
       <PreviewHeader />
       {businessSheetData ?
-        <BusinessSheetTemplate data={businessSheetData} isPreview={true} /> :
+        <BusinessSheetTemplate data={businessSheetData} isEdit={false} /> :
         <SpinnerPage />
       }
     </>

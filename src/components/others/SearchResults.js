@@ -1,12 +1,16 @@
 import React, { useState } from "react";
-import { getSearchResults } from "../../api/memberList";
+
 import "./styles/SearchResults.scss";
+
+import { getSearchResults } from "../../api/memberList";
 import UserCard from "../top-pages/UserCard";
 import Spinner from "../global/Spinner";
 import Pagination from "../global/Pagination";
 import { messages } from "../../constants/messages";
 
+
 const SearchResults = () => {
+
   const [query, setQuery] = useState("");
   const [users, setUsers] = useState(null);
   const [loading, setLoading] = useState(false);

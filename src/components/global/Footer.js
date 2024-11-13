@@ -1,11 +1,13 @@
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { logoutUser } from '../../api/auth';
+import useLocalStorage from '../../hooks/useLocalStorage';
 import './styles/Footer.scss';
 
 const Footer = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { clearAll } = useLocalStorage();
 
   const shouldHideLogout = ['/login', '/register', '/forgot-password', '/mail-confirmation'].includes(location.pathname);
   const footerLinks = [
@@ -34,6 +36,7 @@ const Footer = () => {
   const handleLogout = async () => {
     try {
       await logoutUser();
+      clearAll()
       navigate('/login');
     } catch (error) {
       console.error('Logout failed:', error);

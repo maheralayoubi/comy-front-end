@@ -1,8 +1,6 @@
 import React from "react";
 import "./styles/FormElements.scss";
 
-// import useLocalStorage from '../hooks/useLocalStorage';
-
 // textarea components
 export const TextArea = ({ placeholder, maxLength, value, onChange, name }) => {
   return (
@@ -138,7 +136,7 @@ export const UploadImage = ({
           src={
             value
               ? typeof value === "string"
-                ? value
+                ? `${value}?timestamp=${new Date().getTime()}`
                 : URL.createObjectURL(value)
               : `/images/${name}.png`
           }

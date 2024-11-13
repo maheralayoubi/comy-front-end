@@ -1,11 +1,14 @@
 import React, { useState } from "react";
-import Modal, { ModalButton, ModalContent } from "../global/Modal";
+
 import "./styles/EditModal.scss";
+
+import Modal, { ModalButton, ModalContent } from "../global/Modal";
 import { Input, UploadImage, Fonts, Themes } from "../global/FormElements";
 import Spinner from "../global/Spinner";
 import useLocalStorage from "../../hooks/useLocalStorage";
 import { editBusinessSheet, editUserData } from "../../api/businessSheet";
 import { compression } from "../../utils/imageCompression";
+
 
 const EditDesignAndImgModal = ({
   size,
@@ -74,17 +77,14 @@ const EditDesignAndImgModal = ({
     };
     await editBusinessSheet(userBussinessData);
     await editUserData(userData);
-    setValue("businessSheetData", { ...data, ...updatedData });
-
+    let images = {}
     if (
       typeof updatedData.headerBackgroundImage === "object" &&
       updatedData.headerBackgroundImage !== null
     ) {
-      setValue("businessSheetData", {
-        ...data,
-        ...updatedData,
-        headerBackgroundImageUrl: `${imagesBaseUrl}/header-background`,
-      });
+      images = {
+        ...images, headerBackgroundImageUrl: `${imagesBaseUrl}/header-background`
+      }
     }
 
     if (
@@ -92,28 +92,23 @@ const EditDesignAndImgModal = ({
       updatedData.profileImage !== null
     ) {
       setValue("profileImageUrl", `${imagesBaseUrl}/profile`);
-      setValue("businessSheetData", {
-        ...data,
-        ...updatedData,
-        profileImageUrl: `${imagesBaseUrl}/profile`,
-      });
+      images = { ...images, profileImageUrl: `${imagesBaseUrl}/profile` }
     }
 
     if (
       typeof updatedData.referralSheetBackgroundImage === "object" &&
       updatedData.referralSheetBackgroundImage !== null
     ) {
-      setValue("businessSheetData", {
-        ...data,
-        ...updatedData,
-        referralSheetBackgroundImageUrl: `${imagesBaseUrl}/referral-background`,
-      });
+      images = { ...images, referralSheetBackgroundImageUrl: `${imagesBaseUrl}/referral-background` }
     }
 
+    setValue("businessSheetData", { ...data, ...updatedData, ...images });
+
     setBusinessSheetData(getValue("businessSheetData"));
+    console.log(getValue("businessSheetData"))
     onToggle();
     setLoading(false);
-    window.location.reload();
+    // window.location.reload();
   };
 
   return (

@@ -16,54 +16,43 @@ import CopySheetUrl from "./CopySheetUrl";
 const BusinessSheetTemplate = ({
   data,
   isEdit,
-  isPreview,
   handleEdit,
   setBusinessSheetData,
 }) => {
 
-  const getHeaderBackgroundSrc = (isPreview, isEdit, data) => {
-    if (isPreview && data.headerBackgroundImageUrl) {
-      return data.headerBackgroundImageUrl;
+  const getHeaderBackgroundSrc = (data) => {
+
+    if (data?.headerBackgroundImageUrl) {
+      return `${data?.headerBackgroundImageUrl}?timestamp=${new Date().getTime()}`;
     }
 
-    if (isEdit && data.headerBackgroundImageUrl) {
-      return `${data.headerBackgroundImageUrl}?timestamp=${new Date().getTime()}`;
-    }
-
-    if (data.headerBackgroundImage) {
-      return URL.createObjectURL(data.headerBackgroundImage);
+    if (data?.headerBackgroundImage) {
+      return URL.createObjectURL(data?.headerBackgroundImage);
     }
 
     return "/images/headerBackgroundImage.png";
   };
 
-  const getProfileImageSrc = (isPreview, isEdit, data) => {
-    if (isPreview && data.profileImageUrl) {
-      return data.profileImageUrl;
+  const getProfileImageSrc = (data) => {
+
+    if (data?.profileImageUrl) {
+      return `${data?.profileImageUrl}?timestamp=${new Date().getTime()}`;
     }
 
-    if (isEdit && data.profileImageUrl) {
-      return `${data.profileImageUrl}?timestamp=${new Date().getTime()}`;
-    }
-
-    if (data.profileImage) {
-      return URL.createObjectURL(data.profileImage);
+    if (data?.profileImage) {
+      return URL.createObjectURL(data?.profileImage);
     }
 
     return "/images/profileImage.png";
   };
 
-  const getReferralSheetBackgroundSrc = (isPreview, isEdit, data) => {
-    if (isPreview && data.referralSheetBackgroundImageUrl) {
-      return data.referralSheetBackgroundImageUrl;
+  const getReferralSheetBackgroundSrc = (data) => {
+    if (data?.referralSheetBackgroundImageUrl) {
+      return `${data?.referralSheetBackgroundImageUrl}?timestamp=${new Date().getTime()}`;
     }
 
-    if (isEdit && data.referralSheetBackgroundImageUrl) {
-      return `${data.referralSheetBackgroundImageUrl}?timestamp=${new Date().getTime()}`;
-    }
-
-    if (data.referralSheetBackgroundImage) {
-      return URL.createObjectURL(data.referralSheetBackgroundImage);
+    if (data?.referralSheetBackgroundImage) {
+      return URL.createObjectURL(data?.referralSheetBackgroundImage);
     }
 
     return "/images/referralSheetBackgroundImage.png";
@@ -82,7 +71,7 @@ const BusinessSheetTemplate = ({
       <div className="headerBg">
 
         <img
-          src={getHeaderBackgroundSrc(isPreview, isEdit, data)}
+          src={getHeaderBackgroundSrc(data)}
           alt="cover"
         />
 
@@ -101,7 +90,7 @@ const BusinessSheetTemplate = ({
       <div className="profile">
 
         <img
-          src={getProfileImageSrc(isPreview, isEdit, data)}
+          src={getProfileImageSrc(data)}
           alt="profile"
         />
 
@@ -236,7 +225,7 @@ const BusinessSheetTemplate = ({
       <div className="businessSheetData-s2">
 
         <img
-          src={getReferralSheetBackgroundSrc(isPreview, isEdit, data)}
+          src={getReferralSheetBackgroundSrc(data)}
           alt="background"
         />
 

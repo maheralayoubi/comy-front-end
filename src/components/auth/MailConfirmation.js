@@ -1,8 +1,11 @@
 import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+
 import "./styles/MailConfirmation.scss";
 
+
 const MailConfirmation = () => {
+
   const location = useLocation();
   const navigate = useNavigate();
 

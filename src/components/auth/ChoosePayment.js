@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+
 import "./styles/ChoosePayment.scss";
 
+
 const ChoosePayment = () => {
+
   const [isChecked, setIsChecked] = useState(false);
   const [selectedPayment, setSelectedPayment] = useState("");
   const navigate = useNavigate();

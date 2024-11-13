@@ -1,7 +1,10 @@
 import React, { useState } from "react";
+
 import "./styles/TermsOfUse.scss";
 
+
 const TermsOfUse = () => {
+
   const [isChecked, setIsChecked] = useState(false);
 
   const handleCheckboxChange = () => {

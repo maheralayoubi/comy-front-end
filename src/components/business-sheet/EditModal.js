@@ -1,16 +1,18 @@
 import React, { useState } from "react";
+
+import "./styles/EditModal.scss";
+
 import Modal, { ModalButton, ModalContent } from "../global/Modal";
 import Button from "../global/Button";
-import "./styles/EditModal.scss";
 import Spinner from "../global/Spinner";
 
+
 const EditModal = ({ size, title, children, handleEdit, theme }) => {
+
   const [toggle, setToggle] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const onToggle = () => {
-    setToggle((prev) => !prev);
-  };
+  const onToggle = () => setToggle(prev => !prev);
 
   const onEdit = async () => {
     setLoading(true);

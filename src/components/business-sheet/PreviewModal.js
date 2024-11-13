@@ -1,15 +1,15 @@
 import React, { useState } from "react";
+
 import Modal, { ModalButton, ModalContent } from "../global/Modal";
 import Button from "../global/Button";
 import PreviewHeader from "./PreviewHeader";
 import BusinessSheetTemplate from "./BusinessSheetTemplate";
 
 const PreviewModal = ({ data }) => {
+
   const [toggle, setToggle] = useState(false);
 
-  const onToggle = () => {
-    setToggle((prev) => !prev);
-  };
+  const onToggle = () => setToggle((prev) => !prev);
 
   return (
     <Modal>
