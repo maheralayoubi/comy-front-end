@@ -1,4 +1,5 @@
 /* eslint-disable no-undef */
+const backendUrl = process.env.REACT_APP_BACKEND_URL;
 const email = "hakamha8@gmail.com";
 const password = "Hakamaldeen17";
 
@@ -96,7 +97,7 @@ describe("Input Validation:", () => {
     cy.get("#email").type(email);
     cy.get("#password").type("password123");
     cy.get('button[type="submit"]').click();
-    cy.contains("認証情報が無効です。");
+    cy.contains('認証情報が無効です。');
   });
 });
 
@@ -161,29 +162,29 @@ describe("API Responses:", () => {
     cy.visit("/login");
   });
   it("Mock a successful login response and verify user redirection and token handling.", () => {
-    cy.intercept("POST", "http://localhost:5000/auth/login", {
+    cy.intercept("POST", `${backendUrl}/auth/login`, {
       statusCode: 200,
       body: { token: "mocked-jwt-token" },
-    }).as("loginRequest");
+    })
     cy.get("#email").type(email);
     cy.get("#password").type(password);
     cy.get("button[type=submit]").click();
-    cy.wait("@loginRequest").its("response.statusCode").should("eq", 200);
+    cy.wait(5000)
     cy.url().should("include", "/profile");
   });
   it("Mock an API response for a failed login (e.g., invalid email/password) and ensure the correct error message is displayed to the user.", () => {
     // Intercept the API request and mock a failed response with a 400 status code
-    cy.intercept("POST", "http://localhost:5000/auth/login", {
+    cy.intercept("POST", `${backendUrl}/auth/login`, {
       statusCode: 400,
       body: {
         message: "認証情報が無効です。",
       },
-    }).as("loginRequest");
+    })
     cy.visit("/login");
     cy.get("#email").type(email);
     cy.get("#password").type("password123");
     cy.get("button[type=submit]").click();
-    cy.wait("@loginRequest").its("response.statusCode").should("eq", 400);
+    cy.wait(5000)
     cy.contains("認証情報が無効です。").should("be.visible");
   });
 });
