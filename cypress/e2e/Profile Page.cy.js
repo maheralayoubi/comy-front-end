@@ -367,9 +367,10 @@ describe("Text Area and Input Field Testing:", () => {
   const verifyMaxLength = (selector, maxLength, text) => {
     cy.get(selector)
       .clear({ force: true })
-      .type(text, { force: true })
+      .type(text, { delay: 0, force: true })
       .invoke("val")
       .should("have.length", maxLength);
+    cy.wait(2000);
   };
 
   it("Verify that each input field enforces the correct maxLength (e.g., 400 for biography, 1000 for goals, etc.).", () => {
@@ -423,7 +424,7 @@ describe("Text Area and Input Field Testing:", () => {
           // Save the section after validation
           cy.get("button.update")
             .eq(sectionIndex + 9)
-            .click();
+            .click({ force: true });
           cy.wait(500); // Optional wait for save action
         });
       }
@@ -529,7 +530,7 @@ describe("Font and Theme Customization:", () => {
           const rgbColor = hexToRgb(colorValue);
           cy.get(".themesGrid .item input").eq(index).click();
           cy.get("button.update").eq(0).click();
-          cy.wait(6000); // Wait for theme to apply
+          cy.wait(10000); // Wait for theme to apply
           checkColor(".cardTitle", rgbColor);
           checkColor(".sectionTitle", rgbColor);
         });

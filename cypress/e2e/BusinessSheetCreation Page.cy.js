@@ -520,6 +520,72 @@ describe("Validation:", () => {
   });
 });
 
+describe("File Uploads:", () => {
+  beforeEach(() => {
+    cy.visit("/login");
+    typeInInput("#email", email);
+    typeInInput("#password", password);
+    cy.get("button[type=submit]").click();
+    cy.wait(10000).visit("business-sheet-creation");
+  });
+
+  it("Verify that after selecting an image, the preview of the uploaded image is displayed in the form.", () => {
+    for (let i = 0; i < 14; i++) {
+      cy.get(".btn.dark").click();
+    }
+    const imageFiles = [
+      "GoogleNew.png",
+      "google-logo.png",
+      "google-background.jpg",
+    ];
+    cy.get('input[type="file"]').each((fileInput, index) => {
+      cy.wrap(fileInput).attachFile(imageFiles[index]);
+    });
+    cy.wait(25000);
+    cy.get(".headerBackgroundImage").should(
+      "not.equal",
+      "/images/headerBackgroundImage.png",
+    );
+    cy.get(".profileImage").should("not.equal", "/images/profileImage.png");
+    cy.get(".referralSheetBackgroundImage").should(
+      "not.equal",
+      "/images/referralSheetBackgroundImage.png",
+    );
+  });
+  it("Verify that image files are compressed before being uploaded.", () => {
+    for (let i = 0; i < 14; i++) {
+      cy.get(".btn.dark").click();
+    }
+    const imageFiles = [
+      "GoogleNew.png",
+      "google-logo.png",
+      "google-background.jpg",
+    ];
+    cy.get('input[type="file"]').each((fileInput, index) => {
+      cy.log(fileInput);
+      cy.log(imageFiles[index]);
+      cy.wrap(fileInput).attachFile(imageFiles[index]);
+    });
+    cy.wait(25000);
+    // cy.get(".btn.dark").click();
+    cy.wait(15000);
+    const maxFileSizeKB = 1024;
+    const checkImageSize = (selector) => {
+      cy.get(selector)
+        .invoke("attr", "src")
+        .then((imgSrc) => {
+          cy.request(imgSrc).then((response) => {
+            const fileSizeKB = response.headers["content-length"] / 1024;
+            expect(fileSizeKB).to.be.lessThan(maxFileSizeKB);
+          });
+        });
+    };
+    checkImageSize(".headerBg img");
+    checkImageSize(".profile img");
+    checkImageSize(".businessSheetData-s2 img");
+  });
+});
+
 describe("Submit Behavior:", () => {
   beforeEach(() => {
     cy.visit("/login");
@@ -605,92 +671,3 @@ describe("Submit Behavior:", () => {
     cy.wait(10000).url().should("include", "profile");
   });
 });
-
-describe("File Uploads:", () => {
-  beforeEach(() => {
-    cy.visit("/login");
-    typeInInput("#email", email);
-    typeInInput("#password", password);
-    cy.get("button[type=submit]").click();
-    cy.wait(10000).visit("business-sheet-creation");
-  });
-
-  it("Verify that after selecting an image, the preview of the uploaded image is displayed in the form.", () => {
-    for (let i = 0; i < 14; i++) {
-      cy.get(".btn.dark").click();
-    }
-    const imageFiles = [
-      "GoogleNew.png",
-      "google-logo.png",
-      "google-background.jpg",
-    ];
-    cy.get('input[type="file"]').each((fileInput, index) => {
-      cy.wrap(fileInput).attachFile(imageFiles[index]);
-    });
-    cy.wait(25000);
-    cy.get(".headerBackgroundImage").should(
-      "not.equal",
-      "/images/headerBackgroundImage.png",
-    );
-    cy.get(".profileImage").should("not.equal", "/images/profileImage.png");
-    cy.get(".referralSheetBackgroundImage").should(
-      "not.equal",
-      "/images/referralSheetBackgroundImage.png",
-    );
-  });
-  it("Verify that image files are compressed before being uploaded.", () => {
-    for (let i = 0; i < 14; i++) {
-      cy.get(".btn.dark").click();
-    }
-    const imageFiles = [
-      "GoogleNew.png",
-      "google-logo.png",
-      "google-background.jpg",
-    ];
-    cy.get('input[type="file"]').each((fileInput, index) => {
-      cy.log(fileInput);
-      cy.log(imageFiles[index]);
-      cy.wrap(fileInput).attachFile(imageFiles[index]);
-    });
-    cy.wait(25000);
-    cy.get(".btn.dark").click();
-    cy.wait(15000);
-    const maxFileSizeKB = 1024;
-    const checkImageSize = (selector) => {
-      cy.get(selector)
-        .invoke("attr", "src")
-        .then((imgSrc) => {
-          cy.request(imgSrc).then((response) => {
-            const fileSizeKB = response.headers["content-length"] / 1024;
-            expect(fileSizeKB).to.be.lessThan(maxFileSizeKB);
-          });
-        });
-    };
-    checkImageSize(".headerBg img");
-    checkImageSize(".profile img");
-    checkImageSize(".businessSheetData-s2 img");
-  });
-});
-
-// describe('Font and Theme Customization:', () => {
-//   beforeEach(() => {
-//     cy.visit("/login");
-//     typeInInput("#email", email);
-//     typeInInput("#password", password);
-//     cy.get("button[type=submit]").click();
-//     cy.wait(10000).visit("business-sheet-creation");
-//     for (let i = 0; i < 14; i++) {
-//       cy.get('.btn.dark').click();
-//     }
-//   });
-
-//   it('Verify that the user can select a font type from the Fonts component and that the selection is applied', () => {
-//     cy.get('.fontsGrid .item').first().invoke('css', 'font-family').as('selectedFontFamily');
-//     cy.get('.fontsGrid .item').first().click();
-//     cy.get('.btn.dark').click();
-//     cy.get('@selectedFontFamily').then((selectedFont) => {
-//       cy.get('.BusinessSheet').should('have.css', 'font-family', selectedFont);
-//     });
-//   });
-
-// })

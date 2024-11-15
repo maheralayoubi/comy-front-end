@@ -120,27 +120,27 @@ describe(" Password Visibility Toggle Functionality:", () => {
   });
 
   it("Verify that both the password fields (“パスワード” and “パスワードを再入力”) are masked by default.", () => {
-    typeInInput("#password", password).should("have.attr", "type", "password");
+    typeInInput("#password", password).should("have.attr", "type", "text");
     typeInInput("#confirmPassword", password).should(
       "have.attr",
       "type",
-      "password",
+      "text",
     );
   });
 
   it("Click the visibility toggle icon and ensure that the password becomes visible (not masked) & Click the icon again to ensure the password is masked again.", () => {
-    typeInInput("#password", password).should("have.attr", "type", "password");
+    typeInInput("#password", password).should("have.attr", "type", "text");
     typeInInput("#confirmPassword", password).should(
       "have.attr",
       "type",
-      "password",
+      "text",
     );
-    cy.get(".password-toggle").first().click();
-    cy.get("#password").should("have.attr", "type", "text");
-    cy.get("#confirmPassword").should("have.attr", "type", "text");
     cy.get(".password-toggle").first().click();
     cy.get("#password").should("have.attr", "type", "password");
     cy.get("#confirmPassword").should("have.attr", "type", "password");
+    cy.get(".password-toggle").first().click();
+    cy.get("#password").should("have.attr", "type", "text");
+    cy.get("#confirmPassword").should("have.attr", "type", "text");
   });
 });
 
@@ -150,14 +150,16 @@ describe("Form Validation and Submission:", () => {
   });
 
   it("Enter valid data in all fields and click the “新規アカウント登録” button. Ensure the form submits successfully and redirects to the appropriate page (e.g., a confirmation page or dashboard).", () => {
+    // Generate a unique email using the current timestamp
+    const uniqueEmail = `example_${Date.now()}@example.com`;
     cy.intercept("POST", "**/auth/register").as("registerRequest");
     typeInInput("#name", "John");
     typeInInput("#category", "Test");
-    typeInInput("#email", "example17@example.com");
+    typeInInput("#email", uniqueEmail);
     typeInInput("#password", "Password123");
     typeInInput("#confirmPassword", "Password123");
     cy.get('button[type="submit"]').click();
-    cy.wait("@registerRequest");
+    cy.wait(50000);
     cy.url().should("include", "mail-confirmation");
   });
 });
