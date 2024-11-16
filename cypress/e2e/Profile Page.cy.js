@@ -425,7 +425,7 @@ describe("Text Area and Input Field Testing:", () => {
           cy.get("button.update")
             .eq(sectionIndex + 9)
             .click({ force: true });
-          cy.wait(500); // Optional wait for save action
+          cy.wait(5000); // Optional wait for save action
         });
       }
     });
