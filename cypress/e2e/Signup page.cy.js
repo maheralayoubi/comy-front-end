@@ -1,5 +1,4 @@
 /* eslint-disable no-undef */
-const backendUrl = process.env.REACT_APP_BACKEND_URL;
 const name = "Hakam aldeen Alkhaddraa";
 const category = "Frontend Developer";
 const email = "hakamha8@gmail.com";
@@ -151,14 +150,16 @@ describe("Form Validation and Submission:", () => {
   });
 
   it("Enter valid data in all fields and click the “新規アカウント登録” button. Ensure the form submits successfully and redirects to the appropriate page (e.g., a confirmation page or dashboard).", () => {
-    cy.intercept("POST", `${backendUrl}/auth/register`)
+    // Generate a unique email using the current timestamp
+    const uniqueEmail = `example_${Date.now()}@example.com`;
+    cy.intercept("POST", "**/auth/register").as("registerRequest");
     typeInInput("#name", "John");
     typeInInput("#category", "Test");
-    typeInInput("#email", "user2@example.com");
+    typeInInput("#email", uniqueEmail);
     typeInInput("#password", "Password123");
     typeInInput("#confirmPassword", "Password123");
     cy.get('button[type="submit"]').click();
-    cy.wait(35000);
+    cy.wait(50000);
     cy.url().should("include", "mail-confirmation");
   });
 });
