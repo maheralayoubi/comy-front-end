@@ -552,38 +552,6 @@ describe("File Uploads:", () => {
       "/images/referralSheetBackgroundImage.png",
     );
   });
-  it("Verify that image files are compressed before being uploaded.", () => {
-    for (let i = 0; i < 14; i++) {
-      cy.get(".btn.dark").click();
-    }
-    const imageFiles = [
-      "GoogleNew.png",
-      "google-logo.png",
-      "google-background.jpg",
-    ];
-    cy.get('input[type="file"]').each((fileInput, index) => {
-      cy.log(fileInput);
-      cy.log(imageFiles[index]);
-      cy.wrap(fileInput).attachFile(imageFiles[index]);
-    });
-    cy.wait(25000);
-    // cy.get(".btn.dark").click();
-    cy.wait(15000);
-    const maxFileSizeKB = 1024;
-    const checkImageSize = (selector) => {
-      cy.get(selector)
-        .invoke("attr", "src")
-        .then((imgSrc) => {
-          cy.request(imgSrc).then((response) => {
-            const fileSizeKB = response.headers["content-length"] / 1024;
-            expect(fileSizeKB).to.be.lessThan(maxFileSizeKB);
-          });
-        });
-    };
-    checkImageSize(".headerBg img");
-    checkImageSize(".profile img");
-    checkImageSize(".businessSheetData-s2 img");
-  });
 });
 
 describe("Submit Behavior:", () => {
@@ -645,29 +613,38 @@ describe("Submit Behavior:", () => {
       typeInInput(selector, formData.powerWords[key]);
     });
     cy.get(".btn.dark").click();
-
+    
     // Step 7: Verify itemsProducts inputs
     Object.keys(formData.itemsProducts).forEach((key) => {
       const selector = `#${key}`;
       typeInInput(selector, formData.itemsProducts[key]);
     });
     cy.get(".btn.dark").click();
-    cy.get(".headerBackgroundImage").invoke(
-      "attr",
-      "src",
-      "https://1000logos.net/wp-content/uploads/2021/05/Google-logo.png",
-    );
-    cy.get(".profileImage").invoke(
-      "attr",
-      "src",
-      "https://pluspng.com/img-png/google-logo-png-open-2000.png",
-    );
-    cy.get(".referralSheetBackgroundImage").invoke(
-      "attr",
-      "src",
-      "https://1000logos.net/wp-content/uploads/2016/11/google-logo.jpg",
-    );
+
+    const imageFiles = [
+      "GoogleNew.png",
+      "google-logo.png",
+      "google-background.jpg",
+    ];
+    cy.get('input[type="file"]').each((fileInput, index) => {
+      cy.wrap(fileInput).attachFile(imageFiles[index]);
+    });
+    cy.wait(25000);
     cy.get(".btn.dark").click();
-    cy.wait(10000).url().should("include", "profile");
+    cy.wait(25000).url().should("include", "profile");
+    const maxFileSizeKB = 1024;
+    const checkImageSize = (selector) => {
+      cy.get(selector)
+        .invoke("attr", "src")
+        .then((imgSrc) => {
+          cy.request(imgSrc).then((response) => {
+            const fileSizeKB = response.headers["content-length"] / 1024;
+            expect(fileSizeKB).to.be.lessThan(maxFileSizeKB);
+          });
+        });
+    };
+    checkImageSize(".headerBg img");
+    checkImageSize(".profile img");
+    checkImageSize(".businessSheetData-s2 img");
   });
 });
