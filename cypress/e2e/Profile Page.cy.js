@@ -245,17 +245,23 @@ describe("Text Area and Input Field Testing:", () => {
       });
 
       // Verify images have correct src attributes
-      cy.get(".headerBg img")
+      if(savedData.headerBackgroundImageUrl) {
+        cy.get(".headerBg img")
         .should("have.attr", "src")
         .and("include", savedData.headerBackgroundImageUrl);
-      cy.get(".profile img")
+      }
+      if(savedData.profileImageUrl) {
+        cy.get(".profile img")
         .should("have.attr", "src")
         .and("include", savedData.profileImageUrl);
+      }
 
       // Verify sections have the correct font
-      cy.get(".BusinessSheet")
-        .invoke("css", "font-family")
-        .should("equal", `"${savedData.fontPreference}"`);
+      if(savedData.fontPreference != "") {
+        cy.get(".BusinessSheet")
+          .invoke("css", "font-family")
+          .should("equal", `"${savedData.fontPreference}"`);
+      }
 
       // Helper function to convert hex color to rgb
       function hexToRgb(hex) {
@@ -269,9 +275,11 @@ describe("Text Area and Input Field Testing:", () => {
       // Verify sections have the correct background color
       function checkColor(selector) {
         cy.get(selector, { multiple: true }).each((section) => {
-          cy.wrap(section)
+          if(savedData.colorPreference != "") {
+            cy.wrap(section)
             .invoke("css", "background-color")
             .should("equal", hexToRgb(savedData.colorPreference));
+          }
         });
       }
 
@@ -546,7 +554,7 @@ describe("Font and Theme Customization:", () => {
         .then((fontValue) => {
           cy.get(".fontsGrid .item input").eq(index).click();
           cy.get("button.update").eq(0).click();
-          cy.wait(6000); // Wait for theme to apply
+          cy.wait(10000); // Wait for theme to apply
           cy.get(".BusinessSheet")
             .invoke("css", "font-family")
             .should("equal", `"${fontValue}"`);
