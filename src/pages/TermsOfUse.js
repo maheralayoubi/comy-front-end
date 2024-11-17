@@ -1,6 +1,6 @@
 import React from "react";
 
-import TermsOfUse from "../components/TermsOfUse";
+import TermsOfUse from "../components/auth/TermsOfUse";
 import Header from "../components/global/Header";
 import Footer from "../components/global/Footer";
 

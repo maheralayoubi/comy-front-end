@@ -1,5 +1,6 @@
 import React from "react";
 import { Navigate, Outlet } from "react-router-dom";
+
 import { useBusiness } from "../hooks/useBusiness";
 import { SpinnerPage } from "./global/Spinner";
 

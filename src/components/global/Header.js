@@ -1,28 +1,24 @@
 import React from "react";
 import { Link } from "react-router-dom";
+
 import "./styles/Header.scss";
-import MobileMenu from "../MobileMenu";
+
+import MobileMenu from "./MobileMenu";
 import useLocalStorage from "../../hooks/useLocalStorage";
+import SearchItem from "../global/SearchItem";
 
 const Header = () => {
   const { getValue } = useLocalStorage();
+
   return (
     <header className="header">
       <div className="header-left">
         <Link to="/">
           <img src="/images/Logo_comy.svg" alt="Logo" className="logo" />
         </Link>
-        <div className="search-container">
-          <a href="/search-results">
-            <input
-              type="text"
-              placeholder="メンバー検索"
-              className="search-input"
-            />
-          </a>
-          <img src="/images/search.svg" alt="Search" className="search-icon" />
-        </div>
+        <SearchItem />
       </div>
+
       <div className="header-right">
         <Link to="/profile">
           <img

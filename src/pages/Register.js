@@ -1,6 +1,6 @@
 import React from "react";
 
-import RegisterForm from "../components/RegisterForm";
+import RegisterForm from "../components/auth/RegisterForm";
 import Header from "../components/global/Header";
 import Footer from "../components/global/Footer";
 

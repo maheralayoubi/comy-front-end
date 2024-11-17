@@ -3,10 +3,7 @@ import { useMemo } from "react";
 const useLocalStorage = () => {
   const getValue = (key) => {
     const value = localStorage.getItem(key);
-    if (value !== null) {
-      return JSON.parse(value);
-    }
-    return value;
+    return JSON.parse(value);
   };
 
   const setValue = (key, value) => {

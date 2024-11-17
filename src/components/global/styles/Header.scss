@@ -17,27 +17,6 @@
       width: 88px;
       margin-right: 20px;
     }
-
-    .search-container {
-      position: relative;
-
-      .search-input {
-        height: 35px;
-        width: 250px;
-        padding: 0 40px 0 20px;
-        border: 1px solid rgba(230, 230, 230, 1);
-        border-radius: 20px;
-        font-size: 14px;
-        outline: none;
-      }
-
-      .search-icon {
-        position: absolute;
-        right: 10px;
-        top: 50%;
-        transform: translateY(-50%);
-      }
-    }
   }
 
   &-right {

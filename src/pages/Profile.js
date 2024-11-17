@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import Header from "../components/global/Header";
 import Footer from "../components/global/Footer";
-import BusinessSheetTemplate from "../components/BusinessSheetTemplate";
+import BusinessSheetTemplate from "../components/business-sheet/BusinessSheetTemplate";
 import { SpinnerPage } from "../components/global/Spinner";
 
 import useLocalStorage from "../hooks/useLocalStorage";

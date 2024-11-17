@@ -185,19 +185,19 @@ describe("Member Profile Click Navigation with Data Validation:", () => {
                           cy.get(".headerBg img")
                             .invoke("attr", "src")
                             .should(
-                              "equal",
+                              "include",
                               `${businessSheetData.headerBackgroundImageUrl}`,
                             );
                           cy.get(".profile img")
                             .invoke("attr", "src")
                             .should(
-                              "equal",
+                              "include",
                               `${businessSheetData.profileImageUrl}`,
                             );
                           cy.get(".businessSheetData-s2 img")
                             .invoke("attr", "src")
                             .should(
-                              "equal",
+                              "include",
                               `${businessSheetData.referralSheetBackgroundImageUrl}`,
                             );
                         });

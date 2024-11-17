@@ -1,6 +1,6 @@
 import React from "react";
 
-import LoginForm from "../components/LoginForm";
+import LoginForm from "../components/auth/LoginForm";
 import Header from "../components/global/Header";
 import Footer from "../components/global/Footer";
 

@@ -21,16 +21,20 @@ export const registerUser = (userData) =>
 export const loginUser = (userData) =>
   handleApiResponse(() => secureApi.post(`${AUTH_URL}/login`, userData));
 
-export const logoutUser = () => 
+export const logoutUser = () =>
   handleApiResponse(() => secureApi.post(`${AUTH_URL}/logout`));
 
 // Should not be called with secureApi as users can't be authenticated when they forget their password.
 export const forgotPassword = (email) =>
   handleApiResponse(() =>
-    axios.post(`${AUTH_URL}/forgot-password`, { email }, { headers: HEADERS }),
+    axios.post(`${AUTH_URL}/forgot-password`, email, { headers: HEADERS }),
   );
 
 export const resetPassword = (token, newPassword) =>
   handleApiResponse(() =>
-    axios.post(`${AUTH_URL}/reset-password/${token}`, { newPassword }, { headers: HEADERS }),
+    axios.post(
+      `${AUTH_URL}/reset-password/${token}`,
+      { newPassword },
+      { headers: HEADERS },
+    ),
   );

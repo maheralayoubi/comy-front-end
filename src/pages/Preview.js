@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
-import PreviewHeader from "../components/PreviewHeader";
-import BusinessSheetTemplate from "../components/BusinessSheetTemplate";
+import PreviewHeader from "../components/business-sheet/PreviewHeader";
+import BusinessSheetTemplate from "../components/business-sheet/BusinessSheetTemplate";
 import { SpinnerPage } from "../components/global/Spinner";
-
 import { getUserSheetById } from "../api/businessSheet";
 
 const Preview = () => {
@@ -12,7 +11,6 @@ const Preview = () => {
   const [businessSheetData, setBusinessSheetData] = useState(null);
 
   useEffect(() => {
-    console.log(id);
     const getData = async () => {
       const response = await getUserSheetById(id);
       setBusinessSheetData(response.data);
@@ -24,7 +22,7 @@ const Preview = () => {
     <>
       <PreviewHeader />
       {businessSheetData ? (
-        <BusinessSheetTemplate data={businessSheetData} isPreview={true} />
+        <BusinessSheetTemplate data={businessSheetData} isEdit={false} />
       ) : (
         <SpinnerPage />
       )}
