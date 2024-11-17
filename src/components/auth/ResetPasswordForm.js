@@ -13,9 +13,7 @@ import useFormData from "../../hooks/useFormData";
 import visibilityIcon from "../../assets/images/visibility.svg";
 import visibilityOffIcon from "../../assets/images/visibility_off.svg";
 
-
 const ResetPasswordForm = () => {
-
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [message, setMessage] = useState({ type: "", content: "" });
   const [loading, setLoading] = useState(false);
@@ -25,12 +23,15 @@ const ResetPasswordForm = () => {
   const query = new URLSearchParams(location.search);
   const token = query.get("token");
 
-  const { formData, handleChange, errors, submitForm } = useFormData({
-    newPassword: "",
-    confirmNewPassword: ""
-  }, resetPasswordSchema)
+  const { formData, handleChange, errors, submitForm } = useFormData(
+    {
+      newPassword: "",
+      confirmNewPassword: "",
+    },
+    resetPasswordSchema,
+  );
 
-  const togglePasswordVisibility = () => setPasswordVisible(prev => !prev);
+  const togglePasswordVisibility = () => setPasswordVisible((prev) => !prev);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -38,13 +39,11 @@ const ResetPasswordForm = () => {
     setMessage({ type: "", content: "" });
 
     await submitForm(async (data) => {
-
-      const { newPassword } = data
+      const { newPassword } = data;
 
       try {
-
         setLoading(true);
-        const result = await resetPassword(token, newPassword)
+        const result = await resetPassword(token, newPassword);
 
         switch (result.status) {
           case 200:
@@ -59,16 +58,12 @@ const ResetPasswordForm = () => {
           default:
             setMessage({ type: "error", content: messages.tryAgain });
         }
-
       } catch (error) {
         setMessage({ type: "error", content: messages.tryAgain });
-
       } finally {
         setLoading(false);
       }
-
     });
-
   };
 
   return (
@@ -76,7 +71,6 @@ const ResetPasswordForm = () => {
       <h2>パスワードの再設定</h2>
 
       <form onSubmit={handleSubmit}>
-
         {/* newPassword */}
         <>
           <label htmlFor="newPassword">新しいパスワード</label>
@@ -96,7 +90,9 @@ const ResetPasswordForm = () => {
               onClick={togglePasswordVisibility}
             />
           </div>
-          {errors.newPassword && <div className="error">{errors.newPassword}</div>}
+          {errors.newPassword && (
+            <div className="error">{errors.newPassword}</div>
+          )}
         </>
 
         {/* confirmNewPassword */}
@@ -117,7 +113,9 @@ const ResetPasswordForm = () => {
               onClick={togglePasswordVisibility}
             />
           </div>
-          {errors.confirmNewPassword && <div className="error">{errors.confirmNewPassword}</div>}
+          {errors.confirmNewPassword && (
+            <div className="error">{errors.confirmNewPassword}</div>
+          )}
         </>
 
         <Button
@@ -126,7 +124,6 @@ const ResetPasswordForm = () => {
           isLoading={loading}
           disabled={!isFormComplete(formData) || loading}
         />
-
       </form>
 
       {/* Enhanced message display with dynamic styling */}
@@ -135,7 +132,6 @@ const ResetPasswordForm = () => {
           {message.content}
         </p>
       )}
-
     </div>
   );
 };

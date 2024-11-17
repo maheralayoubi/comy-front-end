@@ -13,18 +13,19 @@ import Button from "../global/Button";
 import visibilityIcon from "../../assets/images/visibility.svg";
 import visibilityOffIcon from "../../assets/images/visibility_off.svg";
 
-
 const LoginForm = () => {
-
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [message, setMessage] = useState({ type: "", content: "" });
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const { formData, handleChange, errors, submitForm } = useFormData({
-    email: "",
-    password: ""
-  }, loginSchema)
+  const { formData, handleChange, errors, submitForm } = useFormData(
+    {
+      email: "",
+      password: "",
+    },
+    loginSchema,
+  );
 
   const verifyAuth = async () => {
     try {
@@ -43,8 +44,7 @@ const LoginForm = () => {
     verifyAuth();
   }, [navigate]);
 
-
-  const togglePasswordVisibility = () => setPasswordVisible(prev => !prev);
+  const togglePasswordVisibility = () => setPasswordVisible((prev) => !prev);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -52,9 +52,7 @@ const LoginForm = () => {
     setMessage({ type: "", content: "" });
 
     await submitForm(async (data) => {
-
       try {
-
         setLoading(true);
         const result = await loginUser(data);
 
@@ -75,23 +73,18 @@ const LoginForm = () => {
           default:
             setMessage({ type: "error", content: messages.tryAgain });
         }
-
       } catch (error) {
         setMessage({ type: "error", content: messages.tryAgain });
-
       } finally {
         setLoading(false);
       }
-
     });
-
   };
 
   return (
     <div className="login-form-container">
       <h2>ログイン</h2>
       <form onSubmit={handleSubmit}>
-
         {/* email */}
         <>
           <label htmlFor="email">メールアドレス</label>
@@ -138,9 +131,7 @@ const LoginForm = () => {
           isLoading={loading}
           disabled={!isFormComplete(formData) || loading}
         />
-
       </form>
-
 
       {/* Enhanced message display with dynamic styling */}
       {message.content && (
@@ -152,7 +143,6 @@ const LoginForm = () => {
       <div className="register-link">
         <a href="/register">新規登録はこちら</a>
       </div>
-
     </div>
   );
 };

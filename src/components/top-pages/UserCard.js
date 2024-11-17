@@ -2,7 +2,6 @@ import { Link } from "react-router-dom";
 
 import "./styles/UserCard.scss";
 
-
 const UserCard = ({ user }) => {
   return (
     <div className="user-card" key={user.id}>

@@ -5,7 +5,6 @@ import useLocalStorage from "../hooks/useLocalStorage";
 import { messages } from "../constants/messages";
 
 export const useBusiness = () => {
-
   const [haveBusiness, setHaveBusiness] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const { setValue, clearAll } = useLocalStorage();

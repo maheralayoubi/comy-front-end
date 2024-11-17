@@ -6,7 +6,6 @@ import BusinessSheetTemplate from "../components/business-sheet/BusinessSheetTem
 import { SpinnerPage } from "../components/global/Spinner";
 import { getUserSheetById } from "../api/businessSheet";
 
-
 const Preview = () => {
   const { id } = useParams();
   const [businessSheetData, setBusinessSheetData] = useState(null);
@@ -22,10 +21,11 @@ const Preview = () => {
   return (
     <>
       <PreviewHeader />
-      {businessSheetData ?
-        <BusinessSheetTemplate data={businessSheetData} isEdit={false} /> :
+      {businessSheetData ? (
+        <BusinessSheetTemplate data={businessSheetData} isEdit={false} />
+      ) : (
         <SpinnerPage />
-      }
+      )}
     </>
   );
 };

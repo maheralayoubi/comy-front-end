@@ -5,9 +5,7 @@ import "./styles/Blog.scss";
 // dummy data
 import blogs from "../../data/blogs.json";
 
-
 const BlogDetails = ({ id }) => {
-
   const blog = blogs.find((item) => item.id === id);
 
   return (
@@ -18,9 +16,7 @@ const BlogDetails = ({ id }) => {
             ホーム
             <img src="/images/arrow_forward_ios.png" alt="arrow" />
           </Link>
-          <h6 className="shortTitle">
-            {blog.shortTitle}
-          </h6>
+          <h6 className="shortTitle">{blog.shortTitle}</h6>
         </div>
         <img className="blogImg" src={blog.image} alt={blog.title} />
         {/* <div className="blogImg"></div> */}

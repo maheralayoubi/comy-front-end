@@ -10,9 +10,7 @@ import { messages } from "../../constants/messages";
 import PreviewModal from "./PreviewModal";
 import Button from "../global/Button";
 
-
 const Stepper = ({ children, data, handleInit, submitForm }) => {
-
   const { getValue, setValue, clearAll } = useLocalStorage();
   const [message, setMessage] = useState({ type: "", content: "" });
   const [activeStep, setActiveStep] = useState(Number(getValue("activeStep")));
@@ -29,11 +27,9 @@ const Stepper = ({ children, data, handleInit, submitForm }) => {
   };
 
   const handleSubmit = async () => {
-
     setMessage({ type: "", content: "" });
 
     await submitForm(async (data) => {
-
       try {
         setLoading(true);
         const result = await createBusinessSheet(data);
@@ -50,16 +46,12 @@ const Stepper = ({ children, data, handleInit, submitForm }) => {
           default:
             setMessage({ type: "error", content: messages.tryAgain });
         }
-
       } catch (error) {
         setMessage({ type: "error", content: messages.tryAgain });
-
       } finally {
         setLoading(false);
       }
-
-    })
-
+    });
   };
 
   useEffect(() => {
@@ -68,7 +60,6 @@ const Stepper = ({ children, data, handleInit, submitForm }) => {
 
   return (
     <div className="stepper-container">
-
       {/* step number */}
       <>
         <span className="steps-number">
@@ -79,16 +70,13 @@ const Stepper = ({ children, data, handleInit, submitForm }) => {
           className="progress-bar"
           value={activeStep + 1}
           max={numberOfChildern}
-        >
-        </progress>
+        ></progress>
 
         <div className="steps">{Children.toArray(children)[activeStep]}</div>
       </>
 
-
       {/* control buttons */}
       <div className="button-group">
-
         {/* previouse */}
         {activeStep !== 0 && (
           <Button content={"戻る"} variant={"gray"} onClick={handlePrev} />
@@ -117,7 +105,6 @@ const Stepper = ({ children, data, handleInit, submitForm }) => {
         {/* preview */}
         <PreviewModal data={data} />
       </div>
-
 
       {/* Enhanced message display with dynamic styling */}
       {message.content && (

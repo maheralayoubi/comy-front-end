@@ -9,28 +9,28 @@ import { messages } from "../../constants/messages";
 import { isFormComplete, registerSchema } from "../../utils/formUtils";
 import Button from "../global/Button";
 
-// icons 
+// icons
 import visibilityIcon from "../../assets/images/visibility.svg";
 import visibilityOffIcon from "../../assets/images/visibility_off.svg";
 
-
 const RegisterForm = () => {
-
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [message, setMessage] = useState({ type: "", content: "" });
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const { formData, handleChange, errors, submitForm } = useFormData({
-    name: "",
-    category: "",
-    password: "",
-    confirmPassword: "",
-    email: ""
-  }, registerSchema)
+  const { formData, handleChange, errors, submitForm } = useFormData(
+    {
+      name: "",
+      category: "",
+      password: "",
+      confirmPassword: "",
+      email: "",
+    },
+    registerSchema,
+  );
 
-  const togglePasswordVisibility = () => setPasswordVisible(prev => !prev);
-
+  const togglePasswordVisibility = () => setPasswordVisible((prev) => !prev);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -38,16 +38,18 @@ const RegisterForm = () => {
     setMessage({ type: "", content: "" });
 
     await submitForm(async (data) => {
-      const { name, email, password, category } = data
+      const { name, email, password, category } = data;
 
       try {
-
         setLoading(true);
         const result = await registerUser({ name, email, password, category });
 
         switch (result.status) {
           case 201:
-            setMessage({ type: "success", content: messages.successfulRegister });
+            setMessage({
+              type: "success",
+              content: messages.successfulRegister,
+            });
             navigate("/mail-confirmation", { state: { email } });
             break;
           case 400:
@@ -59,14 +61,11 @@ const RegisterForm = () => {
           default:
             setMessage({ type: "error", content: messages.tryAgain });
         }
-
       } catch (error) {
         setMessage({ type: "error", content: messages.tryAgain });
-
       } finally {
         setLoading(false);
       }
-
     });
   };
 
@@ -74,7 +73,6 @@ const RegisterForm = () => {
     <div className="register-form-container">
       <h2>新規アカウント登録</h2>
       <form onSubmit={handleSubmit}>
-
         {/* name */}
         <>
           <label htmlFor="name">名前</label>
@@ -160,7 +158,9 @@ const RegisterForm = () => {
               onClick={togglePasswordVisibility}
             />
           </div>
-          {errors.confirmPassword && <div className="error">{errors.confirmPassword}</div>}
+          {errors.confirmPassword && (
+            <div className="error">{errors.confirmPassword}</div>
+          )}
         </>
 
         <Button
@@ -169,7 +169,6 @@ const RegisterForm = () => {
           isLoading={loading}
           disabled={!isFormComplete(formData) || loading}
         />
-
       </form>
 
       {/* Enhanced message display with dynamic styling */}

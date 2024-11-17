@@ -245,19 +245,19 @@ describe("Text Area and Input Field Testing:", () => {
       });
 
       // Verify images have correct src attributes
-      if(savedData.headerBackgroundImageUrl) {
+      if (savedData.headerBackgroundImageUrl) {
         cy.get(".headerBg img")
-        .should("have.attr", "src")
-        .and("include", savedData.headerBackgroundImageUrl);
+          .should("have.attr", "src")
+          .and("include", savedData.headerBackgroundImageUrl);
       }
-      if(savedData.profileImageUrl) {
+      if (savedData.profileImageUrl) {
         cy.get(".profile img")
-        .should("have.attr", "src")
-        .and("include", savedData.profileImageUrl);
+          .should("have.attr", "src")
+          .and("include", savedData.profileImageUrl);
       }
 
       // Verify sections have the correct font
-      if(savedData.fontPreference != "") {
+      if (savedData.fontPreference != "") {
         cy.get(".BusinessSheet")
           .invoke("css", "font-family")
           .should("equal", `"${savedData.fontPreference}"`);
@@ -275,10 +275,10 @@ describe("Text Area and Input Field Testing:", () => {
       // Verify sections have the correct background color
       function checkColor(selector) {
         cy.get(selector, { multiple: true }).each((section) => {
-          if(savedData.colorPreference != "") {
+          if (savedData.colorPreference != "") {
             cy.wrap(section)
-            .invoke("css", "background-color")
-            .should("equal", hexToRgb(savedData.colorPreference));
+              .invoke("css", "background-color")
+              .should("equal", hexToRgb(savedData.colorPreference));
           }
         });
       }

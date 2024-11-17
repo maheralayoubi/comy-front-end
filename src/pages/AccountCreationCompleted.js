@@ -4,7 +4,6 @@ import AccountCreationCompleted from "../components/auth/AccountCreationComplete
 import Header from "../components/global/Header";
 import Footer from "../components/global/Footer";
 
-
 const Login = () => {
   return (
     <div>

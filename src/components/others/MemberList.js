@@ -8,9 +8,7 @@ import Pagination from "../global/Pagination";
 import { messages } from "../../constants/messages";
 import UserCard from "../top-pages/UserCard";
 
-
 const MemberList = () => {
-
   const [users, setUsers] = useState(null);
   const [error, setError] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);

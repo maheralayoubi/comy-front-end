@@ -8,14 +8,12 @@ import { SpinnerPage } from "../global/Spinner";
 import UserCard from "./UserCard";
 import SearchItem from "../global/SearchItem";
 
-
 // data
 import blogs from "../../data/blogs.json";
-import slides from "./data/sliderData.json"
+import slides from "./data/sliderData.json";
 import TopPageSlider from "./TopPageSlider";
 
 const TopPage = () => {
-
   const [error, setError] = useState(null);
   const [users, setUsers] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -58,7 +56,11 @@ const TopPage = () => {
       <div className="member-list-top-list">
         <h2>COMYユーザー</h2>
         <div className="users">
-          {users && users.slice().reverse().map((user) => <UserCard key={user.id} user={user} />)}
+          {users &&
+            users
+              .slice()
+              .reverse()
+              .map((user) => <UserCard key={user.id} user={user} />)}
         </div>
         <div className="see-more-members">
           <a href="/member-list">
@@ -70,10 +72,7 @@ const TopPage = () => {
       <div className="features">
         <h2>COMYの今後の追加機能紹介</h2>
         {slides.slice(0, 3).map((slide, index) => (
-          <div
-            className="photo photo-common disable-select"
-            key={index}
-          >
+          <div className="photo photo-common disable-select" key={index}>
             <img src={slide.img} alt={slide.title} />
             <div className="text">
               <p>{slide.subtitle}</p>

@@ -4,7 +4,6 @@ import Header from "../components/global/Header";
 import Footer from "../components/global/Footer";
 import TopPage from "../components/top-pages/TopPage";
 
-
 const Register = () => {
   return (
     <div>

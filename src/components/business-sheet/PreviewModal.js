@@ -6,7 +6,6 @@ import PreviewHeader from "./PreviewHeader";
 import BusinessSheetTemplate from "./BusinessSheetTemplate";
 
 const PreviewModal = ({ data }) => {
-
   const [toggle, setToggle] = useState(false);
 
   const onToggle = () => setToggle((prev) => !prev);

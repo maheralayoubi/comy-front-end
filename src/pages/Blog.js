@@ -4,9 +4,7 @@ import Header from "../components/global/Header";
 import Footer from "../components/global/Footer";
 import BlogDetails from "../components/others/BlogDetails";
 
-
 const Blog = () => {
-
   const { id } = useParams();
 
   return (

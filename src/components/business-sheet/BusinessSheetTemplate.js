@@ -1,4 +1,3 @@
-
 import "./styles/BusinessSheetTemplate.scss";
 
 import EditDesignAndImgModal from "./EditDesignAndImgModal";
@@ -12,16 +11,13 @@ import {
 } from "./Cards";
 import CopySheetUrl from "./CopySheetUrl";
 
-
 const BusinessSheetTemplate = ({
   data,
   isEdit,
   handleEdit,
   setBusinessSheetData,
 }) => {
-
   const getHeaderBackgroundSrc = (data) => {
-
     if (data?.headerBackgroundImageUrl) {
       return `${data?.headerBackgroundImageUrl}?timestamp=${new Date().getTime()}`;
     }
@@ -34,7 +30,6 @@ const BusinessSheetTemplate = ({
   };
 
   const getProfileImageSrc = (data) => {
-
     if (data?.profileImageUrl) {
       return `${data?.profileImageUrl}?timestamp=${new Date().getTime()}`;
     }
@@ -58,7 +53,6 @@ const BusinessSheetTemplate = ({
     return "/images/referralSheetBackgroundImage.png";
   };
 
-
   return (
     <div
       className="BusinessSheet"
@@ -66,14 +60,9 @@ const BusinessSheetTemplate = ({
         fontFamily: data?.fontPreference && `${data?.fontPreference}`,
       }}
     >
-
       {/* header bg section */}
       <div className="headerBg">
-
-        <img
-          src={getHeaderBackgroundSrc(data)}
-          alt="cover"
-        />
+        <img src={getHeaderBackgroundSrc(data)} alt="cover" />
 
         {isEdit && (
           <EditDesignAndImgModal
@@ -88,11 +77,7 @@ const BusinessSheetTemplate = ({
 
       {/* profile section */}
       <div className="profile">
-
-        <img
-          src={getProfileImageSrc(data)}
-          alt="profile"
-        />
+        <img src={getProfileImageSrc(data)} alt="profile" />
 
         <div className="profileContent">
           <div className="userData">
@@ -100,19 +85,13 @@ const BusinessSheetTemplate = ({
             <h1 className="userName">{data?.userName}</h1>
           </div>
 
-          {isEdit &&
-            <CopySheetUrl
-              userId={data?.userId}
-            />}
+          {isEdit && <CopySheetUrl userId={data?.userId} />}
         </div>
-
       </div>
 
       {/* main busniness info section */}
       <div className="businessSheetData-s1">
-
         <div className="left">
-
           {/* shortBiography */}
           <Card
             title={"メンバー略歴シート"}
@@ -148,7 +127,6 @@ const BusinessSheetTemplate = ({
             placeholder={"個人的な情報について入力"}
             maxLength={200}
           />
-
         </div>
 
         <div className="right">
@@ -216,21 +194,14 @@ const BusinessSheetTemplate = ({
             placeholder={"能力について入力"}
             maxLength={1000}
           />
-
         </div>
-
       </div>
 
       {/* background cover section */}
       <div className="businessSheetData-s2">
-
-        <img
-          src={getReferralSheetBackgroundSrc(data)}
-          alt="background"
-        />
+        <img src={getReferralSheetBackgroundSrc(data)} alt="background" />
 
         <div className="section2Container">
-
           <SectionTitle
             title={"リファーラルシート"}
             theme={data?.colorPreference}
@@ -350,11 +321,8 @@ const BusinessSheetTemplate = ({
               <CardData key={index} data={item} />
             ))}
           </div>
-
         </div>
-
       </div>
-
     </div>
   );
 };

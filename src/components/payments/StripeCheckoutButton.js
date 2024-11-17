@@ -7,16 +7,14 @@ import useCheckoutSession from "../../hooks/useCheckoutSession";
 import { messages } from "../../constants/messages";
 import Button from "../global/Button";
 
-
 const StripeCheckoutButton = () => {
-
   const stripe = useStripe();
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState({ type: "", content: "" });
   const { createCheckoutSession } = useCheckoutSession();
 
   const handleClick = async () => {
-    setLoading(true)
+    setLoading(true);
     setMessage({ type: "", content: "" });
 
     try {

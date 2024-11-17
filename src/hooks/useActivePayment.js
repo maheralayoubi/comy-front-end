@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 import { checkActivate } from "../api/businessSheet";
 import { messages } from "../constants/messages";
 
-
 export const useActivePayment = () => {
   const [isPay, setIsPay] = useState(null);
   const [isLoading, setIsLoading] = useState(true);

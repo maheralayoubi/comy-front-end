@@ -8,7 +8,6 @@ import useLocalStorage from "../../hooks/useLocalStorage";
 import SearchItem from "../global/SearchItem";
 
 const Header = () => {
-
   const { getValue } = useLocalStorage();
 
   return (

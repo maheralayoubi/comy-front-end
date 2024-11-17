@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 import { checkAuth } from "../api/auth";
 import { messages } from "../constants/messages";
 
-
 export const useAuth = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(null);
   const [isLoading, setIsLoading] = useState(true);

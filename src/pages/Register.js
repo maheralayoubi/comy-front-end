@@ -4,7 +4,6 @@ import RegisterForm from "../components/auth/RegisterForm";
 import Header from "../components/global/Header";
 import Footer from "../components/global/Footer";
 
-
 const Register = () => {
   return (
     <div>

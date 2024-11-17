@@ -2,7 +2,6 @@ import React from "react";
 
 import "./styles/AccountCreationCompleted.scss";
 
-
 const AccountCreationCompleted = () => {
   return (
     <div className="account-creation-completed-container">

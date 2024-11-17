@@ -613,7 +613,7 @@ describe("Submit Behavior:", () => {
       typeInInput(selector, formData.powerWords[key]);
     });
     cy.get(".btn.dark").click();
-    
+
     // Step 7: Verify itemsProducts inputs
     Object.keys(formData.itemsProducts).forEach((key) => {
       const selector = `#${key}`;

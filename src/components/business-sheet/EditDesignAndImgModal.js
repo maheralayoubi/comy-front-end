@@ -9,7 +9,6 @@ import useLocalStorage from "../../hooks/useLocalStorage";
 import { editBusinessSheet, editUserData } from "../../api/businessSheet";
 import { compression } from "../../utils/imageCompression";
 
-
 const EditDesignAndImgModal = ({
   size,
   title,
@@ -77,14 +76,15 @@ const EditDesignAndImgModal = ({
     };
     await editBusinessSheet(userBussinessData);
     await editUserData(userData);
-    let images = {}
+    let images = {};
     if (
       typeof updatedData.headerBackgroundImage === "object" &&
       updatedData.headerBackgroundImage !== null
     ) {
       images = {
-        ...images, headerBackgroundImageUrl: `${imagesBaseUrl}/header-background`
-      }
+        ...images,
+        headerBackgroundImageUrl: `${imagesBaseUrl}/header-background`,
+      };
     }
 
     if (
@@ -92,20 +92,23 @@ const EditDesignAndImgModal = ({
       updatedData.profileImage !== null
     ) {
       setValue("profileImageUrl", `${imagesBaseUrl}/profile`);
-      images = { ...images, profileImageUrl: `${imagesBaseUrl}/profile` }
+      images = { ...images, profileImageUrl: `${imagesBaseUrl}/profile` };
     }
 
     if (
       typeof updatedData.referralSheetBackgroundImage === "object" &&
       updatedData.referralSheetBackgroundImage !== null
     ) {
-      images = { ...images, referralSheetBackgroundImageUrl: `${imagesBaseUrl}/referral-background` }
+      images = {
+        ...images,
+        referralSheetBackgroundImageUrl: `${imagesBaseUrl}/referral-background`,
+      };
     }
 
     setValue("businessSheetData", { ...data, ...updatedData, ...images });
 
     setBusinessSheetData(getValue("businessSheetData"));
-    console.log(getValue("businessSheetData"))
+    console.log(getValue("businessSheetData"));
     onToggle();
     setLoading(false);
     // window.location.reload();

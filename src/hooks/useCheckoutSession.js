@@ -4,7 +4,6 @@ import { messages } from "../constants/messages";
 
 const CHECKOUT_SESSION_ENDPOINT = "create-checkout-session";
 
-
 const useCheckoutSession = () => {
   const createCheckoutSession = useCallback(async () => {
     try {

@@ -5,7 +5,6 @@ import { TextArea, Input } from "../global/FormElements";
 
 import "./styles/Cards.scss";
 
-
 export const SectionTitle = ({
   title,
   theme,

@@ -118,13 +118,7 @@ export const Themes = ({ title, value, onChange, name }) => {
 };
 
 // upload cover image
-export const UploadImage = ({
-  title,
-  value,
-  onChange,
-  name,
-  resetImage,
-}) => {
+export const UploadImage = ({ title, value, onChange, name, resetImage }) => {
   // const { setValue } = useLocalStorage()
 
   return (

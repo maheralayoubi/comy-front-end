@@ -8,9 +8,7 @@ import Spinner from "../global/Spinner";
 import Pagination from "../global/Pagination";
 import { messages } from "../../constants/messages";
 
-
 const SearchResults = () => {
-
   const [query, setQuery] = useState("");
   const [users, setUsers] = useState(null);
   const [loading, setLoading] = useState(false);
