@@ -52,7 +52,7 @@ describe("Form Submission:", () => {
   });
 
   it("Enter a valid email and click the “送信” button. Verify that the success message “パスワードリセットメールを送信しました。受信箱をご確認ください。” is displayed and no errors occur.", () => {
-    cy.intercept("POST", "/auth/forgot-password")
+    cy.intercept("POST", "/auth/forgot-password");
     cy.get("#email").type(email);
     cy.get('button[type="submit"]').click();
     cy.wait(25000);
@@ -67,4 +67,4 @@ describe("Form Submission:", () => {
     cy.wait(5000);
     cy.contains("ユーザーが見つかりません。");
   });
-})
+});

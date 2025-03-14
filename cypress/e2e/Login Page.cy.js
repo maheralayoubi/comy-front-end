@@ -97,7 +97,7 @@ describe("Input Validation:", () => {
     cy.get("#email").type(email);
     cy.get("#password").type("password123");
     cy.get('button[type="submit"]').click();
-    cy.contains('認証情報が無効です。');
+    cy.contains("認証情報が無効です。");
   });
 });
 
@@ -165,11 +165,11 @@ describe("API Responses:", () => {
     cy.intercept("POST", `${backendUrl}/auth/login`, {
       statusCode: 200,
       body: { token: "mocked-jwt-token" },
-    })
+    });
     cy.get("#email").type(email);
     cy.get("#password").type(password);
     cy.get("button[type=submit]").click();
-    cy.wait(5000)
+    cy.wait(5000);
     cy.url().should("include", "/profile");
   });
   it("Mock an API response for a failed login (e.g., invalid email/password) and ensure the correct error message is displayed to the user.", () => {
@@ -179,12 +179,12 @@ describe("API Responses:", () => {
       body: {
         message: "認証情報が無効です。",
       },
-    })
+    });
     cy.visit("/login");
     cy.get("#email").type(email);
     cy.get("#password").type("password123");
     cy.get("button[type=submit]").click();
-    cy.wait(5000)
+    cy.wait(5000);
     cy.contains("認証情報が無効です。").should("be.visible");
   });
 });

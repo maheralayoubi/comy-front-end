@@ -2,18 +2,18 @@ import { useParams } from "react-router-dom";
 
 import Header from "../components/global/Header";
 import Footer from "../components/global/Footer";
-import Blog from "../components/Blog";
+import BlogDetails from "../components/others/BlogDetails";
 
-const Login = () => {
+const Blog = () => {
   const { id } = useParams();
 
   return (
     <div>
       <Header />
-      <Blog id={id} />
+      <BlogDetails id={id} />
       <Footer />
     </div>
   );
 };
 
-export default Login;
+export default Blog;

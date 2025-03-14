@@ -1,6 +1,6 @@
 import React from "react";
 
-import SearchResults from "../components/SearchResults";
+import SearchResults from "../components/others/SearchResults";
 import Header from "../components/global/Header";
 import Footer from "../components/global/Footer";
 

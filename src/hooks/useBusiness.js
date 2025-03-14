@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+
 import { getBusinessSheet } from "../api/businessSheet";
 import useLocalStorage from "../hooks/useLocalStorage";
 import { messages } from "../constants/messages";
@@ -9,7 +10,7 @@ export const useBusiness = () => {
   const { setValue, clearAll } = useLocalStorage();
 
   useEffect(() => {
-    clearAll();
+    // clearAll();
     const getBusinessSheetData = async () => {
       try {
         const response = await getBusinessSheet();
