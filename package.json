@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@copilotkit/react-core": "^1.7.1",
+    "@copilotkit/react-ui": "^1.7.1",
+    "@copilotkit/runtime": "^1.7.1",
     "@reduxjs/toolkit": "^2.2.7",
     "@stripe/react-stripe-js": "^2.8.0",
     "@stripe/stripe-js": "^4.4.0",
