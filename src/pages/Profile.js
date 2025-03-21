@@ -60,8 +60,26 @@ const Profile = () => {
     }));
   };
   return (
-    <div>
+    <div style={
+      {
+        "--copilot-kit-primary-color": " #4C7EA8",                 // Calm Business Blue for AI actions
+        "--copilot-kit-contrast-color": " #FFFFFF",                // White text for primary button
+        "--copilot-kit-secondary-color": " #EEF4F8",               // Light blue-gray background for soft UI
+        "--copilot-kit-secondary-contrast-color": " #333333",      // Dark gray text for readability
+        "--copilot-kit-background-color": " #FAFAFA",              // Neutral soft white for chat background
+        "--copilot-kit-muted-color": " #7D8B99",                   // Muted gray for system messages or hints
+        "--copilot-kit-text-light-color": " #FFFFFF",              // White when used on dark colors
+        "--copilot-kit-text-dark-color": " #333333",               // Dark gray text for main content
+        "--copilot-kit-separator-color": " #E1E7EC",               // Light separator for clean structure
+        "--copilot-kit-scrollbar-color": " #C5CFD6",               // Light neutral scrollbar
+        "--copilot-kit-header-color": " #4C7EA8",                  // Match primary for chat header
+        "--copilot-kit-response-button-color": " #FFFFFF",         // White text inside buttons
+        "--copilot-kit-response-button-background-color": " #3B6791" // Slightly darker blue for action buttons
+      }
+      
+      }>
       <Header />
+
       <CopilotKit runtimeUrl={BUSINESS_SHEET_COPILOT_CONFIG.runtimeUrl}>
         {businessSheetData ? (
           <BusinessSheetWithCopilot 
