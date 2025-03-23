@@ -15,11 +15,11 @@ import { BUSINESS_SHEET_COPILOT_CONFIG } from "../constants/copilotConfig";
 import { useBusinessSheetCopilotActions } from '../hooks/useBusinessSheetCopilotActions';
 
 // BusinessSheetWithCopilot component defined outside the main component
-const BusinessSheetWithCopilot = ({ businessSheetData, setBusinessSheetData, handleEdit }) => {
+const BusinessSheetWithCopilot = ({ businessSheetData, setBusinessSheetData, updateBusinessSheetData }) => {
   // Use the copilot actions hook
   useBusinessSheetCopilotActions({
     businessSheetData,
-    handleEdit,
+    updateBusinessSheetData,
   });
 
   return (
@@ -27,7 +27,7 @@ const BusinessSheetWithCopilot = ({ businessSheetData, setBusinessSheetData, han
       data={businessSheetData}
       setBusinessSheetData={setBusinessSheetData}
       isEdit={true}
-      handleEdit={handleEdit}
+      handleEdit={updateBusinessSheetData}
     />
   );
 };
@@ -41,7 +41,7 @@ const Profile = () => {
     setBusinessSheetData(getValue("businessSheetData"));
   }, [getValue, setValue, clearAll]);
 
-  const handleEdit = async (updatedData) => {
+  const updateBusinessSheetData = async (updatedData) => {
     console.log("Updating fields:", Object.keys(updatedData));
     
     // First update the React state directly for immediate UI feedback
@@ -85,7 +85,7 @@ const Profile = () => {
           <BusinessSheetWithCopilot 
             businessSheetData={businessSheetData} 
             setBusinessSheetData={setBusinessSheetData}
-            handleEdit={handleEdit}
+            updateBusinessSheetData={updateBusinessSheetData}
           />
         ) : (
           <SpinnerPage />
