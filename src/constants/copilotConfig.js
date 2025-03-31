@@ -54,9 +54,9 @@ export const BUSINESS_SHEET_COPILOT_CONFIG = {
     
     // UI Labels
     labels: {
-      title: "ビジネスシートAIアシスト",
-      initial: "こんにちは！👋 ビジネスシートの入力をお手伝いします。空欄の項目に提案をしたり、既存の内容をブラッシュアップしたりできますが、いかがしますか？",
-      placeholder: "メッセージを入力してください",
+      title: "COMY オフィシャル AI",
+      initial: "こんにちは👋私はCOMYオフィシャルAIです。まだビジネスシートが全て記入されていないようです。ぜひお手伝いさせてください。",
+      placeholder: "メッセージを入力...",
       stopGenerating: "生成を停止する",
       regenerateResponse: "もう一度提案する",
     },
