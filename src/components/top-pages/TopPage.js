@@ -13,10 +13,16 @@ import blogs from "../../data/blogs.json";
 import slides from "./data/sliderData.json";
 import TopPageSlider from "./TopPageSlider";
 
-const TopPage = () => {
+const TopPage = ({ businessSheetData }) => {
   const [error, setError] = useState(null);
   const [users, setUsers] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    if (businessSheetData) {
+      console.log("TopPage received businessSheetData:", businessSheetData);
+    }
+  }, [businessSheetData]);
 
   useEffect(() => {
     setIsLoading(true);

@@ -4,7 +4,7 @@ import { CopilotPopup } from "@copilotkit/react-ui";
 import "@copilotkit/react-ui/styles.css";
 import { BUSINESS_SHEET_COPILOT_CONFIG } from "../../constants/copilotConfig";
 
-const CopilotLayout = ({ children }) => {
+const CopilotLayout = ({ children, businessSheetData, updateBusinessSheetData }) => {
   return (
     <div
       style={{
@@ -16,7 +16,9 @@ const CopilotLayout = ({ children }) => {
       }}
     >
       <CopilotKit runtimeUrl={BUSINESS_SHEET_COPILOT_CONFIG.runtimeUrl}>
-        {children}
+        {React.Children.map(children, child => 
+          React.cloneElement(child, { businessSheetData, updateBusinessSheetData })
+        )}
         <CopilotPopup
           instructions={BUSINESS_SHEET_COPILOT_CONFIG.instructions}
           defaultOpen={BUSINESS_SHEET_COPILOT_CONFIG.defaultOpen}

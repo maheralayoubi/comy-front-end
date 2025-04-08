@@ -2,16 +2,31 @@ import { useMemo } from "react";
 
 const useLocalStorage = () => {
   const getValue = (key) => {
-    const value = localStorage.getItem(key);
-    return JSON.parse(value);
+    try {
+      const value = localStorage.getItem(key);
+
+      return value ? JSON.parse(value) : null;
+    } catch (error) {
+      console.error(`Error getting item ${key} from localStorage:`, error);
+      return null;
+    }
   };
 
   const setValue = (key, value) => {
-    localStorage.setItem(key, JSON.stringify(value));
+    try {
+      const valueToStore = typeof value === 'function' ? value(getValue(key)) : value;
+      localStorage.setItem(key, JSON.stringify(valueToStore));
+    } catch (error) {
+      console.error(`Error setting item ${key} in localStorage:`, error);
+    }
   };
 
   const clearAll = () => {
-    localStorage.clear();
+    try {
+      localStorage.clear();
+    } catch (error) {
+      console.error('Error clearing localStorage:', error);
+    }
   };
 
   return useMemo(

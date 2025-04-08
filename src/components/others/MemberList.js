@@ -8,12 +8,18 @@ import Pagination from "../global/Pagination";
 import { messages } from "../../constants/messages";
 import UserCard from "../top-pages/UserCard";
 
-const MemberList = () => {
+const MemberList = ({ businessSheetData }) => {
   const [users, setUsers] = useState(null);
   const [error, setError] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(30);
   const totalPages = Math.ceil(users?.length / itemsPerPage);
+
+  React.useEffect(() => {
+    if (businessSheetData) {
+      console.log("MemberList received businessSheetData:", businessSheetData);
+    }
+  }, [businessSheetData]);
 
   useEffect(() => {
     getMemberList()
