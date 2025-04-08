@@ -1,9 +1,32 @@
+.copilotKitHeader {
+    border-top-left-radius: 20px !important;
+    border-top-right-radius: 20px !important;
+}
+.copilotKitInputContainer {
+    border-bottom-left-radius: 20px !important;
+    border-bottom-right-radius: 20px !important;
+}
+
+.copilotKitInput > textarea {
+    line-height: 30px !important;
+}
+
 .copilotKitAssistantMessage {
     background-color: #F6F7F7 !important; /* AI message background color */
 }
 
+.copilotKitInput {
+    background-color: #F6F7F7 !important;
+    border-radius: 40px !important;
+    padding: 10px 20px !important;
+    flex-direction: row !important;
+    height: 52px !important;
+    overflow: scroll;
+}
+
 .copilotKitUserMessage {
     background: #28335E !important;
+    padding: 10px 15px !important;
 }
 
 .copilotKitHeader::before {
@@ -15,4 +38,27 @@
     border-radius: 80%;
     margin-right: -70px;
 }
+
+.copilotKitMessage.copilotKitAssistantMessage {
+    border-radius: 4px !important;
+    padding: 10px 15px !important;
+}
+
+.copilotKitInputControlButton svg {
+    display: none !important;
+}
+
+.copilotKitInputControlButton {
+    background-image: url("assets/images/chat-bot-arrow.svg") !important;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 30px !important;
+    height: 30px !important;
+    padding: 0;
+    position: fixed;
+    right: 8%;
+  }
+
+  
   
