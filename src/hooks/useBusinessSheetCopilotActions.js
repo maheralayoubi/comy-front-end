@@ -1,68 +1,17 @@
 import { useCopilotAction, useCopilotReadable } from '@copilotkit/react-core';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useMemo } from 'react';
 
-// Define field types and their constraints for better type safety and documentation
-const FIELD_TYPES = {
-  TEXT: 'text',
-  ARRAY: 'array'
-};
+import {
+  BUSINESS_SHEET_SCHEMA,
+  getTextFields,
+  getArrayFields,
+  EXCLUDED_FIELDS,
+} from '../constants/businessSheetSchema';
 
-// Centralized schema definition for all business sheet fields
-const BUSINESS_SHEET_SCHEMA = {
-  // Text fields
-  shortBiography: { type: FIELD_TYPES.TEXT, description: 'Short biography of the user' },
-  businessDescription: { type: FIELD_TYPES.TEXT, description: 'Description of the user\'s business' },
-  personalInformation: { type: FIELD_TYPES.TEXT, description: 'User\'s personal information' },
-  goals: { type: FIELD_TYPES.TEXT, description: 'User\'s business goals' },
-  accomplishments: { type: FIELD_TYPES.TEXT, description: 'User\'s accomplishments' },
-  interests: { type: FIELD_TYPES.TEXT, description: 'User\'s interests' },
-  networks: { type: FIELD_TYPES.TEXT, description: 'User\'s professional networks' },
-  skills: { type: FIELD_TYPES.TEXT, description: 'User\'s professional skills' },
-  companyStrengths: { type: FIELD_TYPES.TEXT, description: 'Strengths of the user\'s company' },
-  
-  // Array fields with max length constraints
-  goldenEgg: { type: FIELD_TYPES.ARRAY, maxItems: 3, description: 'Golden egg items' },
-  goldenGoose: { type: FIELD_TYPES.ARRAY, maxItems: 3, description: 'Golden goose items' },
-  goldenFarmer: { type: FIELD_TYPES.ARRAY, maxItems: 3, description: 'Golden farmer items' },
-  powerWords: { type: FIELD_TYPES.ARRAY, maxItems: 6, description: 'Power words' },
-  itemsProducts: { type: FIELD_TYPES.ARRAY, maxItems: 3, description: 'User\'s items or products' }
-};
-
-// Helper functions
-const getFieldNames = (type) => 
-  Object.entries(BUSINESS_SHEET_SCHEMA)
-    .filter(([_, schema]) => schema.type === type)
-    .map(([fieldName]) => fieldName);
-
-const getTextFields = () => getFieldNames(FIELD_TYPES.TEXT);
-const getArrayFields = () => getFieldNames(FIELD_TYPES.ARRAY);
-
-/**
- * Normalizes array field values to match required length
- * 
- * @param {string[]} items - The array of items to normalize
- * @param {number} maxItems - The required length of the array
- * @param {string} fieldName - The name of the field (for logging)
- * @returns {string[]} - Normalized array of exactly maxItems length
- */
-const normalizeArrayField = (items, maxItems, fieldName) => {
-  // Create a new array of exactly the required length
-  const normalized = Array(maxItems).fill("");
-  
-  // Fill in values from the provided items array (up to maxItems)
-  items.slice(0, maxItems).forEach((item, index) => {
-    normalized[index] = item;
-  });
-  
-  // Log appropriate warnings
-  if (items.length > maxItems) {
-    console.warn(`Field ${fieldName} limited to ${maxItems} items. ${items.length - maxItems} items were truncated.`);
-  } else if (items.length < maxItems) {
-    console.warn(`Field ${fieldName} requires ${maxItems} items. ${maxItems - items.length} empty items were added.`);
-  }
-  
-  return normalized;
-};
+import {
+  filterBusinessSheetData,
+  normalizeArrayField,
+} from '../utils/businessSheetUtils';
 
 /**
  * Custom hook to set up CopilotKit integrations for the business sheet
@@ -75,11 +24,17 @@ const normalizeArrayField = (items, maxItems, fieldName) => {
 export const useBusinessSheetCopilotActions = ({ businessSheetData, updateBusinessSheetData }) => {
   // Use a ref to track whether actions have been registered
   const isInitialized = useRef(false);
+
+    // Create a filtered version of businessSheetData (excluding sensitive fields)
+  const filteredBusinessSheetData = useMemo(() => 
+    filterBusinessSheetData(businessSheetData, EXCLUDED_FIELDS),
+    [businessSheetData]
+  );
   
-  // Make the business sheet data available to CopilotKit
+  // Make the filtered business sheet data available to CopilotKit
   useCopilotReadable({
     description: "The user's business sheet data.",
-    value: businessSheetData,
+    value: filteredBusinessSheetData,
   });
 
   // Create a reusable action guard for handlers
