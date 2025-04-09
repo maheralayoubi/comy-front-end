@@ -1,5 +1,5 @@
 import { useCopilotAction, useCopilotReadable } from '@copilotkit/react-core';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useMemo } from 'react';
 
 // Define field types and their constraints for better type safety and documentation
 const FIELD_TYPES = {
@@ -64,6 +64,9 @@ const normalizeArrayField = (items, maxItems, fieldName) => {
   return normalized;
 };
 
+// Fields to exclude from CopilotKit
+const EXCLUDED_FIELDS = ['id', 'userId', 'fontPreference', 'colorPreference', 'headerBackgroundImageUrl', 'profileImageUrl', 'referralSheetBackgroundImageUrl'];
+
 /**
  * Custom hook to set up CopilotKit integrations for the business sheet
  * 
@@ -76,10 +79,23 @@ export const useBusinessSheetCopilotActions = ({ businessSheetData, updateBusine
   // Use a ref to track whether actions have been registered
   const isInitialized = useRef(false);
   
-  // Make the business sheet data available to CopilotKit
+  // Create a filtered version of businessSheetData (excluding sensitive fields)
+  const filteredBusinessSheetData = useMemo(() => {
+    if (!businessSheetData) return {};
+    
+    // Create a new object without the excluded fields
+    const filtered = {...businessSheetData};
+    EXCLUDED_FIELDS.forEach(field => {
+      delete filtered[field];
+    });
+    
+    return filtered;
+  }, [businessSheetData]);
+  
+  // Make the filtered business sheet data available to CopilotKit
   useCopilotReadable({
     description: "The user's business sheet data.",
-    value: businessSheetData,
+    value: filteredBusinessSheetData,
   });
 
   // Create a reusable action guard for handlers
