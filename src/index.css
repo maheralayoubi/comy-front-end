@@ -58,7 +58,11 @@
     padding: 0;
     position: fixed;
     right: 8%;
-  }
+}
+
+.copilotKitInput > textarea {
+    max-width: 285px;
+}
 
   
   
