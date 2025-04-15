@@ -64,5 +64,29 @@
     max-width: 285px;
 }
 
+.copilotKitButton {
+    display: block !important;
+}
+.copilotKitHeaderCloseButton {
+    display: block !important;
+}
+.copilotKitMessageControls, .currentMessage {
+    display: block !important;
+}
+
+@media screen and (max-width: 1024px) {
+    .copilotKitButton {
+      display: block !important;
+    }
+  
+    .copilotKitHeaderCloseButton {
+      display: block !important;
+    }
+  
+    .copilotKitMessageControls,
+    .currentMessage {
+      display: block !important;
+    }
+  }
   
   

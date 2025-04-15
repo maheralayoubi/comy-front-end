@@ -23,7 +23,9 @@ const CopilotLayout = ({ children, businessSheetData, updateBusinessSheetData })
           instructions={BUSINESS_SHEET_COPILOT_CONFIG.instructions}
           defaultOpen={BUSINESS_SHEET_COPILOT_CONFIG.defaultOpen}
           labels={BUSINESS_SHEET_COPILOT_CONFIG.labels}
+          hideButton={BUSINESS_SHEET_COPILOT_CONFIG.hideButton}
           clickOutsideToClose={BUSINESS_SHEET_COPILOT_CONFIG.clickOutsideToClose}
+          hitEscapeToClose={BUSINESS_SHEET_COPILOT_CONFIG.hitEscapeToClose}
         />
       </CopilotKit>
     </div>

@@ -203,5 +203,7 @@ export const BUSINESS_SHEET_COPILOT_CONFIG = {
     
     // UI Options
     defaultOpen: true,
-    clickOutsideToClose: false
+    clickOutsideToClose: false,
+    hideButton: false,
+    hitEscapeToClose: false
   };
