@@ -71,7 +71,12 @@
     display: block !important;
 }
 .copilotKitMessageControls, .currentMessage {
-    display: block !important;
+    display: none !important;
+}
+
+.copilotKitWindow {
+    width: 22rem !important;
+    height: 500px !important;
 }
 
 @media screen and (max-width: 1024px) {
@@ -87,6 +92,10 @@
     .currentMessage {
       display: block !important;
     }
-  }
+    .copilotKitWindow {
+        width: 100% !important;
+        height: 100% !important;
+    }
+}
   
   
