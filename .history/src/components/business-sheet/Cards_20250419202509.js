@@ -77,6 +77,7 @@ export const CardTitle = ({
     [name]: data,
   });
 
+  // تحديث البيانات المحلية عند تغيير البيانات الخارجية
   useEffect(() => {
     setUpdatedData({
       [name]: data,
