@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import EditModal from "./EditModal";
 import { TextArea, Input } from "../global/FormElements";
@@ -18,6 +18,12 @@ export const SectionTitle = ({
   const [updatedData, setUpdatedData] = useState({
     [name]: data,
   });
+ 
+  useEffect(() => {
+    setUpdatedData({
+      [name]: data,
+    });
+  }, [data, name]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -70,6 +76,12 @@ export const CardTitle = ({
   const [updatedData, setUpdatedData] = useState({
     [name]: data,
   });
+
+  useEffect(() => {
+    setUpdatedData({
+      [name]: data,
+    });
+  }, [data, name]);
 
   const handleChange = (e, index) => {
     const { name, value } = e.target;
@@ -131,6 +143,12 @@ export const CardTitle2 = ({
   const [updatedData, setUpdatedData] = useState({
     [name]: data,
   });
+
+  useEffect(() => {
+    setUpdatedData({
+      [name]: data,
+    });
+  }, [data, name]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -237,6 +255,12 @@ export const ChildCard = ({
   const [updatedData, setUpdatedData] = useState({
     [name]: data,
   });
+
+  useEffect(() => {
+    setUpdatedData({
+      [name]: data,
+    });
+  }, [data, name]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
