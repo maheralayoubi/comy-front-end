@@ -1,0 +1,39 @@
+.chat-container {
+  max-width: 1200px;
+  margin: 30px auto;
+  padding: 0 20px;
+}
+
+.chat-wrapper {
+  display: flex;
+  gap: 16px; 
+  height: 1066px; 
+  margin-bottom: 30px;
+}
+
+.loading, .error {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 400px;
+  font-size: 16px;
+  color: #666;
+}
+
+.error {
+  color: #f44336;
+}
+
+@media (max-width: 991px) {
+  .chat-wrapper {
+    flex-direction: column;
+    height: auto;
+    gap: 0;
+  }
+  
+  .chat-container {
+    margin: 0;
+    padding: 0;
+    max-width: 100%;
+  }
+}
