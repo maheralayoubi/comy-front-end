@@ -1,7 +1,7 @@
 .header {
   height: 60px;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
   padding: 0 30px;
   background-color: rgba(255, 255, 255, 1);
@@ -22,6 +22,7 @@
   &-right {
     display: flex;
     align-items: center;
+    margin-left: auto;
 
     a {
       text-decoration: none;
@@ -49,11 +50,44 @@
   }
 }
 
+/* Navigation styling positioned relative to search */
+.navigation {
+  display: flex;
+  gap: 40px;
+  align-items: center;
+  margin-left: 60px;
+}
+
+.navItem {
+  width: 80px;
+  height: 15px;
+  font-family: 'Noto Sans JP', sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  vertical-align: middle;
+  text-decoration: none;
+  color: #333333;
+  text-align: center;
+  white-space: nowrap;
+}
+
+/* Removed .navItem.active rule to make all items look the same */
+
+@media (max-width: 1024px) {
+  .navigation {
+    display: none;
+  }
+}
+
 @media (max-width: 768px) {
   .header {
     padding: 0 15px;
+    justify-content: space-between;
 
     &-left .search-container,
+    .navigation,
     &-right {
       display: none;
     }

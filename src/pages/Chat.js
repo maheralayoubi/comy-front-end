@@ -111,7 +111,7 @@ const Chat = () => {
                       id: Date.now(),
                       sender: user.name,
                       senderId: user.id,
-                      text: これはユーザー${user.name}からの自動応答メッセージです。,
+                      text: `これはユーザー${user.name}からの自動応答メッセージです。`,
                       timestamp: new Date().toLocaleTimeString([], {
                         hour: "2-digit",
                         minute: "2-digit",

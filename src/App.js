@@ -11,7 +11,6 @@ import ResetPassword from "./pages/ResetPassword";
 import MailConfirmation from "./pages/MailConfirmation";
 import Preview from "./pages/Preview";
 import Blog from "./pages/Blog";
-
 // private pages
 import TopPage from "./pages/TopPage";
 import TermsOfUse from "./pages/TermsOfUse";
@@ -22,7 +21,7 @@ import StripePayment from "./pages/StripePayment";
 import SearchResults from "./pages/SearchResults";
 import MemberList from "./pages/MemberList";
 import Profile from "./pages/Profile";
-
+import Chat from "./pages/Chat";
 // protecting component
 import ProtectedRoutes from "./components/ProtectedRoutes";
 import ProtectedProfile from "./components/ProtectedProfile";
@@ -51,7 +50,6 @@ const App = () => {
           <Route path="/mail-confirmation" element={<MailConfirmation />} />
           <Route path="/blog/:id" element={<Blog />} />
           <Route path="/preview/:id" element={<Preview />} />
-
           {/* Protected routes */}
           <Route element={<ProtectedRoutes />}>
             <Route path="/" element={<TopPage />} />
@@ -60,6 +58,7 @@ const App = () => {
             <Route path="/stripe-payment" element={<StripePayment />} />
             <Route path="/search-results" element={<SearchResults />} />
             <Route path="/member-list" element={<MemberList />} />
+          <Route path="/chat" element={<Chat/>} />
             <Route
               path="/account-creation-completed"
               element={<AccountCreationCompleted />}
