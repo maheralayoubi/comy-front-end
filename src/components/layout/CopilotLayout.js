@@ -1,13 +1,22 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { CopilotKit } from "@copilotkit/react-core";
 import { CopilotPopup } from "@copilotkit/react-ui";
 import "@copilotkit/react-ui/styles.css";
 import { BUSINESS_SHEET_COPILOT_CONFIG } from "../../constants/copilotConfig";
-
 import MessagePersistenceManager from "./MessagePersistenceManager";
 import IMEInputHandler from "./IMEInputHandler";
 
 const CopilotLayout = ({ children, businessSheetData, updateBusinessSheetData }) => {
+  const [isPopupOpen, setIsPopupOpen] = useState(BUSINESS_SHEET_COPILOT_CONFIG.defaultOpen);
+  
+  useEffect(() => {
+    if (isPopupOpen) {
+      document.documentElement.style.setProperty('--button-display', 'none');
+    } else {
+      document.documentElement.style.setProperty('--button-display', 'block');
+    }
+  }, [isPopupOpen]);
+
   return (
     <div
       style={{
@@ -33,6 +42,7 @@ const CopilotLayout = ({ children, businessSheetData, updateBusinessSheetData })
           hideButton={BUSINESS_SHEET_COPILOT_CONFIG.hideButton}
           clickOutsideToClose={BUSINESS_SHEET_COPILOT_CONFIG.clickOutsideToClose}
           hitEscapeToClose={BUSINESS_SHEET_COPILOT_CONFIG.hitEscapeToClose}
+          onSetOpen={setIsPopupOpen}
         />
       </CopilotKit>
     </div>

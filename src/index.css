@@ -65,8 +65,9 @@
 }
 
 .copilotKitButton {
-    display: block !important;
+    display: var(--button-display, block) !important;
 }
+
 .copilotKitHeaderCloseButton {
     display: block !important;
 }
@@ -77,6 +78,7 @@
 .copilotKitWindow {
     width: 22rem !important;
     height: 500px !important;
+    margin: -50px auto !important;
 }
 
 @media screen and (max-width: 1024px) {
