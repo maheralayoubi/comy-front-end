@@ -70,6 +70,7 @@
 
 .copilotKitHeaderCloseButton {
     display: block !important;
+    cursor: pointer !important;
 }
 .copilotKitMessageControls, .currentMessage {
     display: none !important;
@@ -78,16 +79,19 @@
 .copilotKitWindow {
     width: 22rem !important;
     height: 500px !important;
-    margin: -50px auto !important;
+    bottom: 0rem !important;
 }
 
+
+
+.copilotKitMessageControlButton {
+    display: none !important;
+}
 @media screen and (max-width: 1024px) {
-    .copilotKitButton {
-      display: block !important;
-    }
-  
     .copilotKitHeaderCloseButton {
       display: block !important;
+      margin-right: 10px !important;
+      cursor: pointer !important;
     }
   
     .copilotKitMessageControls,
