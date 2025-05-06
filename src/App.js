@@ -22,6 +22,7 @@ import StripePayment from "./pages/StripePayment";
 import SearchResults from "./pages/SearchResults";
 import MemberList from "./pages/MemberList";
 import Profile from "./pages/Profile";
+import Chat from "./pages/Chat";
 
 // protecting component
 import ProtectedRoutes from "./components/ProtectedRoutes";
@@ -60,6 +61,7 @@ const App = () => {
             <Route path="/stripe-payment" element={<StripePayment />} />
             <Route path="/search-results" element={<SearchResults />} />
             <Route path="/member-list" element={<MemberList />} />
+            <Route path="/chat" element={<Chat/>} />
             <Route
               path="/account-creation-completed"
               element={<AccountCreationCompleted />}

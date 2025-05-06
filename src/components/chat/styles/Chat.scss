@@ -1,0 +1,74 @@
+.chat-container {
+  max-width: 1400px;
+  margin: 30px auto;
+  padding: 0 20px;
+  height: 1000px;
+}
+.chat-wrapper {
+  display: flex;
+  gap: 16px;
+  height: 100%;
+  background-color: #fff;
+  .sidebar {
+    border-right: 1px solid #e0e0e0;
+    overflow-y: auto;
+  }
+  .mainChat {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+  .profileDisplay {
+    border-left: 1px solid #e0e0e0;
+    overflow-y: auto;
+  }
+}
+.loading,
+.error {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 400px;
+  font-size: 16px;
+  color: #666;
+}
+.error {
+  color: #f44336;
+}
+.desktop-view {
+  .chat-wrapper {
+    .sidebar {
+      flex: 0 0 300px;
+      display: block;
+    }
+    .mainChat {
+      flex: 1 1 auto;
+      display: flex;
+    }
+    .profileDisplay {
+      flex: 0 0 350px;
+      display: flex;
+      flex-direction: column;
+    }
+  }
+}
+.mobile-view-base {
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+  height: calc(100vh - 60px);
+  .chat-wrapper {
+    gap: 0;
+    border: none;
+    height: 100%;
+    .sidebar,
+    .mainChat {
+      flex: 1 1 100%;
+      width: 100%;
+      border: none;
+    }
+    .profileDisplay {
+        display: none !important;
+    }
+  }
+}
