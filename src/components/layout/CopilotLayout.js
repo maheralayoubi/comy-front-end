@@ -7,6 +7,14 @@ import MessagePersistenceManager from "./MessagePersistenceManager";
 import IMEInputHandler from "./IMEInputHandler";
 
 const CopilotLayout = ({ children, businessSheetData, updateBusinessSheetData }) => {
+  
+  const customSystemMessage = (contextString) => {
+    return `
+    ${BUSINESS_SHEET_COPILOT_CONFIG.instructions} 
+    ${contextString}
+  `;
+  };
+
   const [isPopupOpen, setIsPopupOpen] = useState(BUSINESS_SHEET_COPILOT_CONFIG.defaultOpen);
   
   useEffect(() => {
@@ -36,13 +44,14 @@ const CopilotLayout = ({ children, businessSheetData, updateBusinessSheetData })
         )}
         
         <CopilotPopup
-          instructions={BUSINESS_SHEET_COPILOT_CONFIG.instructions}
+          instructions=""
           defaultOpen={BUSINESS_SHEET_COPILOT_CONFIG.defaultOpen}
           labels={BUSINESS_SHEET_COPILOT_CONFIG.labels}
           hideButton={BUSINESS_SHEET_COPILOT_CONFIG.hideButton}
           clickOutsideToClose={BUSINESS_SHEET_COPILOT_CONFIG.clickOutsideToClose}
           hitEscapeToClose={BUSINESS_SHEET_COPILOT_CONFIG.hitEscapeToClose}
           onSetOpen={setIsPopupOpen}
+          makeSystemMessage={customSystemMessage}
         />
       </CopilotKit>
     </div>

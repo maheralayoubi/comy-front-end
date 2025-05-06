@@ -24,6 +24,26 @@ export const createUpdateBusinessSheetData = (setBusinessSheetData, setValue) =>
 
 
 /**
+ * Formats JSON fields into a string with each field on a new line
+ * 
+ * @param {Object} jsonObject - The JSON object to format
+ * @returns {string} - Formatted string with each field on a new line
+ */
+
+export const formatJsonFieldsPerLine = (jsonObject) => {
+  return Object.entries(jsonObject)
+    .map(([key, value]) => {
+      if (Array.isArray(value)) {
+        const arrayString = `[${value.map(v => `${v}`).join(", ")}]`;
+        return `${key}: ${arrayString}`;
+      } else {
+        return `${key}: ${value}`;
+      }
+    })
+    .join("\n");
+};
+
+/**
  * Filters out specified fields from a business sheet data object
  * 
  * @param {Object} data - The business sheet data to filter
@@ -40,7 +60,6 @@ export const filterBusinessSheetData = (data, excludedFields) => {
   
   return filtered;
 };
-
 
 /**
  * Normalizes array field values to match required length

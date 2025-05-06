@@ -11,6 +11,7 @@ import {
 import {
   filterBusinessSheetData,
   normalizeArrayField,
+  formatJsonFieldsPerLine,
 } from '../utils/businessSheetUtils';
 
 /**
@@ -30,11 +31,15 @@ export const useBusinessSheetCopilotActions = ({ businessSheetData, updateBusine
     filterBusinessSheetData(businessSheetData, EXCLUDED_FIELDS),
     [businessSheetData]
   );
-  
+
+  const displayData = useMemo(
+    () => formatJsonFieldsPerLine(filteredBusinessSheetData),
+    [filteredBusinessSheetData]
+ );
   // Make the filtered business sheet data available to CopilotKit
   useCopilotReadable({
-    description: "The user's business sheet data.",
-    value: filteredBusinessSheetData,
+    description: "現在のビジネスシート利用者のデータ項目です。サポートを行う際には、常にこれらを念頭に置いてください。また、いずれかの項目を追加・更新する際には、利用可能なアクションを用いて、常に最新の状態を参照するようにしてください。\n",
+    value: displayData,
   });
 
   // Create a reusable action guard for handlers
@@ -49,7 +54,7 @@ export const useBusinessSheetCopilotActions = ({ businessSheetData, updateBusine
   // Action to update a single business sheet field
   useCopilotAction({
     name: "updateBusinessSheetField",
-    description: "Update a specific text field in the user's business sheet",
+    description: "update or modify a specific text field in the user's business sheet",
     parameters: [
       {
         name: "fieldName",
@@ -77,7 +82,7 @@ export const useBusinessSheetCopilotActions = ({ businessSheetData, updateBusine
   // Action to update array-based fields
   useCopilotAction({
     name: "updateBusinessSheetArrayField",
-    description: "Update an array-based field in the user's business sheet",
+    description: "Update or modify an array-based field in the user's business sheet",
     parameters: [
       {
         name: "fieldName",
