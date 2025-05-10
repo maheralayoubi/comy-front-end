@@ -1,63 +1,104 @@
-import React from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import axios from 'axios';
 import './styles/ChatSidebar.scss';
-import hedgehog from '../../assets/images/hedgehog.png'
-// As per user's request, the bot's appearance in the sidebar is static.
-// The actual chat fetching will happen in ChatMain based on a special ID for the bot.
+import { SocketContext } from '../../pages/Chat';
+import botImage from '../../assets/images/hedgehog.png';
+
 const ChatSidebar = ({ onSelectUser, selectedUserId }) => {
-  const botUser = {
-    // Using a special identifier for the bot, as in user's example.
-    // Chat.js/ChatMain.js will need to resolve this to an actual API chat ID.
-    id: 'BOT_CHAT_IDENTIFIER', 
-    name: 'COMY オフィシャル AI', // Static name as requested
-    profileImageUrl: hedgehog, // Static image (or path to it) as requested. Empty if using initial.
-    lastMessage: 'Click to chat with COMY AI!', // Static initial message
-    timestamp: '',
-    hasNotification: false,
+  const socket = useContext(SocketContext);
+  const [chats, setChats] = useState([]);
+  const [now, setNow] = useState(new Date());
+
+  useEffect(() => {
+    const fetchChats = async () => {
+      try {
+        const res = await axios.get('http://localhost:8080/api/chats', { withCredentials: true });
+        const allChats = res.data;
+
+        const formatted = allChats.map(chat => ({
+          id: chat.id,
+          name: chat.name || 'Private Chat',
+          users: chat.users,
+          latestMessage: chat.latestMessage?.text || 'No recent messages',
+          latestTime: chat.latestMessage?.createdAt || chat.updatedAt,
+        }));
+
+        setChats(formatted);
+      } catch (err) {
+        console.error('Failed to load chats:', err);
+      }
+    };
+
+    fetchChats();
+  }, []);
+
+  useEffect(() => {
+    const interval = setInterval(() => setNow(new Date()), 60000);
+    return () => clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
+    if (!socket) return;
+
+    const handleReceiveMessage = (message) => {
+      const { chatId, content, createdAt } = message;
+
+      setChats(prev =>
+        prev.map(chat =>
+          chat.id === chatId
+            ? {
+                ...chat,
+                latestMessage: content,
+                latestTime: createdAt,
+              }
+            : chat
+        )
+      );
+    };
+
+    socket.on('receive_message', handleReceiveMessage);
+    return () => socket.off('receive_message', handleReceiveMessage);
+  }, [socket]);
+
+  const formatTime = (timeString) => {
+    if (!timeString) return '';
+    const date = new Date(timeString);
+    return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
   };
 
-  const handleBotSelect = () => {
-    if (onSelectUser) {
-      onSelectUser(botUser.id); // Pass the special identifier
-    }
+  const handleUserSelect = (userId) => {
+    if (onSelectUser) onSelectUser(userId);
   };
-
-  const isBotActive = selectedUserId === botUser.id;
-  const initial = botUser.name ? botUser.name.charAt(0).toUpperCase() : "?";
 
   return (
     <aside className="sidebar">
-      <div
-        key={botUser.id}
-        className={`chatPreview ${isBotActive ? 'active' : ''}`}
-        onClick={handleBotSelect}
-      >
-        <div className="userInfo">
-          <div className="avatarContainer">
-            {botUser.profileImageUrl ? (
-              <img src={botUser.profileImageUrl} alt={botUser.name} />
-            ) : (
-              // Displaying the first character of the name as the avatar if no image URL is provided
-              <span className="userInitial">{initial}</span>
-            )}
-          </div>
-          <div className="messagePreview">
-            <div className="previewHeader">
-              <h3 className="userName">{botUser.name}</h3>
-              {/* Timestamp can be omitted or static if desired for this static entry */}
-              {/* <span className="timestamp">{botUser.timestamp}</span> */}
+      {chats.map(chat => {
+        const isBot = chat.name.toLowerCase().includes('private chat');
+        return (
+          <div
+            key={chat.id}
+            className={`chatPreview ${selectedUserId === chat.id ? 'active' : ''}`}
+            onClick={() => handleUserSelect(chat.id)}
+          >
+            <div className="avatarContainer">
+              {isBot ? (
+                <img src={botImage} alt="Bot" className="botAvatar" />
+              ) : (
+                <span className="userInitial">{chat.name.charAt(0).toUpperCase()}</span>
+              )}
             </div>
-            <p className="previewText">
-              {botUser.lastMessage}
-            </p>
+            <div className="messagePreview">
+              <div className="previewHeader">
+                <h3 className="userName">{chat.name}</h3>
+                <span className="timestamp">{formatTime(chat.latestTime)}</span>
+              </div>
+              <p className="previewText">{chat.latestMessage}</p>
+            </div>
           </div>
-          {/* Notification dot can be dynamic later if needed */}
-          {/* {botUser.hasNotification && <div className="notificationDot" />} */}
-        </div>
-      </div>
-      {/* Removed the loading and error states related to fetching a list of chats, as only the static bot is shown */}
+        );
+      })}
     </aside>
   );
 };
 
 export default ChatSidebar;
-
