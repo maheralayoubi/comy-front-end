@@ -21,7 +21,6 @@ const ChatSidebar = ({ onSelectUser, selectedUserId }) => {
           users: chat.users,
           latestMessage: chat.latestMessage?.text || 'No recent messages',
           latestTime: chat.latestMessage?.createdAt || chat.updatedAt,
-          profileImageUrl: chat.profileImageUrl || '',
         }));
 
         setChats(formatted);
@@ -43,10 +42,15 @@ const ChatSidebar = ({ onSelectUser, selectedUserId }) => {
 
     const handleReceiveMessage = (message) => {
       const { chatId, content, createdAt } = message;
+
       setChats(prev =>
         prev.map(chat =>
           chat.id === chatId
-            ? { ...chat, latestMessage: content, latestTime: createdAt }
+            ? {
+                ...chat,
+                latestMessage: content,
+                latestTime: createdAt,
+              }
             : chat
         )
       );
@@ -67,41 +71,28 @@ const ChatSidebar = ({ onSelectUser, selectedUserId }) => {
   };
 
   return (
-    <aside className="sidebarV2">
-      {chats.map((chat, index) => {
-        const isBot = chat.name === 'COMY オフィシャル AI';
-        const isFirstBot = index === 0 && isBot;
-
+    <aside className="sidebar">
+      {chats.map(chat => {
+        const isBot = chat.name.toLowerCase().includes('private chat');
         return (
           <div
             key={chat.id}
-            className={`chatPreviewV2 ${selectedUserId === chat.id ? 'active' : ''}`}
+            className={`chatPreview ${selectedUserId === chat.id ? 'active' : ''}`}
             onClick={() => handleUserSelect(chat.id)}
           >
-            <div className="avatarContainerV2">
-              {isFirstBot ? (
-                <img src={botImage} alt="Bot" className="userAvatar" />
+            <div className="avatarContainer">
+              {isBot ? (
+                <img src={botImage} alt="Bot" className="botAvatar" />
               ) : (
-                <>
-                  <img src={botImage} alt="Bot" className="botOverlay" />
-                  {chat.profileImageUrl ? (
-                    <img src={chat.profileImageUrl} alt="User" className="userAvatar" />
-                  ) : (
-                    <span className="userInitial">{chat.name?.charAt(0)?.toUpperCase() || 'U'}</span>
-                  )}
-                </>
+                <span className="userInitial">{chat.name.charAt(0).toUpperCase()}</span>
               )}
             </div>
-
-            <div className="messagePreviewV2">
-              <div className="previewHeaderV2">
-                <h3 className="userNameV2">{chat.name}</h3>
-                <div className="timestampWrapper">
-                  <span className="timestampV2">{formatTime(chat.latestTime)}</span>
-                  {isFirstBot && <span className="notificationDotV2" />}
-                </div>
+            <div className="messagePreview">
+              <div className="previewHeader">
+                <h3 className="userName">{chat.name}</h3>
+                <span className="timestamp">{formatTime(chat.latestTime)}</span>
               </div>
-              <p className="previewTextV2">{chat.latestMessage}</p>
+              <p className="previewText">{chat.latestMessage}</p>
             </div>
           </div>
         );

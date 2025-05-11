@@ -17,11 +17,11 @@ const ChatSidebar = ({ onSelectUser, selectedUserId }) => {
 
         const formatted = allChats.map(chat => ({
           id: chat.id,
-          name: chat.name || 'Private Chat',
+          name: chat.name  'Private Chat',
           users: chat.users,
-          latestMessage: chat.latestMessage?.text || 'No recent messages',
-          latestTime: chat.latestMessage?.createdAt || chat.updatedAt,
-          profileImageUrl: chat.profileImageUrl || '',
+          latestMessage: chat.latestMessage?.text  'No recent messages',
+          latestTime: chat.latestMessage?.createdAt  chat.updatedAt,
+          profileImageUrl: chat.profileImageUrl  '',
         }));
 
         setChats(formatted);
@@ -75,7 +75,7 @@ const ChatSidebar = ({ onSelectUser, selectedUserId }) => {
         return (
           <div
             key={chat.id}
-            className={`chatPreviewV2 ${selectedUserId === chat.id ? 'active' : ''}`}
+            className={chatPreviewV2 ${selectedUserId === chat.id ? 'active' : ''}}
             onClick={() => handleUserSelect(chat.id)}
           >
             <div className="avatarContainerV2">
