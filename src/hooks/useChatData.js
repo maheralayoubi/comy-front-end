@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { getMemberList } from "../api/memberList";
 import { getUserSheetById } from "../api/businessSheet";
+
 const useChatData = (selectedUserId) => {
   const [users, setUsers] = useState([]);
   const [loadingUsers, setLoadingUsers] = useState(true);
@@ -8,6 +9,7 @@ const useChatData = (selectedUserId) => {
   const [selectedUserSheetData, setSelectedUserSheetData] = useState(null);
   const [loadingSheet, setLoadingSheet] = useState(false);
   const [errorSheet, setErrorSheet] = useState(null);
+
   useEffect(() => {
     setLoadingUsers(true);
     setErrorUsers(null);
@@ -34,25 +36,30 @@ const useChatData = (selectedUserId) => {
         setLoadingUsers(false);
       });
   }, []);
+
   useEffect(() => {
     if (selectedUserId) {
       setLoadingSheet(true);
       setErrorSheet(null);
       setSelectedUserSheetData(null);
+
       getUserSheetById(selectedUserId)
         .then(response => {
           if (response.data) {
             let finalData = { ...response.data };
             let headerUrl = finalData.headerBackgroundImageUrl;
             let profileUrl = finalData.profileImageUrl;
-            if (headerUrl && headerUrl !== "/images/headerBackgroundImage.png") {
+
+            if (headerUrl && (headerUrl.startsWith("http") || headerUrl.startsWith("/"))) {
               headerUrl = `${headerUrl}?timestamp=${new Date().getTime()}`;
             }
-            if (profileUrl && profileUrl !== "/images/profileImage.png") {
+            if (profileUrl && (profileUrl.startsWith("http") || profileUrl.startsWith("/"))) {
               profileUrl = `${profileUrl}?timestamp=${new Date().getTime()}`;
             }
+
             finalData.headerBackgroundImageUrl = headerUrl;
             finalData.profileImageUrl = profileUrl;
+
             setSelectedUserSheetData(finalData);
           } else {
             setErrorSheet("ビジネスシートのデータが見つかりませんでした。");
@@ -60,7 +67,12 @@ const useChatData = (selectedUserId) => {
           setLoadingSheet(false);
         })
         .catch(error => {
-          setErrorSheet("ビジネスシートの取得中にエラーが発生しました。");
+          if (error.response && error.response.status === 404) {
+            console.warn("No business sheet found for user:", selectedUserId);
+            setSelectedUserSheetData(null);
+          } else {
+            setErrorSheet("ビジネスシートの取得中にエラーが発生しました。");
+          }
           setLoadingSheet(false);
         });
     } else {
@@ -69,6 +81,7 @@ const useChatData = (selectedUserId) => {
       setErrorSheet(null);
     }
   }, [selectedUserId]);
+
   return {
     users,
     loadingUsers,
@@ -78,4 +91,5 @@ const useChatData = (selectedUserId) => {
     errorSheet,
   };
 };
+
 export default useChatData;

@@ -62,9 +62,15 @@ const ChatSidebar = ({ onSelectUser, selectedUserId }) => {
     return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
   };
 
-  const handleUserSelect = (userId) => {
-    if (onSelectUser) onSelectUser(userId);
+ const handleUserSelect = (userId, chat) => {
+  const isBot = chat.name === "COMY オフィシャル AI";
+  const chatInfo = {
+    name: chat.name,
+    profileImageUrl: isBot ? botImage : (chat.profileImageUrl || "/images/profileImage.png")
   };
+  onSelectUser(userId, chatInfo);
+};
+
 
   return (
     <aside className="sidebarV2">
@@ -76,7 +82,13 @@ const ChatSidebar = ({ onSelectUser, selectedUserId }) => {
           <div
             key={chat.id}
             className={`chatPreviewV2 ${selectedUserId === chat.id ? 'active' : ''}`}
-            onClick={() => handleUserSelect(chat.id)}
+            onClick={() =>
+  handleUserSelect(chat.id, {
+    name: chat.name,
+    profileImageUrl: isBot ? "/assets/comy-avatar.png" : chat.profileImageUrl
+  })
+}
+
           >
             <div className="avatarContainerV2">
               {isFirstBot ? (

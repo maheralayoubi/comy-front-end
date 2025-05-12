@@ -1,7 +1,7 @@
 .frame {
     align-items: center;
     background-color: #f6f7f7;
-    border-radius: 18px;
+    border-radius: 8px;
     display: block;
     gap: 10px;
     justify-content: center;
@@ -9,8 +9,7 @@
     position: relative;
     margin-top: 10px;
     width: 600px;
-    right: 5px;
-    height: 60px;
+    right: 60px;
     .text-wrapper {
       color: #000000;
       font-family: "Noto Sans JP", "Noto Sans JP-Regular", Helvetica, sans-serif;
@@ -21,7 +20,6 @@
       position: relative;
       white-space: nowrap;
       width: fit-content;
-      top: 10px
     }
     @media (max-width: 600px) {
       display: block;

@@ -6,15 +6,18 @@
   cursor: pointer;
   white-space: nowrap;
   box-sizing: border-box;
+
   &--primary {
     background-color: #333;
     color: #fff;
   }
+
   &--secondary {
     background-color: #fff;
     color: #333;
     border: 1px solid #ccc;
   }
+
   &:disabled {
     background-color: #e0e0e0;
     color: #999;
@@ -22,69 +25,78 @@
     cursor: not-allowed;
   }
 }
-.match_name {
-  font-size: 15px;
-  color: #000000;
-  position: absolute;
-  top: 165px;
-  left: 300px;
-    margin-bottom: 20px;
-}
+
 .match-card {
-  position: relative;
   background: #F6F7F7;
   border: 1px solid #e6e6e6;
   border-radius: 8px;
-  width: 600px;
+  width: 100%;
+  max-width: 500px;
   padding: 16px;
   font-family: sans-serif;
-  margin-bottom: 16px;
-  margin-top: 15px;
+  margin: 0 auto 16px;
+  box-sizing: border-box;
+
   &__body {
     display: flex;
     gap: 16px;
   }
-  &__avatar {
-    width: 56px;
-    height: 56px;
-    border-radius: 50%;
-    object-fit: cover;
-    flex-shrink: 0;
+
+  &__avatar-section {
+    text-align: center;
+    width: 80px;
+
+    .match-card__avatar {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 6px;
+    }
+
+    .match-card__avatar-name {
+      font-weight: bold;
+      font-size: 14px;
+      color: #333;
+    }
   }
+
   &__content {
     flex: 1;
     min-width: 0;
   }
+
   &__name {
-    position: absolute;
-    top: 30%;
-    left: 4%;
     font-weight: bold;
     font-size: 16px;
-    margin-top: 20px;
-    width: 5px;
+    margin-bottom: 4px;
   }
+
   &__role {
     color: #666;
     font-size: 14px;
-    margin-bottom: 6px;
+    margin-bottom: 8px;
   }
+
   &__text {
     font-size: 14px;
     color: #333;
     margin-bottom: 16px;
     line-height: 1.5;
-    margin-left: 20px;
   }
+
   &__buttons {
     display: flex;
     gap: 10px;
   }
+
   @media (max-width: 600px) {
     padding: 12px;
+
     &__buttons {
       flex-direction: column;
       gap: 8px;
+
       .btn {
         width: 100%;
         text-align: center;
@@ -92,11 +104,13 @@
     }
   }
 }
+
 .custom-styled-message-container {
   display: flex;
   justify-content: flex-end;
   margin-top: 10px;
 }
+
 .custom-styled-message {
   display: inline-block;
   background-color: #28335E;

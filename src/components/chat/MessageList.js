@@ -3,14 +3,26 @@ import ChatMessage from './ChatMessage';
 import TypingIndicator from './TypingIndicator';
 import MatchCard from './MatchCard';
 import './styles/MessageList.scss';
-const MessageList = ({ messages, isTyping, currentUser }) => {
-  if (!messages || messages.length === 0) {
-    return <div className="messagesList empty"></div>;
-  }
+import botImage from '../../assets/images/hedgehog.png';
+
+const MessageList = ({ messages, isTyping, currentUser, onMatchAccept }) => {
   return (
     <div className="messagesList">
-      {}
-      {currentUser && <MatchCard userData={currentUser} />}
+      {currentUser?.text && Array.isArray(currentUser.text) && (
+        <ChatMessage
+          message={{
+            sender: "COMY オフィシャル AI",
+            senderId: "system",
+            timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+            isUser: false,
+            profileImageUrl: botImage,
+            isMatchCard: true,
+            content: <MatchCard userData={currentUser} onMatchAccept={onMatchAccept} />
+          }}
+          isUser={false}
+        />
+      )}
+
       {messages.map((message) => (
         <ChatMessage
           key={message.id}
@@ -18,10 +30,12 @@ const MessageList = ({ messages, isTyping, currentUser }) => {
           isUser={message.isUser}
         />
       ))}
-      {currentUser && (
+
+      {currentUser && messages.length > 0 && (
         <TypingIndicator isTyping={isTyping} name={currentUser.name} />
       )}
     </div>
   );
 };
+
 export default MessageList;
