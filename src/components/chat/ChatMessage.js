@@ -3,7 +3,6 @@ import "./styles/ChatMessage.scss";
 
 const ChatMessage = ({ message, isUser }) => {
   const isMatchAction = message.text === "マッチを希望する";
-  const isSystem = message.senderId === "system";
   const initial = isUser ? 'U' : (message.sender ? message.sender.charAt(0) : '?');
   const profileImageUrl = message.profileImageUrl;
 

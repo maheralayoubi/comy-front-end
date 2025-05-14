@@ -1,11 +1,22 @@
 .sidebarV2 {
   width: 100%;
   max-width: 340px;
-  background-color: #fff;
+  background-color: white;
   border-radius: 10px;
   overflow-y: auto;
   box-sizing: border-box;
   border: 1px solid #e0e0e0;
+  margin-left: -150px;
+
+  @media (max-width: 768px) {
+    max-width: 100%;
+    margin-left: 0;
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
+    border-top: 1px solid #e0e0e0;
+    border-bottom: 1px solid #e0e0e0;
+  }
 }
 
 .chatPreviewV2 {
@@ -15,14 +26,7 @@
   padding: 14px 24px;
   border-bottom: 1px solid #E6E6E6;
   cursor: pointer;
-
-  &.active {
-    background-color: #f0f0f0;
-  }
-
-  &:hover {
-    background-color: #f9f9f9;
-  }
+ 
 
   .avatarContainerV2 {
     position: relative;
@@ -113,16 +117,18 @@
 
 @media (max-width: 600px) {
   .sidebarV2 {
-    padding: 12px;
+    padding: 8px;
+    max-width: 100%;
   }
 
   .chatPreviewV2 {
-    padding: 12px 16px;
+    padding: 10px 14px;
   }
 
-  .avatarContainerV2 {
+  .chatPreviewV2 .avatarContainerV2 {
     width: 40px;
     height: 40px;
+    margin-right: 12px;
 
     .userInitial {
       font-size: 16px;

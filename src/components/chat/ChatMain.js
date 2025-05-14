@@ -24,42 +24,51 @@ const ChatMain = ({ selectedUserId, onBackClick, isMobileView, users, currentSys
         const response = await axios.get(`http://localhost:8080/api/chats/${selectedUserId}/messages`);
         const allMessages = response.data;
 
-        const matchMessage = allMessages.find(m => m.content?.startsWith("Suggested friend"));
+        const matchMessage = allMessages.find(m =>
+          typeof m.content === "string" && m.content.length > 0
+        );
 
         if (matchMessage) {
-          const suggestedNameMatch = matchMessage.content.match(/Suggested friend:\s*(.+)/);
-          const suggestedName = suggestedNameMatch ? suggestedNameMatch[1].trim() : null;
-          const matchUserInfo = users.find(u => u.name === suggestedName);
           const matchUser = {
             id: selectedUserId,
-            name: matchUserInfo?.name || suggestedName || "Suggested User",
-            profileImageUrl: matchUserInfo?.profileImageUrl || "/images/profileImage.png",
-            text: [matchMessage.content]
+            name: "", // لا اسم ثابت
+            profileImageUrl: matchMessage.suggestedUserProfileImageUrl || "/images/profileImage.png",
+            text: [matchMessage.content] // نعرض المحتوى كما هو
           };
+
           setCurrentUser(matchUser);
         } else {
           const fallbackUser = users.find(u => u.id === selectedUserId);
           const fallback = fallbackUser || {
             id: selectedUserId,
-            name: chatInfo?.name || "Unknown",
+            name: chatInfo?.name ?? "",
             profileImageUrl: chatInfo?.profileImageUrl || "/images/profileImage.png"
           };
           setCurrentUser(fallback);
         }
 
-        const visibleMessages = allMessages.filter(
-          msg => !msg.content?.startsWith("Suggested friend")
-        );
+        const visibleMessages = allMessages;
 
-        setMessages(visibleMessages.map(msg => ({
-          id: msg.id,
-          senderId: msg.senderId,
-          sender: msg.sender?.name || "Unknown",
-          text: msg.content,
-          timestamp: new Date(msg.createdAt).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
-          isUser: msg.senderId === currentSystemUser?.id
-        })));
+        setMessages(visibleMessages.map((msg) => {
+          const senderName = msg.sender?.name || "Unknown";
+          const senderId = String(msg.senderId ?? "");
+          const currentUserId = String(currentSystemUser?.id ?? "");
+          const isFromUser = senderId === currentUserId;
 
+          return {
+            id: msg.id,
+            senderId: msg.senderId,
+            sender: senderName,
+            text: msg.content,
+            timestamp: new Date(msg.createdAt).toLocaleTimeString([], {
+              hour: "2-digit",
+              minute: "2-digit",
+            }),
+            isUser: isFromUser,
+            profileImageUrl:
+              msg.sender?.profileImageUrl || "/images/profileImage.png",
+          };
+        }));
       } catch (error) {
         console.error("Failed to fetch messages:", error);
         setCurrentUser(null);
@@ -92,10 +101,8 @@ const ChatMain = ({ selectedUserId, onBackClick, isMobileView, users, currentSys
     socket.emit('typing', { userId: selectedUserId, isTyping: false });
 
     try {
-      await axios.post(`http://localhost:8080/api/chats/${selectedUserId}/messages`, {
+      await axios.post(`http://localhost:8080/api/chats/messages`, {
         content: text,
-        senderId: currentSystemUser?.id,
-        recipientId: selectedUserId,
         chatId: selectedUserId
       });
     } catch (err) {
@@ -105,12 +112,23 @@ const ChatMain = ({ selectedUserId, onBackClick, isMobileView, users, currentSys
 
   const handleMatchAccepted = () => {
     const timestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-
     const botName = "COMY オフィシャル AI";
-    const botAvatar = botImage;
+    const botAvatar = "/assets/comy-avatar.png";
+
+    const matchCardMessage = {
+      id: Date.now(),
+      sender: botName,
+      senderId: "system",
+      timestamp,
+      isUser: false,
+      profileImageUrl: botAvatar,
+      isMatchCard: true,
+      text: "",
+      data: { ...currentUser }
+    };
 
     const systemMessage1 = {
-      id: Date.now(),
+      id: Date.now() + 1,
       sender: botName,
       senderId: "system",
       text: `${currentUser.name} さんにマッチの希望を送りました。`,
@@ -120,7 +138,7 @@ const ChatMain = ({ selectedUserId, onBackClick, isMobileView, users, currentSys
     };
 
     const systemMessage2 = {
-      id: Date.now() + 1,
+      id: Date.now() + 2,
       sender: botName,
       senderId: "system",
       text: `${currentUser.name} さんとのビジネスマッチが確定されました。チャットで挨拶してみましょう。`,
@@ -129,7 +147,7 @@ const ChatMain = ({ selectedUserId, onBackClick, isMobileView, users, currentSys
       profileImageUrl: botAvatar
     };
 
-    setMessages(prev => [...prev, systemMessage1, systemMessage2]);
+    setMessages(prev => [...prev, matchCardMessage, systemMessage1, systemMessage2]);
   };
 
   if (!currentUser) {
@@ -144,7 +162,7 @@ const ChatMain = ({ selectedUserId, onBackClick, isMobileView, users, currentSys
     <section className="mainChat">
       <ChatHeader
         currentUser={{
-          name: chatInfo?.name || "Unknown",
+          name: chatInfo?.name ?? "",
           profileImageUrl:
             chatInfo?.name === "COMY オフィシャル AI"
               ? botImage
