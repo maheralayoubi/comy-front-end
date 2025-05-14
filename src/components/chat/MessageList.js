@@ -1,3 +1,4 @@
+
 import React from 'react';
 import ChatMessage from './ChatMessage';
 import TypingIndicator from './TypingIndicator';
@@ -5,7 +6,21 @@ import MatchCard from './MatchCard';
 import './styles/MessageList.scss';
 import botImage from '../../assets/images/hedgehog.png';
 
-const MessageList = ({ messages, isTyping, currentUser, onMatchAccept }) => {
+const MessageList = ({ messages, isTyping, currentUser, onAddMessage }) => {
+  const handleApiResponse = (text) => {
+    const timestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+    onAddMessage({
+      id: Date.now(),
+      sender: "COMY オフィシャル AI",
+      senderId: "system",
+      text,
+      timestamp,
+      isUser: false,
+      profileImageUrl: botImage
+    });
+  };
+
   return (
     <div className="messagesList">
       {currentUser?.text && Array.isArray(currentUser.text) && (
@@ -17,7 +32,7 @@ const MessageList = ({ messages, isTyping, currentUser, onMatchAccept }) => {
             isUser: false,
             profileImageUrl: botImage,
             isMatchCard: true,
-            content: <MatchCard userData={currentUser} onMatchAccept={onMatchAccept} />
+            content: <MatchCard userData={currentUser} onApiResponse={handleApiResponse} />
           }}
           isUser={false}
         />

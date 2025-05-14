@@ -37,7 +37,6 @@
     flex-direction: row;
 
     .messageContent {
-      background-color: #f1f1f1;
       color: #333;
       border-radius: 0 10px 10px 10px;
       margin-left: 12px;
@@ -55,12 +54,21 @@
     }
 
     .messageText {
-      color: #333;
+      width: 340;
+      height: 40;
+      gap: 10px;
+      border-radius: 8px;
+      padding-top: 8px;
+      padding-right: 16px;
+      padding-bottom: 8px;
+      padding-left: 16px;
+      background-color: #F6F7F7;
+      color: #000000;
     }
   }
 }
 
-.avatarContainer {
+.avatarContainer-m {
   width: 40px;
   height: 40px;
   border-radius: 50%;

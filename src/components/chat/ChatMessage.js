@@ -9,7 +9,7 @@ const ChatMessage = ({ message, isUser }) => {
   return (
     <div className={`message ${isUser ? 'userMessage' : ''} ${isMatchAction ? 'matchAction' : ''}`}>
       {!isUser && (
-        <div className="avatarContainer">
+        <div className="avatarContainer-m">
           {profileImageUrl ? (
             <img src={profileImageUrl} alt="avatar" />
           ) : (

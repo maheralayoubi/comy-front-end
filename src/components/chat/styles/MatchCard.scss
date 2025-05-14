@@ -1,3 +1,4 @@
+
 .btn {
   padding: 10px 16px;
   font-size: 14px;
@@ -27,18 +28,43 @@
 }
 
 .match-card {
- 
+  position: relative;
   border-radius: 8px;
-  width: 100%;
-  max-width: 500px;
+  width: 500px;
   padding: 16px;
   font-family: sans-serif;
   margin: 0 auto 16px;
   box-sizing: border-box;
+  background-color: #F6F7F7;
+  height: 222px;
+
+  &__header-line {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    position: absolute;
+    bottom: 10px;
+    left: 20px;
+  }
+
+  &__original-message {
+    font-family: "Noto Sans JP", sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 150%;
+  letter-spacing: 0px;
+  color: #000000;
+  flex: 1 1 auto; 
+  min-width: 0;
+  overflow-wrap: break-word;
+  }
 
   &__body {
     display: flex;
     gap: 16px;
+    align-items: flex-start;
   }
 
   &__avatar-section {
@@ -54,39 +80,34 @@
     }
 
     .match-card__avatar-name {
-      font-weight: bold;
-      font-size: 14px;
-      color: #333;
+      margin-top: 6px;
+      text-align: center;
+
+      .name {
+        font-weight: bold;
+        font-size: 14px;
+        color: #333;
+      }
+
+      .field {
+        font-size: 12px;
+        color: #666;
+        margin-top: 2px;
+      }
     }
   }
 
   &__content {
     flex: 1;
-    min-width: 0;
-  }
-
-  &__name {
-    font-weight: bold;
-    font-size: 16px;
-    margin-bottom: 4px;
-  }
-
-  &__role {
-    color: #666;
-    font-size: 14px;
-    margin-bottom: 8px;
-  }
-
-  &__text {
-    font-size: 14px;
-    color: #333;
-    margin-bottom: 16px;
-    line-height: 1.5;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
   }
 
   &__buttons {
     display: flex;
-    gap: 10px;
+    gap: 8px;
+    flex-wrap: wrap;
   }
 
   @media (max-width: 600px) {
@@ -102,24 +123,4 @@
       }
     }
   }
-}
-
-.custom-styled-message-container {
-  display: flex;
-  justify-content: flex-end;
-  margin-top: 10px;
-}
-
-.custom-styled-message {
-  display: inline-block;
-  background-color: #28335E;
-  color: #ffffff;
-  font-family: "Noto Sans JP", "Noto Sans JP-Regular", Helvetica, sans-serif;
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 1.5;
-  letter-spacing: 0;
-  padding: 8px 16px;
-  border-radius: 8px;
-  white-space: nowrap;
 }

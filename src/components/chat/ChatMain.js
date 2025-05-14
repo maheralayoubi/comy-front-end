@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useContext } from "react";
 import { SocketContext } from "../../pages/Chat";
 import ChatHeader from "./ChatHeader";
@@ -15,6 +16,7 @@ const ChatMain = ({ selectedUserId, onBackClick, isMobileView, users, currentSys
   const [messages, setMessages] = useState([]);
   const [isTyping, setIsTyping] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
+  const [suggestionMessageId, setSuggestionMessageId] = useState(null);
 
   useEffect(() => {
     if (!selectedUserId || users.length === 0) return;
@@ -24,32 +26,26 @@ const ChatMain = ({ selectedUserId, onBackClick, isMobileView, users, currentSys
         const response = await axios.get(`http://localhost:8080/api/chats/${selectedUserId}/messages`);
         const allMessages = response.data;
 
-        const matchMessage = allMessages.find(m =>
-          typeof m.content === "string" && m.content.length > 0
+        const suggestionMessage = allMessages.find(m =>
+          typeof m.content === "string" && m.content.startsWith("Suggested friend:")
         );
 
-        if (matchMessage) {
+        if (suggestionMessage) {
+          setSuggestionMessageId(suggestionMessage.id);
           const matchUser = {
-            id: selectedUserId,
-            name: "", // لا اسم ثابت
-            profileImageUrl: matchMessage.suggestedUserProfileImageUrl || "/images/profileImage.png",
-            text: [matchMessage.content] // نعرض المحتوى كما هو
+            id: suggestionMessage.id,
+            name: "",
+            profileImageUrl: suggestionMessage.suggestedUserProfileImageUrl || "/images/profileImage.png",
+            text: [suggestionMessage.content]
           };
-
           setCurrentUser(matchUser);
-        } else {
-          const fallbackUser = users.find(u => u.id === selectedUserId);
-          const fallback = fallbackUser || {
-            id: selectedUserId,
-            name: chatInfo?.name ?? "",
-            profileImageUrl: chatInfo?.profileImageUrl || "/images/profileImage.png"
-          };
-          setCurrentUser(fallback);
         }
 
-        const visibleMessages = allMessages;
+        const filteredMessages = allMessages.filter(m =>
+          !m.content.startsWith("Suggested friend:")
+        );
 
-        setMessages(visibleMessages.map((msg) => {
+        setMessages(filteredMessages.map((msg) => {
           const senderName = msg.sender?.name || "Unknown";
           const senderId = String(msg.senderId ?? "");
           const currentUserId = String(currentSystemUser?.id ?? "");
@@ -110,82 +106,40 @@ const ChatMain = ({ selectedUserId, onBackClick, isMobileView, users, currentSys
     }
   };
 
-  const handleMatchAccepted = () => {
-    const timestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-    const botName = "COMY オフィシャル AI";
-    const botAvatar = "/assets/comy-avatar.png";
-
-    const matchCardMessage = {
-      id: Date.now(),
-      sender: botName,
-      senderId: "system",
-      timestamp,
-      isUser: false,
-      profileImageUrl: botAvatar,
-      isMatchCard: true,
-      text: "",
-      data: { ...currentUser }
-    };
-
-    const systemMessage1 = {
-      id: Date.now() + 1,
-      sender: botName,
-      senderId: "system",
-      text: `${currentUser.name} さんにマッチの希望を送りました。`,
-      timestamp,
-      isUser: false,
-      profileImageUrl: botAvatar
-    };
-
-    const systemMessage2 = {
-      id: Date.now() + 2,
-      sender: botName,
-      senderId: "system",
-      text: `${currentUser.name} さんとのビジネスマッチが確定されました。チャットで挨拶してみましょう。`,
-      timestamp,
-      isUser: false,
-      profileImageUrl: botAvatar
-    };
-
-    setMessages(prev => [...prev, matchCardMessage, systemMessage1, systemMessage2]);
-  };
-
-  if (!currentUser) {
-    return (
-      <section className="mainChat">
-        <EmptyState message="Please select a user" />
-      </section>
-    );
-  }
-
   return (
     <section className="mainChat">
-      <ChatHeader
-        currentUser={{
-          name: chatInfo?.name ?? "",
-          profileImageUrl:
-            chatInfo?.name === "COMY オフィシャル AI"
-              ? botImage
-              : chatInfo?.profileImageUrl || "/images/profileImage.png"
-        }}
-        onBackClick={onBackClick}
-        isMobileView={isMobileView}
-      />
-      <div className="messageContainer">
-        <MessageList
-          messages={messages}
-          isTyping={isTyping}
-          currentUser={currentUser}
-          onMatchAccept={handleMatchAccepted}
-        />
-        <div className="inputContainer">
-          <MessageInput
-            onSendMessage={handleSendMessage}
-            socket={socket}
-            selectedUserId={selectedUserId}
+      {currentUser ? (
+        <>
+          <ChatHeader
+            currentUser={{
+              name: chatInfo?.name ?? "",
+              profileImageUrl:
+                chatInfo?.name === "COMY オフィシャル AI"
+                  ? botImage
+                  : chatInfo?.profileImageUrl || "/images/profileImage.png"
+            }}
+            onBackClick={onBackClick}
+            isMobileView={isMobileView}
           />
-        </div>
-      </div>
+          <div className="messageContainer">
+            <MessageList
+              messages={messages}
+              isTyping={isTyping}
+              currentUser={currentUser}
+              onAddMessage={(msg) => setMessages((prev) => [...prev, msg])}
+            />
+            <div className="inputContainer">
+              <MessageInput
+                onSendMessage={handleSendMessage}
+                socket={socket}
+                selectedUserId={selectedUserId}
+              />
+            </div>
+          </div>
+        </>
+      ) : (
+        <EmptyState message="Please select a user" />
+      )}
     </section>
   );
 };
