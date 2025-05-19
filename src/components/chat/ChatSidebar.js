@@ -38,9 +38,12 @@ const ChatSidebar = ({ onSelectUser, selectedUserId, refreshTrigger }) => {
 
   useEffect(() => {
     if (!socket) return;
-
-    const handleReceiveMessage = (message) => {
-      const { chatId, content, createdAt } = message;
+   
+    const handleNewMessage = (message) => {
+      const chatId = message.chatId;
+      const content = message.content;
+      const createdAt = message.createdAt;
+      
       setChats(prev =>
         prev.map(chat =>
           chat.id === chatId
@@ -49,9 +52,18 @@ const ChatSidebar = ({ onSelectUser, selectedUserId, refreshTrigger }) => {
         )
       );
     };
-
-    socket.on('receive_message', handleReceiveMessage);
-    return () => socket.off('receive_message', handleReceiveMessage);
+   
+    const handleUserStatusChanged = ({ userId, isOnline }) => {
+      console.log(`User ${userId} is now ${isOnline ? 'online' : 'offline'}`);
+    };
+   
+    socket.on('newMessage', handleNewMessage);
+    socket.on('userStatusChanged', handleUserStatusChanged);
+    
+    return () => {
+      socket.off('newMessage', handleNewMessage);
+      socket.off('userStatusChanged', handleUserStatusChanged);
+    };
   }, [socket]);
 
   const formatTime = (timeString) => {

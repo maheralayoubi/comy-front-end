@@ -14,6 +14,7 @@ const Chat = ({ currentSystemUser }) => {
   const [selectedUserId, setSelectedUserId] = useState(null);
   const [selectedChatInfo, setSelectedChatInfo] = useState(null);
   const [refreshSidebarToggle, setRefreshSidebarToggle] = useState(false);
+  const [connectionStatus, setConnectionStatus] = useState('disconnected');
 
   const {
     users,
@@ -31,6 +32,29 @@ const Chat = ({ currentSystemUser }) => {
   } = useResponsiveLayout(selectedUserId, setSelectedUserId);
 
   const socket = useSocket(users, selectedUserId, currentSystemUser);
+  
+  // إضافة مراقبة لحالة اتصال السوكيت
+  useEffect(() => {
+    if (socket) {
+      const handleConnected = () => {
+        console.log('Socket connection established');
+        setConnectionStatus('connected');
+      };
+      
+      const handleDisconnect = (reason) => {
+        console.error('Socket disconnected:', reason);
+        setConnectionStatus('disconnected');
+      };
+      
+      socket.on('connect', handleConnected);
+      socket.on('disconnect', handleDisconnect);
+      
+      return () => {
+        socket.off('connect', handleConnected);
+        socket.off('disconnect', handleDisconnect);
+      };
+    }
+  }, [socket]);
 
   const refreshSidebar = () => {
     setRefreshSidebarToggle(prev => !prev);
@@ -74,6 +98,11 @@ const Chat = ({ currentSystemUser }) => {
     <>
       <Header />
       <div className="chat-container">
+        {connectionStatus === 'disconnected' && (
+          <div className="error-banner">
+            تم قطع الاتصال بخادم السوكيت. يرجى تحديث الصفحة.
+          </div>
+        )}
         <SocketContext.Provider value={socket}>
           <div className="chat-wrapper">
             <ChatSidebar

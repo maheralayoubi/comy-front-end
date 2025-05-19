@@ -21,6 +21,13 @@ const ChatMain = ({
   const [messages, setMessages] = useState([]);
   const [isTyping, setIsTyping] = useState(false);
   const [currentUser, setCurrentUser] = useState([]);
+ 
+  useEffect(() => {
+    if (socket && selectedUserId) {
+      socket.emit('joinChat', selectedUserId);
+      console.log(`Joined chat room: ${selectedUserId}`);
+    }
+  }, [socket, selectedUserId]);
 
   useEffect(() => {
     if (!selectedUserId || users.length === 0) return;
@@ -99,6 +106,30 @@ const ChatMain = ({
     fetchMessages();
   }, [selectedUserId, users, currentSystemUser, chatInfo]);
 
+  useEffect(() => {
+    if (!socket) return;
+  
+    const handleUserTyping = ({ chatId, userId }) => {
+      if (chatId === selectedUserId && userId !== currentSystemUser?.id) {
+        setIsTyping(true);
+      }
+    };
+  
+    const handleUserStoppedTyping = ({ chatId, userId }) => {
+      if (chatId === selectedUserId && userId !== currentSystemUser?.id) {
+        setIsTyping(false);
+      }
+    };
+
+    socket.on('userTyping', handleUserTyping);
+    socket.on('userStoppedTyping', handleUserStoppedTyping);
+
+    return () => {
+      socket.off('userTyping', handleUserTyping);
+      socket.off('userStoppedTyping', handleUserStoppedTyping);
+    };
+  }, [socket, selectedUserId, currentSystemUser]);
+
   const handleSendMessage = async (text) => {
     if (!socket || !text.trim()) return;
 
@@ -120,9 +151,17 @@ const ChatMain = ({
     };
 
     setMessages(prev => [...prev, newMessage]);
-
-    socket.emit('send_message', { to: selectedUserId, text });
-    socket.emit('typing', { userId: selectedUserId, isTyping: false });
+  
+    socket.emit('sendMessage', { 
+      chatId: selectedUserId, 
+      content: text, 
+      senderId: currentSystemUser?.id 
+    });
+    
+    socket.emit('typing', { 
+      chatId: selectedUserId, 
+      userId: currentSystemUser?.id 
+    });
 
     try {
       await secureApi.post("/api/chats/messages", {

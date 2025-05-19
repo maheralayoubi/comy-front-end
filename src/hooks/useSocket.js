@@ -7,17 +7,22 @@ const useSocket = (users, selectedUserId, currentSystemUser) => {
   useEffect(() => {
     const socketInstance = io("http://localhost:8080", {
       withCredentials: true,
-      query: {
-        userId: currentSystemUser?.id,
-      },
     });
 
     socketInstance.on("connect", () => {
-      console.log(" Connected to socket server with ID:", socketInstance.id);
+      console.log("Connected to socket server with ID:", socketInstance.id);
     });
 
     socketInstance.on("connect_error", (err) => {
-      console.error(" Socket connection error:", err);
+      console.error("Socket connection error:", err);
+    });
+   
+    socketInstance.on("newMessage", (message) => {
+      console.log("Received new message:", message);
+    });
+   
+    socketInstance.on("userStatusChanged", ({ userId, isOnline }) => {
+      console.log(`User ${userId} is now ${isOnline ? 'online' : 'offline'}`);
     });
 
     setSocket(socketInstance);
