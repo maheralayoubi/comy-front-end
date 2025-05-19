@@ -18,7 +18,7 @@ const ChatSidebar = ({ onSelectUser, selectedUserId, refreshTrigger }) => {
           id: chat.id,
           name: chat.name || 'Private Chat',
           users: chat.users,
-          latestMessage: chat.latestMessage?.content || chat.latestMessage?.text || 'No recent messages',
+          latestMessage: chat.latestMessage?.content || chat.latestMessage?.text || 'メッセージはありません',
           latestTime: chat.latestMessage?.createdAt || chat.updatedAt,
           profileImageUrl: chat.profileImageUrl || '',
         }));
