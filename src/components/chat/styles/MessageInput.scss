@@ -1,0 +1,72 @@
+.inputContainer {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+.input {
+  width: 100%;
+  color: #333;
+  background-color: #f6f7f7;
+  border: none;
+  border-radius: 40px;
+  padding: 16px 48px 16px 24px;
+  font-family: 'Noto Sans JP', -apple-system, Roboto, Helvetica, sans-serif;
+  font-size: 16px;
+  line-height: 1.4;
+  height: 60px;
+  box-sizing: border-box;
+  &::placeholder {
+    color: #797979;
+  }
+  &:focus {
+      outline: none;
+  }
+}
+.sendButton {
+  position: absolute;
+  right: 50px;
+  top:45%;
+  transform: translate(-50%,-50%);
+  background-color: #FFFFFF;
+  border: none;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  transition: background-color 0.2s ease;
+  &::before {
+    content: "";
+    position: absolute;
+    width: 12px;
+    height: 1.5px;
+    background-color: #1C1B1F;
+    left: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    transition: background-color 0.2s ease;
+  }
+  &::after {
+    content: "";
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    border-top: 1.5px solid #1C1B1F;
+    border-right: 1.5px solid #1C1B1F;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%) rotate(45deg);
+    transition: border-color 0.2s ease;
+  }
+  &:focus {
+    outline: none;
+  }
+  &:focus-visible {
+    outline: 2px solid #007bff;
+    outline-offset: 2px;
+  }
+}

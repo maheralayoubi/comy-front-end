@@ -1,0 +1,60 @@
+.typingIndicator {
+  display: flex;
+  align-items: center;
+  margin: 8px 0;
+  padding-left: 52px;
+  height: 20px;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+  &.visible {
+    opacity: 1;
+  }
+  .typingText {
+    color: #999;
+    font-size: 12px;
+    margin-right: 8px;
+    font-family: 'Noto Sans JP', -apple-system, Roboto, Helvetica, sans-serif;
+  }
+  .dots {
+    display: flex;
+    align-items: center;
+    .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background-color: #999;
+      margin-right: 4px;
+      animation: typingAnimation 1.4s infinite ease-in-out both;
+      &:nth-child(1) {
+        animation-delay: 0s;
+      }
+      &:nth-child(2) {
+        animation-delay: 0.2s;
+      }
+      &:nth-child(3) {
+        animation-delay: 0.4s;
+        margin-right: 0;
+      }
+    }
+  }
+}
+@keyframes typingAnimation {
+  0%, 80%, 100% {
+    transform: scale(0);
+  }
+  40% {
+    transform: scale(1.0);
+  }
+}
+@media (max-width: 991px) {
+  .typingIndicator {
+      padding-left: 16px;
+  }
+  .typingText {
+      font-size: 11px;
+  }
+  .dots .dot {
+      width: 5px;
+      height: 5px;
+  }
+}

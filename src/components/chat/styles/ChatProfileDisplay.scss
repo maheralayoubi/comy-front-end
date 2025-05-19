@@ -1,0 +1,186 @@
+.ChatProfileSheet {
+  padding: 15px;
+  box-sizing: border-box;
+  height: 100%;
+  overflow-y: auto;
+  .profile-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+    .profile-image {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      margin-right: 15px;
+      object-fit: cover;
+    }
+    .profile-details {
+      .userCategory {
+        font-size: 0.8rem;
+        color: #666;
+        margin-bottom: 2px;
+      }
+      .userName {
+        font-size: 1.2rem;
+        font-weight: bold;
+        margin: 0;
+      }
+    }
+  }
+  .profile-section {
+    margin-bottom: 20px;
+  }
+  .businessSheetData-s1 {
+  }
+  .referral-section {
+  }
+  .profile-placeholder {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    color: #999;
+  }
+}
+      .BusinessSheet {
+        padding: 16px;
+        background-color: #ffffff;
+        .profile {
+          padding: 0;
+          height: auto;
+          min-height: 80px;
+          display: flex;
+          align-items: center;
+          gap: 16px;
+          background: transparent;
+          margin-bottom: 16px;
+        }
+        .businessSheetData-s1 {
+          padding: 0;
+          flex-direction: column;
+          gap: 16px;
+          .left, .right {
+            width: 100%;
+          }
+        }
+        .businessSheetData-s2 .section2Container {
+          padding: 0;
+          gap: 16px;
+        }
+        .profile img[alt="profile"] {
+          width: 80px;
+          min-width: 80px;
+          height: 80px;
+          min-height: 80px;
+          margin-top: -60px;
+          border: 1px solid #ccc;
+        }
+        .profile .profileContent {
+          flex-direction: column;
+          align-items: start;
+          width: auto;
+          flex-grow: 1;
+          .userData {
+             margin-top: 0;
+          }
+        }
+        .headerBg {
+           position: relative;
+           width: 100%;
+           overflow: hidden;
+           background-color: #eee;
+           display: block;
+           img {
+              display: block;
+              width: 100%;
+              max-height: 120px;
+              height: auto;
+              object-fit: cover;
+           }
+        }
+        .businessSheetData-s2 {
+          .goldenEgg,
+          .goldenGoose,
+          .goldenFarmer,
+          .companyStrengths,
+          .products {
+            grid-template-columns: 1fr !important;
+            grid-gap: 8px !important;
+            margin-bottom: 16px;
+          }
+          .powerWords {
+             grid-template-columns: 1fr !important;
+             grid-gap: 8px !important;
+             margin-bottom: 16px;
+             .gridContainer {
+               grid-template-columns: 1fr 1fr !important;
+               grid-gap: 8px !important;
+             }
+          }
+        }
+        .editProfile, .editModalBtn {
+          display: none !important;
+        }
+        .valueContainer {
+          background-color: #ffffff;
+          border: 1px solid #eee;
+          padding: 12px 16px !important;
+          display: flex !important;
+          align-items: center !important;
+          gap: 8px !important;
+          min-height: 40px;
+          img[src*="rank1.png"],
+          img[src*="rank2.png"],
+          img[src*="rank3.png"] {
+            width: 20px !important;
+            height: 20px !important;
+            min-width: 20px !important;
+            min-height: 20px !important;
+            border-radius: 4px !important;
+            object-fit: cover !important;
+            font-size: 0 !important;
+            position: relative !important;
+            flex-shrink: 0 !important;
+            &::before {
+              position: absolute !important;
+              top: 0 !important;
+              left: 0 !important;
+              width: 100% !important;
+              height: 100% !important;
+              display: flex !important;
+              align-items: center !important;
+              justify-content: center !important;
+              color: white !important;
+              font-size: 12px !important;
+              font-weight: bold !important;
+              line-height: 20px !important;
+              border-radius: inherit !important;
+            }
+          }
+          img[src*="rank1.png"] {
+            &::before {
+              content: "1" !important;
+            }
+          }
+          img[src*="rank2.png"] {
+            &::before {
+              content: "2" !important;
+            }
+          }
+          img[src*="rank3.png"] {
+            &::before {
+              content: "3" !important;
+            }
+          }
+          p {
+            flex-grow: 1;
+            margin: 0 !important;
+            padding: 0 !important;
+            font-size: 14px !important;
+            line-height: 1.4 !important;
+            color: #333 !important;
+          }
+        }
+      }
