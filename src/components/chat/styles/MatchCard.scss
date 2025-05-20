@@ -1,4 +1,3 @@
-
 .btn {
   padding: 10px 16px;
   font-size: 14px;
@@ -7,7 +6,6 @@
   cursor: pointer;
   white-space: nowrap;
   box-sizing: border-box;
-
   &--primary {
     background-color: #333;
     color: #fff;
@@ -30,8 +28,7 @@
 .match-card {
   position: relative;
   border-radius: 8px;
-  width: 100%;
-  max-width: 500px;
+  width: 500px;
   padding: 16px;
   font-family: sans-serif;
   margin: 0 auto 16px;
@@ -39,6 +36,7 @@
   background-color: #F6F7F7;
   height: auto;
   min-height: 222px;
+  
 
   &__header-line {
     display: flex;
@@ -78,7 +76,6 @@
       height: 64px;
       border-radius: 50%;
       object-fit: cover;
-      margin-bottom: 6px;
     }
 
     .match-card__avatar-name {
@@ -112,7 +109,7 @@
     flex-wrap: nowrap;
     position: absolute;
     bottom: 10px;
-    right: 20px;
+    right: 100px;
   }
 
   @media (max-width: 600px) {

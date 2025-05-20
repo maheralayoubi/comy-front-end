@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useContext } from 'react';
+import axios from 'axios';
 import './styles/ChatSidebar.scss';
 import { SocketContext } from '../../pages/Chat';
 import botImage from '../../assets/images/hedgehog.png';
-import secureApi from '../../api/secureApi';
 
-const ChatSidebar = ({ onSelectUser, selectedUserId, refreshTrigger }) => {
+const ChatSidebar = ({ onSelectUser, selectedUserId }) => {
   const socket = useContext(SocketContext);
   const [chats, setChats] = useState([]);
   const [now, setNow] = useState(new Date());
@@ -12,24 +12,26 @@ const ChatSidebar = ({ onSelectUser, selectedUserId, refreshTrigger }) => {
   useEffect(() => {
     const fetchChats = async () => {
       try {
-        const res = await secureApi.get('/api/chats'); 
+        const res = await axios.get('http://localhost:8080/api/chats', { withCredentials: true });
         const allChats = res.data;
+
         const formatted = allChats.map(chat => ({
           id: chat.id,
           name: chat.name || 'Private Chat',
           users: chat.users,
-          latestMessage: chat.latestMessage?.content || chat.latestMessage?.text || 'メッセージはありません',
+          latestMessage: chat.latestMessage?.text || 'メッセージはありません ',
           latestTime: chat.latestMessage?.createdAt || chat.updatedAt,
           profileImageUrl: chat.profileImageUrl || '',
         }));
+
         setChats(formatted);
       } catch (err) {
-        console.error("Sidebar fetch failed", err);
+        console.error('Failed to load chats:', err);
       }
     };
 
     fetchChats();
-  }, [refreshTrigger]);
+  }, []);
 
   useEffect(() => {
     const interval = setInterval(() => setNow(new Date()), 60000);
@@ -38,12 +40,9 @@ const ChatSidebar = ({ onSelectUser, selectedUserId, refreshTrigger }) => {
 
   useEffect(() => {
     if (!socket) return;
-   
-    const handleNewMessage = (message) => {
-      const chatId = message.chatId;
-      const content = message.content;
-      const createdAt = message.createdAt;
-      
+
+    const handleReceiveMessage = (message) => {
+      const { chatId, content, createdAt } = message;
       setChats(prev =>
         prev.map(chat =>
           chat.id === chatId
@@ -52,18 +51,9 @@ const ChatSidebar = ({ onSelectUser, selectedUserId, refreshTrigger }) => {
         )
       );
     };
-   
-    const handleUserStatusChanged = ({ userId, isOnline }) => {
-      console.log(`User ${userId} is now ${isOnline ? 'online' : 'offline'}`);
-    };
-   
-    socket.on('newMessage', handleNewMessage);
-    socket.on('userStatusChanged', handleUserStatusChanged);
-    
-    return () => {
-      socket.off('newMessage', handleNewMessage);
-      socket.off('userStatusChanged', handleUserStatusChanged);
-    };
+
+    socket.on('receive_message', handleReceiveMessage);
+    return () => socket.off('receive_message', handleReceiveMessage);
   }, [socket]);
 
   const formatTime = (timeString) => {
@@ -75,18 +65,17 @@ const ChatSidebar = ({ onSelectUser, selectedUserId, refreshTrigger }) => {
   const handleUserSelect = (userId, chat) => {
     const isBot = chat.name === "COMY オフィシャル AI";
     const chatInfo = {
-      name: chat.name,
-      profileImageUrl: isBot
-        ? botImage
-        : (chat.profileImageUrl || "/images/profileImage.png")
+      ...chat,
+      profileImageUrl: isBot ? botImage : (chat.profileImageUrl || "/images/profileImage.png")
     };
     onSelectUser(userId, chatInfo);
   };
 
   return (
     <aside className="sidebarV2">
-      {chats.map((chat) => {
-        const isBot = chat.name === "COMY オフィシャル AI";
+      {chats.map((chat, index) => {
+        const isBot = chat.name === 'COMY オフィシャル AI';
+        const isFirstBot = index === 0 && isBot;
 
         return (
           <div
@@ -95,15 +84,18 @@ const ChatSidebar = ({ onSelectUser, selectedUserId, refreshTrigger }) => {
             onClick={() => handleUserSelect(chat.id, chat)}
           >
             <div className="avatarContainerV2">
-              <img
-                src={
-                  isBot
-                    ? botImage
-                    : chat.profileImageUrl || "/images/profileImage.png"
-                }
-                alt="Avatar"
-                className="userAvatar"
-              />
+              {isFirstBot ? (
+                <img src={botImage} alt="Bot" className="userAvatar" />
+              ) : (
+                <>
+                  <img src={botImage} alt="Bot" className="botOverlay" />
+                  {chat.profileImageUrl ? (
+                    <img src={chat.profileImageUrl} alt="User" className="userAvatar" />
+                  ) : (
+                    <span className="userInitial">{chat.name?.charAt(0)?.toUpperCase() || 'U'}</span>
+                  )}
+                </>
+              )}
             </div>
 
             <div className="messagePreviewV2">
@@ -111,6 +103,7 @@ const ChatSidebar = ({ onSelectUser, selectedUserId, refreshTrigger }) => {
                 <h3 className="userNameV2">{chat.name}</h3>
                 <div className="timestampWrapper">
                   <span className="timestampV2">{formatTime(chat.latestTime)}</span>
+                  {isFirstBot && <span className="notificationDotV2" />}
                 </div>
               </div>
               <p className="previewTextV2">{chat.latestMessage}</p>

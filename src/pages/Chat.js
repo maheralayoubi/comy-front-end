@@ -33,7 +33,6 @@ const Chat = ({ currentSystemUser }) => {
 
   const socket = useSocket(users, selectedUserId, currentSystemUser);
   
-  // إضافة مراقبة لحالة اتصال السوكيت
   useEffect(() => {
     if (socket) {
       const handleConnected = () => {
@@ -61,6 +60,7 @@ const Chat = ({ currentSystemUser }) => {
   };
 
   const handleSelectUser = (userId, chatInfo) => {
+    if (!userId) return;
     setSelectedUserId(userId);
     setSelectedChatInfo(chatInfo);
     handleSelectUserMobile();
@@ -100,7 +100,7 @@ const Chat = ({ currentSystemUser }) => {
       <div className="chat-container">
         {connectionStatus === 'disconnected' && (
           <div className="error-banner">
-            تم قطع الاتصال بخادم السوكيت. يرجى تحديث الصفحة.
+            Socket connection lost. Please refresh the page.
           </div>
         )}
         <SocketContext.Provider value={socket}>
