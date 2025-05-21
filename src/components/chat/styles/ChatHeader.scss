@@ -9,6 +9,7 @@
   background-color: #FFFFFF;
   box-sizing: border-box;
 }
+
 .backButton {
   background: none;
   border: none;
@@ -19,50 +20,76 @@
   align-items: center;
   justify-content: center;
   color: #333;
+
   &:hover {
     color: #000;
   }
+
   svg {
     width: 24px;
     height: 24px;
   }
 }
+
 .headerContent {
   display: flex;
   align-items: center;
   gap: 16px;
   flex: 1;
 }
+
 .headerAvatarContainer {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background-color: #e0e0e0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  flex-shrink: 0;
-  img {
+  position: relative;
+  width: 32px;
+  height: 32px;
+  margin-right: 16px;
+  border: 1px solid #FFFFFF;
+
+  .userAvatar {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    border-radius: 50%;
+    position: relative;
+    z-index: 2;
   }
+
+  .botOverlay {
+    position: absolute;
+    top: -10px;
+    left: 20px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    object-fit: cover;
+   
+    z-index: 1;
+  }
+
   .userInitial {
-    color: #000000;
-    font-size: 14px;
-    font-weight: 700;
-    line-height: 1;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #ccc;
+    font-weight: bold;
+    font-size: 20px;
+    color: #333;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+    position: relative;
   }
 }
+
 .headerTitle {
   color: #000000;
   font-size: 14px;
   font-weight: 700;
   line-height: 100%;
-  letter-spacing: 0px;
   margin: 0;
 }
+
 @media (max-width: 991px) {
   .chatHeader {
     padding: 12px 16px;
@@ -70,21 +97,33 @@
     height: auto;
     min-height: 56px;
   }
+
   .backButton {
     margin-right: 12px;
+
     svg {
       width: 28px;
       height: 28px;
     }
   }
+
   .headerAvatarContainer {
-      width: 36px;
-      height: 36px;
-      .userInitial {
-          font-size: 13px;
-      }
-  }
-  .headerTitle {
+    width: 40px;
+    height: 40px;
+
+    .userInitial {
       font-size: 13px;
+    }
+
+    .botOverlay {
+      width: 24px;
+      height: 24px;
+      top: -10px;
+      left: 22px;
+    }
+  }
+
+  .headerTitle {
+    font-size: 13px;
   }
 }

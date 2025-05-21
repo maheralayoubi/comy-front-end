@@ -9,7 +9,8 @@ const MatchCard = ({ userData, onApiResponse }) => {
   const apiEndpoint =
     userData?.apiType === "match"
       ? "/api/chats/matches/respond"
-    : "/api/chats/suggestions/respond";
+      : "/api/chats/suggestions/respond";
+
   const handleRespond = async (responseText) => {
     setIsButtonsDisabled(true);
 
@@ -73,16 +74,23 @@ const MatchCard = ({ userData, onApiResponse }) => {
     <div className="match-card">
       <div className="match-card__body">
         <div className="match-card__avatar-section">
-        <img
-  src={userData.profileImageUrl}
-  onError={(e) => { e.target.src = "/images/profileImage.png"; }}
-  className="match-card__avatar"
-  alt="avatar"
-/>
-
+          <img
+            src={userData.profileImageUrl}
+            onError={(e) => { e.target.src = "/images/profileImage.png"; }}
+            className="match-card__avatar"
+            alt="avatar"
+          />
+          {userData.suggestedUserName && userData.suggestedUserCategory && (
+            <div className="match-card__avatar-name">
+              <div className="name">{userData.suggestedUserName}</div>
+              <div className="field">{userData.suggestedUserCategory}</div>
+            </div>
+          )}
         </div>
+
         <div className="match-card__content">
           <div className="match-card__original-message">{fullLine}</div>
+
           <div className="match-card__buttons">
             <button
               className="btn btn--primary"

@@ -15,6 +15,7 @@ const Chat = ({ currentSystemUser }) => {
   const [selectedChatInfo, setSelectedChatInfo] = useState(null);
   const [refreshSidebarToggle, setRefreshSidebarToggle] = useState(false);
   const [connectionStatus, setConnectionStatus] = useState('disconnected');
+  const [showProfile, setShowProfile] = useState(false);
 
   const {
     users,
@@ -55,12 +56,27 @@ const Chat = ({ currentSystemUser }) => {
     }
   }, [socket]);
 
+  useEffect(() => {
+    // When selectedChatInfo changes, determine if we should show the profile
+    if (selectedChatInfo) {
+      const isBot = selectedChatInfo.name === "COMY オフィシャル AI";
+      setShowProfile(!isBot);
+      
+      // Log for debugging
+      console.log('Selected user ID for profile:', selectedUserId);
+      console.log('Selected chat info:', selectedChatInfo);
+    } else {
+      setShowProfile(false);
+    }
+  }, [selectedChatInfo, selectedUserId]);
+
   const refreshSidebar = () => {
     setRefreshSidebarToggle(prev => !prev);
   };
 
   const handleSelectUser = (userId, chatInfo) => {
     if (!userId) return;
+    console.log('Setting selected user ID:', userId);
     setSelectedUserId(userId);
     setSelectedChatInfo(chatInfo);
     handleSelectUserMobile();
@@ -124,7 +140,7 @@ const Chat = ({ currentSystemUser }) => {
               />
             )}
 
-            {selectedUser && selectedUser.name !== "COMY オフィシャル AI" && (
+            {showProfile && (
               <ProfileDisplay
                 loadingSheet={loadingSheet}
                 errorSheet={errorSheet}

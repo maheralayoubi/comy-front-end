@@ -21,7 +21,7 @@ const ChatMain = ({
   const [messages, setMessages] = useState([]);
   const [isTyping, setIsTyping] = useState(false);
   const [currentUser, setCurrentUser] = useState([]);
- 
+
   useEffect(() => {
     if (socket && selectedUserId) {
       socket.emit('joinChat', selectedUserId);
@@ -30,7 +30,7 @@ const ChatMain = ({
   }, [socket, selectedUserId]);
 
   useEffect(() => {
-    if (!selectedUserId || users.length === 0) return;
+    if (!selectedUserId) return;
 
     const fetchMessages = async () => {
       try {
@@ -55,7 +55,9 @@ const ChatMain = ({
               currentUserImage: currentSystemUser?.profileImageUrl || "/images/profileImage.png",
               chatId: selectedUserId,
               isResponded: wasResponded,
-              apiType: m.content.includes("マッチの希望が届いています") ? "match" : "suggestion"
+              apiType: m.content.includes("マッチの希望が届いています") ? "match" : "suggestion",
+              suggestedUserName: m.suggestedUserName,             
+              suggestedUserCategory: m.suggestedUserCategory 
             };
           });
 
@@ -108,13 +110,13 @@ const ChatMain = ({
 
   useEffect(() => {
     if (!socket) return;
-  
+
     const handleUserTyping = ({ chatId, userId }) => {
       if (chatId === selectedUserId && userId !== currentSystemUser?.id) {
         setIsTyping(true);
       }
     };
-  
+
     const handleUserStoppedTyping = ({ chatId, userId }) => {
       if (chatId === selectedUserId && userId !== currentSystemUser?.id) {
         setIsTyping(false);
@@ -151,16 +153,16 @@ const ChatMain = ({
     };
 
     setMessages(prev => [...prev, newMessage]);
-  
-    socket.emit('sendMessage', { 
-      chatId: selectedUserId, 
-      content: text, 
-      senderId: currentSystemUser?.id 
+
+    socket.emit('sendMessage', {
+      chatId: selectedUserId,
+      content: text,
+      senderId: currentSystemUser?.id
     });
-    
-    socket.emit('typing', { 
-      chatId: selectedUserId, 
-      userId: currentSystemUser?.id 
+
+    socket.emit('typing', {
+      chatId: selectedUserId,
+      userId: currentSystemUser?.id
     });
 
     try {
@@ -173,9 +175,11 @@ const ChatMain = ({
     }
   };
 
+  const isBotChat = chatInfo?.name === "COMY オフィシャル AI";
+
   return (
     <section className="mainChat">
-      {currentUser.length > 0 ? (
+      {currentUser.length > 0 || messages.length > 0 ? (
         <>
           <ChatHeader
             currentUser={{
@@ -205,6 +209,7 @@ const ChatMain = ({
                 onSendMessage={handleSendMessage}
                 socket={socket}
                 selectedUserId={selectedUserId}
+                isDisabled={!isBotChat}
               />
             </div>
           </div>
