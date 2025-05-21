@@ -209,7 +209,7 @@ const ChatMain = ({
                 onSendMessage={handleSendMessage}
                 socket={socket}
                 selectedUserId={selectedUserId}
-                isDisabled={isBotChat}
+                isDisabled={!isBotChat}
               />
             </div>
           </div>
