@@ -25,7 +25,6 @@ const ChatMain = ({
   useEffect(() => {
     if (socket && selectedUserId) {
       socket.emit('joinChat', selectedUserId);
-      console.log(`Joined chat room: ${selectedUserId}`);
     }
   }, [socket, selectedUserId]);
 
@@ -57,7 +56,9 @@ const ChatMain = ({
               isResponded: wasResponded,
               apiType: m.content.includes("マッチの希望が届いています") ? "match" : "suggestion",
               suggestedUserName: m.suggestedUserName,             
-              suggestedUserCategory: m.suggestedUserCategory 
+              suggestedUserCategory: m.suggestedUserCategory,
+              status: m.status || 'pending',
+              isSuggested: m.isSuggested || false
             };
           });
 
@@ -132,27 +133,69 @@ const ChatMain = ({
     };
   }, [socket, selectedUserId, currentSystemUser]);
 
-  const handleSendMessage = async (text) => {
-    if (!socket || !text.trim()) return;
+  useEffect(() => {
+    if (!socket || !selectedUserId) return;
 
-    const now = new Date();
+    const handleNewMessage = (msg) => {
+      if (msg.chatId !== selectedUserId) return;
 
-    const newMessage = {
-      id: Date.now(),
-      sender: currentSystemUser?.name,
-      senderId: currentSystemUser?.id,
-      text,
-      timestamp: now.toLocaleTimeString([], {
-        hour: "2-digit",
-        minute: "2-digit"
-      }),
-      rawTimestamp: now.toISOString(),
-      isUser: true,
-      isMatchCard: false,
-      profileImageUrl: currentSystemUser?.profileImageUrl
+      if (msg.isMatchCard || msg.content?.includes("マッチの希望が届いています")) {
+        const card = {
+          id: msg.id,
+          text: [msg.content],
+          profileImageUrl: msg.suggestedUserProfileImageUrl || "/images/profileImage.png",
+          currentUserId: currentSystemUser?.id,
+          currentUserName: currentSystemUser?.name,
+          currentUserImage: currentSystemUser?.profileImageUrl || "/images/profileImage.png",
+          chatId: msg.chatId,
+          isResponded: msg.status !== 'pending',
+          apiType: msg.content.includes("マッチの希望が届いています") ? "match" : "suggestion",
+          suggestedUserName: msg.suggestedUserName || "Unknown",
+          suggestedUserCategory: msg.suggestedUserCategory || "N/A",
+          status: msg.status || 'pending',
+          isSuggested: msg.isSuggested || false
+        };
+
+        setCurrentUser(prev => {
+          const exists = prev.some(m => m.id === card.id);
+          if (exists) return prev;
+          return [...prev, card];
+        });
+
+        return;
+      }
+
+      setMessages(prev => {
+        const exists = prev.some(m => m.id === msg.id);
+        if (exists) return prev;
+
+        const formatted = {
+          id: msg.id,
+          sender: msg.sender,
+          senderId: msg.senderId,
+          text: msg.content,
+          timestamp: new Date(msg.createdAt).toLocaleTimeString([], {
+            hour: "2-digit",
+            minute: "2-digit"
+          }),
+          rawTimestamp: msg.createdAt,
+          isUser: msg.senderId === currentSystemUser?.id,
+          profileImageUrl: msg.senderId === currentSystemUser?.id
+            ? currentSystemUser?.profileImageUrl
+            : "/images/profileImage.png",
+          isMatchCard: false
+        };
+
+        return [...prev, formatted];
+      });
     };
 
-    setMessages(prev => [...prev, newMessage]);
+    socket.on('newMessage', handleNewMessage);
+    return () => socket.off('newMessage', handleNewMessage);
+  }, [socket, selectedUserId, currentSystemUser]);
+
+  const handleSendMessage = async (text) => {
+    if (!socket || !text.trim()) return;
 
     socket.emit('sendMessage', {
       chatId: selectedUserId,
