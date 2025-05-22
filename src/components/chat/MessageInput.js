@@ -49,6 +49,7 @@ const MessageInput = ({ onSendMessage, isDisabled = false }) => {
         // Apply conditional styling based on disabled state
         style={isDisabled ? { opacity: 1, cursor: "not-allowed" } : {}}
       >
+        <img src="/images/arrow_forward.svg" alt="arrow"/>
       </button>
     </div>
   );

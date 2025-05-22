@@ -103,11 +103,11 @@ const ChatSidebar = ({ onSelectUser, selectedUserId }) => {
                 <h3 className="userNameV2">{chat.name}</h3>
                 <div className="timestampWrapper">
                   <span className="timestampV2">{formatTime(chat.latestTime)}</span>
-                  {isFirstBot && <span className="notificationDotV2" />}
                 </div>
               </div>
               <p className="previewTextV2">{chat.latestMessage}</p>
             </div>
+            {isFirstBot && <div className="notificationDotV2" />}
           </div>
         );
       })}

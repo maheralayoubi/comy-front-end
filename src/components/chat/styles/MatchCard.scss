@@ -1,6 +1,6 @@
 .btn {
   padding: 10px 16px;
-  font-size: 14px;
+  font-size: 16px;
   border-radius: 4px;
   border: none;
   cursor: pointer;
@@ -18,9 +18,9 @@
   }
 
   &:disabled {
-    background-color: #e0e0e0;
-    color: #999;
-    border: 1px solid #ccc;
+    background-color: #F3F4F6;
+    color: #D1D5DB;
+    border: 1px solid #E6E6E6;
     cursor: not-allowed;
   }
 }
@@ -28,14 +28,17 @@
 .match-card {
   position: relative;
   border-radius: 8px;
-  width: 500px;
-  padding: 16px;
+  min-width: 65%;
+  padding: 8px 16px;
+  padding-bottom: 80px;
   font-family: sans-serif;
   margin: 0 auto 16px;
   box-sizing: border-box;
   background-color: #F6F7F7;
   height: auto;
   min-height: 222px;
+  margin-left: 20px;
+  margin-bottom: 0;
   
 
   &__header-line {
@@ -51,19 +54,19 @@
 
   &__original-message {
     font-family: "Noto Sans JP", sans-serif;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 150%;
-  letter-spacing: 0px;
-  color: #000000;
-  flex: 1 1 auto; 
-  min-width: 0;
-  overflow-wrap: break-word;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 150%;
+    letter-spacing: 0px;
+    color: #000000;
+    flex: 1 1 auto; 
+    min-width: 0;
+    overflow-wrap: break-word;
   }
 
   &__body {
     display: flex;
-    gap: 16px;
+    gap: 30px;
     align-items: flex-start;
   }
 
@@ -72,8 +75,8 @@
     width: 80px;
 
     .match-card__avatar {
-      width: 64px;
-      height: 64px;
+      width: 75px;
+      height: 80px;
       border-radius: 50%;
       object-fit: cover;
     }
@@ -84,20 +87,24 @@
 
       .name {
         font-weight: bold;
-        font-size: 14px;
-        color: #333;
+        font-size: 20px;
+        color: #000000;
+        @media (max-width:600px) {
+          font-size: 16px;
+        }
       }
 
       .field {
-        font-size: 12px;
-        color: #666;
-        margin-top: 2px;
+        font-size: 14px;
+        color: #707575;
+        margin-top: 8px;
       }
     }
   }
 
   &__content {
     flex: 1;
+    padding-top: 9px;
     display: flex;
     flex-direction: column;
     gap: 8px;
@@ -105,17 +112,18 @@
 
   &__buttons {
     display: flex;
-    gap: 8px;
+    gap: 0 16px;
     flex-wrap: nowrap;
     position: absolute;
-    bottom: 10px;
-    right: 100px;
+    bottom: 8px;
+    left: 16px;
+    right: 16px;
   }
 
   @media (max-width: 600px) {
     padding: 16px;
+    padding-bottom: 120px;
     width: 100%;
-    margin-left: 0;
     margin-right: 0;
     min-height: auto;
     border-radius: 0;
@@ -149,16 +157,18 @@
 
     &__content {
       flex: 1;
-      padding-left: 80px;
+      padding-left: 95px;
       margin-top: 0;
     }
 
     &__buttons {
-      position: static;
       flex-direction: column;
       gap: 8px;
       margin-top: 16px;
-      width: 100%;
+    width: 100%;
+    position: absolute;
+    bottom: -105px;
+    left: 0px;
 
       .btn {
         width: 100%;

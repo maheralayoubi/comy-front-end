@@ -62,7 +62,12 @@ const MatchCard = ({ userData }) => {
         </div>
 
         <div className="match-card__content">
-          <div className="match-card__original-message">{fullLine}</div>
+          <div className="match-card__original-message">{fullLine.split("\n").map((p, index) => (
+              <span key={index}>
+                {p}
+                <br />
+              </span>
+            ))}</div>
 
           <div className="match-card__buttons">
             <button

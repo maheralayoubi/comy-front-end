@@ -15,7 +15,8 @@ const ChatMain = ({
   users,
   currentSystemUser,
   chatInfo,
-  onRefreshSidebar
+  onRefreshSidebar,
+  showProfile
 }) => {
   const socket = useContext(SocketContext);
   const [messages, setMessages] = useState([]);
@@ -221,7 +222,7 @@ const ChatMain = ({
   const isBotChat = chatInfo?.name === "COMY オフィシャル AI";
 
   return (
-    <section className="mainChat">
+    <section className={`${showProfile ? "mainChantWithProfile" : "mainChat"}`}>
       {currentUser.length > 0 || messages.length > 0 ? (
         <>
           <ChatHeader
@@ -247,7 +248,6 @@ const ChatMain = ({
                 setMessages((prev) => [...prev, msg]);
               }}
             />
-            <div className="inputContainer">
               <MessageInput
                 onSendMessage={handleSendMessage}
                 socket={socket}
@@ -255,7 +255,6 @@ const ChatMain = ({
                 isDisabled={isBotChat}
               />
             </div>
-          </div>
         </>
       ) : (
         <EmptyState message="Please select a user" />

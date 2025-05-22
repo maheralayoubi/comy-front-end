@@ -1,12 +1,12 @@
 .sidebarV2 {
-  width: 100%;
-  max-width: 340px;
+  min-width: 25%;
+  width: 25%;
   background-color: white;
   border-radius: 10px;
   overflow-y: auto;
   box-sizing: border-box;
   border: 1px solid #e0e0e0;
-  margin-left: -160px; 
+  max-width: 25%;
 
   @media (max-width: 768px) {
     max-width: 100%;
@@ -34,6 +34,7 @@
     height: 50px;
     margin-right: 16px;
   border: 1px solid #FFFFFF;
+  min-width: 40px;
 
     .userAvatar {
       width: 100%;
@@ -42,14 +43,16 @@
       border-radius: 50%;
       position: relative;
       z-index: 2;
+      border: 2px solid white;
     }
 
     .botOverlay {
       position: absolute;
       top: -15px;
-      left: 30px;
-      width: 30px;
-      height: 30px;
+    top: -10px;
+    right: -10px;
+    width: 24px;
+    height: 24px;
       border-radius: 50%;
       object-fit: cover;
       border: 2px solid #fff;
@@ -72,12 +75,21 @@
       position: relative;
     }
   }
+  
+  .notificationDotV2 {
+          width: 10px;
+          height: 10px;
+          margin-left: 12px;
+          background-color: #c00;
+          border-radius: 50%;
+        }
 
   .messagePreviewV2 {
     flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 8px 0;
+    min-width: 10px;
 
     .previewHeaderV2 {
       display: flex;
@@ -88,6 +100,12 @@
         font-size: 16px;
         font-weight: 700;
         color: #333;
+        max-width: 83%;
+    text-wrap: auto;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-right: 2px;
       }
 
       .timestampWrapper {
@@ -100,12 +118,6 @@
           color: #999;
         }
 
-        .notificationDotV2 {
-          width: 10px;
-          height: 10px;
-          background-color: #c00;
-          border-radius: 50%;
-        }
       }
     }
 
@@ -116,14 +128,14 @@
   }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 991px) {
   .sidebarV2 {
-    padding: 8px;
     max-width: 100%;
+    width: 100%;
   }
 
   .chatPreviewV2 {
-    padding: 10px 14px;
+    padding: 18px 12px;
   }
 
   .chatPreviewV2 .avatarContainerV2 {

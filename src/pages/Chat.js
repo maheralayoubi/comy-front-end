@@ -131,6 +131,7 @@ const Chat = ({ currentSystemUser }) => {
             {selectedUserId && selectedChatInfo && (
               <ChatMain
                 selectedUserId={selectedUserId}
+                showProfile={showProfile}
                 onBackClick={handleBackToList}
                 isMobileView={isMobileView}
                 users={users}

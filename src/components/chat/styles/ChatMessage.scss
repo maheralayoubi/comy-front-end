@@ -1,18 +1,24 @@
 .message {
   display: flex;
-  margin-bottom: 16px;
   align-items: flex-start;
+  margin-left: 24px;
+  margin-top: 16px;
+  position: relative;
 
   &.userMessage {
     flex-direction: row-reverse;
+    margin: 0 24px 0 0; 
 
     .messageContent {
       background-color: #28335E;
       color: white;
-      border-radius: 10px 0 10px 10px;
+      border-radius: 8px;
       margin-left: 0;
-      margin-right: 12px;
-    }
+      -webkit-border-radius: 8px;
+      -moz-border-radius: 8px;
+      -ms-border-radius: 8px;
+      -o-border-radius: 8px;
+}
 
     .messageHeader {
       flex-direction: row-reverse;
@@ -41,6 +47,7 @@
       border-radius: 0 10px 10px 10px;
       margin-left: 12px;
       margin-right: 0;
+      padding-bottom: 0;
     }
 
     .timestamp {
@@ -50,6 +57,7 @@
 
     .userName {
       color: #333;
+      margin-left: 20px;
     }
 
     .messageText {
@@ -63,6 +71,7 @@
       padding-left: 16px;
       background-color: #F6F7F7;
       color: #000000;
+      margin-left: 20px;
     }
   }
 }
@@ -78,6 +87,8 @@
   flex-shrink: 0;
   overflow: hidden;
   margin-top: 0;
+  position: absolute;
+  bottom: 0;
 
   img {
     width: 100%;
