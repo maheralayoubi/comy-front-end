@@ -3,6 +3,7 @@ import axios from 'axios';
 import './styles/ChatSidebar.scss';
 import { SocketContext } from '../../pages/Chat';
 import botImage from '../../assets/images/hedgehog.png';
+import { API_URL } from '../../utils/apiUtils';
 
 const ChatSidebar = ({ onSelectUser, selectedUserId }) => {
   const socket = useContext(SocketContext);
@@ -12,7 +13,7 @@ const ChatSidebar = ({ onSelectUser, selectedUserId }) => {
   useEffect(() => {
     const fetchChats = async () => {
       try {
-        const res = await axios.get('http://localhost:8080/api/chats', { withCredentials: true });
+        const res = await axios.get(`${API_URL}/api/chats`, { withCredentials: true });
         const allChats = res.data;
 
         const formatted = allChats.map(chat => ({
