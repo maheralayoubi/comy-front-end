@@ -1,0 +1,48 @@
+.mainChat, .mainChantWithProfile {
+  width: 1052px;
+  background-color: #FFFFFF;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  height: 89dvh;
+  border: 1px solid #e6e6e6;
+  overflow: hidden;
+}
+.messageContainer {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+.inputContainer {
+  margin-top: auto;
+  position: relative;
+  padding: 0 24px 16px;
+}
+@media (max-width: 991px) {
+  .mainChat, .mainChantWithProfile {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 100;
+    border-radius: 0;
+    border: none;
+  }
+  .messageContainer {
+    padding-bottom: 80px;
+    width: 100%;
+  }
+  .inputContainer {
+     padding: 10px 16px;
+     background-color: #fff;
+     position: fixed;
+     bottom: 0;
+     left: 0;
+     right: 0;
+     z-index: 101;
+  }
+}

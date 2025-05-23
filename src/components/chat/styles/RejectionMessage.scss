@@ -1,0 +1,75 @@
+.frame-1 {
+    align-items: flex-start;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    position: relative;
+    margin-top: 20px;
+    width: 100%;
+    .div {
+      align-items: stretch;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      position: relative;
+      width: 100%;
+      .div-2 {
+        align-items: flex-start;
+        display: flex;
+        gap: 12px;
+        position: relative;
+        width: 100%;
+      }
+      .text-wrapper {
+        color: #000000;
+        font-family: "Noto Sans JP-Regular", Helvetica;
+        font-size: 12px;
+        font-weight: 400;
+        letter-spacing: 0;
+        line-height: 1.2;
+        margin-top: 0;
+        position: relative;
+        white-space: normal;
+        width: 100%;
+      }
+      .text-wrapper-2 {
+        color: #999999;
+        font-family: "Noto Sans JP-Regular", Helvetica;
+        font-size: 12px;
+        font-weight: 400;
+        letter-spacing: 0;
+        line-height: 1.2;
+        margin-top: 0;
+        position: relative;
+        white-space: normal;
+        width: 100%;
+      }
+      .div-wrapper {
+        align-items: stretch;
+        background-color: #f6f7f7;
+        border-radius: 8px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        justify-content: center;
+        padding: 12px;
+        position: relative;
+        width: 100%;
+        .text-wrapper-3 {
+          color: #000000;
+          flex: 1;
+          font-family: "Noto Sans JP-Regular", Helvetica;
+          font-size: 14px;
+          font-weight: 400;
+          letter-spacing: 0;
+          line-height: 1.5;
+          margin-top: 0;
+          position: relative;
+          white-space: normal;
+          width: 100%;
+        }
+      }
+    }
+  }
+  .messageContainer {
+  }

@@ -1,0 +1,79 @@
+.system-response-card {
+  position: relative; // Added for consistency if needed for positioning child elements
+  border-radius: 8px;
+  width: 500px; // Matched from MatchCard
+  padding: 16px; // Matched from MatchCard
+  font-family: sans-serif; // Consistent font
+  margin: 0 auto 16px; // Matched from MatchCard for consistent spacing
+  box-sizing: border-box;
+  background-color: #F6F7F7; // Matched from MatchCard
+  // Removed fixed height to allow content to define height, which is more suitable for a message card
+
+  &__header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px; // Adjusted for better spacing
+  }
+
+  &__avatar {
+    width: 40px; // Slightly larger for a system/AI message, can be adjusted
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 12px; // Adjusted spacing
+    object-fit: cover;
+  }
+
+  &__sender-name {
+    font-weight: bold;
+    font-size: 15px; // Slightly larger for sender name
+    color: #333;
+  }
+
+  &__content {
+    p {
+      margin: 0;
+      font-family: "Noto Sans JP", sans-serif; // Matched from MatchCard's original message style
+      font-weight: 400;
+      font-size: 16px; // Matched
+      line-height: 1.5; // Matched (150%)
+      letter-spacing: 0px; // Matched
+      color: #000000; // Matched
+      overflow-wrap: break-word;
+    }
+  }
+
+  // RTL support
+  &[dir="rtl"] {
+    .system-response-card__avatar {
+      margin-left: 12px;
+      margin-right: 0;
+    }
+    // Add other RTL adjustments if necessary for text alignment within header/content
+    .system-response-card__header {
+      // Potentially adjust flex direction or text alignment if needed for RTL
+    }
+    .system-response-card__content p {
+      text-align: right; // Ensure text aligns to the right in RTL
+    }
+  }
+
+  // Mimic MatchCard's responsiveness if applicable, though this card is simpler
+  @media (max-width: 600px) {
+    width: auto; // Allow it to take full width on smaller screens, minus margins
+    margin-left: 16px; // Example margin for smaller screens
+    margin-right: 16px;
+    padding: 12px; // Matched from MatchCard's responsive padding
+
+    &__avatar {
+      width: 32px;
+      height: 32px;
+    }
+    &__sender-name {
+      font-size: 14px;
+    }
+    &__content p {
+      font-size: 15px;
+    }
+  }
+}
+

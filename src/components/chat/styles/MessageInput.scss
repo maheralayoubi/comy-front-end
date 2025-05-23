@@ -1,0 +1,50 @@
+.inputContainer {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+.input {
+  width: 100%;
+  color: #333;
+  background-color: #f6f7f7;
+  border: none;
+  border-radius: 40px;
+  padding: 12px 24px;
+  font-family: 'Noto Sans JP', -apple-system, Roboto, Helvetica, sans-serif;
+  font-size: 16px;
+  line-height: 1.4;
+  height: 52px;
+  box-sizing: border-box;
+  &::placeholder {
+    color: #797979;
+  }
+  &:focus {
+      outline: none;
+  }
+  @media (max-width:991px) {
+    font-size: 14px;
+  }
+}
+.sendButton {
+  position: absolute;
+  right: 45px;
+  background-color: #FFFFFF;
+  border: none;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  transition: background-color 0.2s ease;
+  &:focus {
+    outline: none;
+  }
+  &:focus-visible {
+    outline: 2px solid #007bff;
+    outline-offset: 2px;
+  }
+}

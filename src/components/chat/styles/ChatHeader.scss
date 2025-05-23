@@ -1,0 +1,130 @@
+.chatHeader {
+  border-bottom: 1px solid #e6e6e6;
+  border-radius: 10px 10px 0 0;
+  padding: 8px 24px;
+  font-family: "Noto Sans JP", -apple-system, Roboto, Helvetica, sans-serif;
+  display: flex;
+  align-items: center;
+  height: 56px;
+  background-color: #FFFFFF;
+  box-sizing: border-box;
+}
+
+.backButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  margin-right: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #333;
+
+  &:hover {
+    color: #000;
+  }
+
+  svg {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+.headerContent {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex: 1;
+}
+
+.headerAvatarContainer {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  border: 1px solid #FFFFFF;
+  
+
+  .userAvatar {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    position: relative;
+    z-index: 2;
+    border: 2px solid white;
+  }
+
+  .botOverlay {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    height: 20px;
+    border-radius: 50%;
+    object-fit: cover;
+   
+    z-index: 1;
+  }
+
+  .userInitial {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #ccc;
+    font-weight: bold;
+    font-size: 20px;
+    color: #333;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+    position: relative;
+  }
+}
+
+.headerTitle {
+  color: #000000;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 100%;
+  margin: 0;
+}
+
+@media (max-width: 991px) {
+  .chatHeader {
+    padding: 8px 16px;
+    border-radius: 0;
+    height: auto;
+    min-height: 56px;
+    border-bottom: none;
+  }
+
+  .backButton {
+    margin-right: 12px;
+
+    svg {
+      width: 28px;
+      height: 28px;
+    }
+  }
+
+  .headerAvatarContainer {
+    width: 40px;
+    height: 40px;
+
+    .userInitial {
+      font-size: 13px;
+    }
+
+    .botOverlay {
+      width: 24px;
+      height: 24px;
+      top: -10px;
+      left: 22px;
+    }
+  }
+
+  .headerTitle {
+    font-size: 13px;
+  }
+}

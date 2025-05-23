@@ -1,0 +1,104 @@
+.eventCardsContainer {
+    display: flex;
+    gap: 10px;
+    margin-top: 18px;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    @media (width <= 991px) {
+      max-width: 100%;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 16px;
+    }
+  }
+  .eventCard {
+    border-radius: 0;
+    width: 320px;
+    min-width: 240px;
+    @media (width <= 600px) {
+      width: 100%;
+      min-width: auto;
+    }
+  }
+  .eventCardContent {
+    aspect-ratio: 1.889;
+    border-radius: 4px;
+    flex-direction: column;
+    align-items: stretch;
+    width: 300px;
+    display: flex;
+    position: relative;
+    display: flex;
+    gap: 10px
+  }
+  .eventBackground {
+    object-fit: cover;
+    object-position: center;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    inset: 0;
+  }
+  .eventDetails {
+    flex-direction: column;
+    align-self: end;
+    width: 190px;
+    max-width: 100%;
+    display: flex;
+    position: relative;
+    @media (width <= 600px) {
+      align-self: start;
+      width: 100%;
+    }
+  }
+  .eventLogo {
+    position: absolute;
+    aspect-ratio: 3.66;
+    object-fit: contain;
+    object-position: center;
+    align-self: end;
+    width: 33px;
+    height: 9px;
+    left: auto;
+    right: 10px;
+    top: 10px;
+    @media (width <= 600px) {
+      align-self: flex-end;
+      left: 300px;
+    }
+  }
+  .eventIcon {
+    aspect-ratio: 1;
+    object-fit: contain;
+    object-position: center;
+    width: 60px;
+    margin-top: 8px;
+    @media (width <= 600px) {
+      align-self: center;
+    }
+  }
+  .eventTitle {
+    color: #28335e;
+    text-align: center;
+    margin-top: 12px;
+    font-family: Zen Maru Gothic, -apple-system, Roboto, Helvetica, sans-serif;
+    font-size: 30px;
+    font-weight: 900;
+    line-height: 1;
+    position: relative;
+    @media (width <= 991px) {
+      margin-right: 10px;
+      font-size: 24px;
+    }
+  }
+  .eventTime {
+    color: #28335e;
+    text-align: center;
+    align-self: center;
+    margin-top: 12px;
+    font-family: Zen Maru Gothic, -apple-system, Roboto, Helvetica, sans-serif;
+    font-size: 12px;
+    font-weight: 900;
+    line-height: 1;
+    position: relative;
+  }

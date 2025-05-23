@@ -1,0 +1,85 @@
+.chat-container {
+  margin: 16px 0 0;
+  padding: 0 20px;
+  height: 89dvh;
+}
+.chat-wrapper {
+  display: flex;
+  gap: 1%;
+  height: 100%;
+  background-color: #fff;
+ 
+  .mainChat, .mainChantWithProfile {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    width: 75%;
+  }
+  .mainChantWithProfile {
+      width: 50%;
+    }
+  .profileDisplay {
+    border-left: 1px solid #e0e0e0;
+    overflow-y: auto;
+    width: 25%;
+    min-width: 25%;
+  }
+}
+.loading,
+.error {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 400px;
+  font-size: 16px;
+  color: #666;
+}
+.error {
+  color: #f44336;
+}
+
+article {
+  margin-left: 20px;
+}
+
+@media (max-width: 768px) {
+  .chat-wrapper {
+    .sidebar {
+      width: 25%;
+      display: block;
+    }
+    .mainChat, .mainChantWithProfile {
+      flex: 1 1 auto;
+      display: flex;
+      width: 75%;
+    }
+    .mainChantWithProfile {
+      width: 50%;
+    }
+    .profileDisplay {
+      flex: 25%;
+      display: flex;
+      flex-direction: column;
+    }
+  }
+}
+@media (max-width: 991px) {
+  .chat-container {
+    margin: 0;
+    padding: 0;
+  }
+  .chat-wrapper {
+    gap: 0;
+    border: none;
+    height: 100%;
+    .sidebar,
+    .mainChat, .mainChantWithProfile {
+      flex: 1 1 100%;
+      width: 100%;
+      border: none;
+    }
+    .profileDisplay {
+        display: none !important;
+    }
+  }
+}

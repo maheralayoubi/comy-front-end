@@ -18,7 +18,11 @@ const Header = () => {
         </Link>
         <SearchItem />
       </div>
-
+      <nav className="navigation">
+        <Link to="/" className="navItem active">トップ</Link>
+        <Link to="/chat" className="navItem">メッセージ</Link>
+        <Link to="/facebook-analytics" className="navItem">Facebook解析版</Link>
+      </nav>
       <div className="header-right">
         <Link to="/profile">
           <img
