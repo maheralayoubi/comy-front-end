@@ -15,12 +15,12 @@ const ChatSidebar = ({ onSelectUser, selectedUserId }) => {
       try {
         const res = await axios.get(`${API_URL}/api/chats`, { withCredentials: true });
         const allChats = res.data;
-
+        
         const formatted = allChats.map(chat => ({
           id: chat.id,
           name: chat.name || 'Private Chat',
           users: chat.users,
-          latestMessage: chat.latestMessage?.text || 'メッセージはありません ',
+          latestMessage: chat.latestMessage?.content || 'メッセージはありません ',
           latestTime: chat.latestMessage?.createdAt || chat.updatedAt,
           profileImageUrl: chat.profileImageUrl || '',
         }));
@@ -42,7 +42,7 @@ const ChatSidebar = ({ onSelectUser, selectedUserId }) => {
   useEffect(() => {
     if (!socket) return;
 
-    const handleReceiveMessage = (message) => {
+    const handleMessageUpdate = (message) => {
       const { chatId, content, createdAt } = message;
       setChats(prev =>
         prev.map(chat =>
@@ -53,8 +53,15 @@ const ChatSidebar = ({ onSelectUser, selectedUserId }) => {
       );
     };
 
-    socket.on('receive_message', handleReceiveMessage);
-    return () => socket.off('receive_message', handleReceiveMessage);
+    // Listen for both received and sent messages
+    socket.on('receive_message', handleMessageUpdate);
+    socket.on('newMessage', handleMessageUpdate);
+    
+    // Clean up both listeners
+    return () => {
+      socket.off('receive_message', handleMessageUpdate);
+      socket.off('newMessage', handleMessageUpdate);
+    };
   }, [socket]);
 
   const formatTime = (timeString) => {
