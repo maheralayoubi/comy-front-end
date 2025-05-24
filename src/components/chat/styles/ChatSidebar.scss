@@ -124,6 +124,11 @@
     .previewTextV2 {
       font-size: 12px;
       color: #999;
+       text-wrap: auto;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 83%;
     }
   }
 }
