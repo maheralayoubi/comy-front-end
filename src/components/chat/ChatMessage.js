@@ -33,12 +33,12 @@ const ChatMessage = ({ message, isUser }) => {
           <RejectionSection messages={message.text} />
         ) : (
           <>
-            {!(isUser && message.text === "マッチを希望する") && (
+            {/* {!(isUser && message.text === "マッチを希望する") && (
               <div className="messageHeader">
                 {isUser && <span className="timestamp">{message.timestamp}</span>}
                 {isUser && <h3 className="userName">{message.sender}</h3>}
               </div>
-            )}
+            )} */}
             <p className="messageText">{message.text}</p>
           </>
         )}
