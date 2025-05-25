@@ -4,7 +4,8 @@ import RejectionSection from "./RejectionSection";
 
 const ChatMessage = ({ message, isUser }) => {
   const isMatchAction = message.text === "マッチを希望する";
-  const profileImageUrl = message.profileImageUrl;
+  // console.log(message)
+  const profileImageUrl = message.profileImageUrl
   const initial = isUser ? 'U' : (message.sender ? message.sender.charAt(0) : '?');
 
   return (
@@ -29,7 +30,7 @@ const ChatMessage = ({ message, isUser }) => {
 
         {message.isMatchCard ? (
           message.content
-        ) : Array.isArray(message.text) ? (
+        ) : Array.isArray(message) ? (
           <RejectionSection messages={message.text} />
         ) : (
           <>

@@ -22,7 +22,7 @@ const ChatMain = ({
   const [messages, setMessages] = useState([]);
   const [isTyping, setIsTyping] = useState(false);
   const [currentUser, setCurrentUser] = useState([]);
-  console.log(currentSystemUser)
+  // console.log(currentSystemUser)
 
   useEffect(() => {
     if (socket && selectedUserId) {
@@ -78,6 +78,7 @@ const ChatMain = ({
             const isCurrentUser =
               isUserMatchResponse ||
               (currentSystemUser?.userId === senderId && !isBot);
+              console.log(m)
 
             return {
               id: m.id,
@@ -90,11 +91,7 @@ const ChatMain = ({
               }),
               rawTimestamp: m.createdAt,
               isUser: isCurrentUser,
-              profileImageUrl: isCurrentUser?.userId
-                ? currentSystemUser?.profileImageUrl
-                : isBot
-                  ? botImage
-                  : "/images/profileImage.png",
+              profileImageUrl: isBot ? botImage : m.senderProfileImageUrl ? m.senderProfileImageUrl : "/images/profileImage.png",
               isMatchCard: false
             };
           });
@@ -171,6 +168,7 @@ const ChatMain = ({
       setMessages(prev => {
         const exists = prev.some(m => m.id === msg.id);
         if (exists) return prev;
+        const isBot = msg.senderName === "COMY オフィシャル AI";
 
         const formatted = {
           id: msg.id,
@@ -183,9 +181,7 @@ const ChatMain = ({
           }),
           rawTimestamp: msg.createdAt,
           isUser: msg.senderId === currentSystemUser?.userId,
-          profileImageUrl: msg.senderId === currentSystemUser
-            ? currentSystemUser?.profileImageUrl
-            : "/images/profileImage.png",
+          profileImageUrl:isBot ? botImage : msg.senderProfileImageUrl ? msg.senderProfileImageUrl : "/images/profileImage.png",
           isMatchCard: false
         };
 
@@ -233,6 +229,8 @@ const handleSendMessage = async (text) => {
 };
 
   const isBotChat = chatInfo?.name === "COMY オフィシャル AI";
+
+  console.log(messages)
 
   return (
     <section className={`${showProfile ? "mainChantWithProfile" : "mainChat"}`}>
