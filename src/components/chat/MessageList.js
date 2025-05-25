@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import ChatMessage from './ChatMessage';
 import TypingIndicator from './TypingIndicator';
 import MatchCard from './MatchCard';
@@ -6,6 +6,11 @@ import './styles/MessageList.scss';
 import botImage from '../../assets/images/hedgehog.png';
 
 const MessageList = ({ messages, isTyping, currentUser, onAddMessage }) => {
+  const lastMessageRef = useRef(null);
+  useEffect(() => {
+    // 👇️ scroll to bottom every time messages change
+    lastMessageRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [messages]);
   return (
     <div className="messagesList">
       {Array.isArray(currentUser) && currentUser.map((user) => (
@@ -40,7 +45,7 @@ const MessageList = ({ messages, isTyping, currentUser, onAddMessage }) => {
       {messages
         .sort((a, b) => new Date(a.rawTimestamp) - new Date(b.rawTimestamp))
         .map((message) => (
-          <ChatMessage key={message.id} message={message} isUser={message.isUser} />
+          <ChatMessage key={message.id} message={message} isUser={message.isUser} lastMessageRef={lastMessageRef} />
         ))}
 
       {isTyping && <TypingIndicator />}
