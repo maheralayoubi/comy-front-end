@@ -9,7 +9,7 @@ const safeSetStyle = (selector, property, value) => {
   } catch (error) {
   }
 };
-const useResponsiveLayout = (selectedUserId, setSelectedUserId) => {
+const useResponsiveLayout = (selectedChatId, setSelectedUserId) => {
   const [isMobileView, setIsMobileView] = useState(window.innerWidth <= 991);
   const updateLayout = useCallback((isMobile, currentSelectedUserId) => {
     if (isMobile) {
@@ -32,17 +32,17 @@ const useResponsiveLayout = (selectedUserId, setSelectedUserId) => {
     const handleResize = () => {
       const isMobile = window.innerWidth <= 991;
       setIsMobileView(isMobile);
-      updateLayout(isMobile, selectedUserId);
+      updateLayout(isMobile, selectedChatId);
     };
     handleResize();
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
-  }, [selectedUserId, updateLayout]);
+  }, [selectedChatId, updateLayout]);
   useEffect(() => {
     if (isMobileView) {
-      updateLayout(true, selectedUserId);
+      updateLayout(true, selectedChatId);
     }
-  }, [selectedUserId, isMobileView, updateLayout]);
+  }, [selectedChatId, isMobileView, updateLayout]);
   const handleSelectUserMobile = useCallback(() => {
     if (isMobileView) {
       updateLayout(true, true);

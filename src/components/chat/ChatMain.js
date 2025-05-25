@@ -9,14 +9,14 @@ import secureApi from "../../api/secureApi";
 import botImage from '../../assets/images/hedgehog.png';
 
 const ChatMain = ({
-  selectedUserId,
+  selectedChatId,
   onBackClick,
   isMobileView,
   users,
   currentSystemUser,
   chatInfo,
   onRefreshSidebar,
-  showProfile
+  showProfile,
 }) => {
   const socket = useContext(SocketContext);
   const [messages, setMessages] = useState([]);
@@ -25,17 +25,17 @@ const ChatMain = ({
   // console.log(currentSystemUser)
 
   useEffect(() => {
-    if (socket && selectedUserId) {
-      socket.emit('joinChat', selectedUserId);
+    if (socket && selectedChatId) {
+      socket.emit('joinChat', selectedChatId);
     }
-  }, [socket, selectedUserId]);
+  }, [socket, selectedChatId]);
 
   useEffect(() => {
-    if (!selectedUserId) return;
+    if (!selectedChatId) return;
 
     const fetchMessages = async () => {
       try {
-        const response = await secureApi.get(`/api/chats/${selectedUserId}/messages`);
+        const response = await secureApi.get(`/api/chats/${selectedChatId}/messages`);
         const allMessages = response.data;
 
         const matchCards = allMessages
@@ -54,7 +54,7 @@ const ChatMain = ({
               currentUserId: currentSystemUser?.userId,
               currentUserName: currentSystemUser?.name,
               currentUserImage: currentSystemUser?.profileImageUrl || "/images/profileImage.png",
-              chatId: selectedUserId,
+              chatId: selectedChatId,
               isResponded: wasResponded,
               apiType: m.content.includes("マッチの希望が届いています") ? "match" : "suggestion",
               suggestedUserName: m.suggestedUserName,             
@@ -107,19 +107,19 @@ const ChatMain = ({
     };
 
     fetchMessages();
-  }, [selectedUserId, users, currentSystemUser, chatInfo]);
+  }, [selectedChatId]);
 
   useEffect(() => {
     if (!socket) return;
 
     const handleUserTyping = ({ chatId, userId }) => {
-      if (chatId === selectedUserId && userId !== currentSystemUser?.userId) {
+      if (chatId === selectedChatId && userId !== currentSystemUser?.userId) {
         setIsTyping(true);
       }
     };
 
     const handleUserStoppedTyping = ({ chatId, userId }) => {
-      if (chatId === selectedUserId && userId !== currentSystemUser?.userId) {
+      if (chatId === selectedChatId && userId !== currentSystemUser?.userId) {
         setIsTyping(false);
       }
     };
@@ -131,13 +131,13 @@ const ChatMain = ({
       socket.off('userTyping', handleUserTyping);
       socket.off('userStoppedTyping', handleUserStoppedTyping);
     };
-  }, [socket, selectedUserId, currentSystemUser]);
+  }, [socket, selectedChatId, currentSystemUser]);
 
   useEffect(() => {
-    if (!socket || !selectedUserId) return;
+    if (!socket || !selectedChatId) return;
 
     const handleNewMessage = (msg) => {
-      if (msg.chatId !== selectedUserId) return;
+      if (msg.chatId !== selectedChatId) return;
 
       if (msg.isMatchCard || msg.content?.includes("マッチの希望が届いています")) {
         const card = {
@@ -191,13 +191,13 @@ const ChatMain = ({
 
     socket.on('newMessage', handleNewMessage);
     return () => socket.off('newMessage', handleNewMessage);
-  }, [socket, selectedUserId, currentSystemUser]);
+  }, [socket, selectedChatId, currentSystemUser]);
 
  
 const handleSendMessage = async (text) => {
   if (!socket || !text.trim()) return;
   const messageData = {
-    chatId: selectedUserId,
+    chatId: selectedChatId,
     content: text.trim(),
     senderId: currentSystemUser?.userId,
     // senderName: currentSystemUser.name,
@@ -211,14 +211,14 @@ const handleSendMessage = async (text) => {
 
     // Emit typing status
     socket.emit('typing', {
-      chatId: selectedUserId,
+      chatId: selectedChatId,
       userId: currentSystemUser?.userId
     });
 
     // Stop typing after delay
     setTimeout(() => {
       socket.emit('stopTyping', {
-        chatId: selectedUserId,
+        chatId: selectedChatId,
         userId: currentSystemUser?.userId
       });
     }, 1000);
@@ -262,7 +262,7 @@ const handleSendMessage = async (text) => {
               <MessageInput
                 onSendMessage={handleSendMessage}
                 socket={socket}
-                selectedUserId={selectedUserId}
+                selectedChatId={selectedChatId}
                 isDisabled={isBotChat}
               />
             </div>

@@ -6,7 +6,7 @@ const ProfileDisplay = ({
   loadingSheet,
   errorSheet,
   selectedUserSheetData,
-  selectedUserId,
+  selectedChatId,
   isMobileView
 }) => {
   return (
@@ -20,9 +20,9 @@ const ProfileDisplay = ({
         <BusinessSheetTemplate data={selectedUserSheetData} isEdit={false} />
       )}
       {}
-      {!selectedUserId && !isMobileView && <div className="placeholder">ユーザーを選択してください</div>}
+      {!selectedChatId && !isMobileView && <div className="placeholder">ユーザーを選択してください</div>}
       {}
-      {!loadingSheet && !errorSheet && !selectedUserSheetData && selectedUserId && <div className="placeholder">データがありません</div>}
+      {!loadingSheet && !errorSheet && !selectedUserSheetData && selectedChatId && <div className="placeholder">データがありません</div>}
     </div>
   );
 };
