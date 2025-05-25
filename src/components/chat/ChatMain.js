@@ -22,6 +22,7 @@ const ChatMain = ({
   const [messages, setMessages] = useState([]);
   const [isTyping, setIsTyping] = useState(false);
   const [currentUser, setCurrentUser] = useState([]);
+  // console.log(currentSystemUser)
 
   useEffect(() => {
     if (socket && selectedUserId) {
@@ -50,7 +51,7 @@ const ChatMain = ({
               id: m.id,
               text: [m.content],
               profileImageUrl: m.suggestedUserProfileImageUrl || "/images/profileImage.png",
-              currentUserId: currentSystemUser?.id,
+              currentUserId: currentSystemUser?.userId,
               currentUserName: currentSystemUser?.name,
               currentUserImage: currentSystemUser?.profileImageUrl || "/images/profileImage.png",
               chatId: selectedUserId,
@@ -66,7 +67,7 @@ const ChatMain = ({
         const otherMessages = allMessages
           .filter(m => !m.isMatchCard)
           .map(m => {
-            const senderName = m.sender;
+            const senderName = m.senderName;
             const senderId = m.senderId;
             const isBot = senderName === "COMY オフィシャル AI";
 
@@ -76,7 +77,8 @@ const ChatMain = ({
 
             const isCurrentUser =
               isUserMatchResponse ||
-              (currentSystemUser?.name === senderName && !isBot);
+              (currentSystemUser?.userId === senderId && !isBot);
+              console.log(m)
 
             return {
               id: m.id,
@@ -89,15 +91,12 @@ const ChatMain = ({
               }),
               rawTimestamp: m.createdAt,
               isUser: isCurrentUser,
-              profileImageUrl: isCurrentUser
-                ? currentSystemUser?.profileImageUrl
-                : isBot
-                  ? botImage
-                  : "/images/profileImage.png",
+              profileImageUrl: isBot ? botImage : m.senderProfileImageUrl ? m.senderProfileImageUrl : "/images/profileImage.png",
               isMatchCard: false
             };
           });
 
+          console.log(otherMessages)
         setCurrentUser(matchCards);
         setMessages(otherMessages);
       } catch (error) {
@@ -114,13 +113,13 @@ const ChatMain = ({
     if (!socket) return;
 
     const handleUserTyping = ({ chatId, userId }) => {
-      if (chatId === selectedUserId && userId !== currentSystemUser?.id) {
+      if (chatId === selectedUserId && userId !== currentSystemUser?.userId) {
         setIsTyping(true);
       }
     };
 
     const handleUserStoppedTyping = ({ chatId, userId }) => {
-      if (chatId === selectedUserId && userId !== currentSystemUser?.id) {
+      if (chatId === selectedUserId && userId !== currentSystemUser?.userId) {
         setIsTyping(false);
       }
     };
@@ -145,7 +144,7 @@ const ChatMain = ({
           id: msg.id,
           text: [msg.content],
           profileImageUrl: msg.suggestedUserProfileImageUrl || "/images/profileImage.png",
-          currentUserId: currentSystemUser?.id,
+          currentUserId: currentSystemUser?.userId,
           currentUserName: currentSystemUser?.name,
           currentUserImage: currentSystemUser?.profileImageUrl || "/images/profileImage.png",
           chatId: msg.chatId,
@@ -169,10 +168,11 @@ const ChatMain = ({
       setMessages(prev => {
         const exists = prev.some(m => m.id === msg.id);
         if (exists) return prev;
+        const isBot = msg.senderName === "COMY オフィシャル AI";
 
         const formatted = {
           id: msg.id,
-          sender: msg.sender,
+          sender: msg.senderName,
           senderId: msg.senderId,
           text: msg.content,
           timestamp: new Date(msg.createdAt).toLocaleTimeString([], {
@@ -180,10 +180,8 @@ const ChatMain = ({
             minute: "2-digit"
           }),
           rawTimestamp: msg.createdAt,
-          isUser: msg.senderId === currentSystemUser?.id,
-          profileImageUrl: msg.senderId === currentSystemUser?.id
-            ? currentSystemUser?.profileImageUrl
-            : "/images/profileImage.png",
+          isUser: msg.senderId === currentSystemUser?.userId,
+          profileImageUrl:isBot ? botImage : msg.senderProfileImageUrl ? msg.senderProfileImageUrl : "/images/profileImage.png",
           isMatchCard: false
         };
 
@@ -195,31 +193,44 @@ const ChatMain = ({
     return () => socket.off('newMessage', handleNewMessage);
   }, [socket, selectedUserId, currentSystemUser]);
 
-  const handleSendMessage = async (text) => {
-    if (!socket || !text.trim()) return;
-
-    socket.emit('sendMessage', {
-      chatId: selectedUserId,
-      content: text,
-      senderId: currentSystemUser?.id
-    });
-
-    socket.emit('typing', {
-      chatId: selectedUserId,
-      userId: currentSystemUser?.id
-    });
-
-    try {
-      await secureApi.post("/api/chats/messages", {
-        content: text,
-        chatId: selectedUserId
-      });
-    } catch (err) {
-      console.error("Failed to save message:", err);
-    }
+ 
+const handleSendMessage = async (text) => {
+  if (!socket || !text.trim()) return;
+  const messageData = {
+    chatId: selectedUserId,
+    content: text.trim(),
+    senderId: currentSystemUser?.userId,
+    // senderName: currentSystemUser.name,
+    timestamp: new Date().toISOString()
   };
 
+  try {
+    // Send message via socket
+    socket.emit('sendMessage', messageData);
+    console.log("Message emitted successfully");
+
+    // Emit typing status
+    socket.emit('typing', {
+      chatId: selectedUserId,
+      userId: currentSystemUser?.userId
+    });
+
+    // Stop typing after delay
+    setTimeout(() => {
+      socket.emit('stopTyping', {
+        chatId: selectedUserId,
+        userId: currentSystemUser?.userId
+      });
+    }, 1000);
+
+  } catch (error) {
+    console.error("Error sending message:", error);
+  }
+};
+
   const isBotChat = chatInfo?.name === "COMY オフィシャル AI";
+
+  console.log(messages)
 
   return (
     <section className={`${showProfile ? "mainChantWithProfile" : "mainChat"}`}>

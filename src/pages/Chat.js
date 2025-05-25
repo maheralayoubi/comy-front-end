@@ -10,12 +10,14 @@ import "../components/chat/styles/Chat.scss";
 
 export const SocketContext = createContext(null);
 
-const Chat = ({ currentSystemUser }) => {
+const Chat = () => {
   const [selectedUserId, setSelectedUserId] = useState(null);
   const [selectedChatInfo, setSelectedChatInfo] = useState(null);
   const [refreshSidebarToggle, setRefreshSidebarToggle] = useState(false);
   const [connectionStatus, setConnectionStatus] = useState('disconnected');
   const [showProfile, setShowProfile] = useState(false);
+
+  const currentSystemUser = JSON.parse(localStorage.getItem('businessSheetData'))
 
   const {
     users,
