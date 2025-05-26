@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
 import { getMemberList } from "../api/memberList";
+import { getUserSheetById } from "../api/businessSheet";
 
 const useChatData = (selectedUserId) => {
+  console.log(selectedUserId)
   const [users, setUsers] = useState([]);
   const [loadingUsers, setLoadingUsers] = useState(true);
   const [errorUsers, setErrorUsers] = useState(null);
@@ -36,11 +38,46 @@ const useChatData = (selectedUserId) => {
       });
   }, []);
 
+    console.log(selectedUserId)
+
   useEffect(() => {
     if (selectedUserId) {
-      setSelectedUserSheetData(null);
-      setLoadingSheet(false);
+      setLoadingSheet(true);
       setErrorSheet(null);
+      setSelectedUserSheetData(null);
+
+      getUserSheetById(selectedUserId)
+        .then(response => {
+          if (response.data) {
+            let finalData = { ...response.data };
+            let headerUrl = finalData.headerBackgroundImageUrl;
+            let profileUrl = finalData.profileImageUrl;
+
+            if (headerUrl && (headerUrl.startsWith("http") || headerUrl.startsWith("/"))) {
+              headerUrl = `${headerUrl}?timestamp=${new Date().getTime()}`;
+            }
+            if (profileUrl && (profileUrl.startsWith("http") || profileUrl.startsWith("/"))) {
+              profileUrl = `${profileUrl}?timestamp=${new Date().getTime()}`;
+            }
+
+            finalData.headerBackgroundImageUrl = headerUrl;
+            finalData.profileImageUrl = profileUrl;
+
+            setSelectedUserSheetData(finalData);
+          } else {
+            setErrorSheet("ビジネスシートのデータが見つかりませんでした。");
+          }
+          setLoadingSheet(false);
+        })
+        .catch(error => {
+          if (error.response && error.response.status === 404) {
+            console.warn("No business sheet found for user:", selectedUserId);
+            setSelectedUserSheetData(null);
+          } else {
+            setErrorSheet("ビジネスシートの取得中にエラーが発生しました。");
+          }
+          setLoadingSheet(false);
+        });
     } else {
       setSelectedUserSheetData(null);
       setLoadingSheet(false);

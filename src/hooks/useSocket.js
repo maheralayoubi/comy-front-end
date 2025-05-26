@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { io } from "socket.io-client";
 import { API_URL } from "../utils/apiUtils";
 
-const useSocket = (users, selectedUserId, currentSystemUser) => {
+const useSocket = (users, selectedChatId, currentSystemUser) => {
   const [socket, setSocket] = useState(null);
   // const API_URL = process.env.REACT_APP_BACKEND_URL
 

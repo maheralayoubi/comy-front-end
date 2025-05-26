@@ -11,8 +11,9 @@ import "../components/chat/styles/Chat.scss";
 export const SocketContext = createContext(null);
 
 const Chat = () => {
-  const [selectedUserId, setSelectedUserId] = useState(null);
+  const [selectedChatId, setSelectedChatId] = useState(null);
   const [selectedChatInfo, setSelectedChatInfo] = useState(null);
+  const [selectedSenderId, setSelectedSenderId] = useState(null) 
   const [refreshSidebarToggle, setRefreshSidebarToggle] = useState(false);
   const [connectionStatus, setConnectionStatus] = useState('disconnected');
   const [showProfile, setShowProfile] = useState(false);
@@ -26,15 +27,15 @@ const Chat = () => {
     selectedUserSheetData,
     loadingSheet,
     errorSheet
-  } = useChatData(selectedUserId);
+  } = useChatData(selectedSenderId);
 
   const {
     isMobileView,
     handleSelectUserMobile,
     handleBackToListMobile
-  } = useResponsiveLayout(selectedUserId, setSelectedUserId);
+  } = useResponsiveLayout(selectedChatId, setSelectedChatId);
 
-  const socket = useSocket(users, selectedUserId, currentSystemUser);
+  const socket = useSocket(users, selectedChatId, currentSystemUser);
   
   useEffect(() => {
     if (socket) {
@@ -65,12 +66,12 @@ const Chat = () => {
       setShowProfile(!isBot);
       
       // Log for debugging
-      console.log('Selected user ID for profile:', selectedUserId);
+      console.log('Selected user ID for profile:', selectedChatId);
       console.log('Selected chat info:', selectedChatInfo);
     } else {
       setShowProfile(false);
     }
-  }, [selectedChatInfo, selectedUserId]);
+  }, [selectedChatInfo, selectedChatId]);
 
   const refreshSidebar = () => {
     setRefreshSidebarToggle(prev => !prev);
@@ -78,8 +79,9 @@ const Chat = () => {
 
   const handleSelectUser = (userId, chatInfo) => {
     if (!userId) return;
+    console.log(userId)
     console.log('Setting selected user ID:', userId);
-    setSelectedUserId(userId);
+    setSelectedChatId(userId);
     setSelectedChatInfo(chatInfo);
     handleSelectUserMobile();
   };
@@ -88,7 +90,8 @@ const Chat = () => {
     handleBackToListMobile();
   };
 
-  const selectedUser = users.find(u => u.id === selectedUserId);
+  console.log(selectedChatId)
+  console.log(selectedChatInfo)
 
   if (loadingUsers) {
     return (
@@ -126,13 +129,15 @@ const Chat = () => {
             <ChatSidebar
               users={users}
               onSelectUser={handleSelectUser}
-              selectedUserId={selectedUserId}
+              selectedChatId={selectedChatId}
+              setSelectedSenderId={setSelectedSenderId}
+              currentSystemUserId={currentSystemUser?.userId}
               refreshTrigger={refreshSidebarToggle}
             />
 
-            {selectedUserId && selectedChatInfo && (
+            {selectedChatId && selectedChatInfo && (
               <ChatMain
-                selectedUserId={selectedUserId}
+                selectedChatId={selectedChatId}
                 showProfile={showProfile}
                 onBackClick={handleBackToList}
                 isMobileView={isMobileView}
@@ -148,7 +153,7 @@ const Chat = () => {
                 loadingSheet={loadingSheet}
                 errorSheet={errorSheet}
                 selectedUserSheetData={selectedUserSheetData}
-                selectedUserId={selectedUserId}
+                selectedChatId={selectedChatId}
                 isMobileView={isMobileView}
               />
             )}
