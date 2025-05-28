@@ -9,6 +9,8 @@ const useSocket = (users, selectedChatId, currentSystemUser) => {
   useEffect(() => {
     const socketInstance = io(API_URL, {
       withCredentials: true,
+      reconnect: true,
+      reconnectionDelay: 5000,
     });
 
     socketInstance.on("connect", () => {
