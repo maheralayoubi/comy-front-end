@@ -17,12 +17,12 @@ const ChatMain = ({
   chatInfo,
   onRefreshSidebar,
   showProfile,
+  setSelectedSenderId,
 }) => {
   const socket = useContext(SocketContext);
   const [messages, setMessages] = useState([]);
   const [isTyping, setIsTyping] = useState(false);
   const [currentUser, setCurrentUser] = useState([]);
-  // console.log(currentSystemUser)
 
   useEffect(() => {
     if (socket && selectedChatId) {
@@ -60,9 +60,14 @@ const ChatMain = ({
               suggestedUserName: m.suggestedUserName,             
               suggestedUserCategory: m.suggestedUserCategory,
               status: m.status || 'pending',
-              isSuggested: m.isSuggested || false
+              isSuggested: m.isSuggested || false,
+              relatedUserId: m.relatedUserId
             };
           });
+
+        if (matchCards.length > 0 && matchCards[0].relatedUserId) {
+          setSelectedSenderId(matchCards[0].relatedUserId);
+        }
 
         const otherMessages = allMessages
           .filter(m => !m.isMatchCard)
@@ -78,7 +83,6 @@ const ChatMain = ({
             const isCurrentUser =
               isUserMatchResponse ||
               (currentSystemUser?.userId === senderId && !isBot);
-              console.log(m)
 
             return {
               id: m.id,
@@ -96,11 +100,9 @@ const ChatMain = ({
             };
           });
 
-          console.log(otherMessages)
         setCurrentUser(matchCards);
         setMessages(otherMessages);
       } catch (error) {
-        console.error("Failed to fetch messages:", error);
         setCurrentUser([]);
         setMessages([]);
       }
@@ -153,8 +155,13 @@ const ChatMain = ({
           suggestedUserName: msg.suggestedUserName || "Unknown",
           suggestedUserCategory: msg.suggestedUserCategory || "N/A",
           status: msg.status || 'pending',
-          isSuggested: msg.isSuggested || false
+          isSuggested: msg.isSuggested || false,
+          relatedUserId: msg.relatedUserId
         };
+
+        if (card.relatedUserId) {
+          setSelectedSenderId(card.relatedUserId);
+        }
 
         setCurrentUser(prev => {
           const exists = prev.some(m => m.id === card.id);
@@ -181,7 +188,7 @@ const ChatMain = ({
           }),
           rawTimestamp: msg.createdAt,
           isUser: msg.senderId === currentSystemUser?.userId,
-          profileImageUrl:isBot ? botImage : msg.senderProfileImageUrl ? msg.senderProfileImageUrl : "/images/profileImage.png",
+          profileImageUrl: isBot ? botImage : msg.senderProfileImageUrl ? msg.senderProfileImageUrl : "/images/profileImage.png",
           isMatchCard: false
         };
 
@@ -193,44 +200,34 @@ const ChatMain = ({
     return () => socket.off('newMessage', handleNewMessage);
   }, [socket, selectedChatId, currentSystemUser]);
 
- 
-const handleSendMessage = async (text) => {
-  if (!socket || !text.trim()) return;
-  const messageData = {
-    chatId: selectedChatId,
-    content: text.trim(),
-    senderId: currentSystemUser?.userId,
-    // senderName: currentSystemUser.name,
-    timestamp: new Date().toISOString()
-  };
-
-  try {
-    // Send message via socket
-    socket.emit('sendMessage', messageData);
-    console.log("Message emitted successfully");
-
-    // Emit typing status
-    socket.emit('typing', {
+  const handleSendMessage = async (text) => {
+    if (!socket || !text.trim()) return;
+    const messageData = {
       chatId: selectedChatId,
-      userId: currentSystemUser?.userId
-    });
+      content: text.trim(),
+      senderId: currentSystemUser?.userId,
+      timestamp: new Date().toISOString()
+    };
 
-    // Stop typing after delay
-    setTimeout(() => {
-      socket.emit('stopTyping', {
+    try {
+      socket.emit('sendMessage', messageData);
+      socket.emit('typing', {
         chatId: selectedChatId,
         userId: currentSystemUser?.userId
       });
-    }, 1000);
 
-  } catch (error) {
-    console.error("Error sending message:", error);
-  }
-};
+      setTimeout(() => {
+        socket.emit('stopTyping', {
+          chatId: selectedChatId,
+          userId: currentSystemUser?.userId
+        });
+      }, 1000);
+    } catch (error) {
+      console.error("Error sending message:", error);
+    }
+  };
 
   const isBotChat = chatInfo?.name === "COMY オフィシャル AI";
-
-  console.log(messages)
 
   return (
     <section className={`${showProfile ? "mainChantWithProfile" : "mainChat"}`}>
@@ -259,13 +256,13 @@ const handleSendMessage = async (text) => {
                 setMessages((prev) => [...prev, msg]);
               }}
             />
-              <MessageInput
-                onSendMessage={handleSendMessage}
-                socket={socket}
-                selectedChatId={selectedChatId}
-                isDisabled={isBotChat}
-              />
-            </div>
+            <MessageInput
+              onSendMessage={handleSendMessage}
+              socket={socket}
+              selectedChatId={selectedChatId}
+              isDisabled={isBotChat}
+            />
+          </div>
         </>
       ) : (
         <EmptyState message="Please select a user" />
