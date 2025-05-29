@@ -9,12 +9,25 @@ const ChatSidebar = ({ onSelectUser, selectedChatId, currentSystemUserId, setSel
   const socket = useContext(SocketContext);
   const [chats, setChats] = useState([]);
   const [now, setNow] = useState(new Date());
+  const [botId, setBotId] = useState(null);
 
   useEffect(() => {
     const fetchChats = async () => {
       try {
         const res = await axios.get(`${API_URL}/api/chats`, { withCredentials: true });
         const allChats = res.data;
+
+        const getBotId = () => {
+          const botChat = allChats.find(chat => chat.name === "COMY オフィシャル AI");
+          if (botChat && botChat.users) {
+            const botUser = botChat.users.find(u => u.id !== currentSystemUserId);
+            return botUser;
+          }
+          return null;
+        };
+
+        const dynamicBotId = getBotId();
+        setBotId(dynamicBotId);
 
         const formatted = allChats.map(chat => {
           const otherUser = chat.users.find(user =>
@@ -75,13 +88,14 @@ const ChatSidebar = ({ onSelectUser, selectedChatId, currentSystemUserId, setSel
   };
 
   const getOtherUserId = (chat) => {
-    const otherUsers = chat.users.filter(user =>
-      user.id !== currentSystemUserId && user.role !== "bot"
+    const otherUsers = chat.users.filter(userId =>
+      userId !== currentSystemUserId && userId !== botId
     );
-    return otherUsers.length > 0 ? otherUsers[0].id : null;
+
+    return otherUsers.length > 0 ? otherUsers[0] : null;
   };
 
-  const handleUserSelect = (chatId, chat) => {
+  const handleUserSelect = (userId, chat) => {
     const isBot = chat.name === "COMY オフィシャル AI";
     const chatInfo = {
       ...chat,
@@ -97,13 +111,14 @@ const ChatSidebar = ({ onSelectUser, selectedChatId, currentSystemUserId, setSel
       setSelectedSenderId(null);
     }
 
-    onSelectUser(chatId, chatInfo);
+    onSelectUser(userId, chatInfo);
   };
 
   return (
     <aside className="sidebarV2">
-      {chats.map((chat) => {
+      {chats.map((chat, index) => {
         const isBot = chat.name === 'COMY オフィシャル AI';
+        const isFirstBot = index === 0 && isBot;
 
         return (
           <div
@@ -112,7 +127,7 @@ const ChatSidebar = ({ onSelectUser, selectedChatId, currentSystemUserId, setSel
             onClick={() => handleUserSelect(chat.id, chat)}
           >
             <div className="avatarContainerV2">
-              {isBot ? (
+              {isFirstBot ? (
                 <img src={botImage} alt="Bot" className="userAvatar" />
               ) : (
                 <>
@@ -135,6 +150,9 @@ const ChatSidebar = ({ onSelectUser, selectedChatId, currentSystemUserId, setSel
               </div>
               <p className="previewTextV2">{chat.latestMessage}</p>
             </div>
+
+     
+            {isBot && <div className="notificationDotV2" />}
           </div>
         );
       })}
