@@ -38,10 +38,14 @@ const ChatMain = ({
         const response = await secureApi.get(`/api/chats/${selectedChatId}/messages`);
         const allMessages = response.data;
 
-        const matchCards = allMessages
+        const sortedMessages = [...allMessages].sort(
+          (a, b) => new Date(a.createdAt) - new Date(b.createdAt)
+        );
+
+        const matchCards = sortedMessages
           .filter(m => m.isMatchCard)
           .map(m => {
-            const wasResponded = allMessages.some(other =>
+            const wasResponded = sortedMessages.some(other =>
               other.chatId === m.chatId &&
               !other.isMatchCard &&
               new Date(other.createdAt) > new Date(m.createdAt)
@@ -65,11 +69,12 @@ const ChatMain = ({
             };
           });
 
-        if (matchCards.length > 0 && matchCards[0].relatedUserId) {
-          setSelectedSenderId(matchCards[0].relatedUserId);
+        const lastMatchCard = [...matchCards].reverse().find(m => m.relatedUserId);
+        if (lastMatchCard) {
+          setSelectedSenderId(lastMatchCard.relatedUserId);
         }
 
-        const otherMessages = allMessages
+        const otherMessages = sortedMessages
           .filter(m => !m.isMatchCard)
           .map(m => {
             const senderName = m.senderName;
