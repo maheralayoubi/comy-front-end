@@ -123,6 +123,26 @@
     right: 16px;
   }
 
+  @media (min-width: 991px ) and (max-width:1260px) {
+    padding-bottom: 120px;
+    &__buttons {
+      flex-direction: column;
+      gap: 8px;
+      width: 95%;
+      position: absolute;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+
+      .btn {
+        width: 100%;
+        text-align: center;
+        font-size: 14px;
+        padding: 10px 16px;
+      }
+    }
+  }
+
   @media (max-width: 600px) {
     padding: 16px;
     padding-bottom: 120px;
