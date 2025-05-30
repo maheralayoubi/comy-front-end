@@ -59,19 +59,17 @@ const Chat = () => {
     }
   }, [socket]);
 
-  useEffect(() => {
-    // When selectedChatInfo changes, determine if we should show the profile
-    if (selectedChatInfo) {
-      const isBot = selectedChatInfo.name === "COMY オフィシャル AI";
-      setShowProfile(!isBot);
-      
-      // Log for debugging
-      console.log('Selected user ID for profile:', selectedChatId);
-      console.log('Selected chat info:', selectedChatInfo);
-    } else {
-      setShowProfile(false);
-    }
-  }, [selectedChatInfo, selectedChatId]);
+ useEffect(() => {
+  if (selectedChatInfo) {
+    setShowProfile(true);
+
+    console.log('Selected user ID for profile:', selectedChatId);
+    console.log('Selected chat info:', selectedChatInfo);
+  } else {
+    setShowProfile(false);
+  }
+}, [selectedChatInfo, selectedChatId]);
+
 
   const refreshSidebar = () => {
     setRefreshSidebarToggle(prev => !prev);
@@ -136,16 +134,18 @@ const Chat = () => {
             />
 
             {selectedChatId && selectedChatInfo && (
-              <ChatMain
-                selectedChatId={selectedChatId}
-                showProfile={showProfile}
-                onBackClick={handleBackToList}
-                isMobileView={isMobileView}
-                users={users}
-                currentSystemUser={currentSystemUser}
-                chatInfo={selectedChatInfo}
-                onRefreshSidebar={refreshSidebar}
-              />
+             <ChatMain
+  selectedChatId={selectedChatId}
+  showProfile={showProfile}
+  onBackClick={handleBackToList}
+  isMobileView={isMobileView}
+  users={users}
+  currentSystemUser={currentSystemUser}
+  chatInfo={selectedChatInfo}
+  onRefreshSidebar={refreshSidebar}
+  setSelectedSenderId={setSelectedSenderId}
+/>
+
             )}
 
             {showProfile && (

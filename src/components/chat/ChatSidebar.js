@@ -5,7 +5,7 @@ import { SocketContext } from '../../pages/Chat';
 import botImage from '../../assets/images/hedgehog.png';
 import { API_URL } from '../../utils/apiUtils';
 
-const ChatSidebar = ({ onSelectUser, selectedChatId, currentSystemUserId, setSelectedSenderId}) => {
+const ChatSidebar = ({ onSelectUser, selectedChatId, currentSystemUserId, setSelectedSenderId }) => {
   const socket = useContext(SocketContext);
   const [chats, setChats] = useState([]);
   const [now, setNow] = useState(new Date());
@@ -17,27 +17,32 @@ const ChatSidebar = ({ onSelectUser, selectedChatId, currentSystemUserId, setSel
         const res = await axios.get(`${API_URL}/api/chats`, { withCredentials: true });
         const allChats = res.data;
 
-        // Get bot ID dynamically from the first bot chat
         const getBotId = () => {
           const botChat = allChats.find(chat => chat.name === "COMY オフィシャル AI");
           if (botChat && botChat.users) {
-            const botUserId = botChat.users.find(id => id !== currentSystemUserId);
-            return botUserId;
+            const botUser = botChat.users.find(user => user.role === "bot");
+            return botUser ? botUser.id : null;
           }
           return null;
         };
 
         const dynamicBotId = getBotId();
         setBotId(dynamicBotId);
-        
-        const formatted = allChats.map(chat => ({
-          id: chat.id,
-          name: chat.name || 'Private Chat',
-          users: chat.users,
-          latestMessage: chat.latestMessage?.content || 'メッセージはありません ',
-          latestTime: chat.latestMessage?.createdAt || chat.updatedAt,
-          profileImageUrl: chat.profileImageUrl || '',
-        }));
+
+        const formatted = allChats.map(chat => {
+          const otherUser = chat.users.find(user =>
+            user.id !== currentSystemUserId && user.role !== "bot"
+          );
+
+          return {
+            id: chat.id,
+            name: chat.name || 'Private Chat',
+            users: chat.users,
+            latestMessage: chat.latestMessage?.content || 'メッセージはありません ',
+            latestTime: chat.latestMessage?.createdAt || chat.updatedAt,
+            profileImageUrl: otherUser?.image || '',
+          };
+        });
 
         setChats(formatted);
       } catch (err) {
@@ -67,11 +72,9 @@ const ChatSidebar = ({ onSelectUser, selectedChatId, currentSystemUserId, setSel
       );
     };
 
-    // Listen for both received and sent messages
     socket.on('receive_message', handleMessageUpdate);
     socket.on('newMessage', handleMessageUpdate);
-    
-    // Clean up both listeners
+
     return () => {
       socket.off('receive_message', handleMessageUpdate);
       socket.off('newMessage', handleMessageUpdate);
@@ -85,42 +88,36 @@ const ChatSidebar = ({ onSelectUser, selectedChatId, currentSystemUserId, setSel
   };
 
   const getOtherUserId = (chat) => {
-    // Bot ID - you might need to adjust this based on your actual bot ID
-    // const botId = "681547798892749fbe910c02"; // Update this with your actual bot ID
-    
-    // Filter out current user and bot to find the other user
-    const otherUsers = chat.users.filter(userId => 
-      userId !== currentSystemUserId && userId !== botId
+    const otherUsers = chat.users.filter(user =>
+      user.id !== currentSystemUserId && user.id !== botId
     );
-    
-    return otherUsers.length > 0 ? otherUsers[0] : null;
+    return otherUsers.length > 0 ? otherUsers[0].id : null;
   };
 
-  const handleUserSelect = (userId, chat) => {
+  const handleUserSelect = (chatId, chat) => {
     const isBot = chat.name === "COMY オフィシャル AI";
     const chatInfo = {
       ...chat,
       profileImageUrl: isBot ? botImage : (chat.profileImageUrl || "/images/profileImage.png")
     };
-    
-    // Set the sender ID for profile display
+
     if (!isBot) {
       const otherUserId = getOtherUserId(chat);
       if (otherUserId) {
         setSelectedSenderId(otherUserId);
       }
     } else {
-      setSelectedSenderId(null); // No profile for bot
+      setSelectedSenderId(null);
     }
-    
-    onSelectUser(userId, chatInfo);
+
+    onSelectUser(chatId, chatInfo);
   };
 
   return (
     <aside className="sidebarV2">
-      {chats.map((chat, index) => {
+      {chats.map((chat) => {
         const isBot = chat.name === 'COMY オフィシャル AI';
-        const isFirstBot = index === 0 && isBot;
+        const showBotNotification = isBot;
 
         return (
           <div
@@ -129,7 +126,7 @@ const ChatSidebar = ({ onSelectUser, selectedChatId, currentSystemUserId, setSel
             onClick={() => handleUserSelect(chat.id, chat)}
           >
             <div className="avatarContainerV2">
-              {isFirstBot ? (
+              {isBot ? (
                 <img src={botImage} alt="Bot" className="userAvatar" />
               ) : (
                 <>
@@ -152,7 +149,7 @@ const ChatSidebar = ({ onSelectUser, selectedChatId, currentSystemUserId, setSel
               </div>
               <p className="previewTextV2">{chat.latestMessage}</p>
             </div>
-            {isFirstBot && <div className="notificationDotV2" />}
+            {showBotNotification && <div className="notificationDotV2" />}
           </div>
         );
       })}

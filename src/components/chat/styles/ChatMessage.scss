@@ -1,3 +1,45 @@
+.match-card-wrapper {
+  display: flex;
+  align-items: flex-start;
+  margin-left: 24px;
+  margin-top: 16px;
+  position: relative;
+  max-width: 70%;
+
+  @media (max-width: 600px) {
+    margin-left: 12px;
+    max-width: 75%;
+  }
+
+  .match-card-content {
+    margin-left: 12px;
+    flex: 1;
+
+    .messageHeader {
+      display: flex;
+      align-items: center;
+      margin-bottom: 6px;
+      margin-left: 36px;
+      @media (max-width:600px) {
+        margin-left: 12px;
+      }
+    }
+
+    .userName {
+      font-size: 14px;
+      font-weight: 400;
+      margin: 0;
+      color: #000000;
+    }
+
+    .timestamp {
+      font-size: 12px;
+      padding-left: 10px;
+      color: #999;
+    }
+  }
+}
+
 .message {
   display: flex;
   align-items: flex-start;
@@ -22,7 +64,7 @@
       -moz-border-radius: 8px;
       -ms-border-radius: 8px;
       -o-border-radius: 8px;
-}
+    }
 
     .messageHeader {
       flex-direction: row-reverse;
@@ -65,6 +107,9 @@
     .userName {
       color: #000000;
       margin-left: 20px;
+      @media (max-width:600px) {
+        margin-left: 0;
+      }
     }
 
     .messageText {
