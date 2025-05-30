@@ -20,8 +20,8 @@ const ChatSidebar = ({ onSelectUser, selectedChatId, currentSystemUserId, setSel
         const getBotId = () => {
           const botChat = allChats.find(chat => chat.name === "COMY オフィシャル AI");
           if (botChat && botChat.users) {
-            const botUser = botChat.users.find(u => u.id !== currentSystemUserId);
-            return botUser;
+            const botUser = botChat.users.find(user => user.role === "bot");
+            return botUser ? botUser.id : null;
           }
           return null;
         };
@@ -88,14 +88,13 @@ const ChatSidebar = ({ onSelectUser, selectedChatId, currentSystemUserId, setSel
   };
 
   const getOtherUserId = (chat) => {
-    const otherUsers = chat.users.filter(userId =>
-      userId !== currentSystemUserId && userId !== botId
+    const otherUsers = chat.users.filter(user =>
+      user.id !== currentSystemUserId && user.id !== botId
     );
-
-    return otherUsers.length > 0 ? otherUsers[0] : null;
+    return otherUsers.length > 0 ? otherUsers[0].id : null;
   };
 
-  const handleUserSelect = (userId, chat) => {
+  const handleUserSelect = (chatId, chat) => {
     const isBot = chat.name === "COMY オフィシャル AI";
     const chatInfo = {
       ...chat,
@@ -111,14 +110,14 @@ const ChatSidebar = ({ onSelectUser, selectedChatId, currentSystemUserId, setSel
       setSelectedSenderId(null);
     }
 
-    onSelectUser(userId, chatInfo);
+    onSelectUser(chatId, chatInfo);
   };
 
   return (
     <aside className="sidebarV2">
-      {chats.map((chat, index) => {
+      {chats.map((chat) => {
         const isBot = chat.name === 'COMY オフィシャル AI';
-        const isFirstBot = index === 0 && isBot;
+        const showBotNotification = isBot;
 
         return (
           <div
@@ -127,7 +126,7 @@ const ChatSidebar = ({ onSelectUser, selectedChatId, currentSystemUserId, setSel
             onClick={() => handleUserSelect(chat.id, chat)}
           >
             <div className="avatarContainerV2">
-              {isFirstBot ? (
+              {isBot ? (
                 <img src={botImage} alt="Bot" className="userAvatar" />
               ) : (
                 <>
@@ -150,9 +149,7 @@ const ChatSidebar = ({ onSelectUser, selectedChatId, currentSystemUserId, setSel
               </div>
               <p className="previewTextV2">{chat.latestMessage}</p>
             </div>
-
-     
-            {isBot && <div className="notificationDotV2" />}
+            {showBotNotification && <div className="notificationDotV2" />}
           </div>
         );
       })}

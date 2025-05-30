@@ -35,23 +35,19 @@ const ChatMain = ({
 
     const fetchMessages = async () => {
       try {
-       const response = await secureApi.get(`/api/chats/${selectedChatId}/messages`);
+        const response = await secureApi.get(`/api/chats/${selectedChatId}/messages`);
         const allMessages = response.data;
 
         const sortedMessages = [...allMessages].sort(
-          (a, b) => new Date(a.createdAt) - new Date(b.createdAt)
+          (a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
         );
 
-        const matchCards = sortedMessages
-          .filter(m => m.isMatchCard)
-          .map(m => {
-            const wasResponded = sortedMessages.some(other =>
-              other.chatId === m.chatId &&
-              !other.isMatchCard &&
-              new Date(other.createdAt) > new Date(m.createdAt)
-            );
+        const matchCards = [];
+        const otherMessages = [];
 
-            return {
+        sortedMessages.forEach(m => {
+          if (m.isMatchCard) {
+            matchCards.push({
               id: m.id,
               text: [m.content],
               profileImageUrl: m.suggestedUserProfileImageUrl || "/images/profileImage.png",
@@ -59,40 +55,22 @@ const ChatMain = ({
               currentUserName: currentSystemUser?.name,
               currentUserImage: currentSystemUser?.profileImageUrl || "/images/profileImage.png",
               chatId: selectedChatId,
-              isResponded: wasResponded,
-              apiType: m.content.includes("マッチの希望が届いています") ? "match" : "suggestion",
-              suggestedUserName: m.suggestedUserName,             
+              isResponded: m.status !== 'pending',
+              apiType: m.isSuggested ? "suggestion" : "match",
+              suggestedUserName: m.suggestedUserName,
               suggestedUserCategory: m.suggestedUserCategory,
               status: m.status || 'pending',
               isSuggested: m.isSuggested || false,
               relatedUserId: m.relatedUserId
-            };
-          });
+            });
+          } else {
+            const isBot = m.senderName === "COMY オフィシャル AI";
+            const isCurrentUser = currentSystemUser?.userId === m.senderId;
 
-        const lastMatchCard = [...matchCards].reverse().find(m => m.relatedUserId);
-        if (lastMatchCard) {
-          setSelectedSenderId(lastMatchCard.relatedUserId);
-        }
-
-        const otherMessages = sortedMessages
-          .filter(m => !m.isMatchCard)
-          .map(m => {
-            const senderName = m.senderName;
-            const senderId = m.senderId;
-            const isBot = senderName === "COMY オフィシャル AI";
-
-            const isUserMatchResponse =
-              m.content === "マッチを希望する" &&
-              senderId === currentSystemUser?.id;
-
-            const isCurrentUser =
-              isUserMatchResponse ||
-              (currentSystemUser?.userId === senderId && !isBot);
-
-            return {
+            otherMessages.push({
               id: m.id,
-              sender: senderName,
-              senderId: senderId || senderName,
+              sender: m.senderName,
+              senderId: m.senderId || m.senderName,
               text: m.content,
               timestamp: new Date(m.createdAt).toLocaleTimeString([], {
                 hour: "2-digit",
@@ -100,21 +78,28 @@ const ChatMain = ({
               }),
               rawTimestamp: m.createdAt,
               isUser: isCurrentUser,
-              profileImageUrl: isBot ? botImage : m.senderProfileImageUrl ? m.senderProfileImageUrl : "/images/profileImage.png",
+              profileImageUrl: isBot ? botImage : (m.senderProfileImageUrl || "/images/profileImage.png"),
               isMatchCard: false
-            };
-          });
+            });
+          }
+        });
+
+        const lastMatchCard = [...matchCards].reverse().find(m => m.relatedUserId);
+        if (lastMatchCard) {
+          setSelectedSenderId(lastMatchCard.relatedUserId);
+        }
 
         setCurrentUser(matchCards);
         setMessages(otherMessages);
       } catch (error) {
         setCurrentUser([]);
         setMessages([]);
+        console.error("Error fetching messages:", error);
       }
     };
 
     fetchMessages();
-  }, [selectedChatId]);
+  }, [selectedChatId, currentSystemUser?.userId, currentSystemUser?.name, currentSystemUser?.profileImageUrl, setSelectedSenderId]);
 
   useEffect(() => {
     if (!socket) return;
@@ -138,7 +123,7 @@ const ChatMain = ({
       socket.off('userTyping', handleUserTyping);
       socket.off('userStoppedTyping', handleUserStoppedTyping);
     };
-  }, [socket, selectedChatId, currentSystemUser]);
+  }, [socket, selectedChatId, currentSystemUser?.userId]);
 
   useEffect(() => {
     if (!socket || !selectedChatId) return;
@@ -146,7 +131,7 @@ const ChatMain = ({
     const handleNewMessage = (msg) => {
       if (msg.chatId !== selectedChatId) return;
 
-      if (msg.isMatchCard || msg.content?.includes("マッチの希望が届いています")) {
+      if (msg.isMatchCard) {
         const card = {
           id: msg.id,
           text: [msg.content],
@@ -156,7 +141,7 @@ const ChatMain = ({
           currentUserImage: currentSystemUser?.profileImageUrl || "/images/profileImage.png",
           chatId: msg.chatId,
           isResponded: msg.status !== 'pending',
-          apiType: msg.content.includes("マッチの希望が届いています") ? "match" : "suggestion",
+          apiType: msg.isSuggested ? "suggestion" : "match",
           suggestedUserName: msg.suggestedUserName || "Unknown",
           suggestedUserCategory: msg.suggestedUserCategory || "N/A",
           status: msg.status || 'pending',
@@ -180,8 +165,8 @@ const ChatMain = ({
       setMessages(prev => {
         const exists = prev.some(m => m.id === msg.id);
         if (exists) return prev;
-        const isBot = msg.senderName === "COMY オフィシャル AI";
 
+        const isBot = msg.senderName === "COMY オフィシャル AI";
         const formatted = {
           id: msg.id,
           sender: msg.senderName,
@@ -193,17 +178,21 @@ const ChatMain = ({
           }),
           rawTimestamp: msg.createdAt,
           isUser: msg.senderId === currentSystemUser?.userId,
-          profileImageUrl: isBot ? botImage : msg.senderProfileImageUrl ? msg.senderProfileImageUrl : "/images/profileImage.png",
+          profileImageUrl: isBot ? botImage : (msg.senderProfileImageUrl || "/images/profileImage.png"),
           isMatchCard: false
         };
 
-        return [...prev, formatted];
+        const updatedMessages = [...prev, formatted].sort(
+            (a, b) => new Date(a.rawTimestamp).getTime() - new Date(b.rawTimestamp).getTime()
+        );
+        return updatedMessages;
       });
     };
 
     socket.on('newMessage', handleNewMessage);
     return () => socket.off('newMessage', handleNewMessage);
-  }, [socket, selectedChatId, currentSystemUser]);
+  }, [socket, selectedChatId, currentSystemUser?.userId, currentSystemUser?.name, currentSystemUser?.profileImageUrl, setSelectedSenderId]);
+
 
   const handleSendMessage = async (text) => {
     if (!socket || !text.trim()) return;
@@ -241,9 +230,7 @@ const ChatMain = ({
           <ChatHeader
             currentUser={{
               name: chatInfo?.name ?? "",
-              profileImageUrl: chatInfo?.name === "COMY オフィシャル AI"
-                ? botImage
-                : chatInfo?.profileImageUrl || "/images/profileImage.png"
+              profileImageUrl: isBotChat ? botImage : (chatInfo?.profileImageUrl || "/images/profileImage.png")
             }}
             onBackClick={onBackClick}
             isMobileView={isMobileView}
@@ -258,7 +245,14 @@ const ChatMain = ({
                   onRefreshSidebar?.();
                   return;
                 }
-                setMessages((prev) => [...prev, msg]);
+                setMessages((prev) => {
+                    const exists = prev.some(m => m.id === msg.id);
+                    if (exists) return prev;
+                    const updatedMessages = [...prev, msg].sort(
+                        (a, b) => new Date(a.rawTimestamp).getTime() - new Date(b.rawTimestamp).getTime()
+                    );
+                    return updatedMessages;
+                });
               }}
             />
             <MessageInput
