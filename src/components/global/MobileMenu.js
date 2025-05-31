@@ -24,16 +24,26 @@ const MobileMenu = () => {
     },
     {
       id: "3",
+      to: "/chat",
+      content: "メッセージ",
+    },
+    {
+      id: "4",
+      to: "/facebook-analytics",
+      content: "Facebook解析版",
+    },
+    {
+      id: "5",
       to: "https://comy.jp/terms-of-service/",
       content: "利用規約",
     },
     {
-      id: "4",
+      id: "6",
       to: "https://comy.jp/privacy-policy/",
       content: "プライバシーポリシー",
     },
     {
-      id: "5",
+      id: "7",
       to: "https://comy.jp/contact/",
       content: "お問い合わせ",
     },
