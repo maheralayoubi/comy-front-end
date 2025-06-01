@@ -193,6 +193,12 @@ const ChatMain = ({
         );
         return updatedMessages;
       });
+
+      console.log({ messageId: msg.id, userId: currentSystemUser?.userId })
+
+      if (msg.id && currentSystemUser?.userId) {
+        socket.emit('messageRead', { messageId: msg.id, userId: currentSystemUser?.userId });
+      }
     };
 
     socket.on('newMessage', handleNewMessage);
