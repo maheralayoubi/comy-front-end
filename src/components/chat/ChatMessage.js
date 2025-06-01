@@ -4,10 +4,10 @@ import RejectionSection from "./RejectionSection";
 
 const ChatMessage = ({ message, isUser, lastMessageRef }) => {
   const isMatchAction = message.text === "マッチを希望する";
+  const hasImagesOnly = message?.images?.length > 0 && (!message.text || message.text.trim() === "");
   const profileImageUrl = message.profileImageUrl;
   const initial = isUser ? 'U' : (message.sender ? message.sender.charAt(0) : '?');
 
-  // If it's a match card, render it with its own wrapper
   if (message.isMatchCard) {
     return (
       <div className="match-card-wrapper" ref={lastMessageRef}>
@@ -29,7 +29,6 @@ const ChatMessage = ({ message, isUser, lastMessageRef }) => {
     );
   }
 
-  // Regular message rendering
   return (
     <div className={`message ${isUser ? 'userMessage' : ''} ${isMatchAction ? 'matchAction' : ''}`} ref={lastMessageRef}>
       {!isUser && (
@@ -43,15 +42,15 @@ const ChatMessage = ({ message, isUser, lastMessageRef }) => {
       )}
 
       <div className="messageContent">
-        {!isUser && !isMatchAction && (
+        {!isUser && !isMatchAction && !hasImagesOnly && (
           <div className="messageHeader">
             <h3 className="userName">{message.sender}</h3>
             <span className="timestamp">{message.timestamp}</span>
           </div>
         )}
 
-        {Array.isArray(message) ? (
-          <RejectionSection messages={message.text} />
+        {message.images?.length > 0 ? (
+          <RejectionSection messages={message.text ? [message.text] : []} images={message.images} />
         ) : (
           <p className="messageText">{message.text}</p>
         )}

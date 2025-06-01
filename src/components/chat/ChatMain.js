@@ -64,7 +64,8 @@ const ChatMain = ({
               status: m.status || 'pending',
               isSuggested: m.isSuggested || false,
               relatedUserId: m.relatedUserId,
-              createdAt: m.createdAt
+              createdAt: m.createdAt,
+              images: m.images || []
             });
           } else {
             const isBot = m.senderName === "COMY オフィシャル AI";
@@ -83,7 +84,8 @@ const ChatMain = ({
               rawTimestamp: m.createdAt,
               isUser: isCurrentUser,
               profileImageUrl: isBot ? botImage : (m.senderProfileImageUrl || "/images/profileImage.png"),
-              isMatchCard: false
+              isMatchCard: false,
+              images: m.images || []
             });
           }
         });
@@ -191,7 +193,8 @@ const ChatMain = ({
           rawTimestamp: msg.createdAt,
           isUser: msg.senderId === currentSystemUser?.userId,
           profileImageUrl: isBot ? botImage : (msg.senderProfileImageUrl || "/images/profileImage.png"),
-          isMatchCard: false
+          isMatchCard: false,
+          images: msg.images || []
         };
 
         const updatedMessages = [...prev, formatted].sort(
