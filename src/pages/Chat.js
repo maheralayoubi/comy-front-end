@@ -17,6 +17,8 @@ const Chat = () => {
   const [refreshSidebarToggle, setRefreshSidebarToggle] = useState(false);
   const [connectionStatus, setConnectionStatus] = useState('disconnected');
   const [showProfile, setShowProfile] = useState(false);
+  const [showSheet, setShowSheet] = useState(true);
+
 
   const currentSystemUser = JSON.parse(localStorage.getItem('businessSheetData'))
 
@@ -70,6 +72,14 @@ const Chat = () => {
     }
   }, [selectedChatInfo, selectedChatId]);
 
+
+  const openSheet = () => {
+    setShowSheet(true)
+  }
+
+  const closeSheet = () => {
+    setShowSheet(false)
+  }
 
   const refreshSidebar = () => {
     setRefreshSidebarToggle(prev => !prev);
@@ -135,6 +145,8 @@ const Chat = () => {
 
             {selectedChatId && selectedChatInfo && (
               <ChatMain
+                showSheet={showSheet}
+                openSheet={openSheet}
                 selectedChatId={selectedChatId}
                 showProfile={showProfile}
                 onBackClick={handleBackToList}
@@ -150,6 +162,9 @@ const Chat = () => {
 
             {showProfile && (
               <ProfileDisplay
+                isBotChat={selectedChatInfo?.name === "COMY オフィシャル AI"} Add commentMore actions
+                closeSheet={closeSheet}
+                showSheet={showSheet}
                 loadingSheet={loadingSheet}
                 errorSheet={errorSheet}
                 selectedUserSheetData={selectedUserSheetData}

@@ -5,7 +5,7 @@ import MatchCard from './MatchCard';
 import './styles/MessageList.scss';
 import botImage from '../../assets/images/hedgehog.png';
 
-const MessageList = ({ messages, isTyping, currentUser, onAddMessage }) => {
+const MessageList = ({ messages, isTyping, currentUser, onAddMessage, setSelectedSenderId, openSheet }) => {
   const lastMessageRef = useRef(null);
   useEffect(() => {
     // 👇️ scroll to bottom every time messages change
@@ -25,6 +25,8 @@ const MessageList = ({ messages, isTyping, currentUser, onAddMessage }) => {
             isMatchCard: true,
             content: (
               <MatchCard
+                openSheet={openSheet}
+                setSelectedSenderId={setSelectedSenderId}
                 userData={{
                   ...user,
                   onMatchChatCreated: (chatId) => {

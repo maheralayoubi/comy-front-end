@@ -18,6 +18,8 @@ const ChatMain = ({
   onRefreshSidebar,
   showProfile,
   setSelectedSenderId,
+  showSheet,
+  openSheet
 }) => {
   const socket = useContext(SocketContext);
   const [messages, setMessages] = useState([]);
@@ -227,7 +229,7 @@ const ChatMain = ({
   const isBotChat = chatInfo?.name === "COMY オフィシャル AI";
 
   return (
-    <section className={showProfile ? "mainChantWithProfile" : "mainChat"}>
+    <section className={showProfile ? "mainChantWithProfile" : "mainChat"} style={!showSheet ? { width: "100%" } : {}}>
       {currentUser.length > 0 || messages.length > 0 ? (
         <>
           <ChatHeader
@@ -240,6 +242,9 @@ const ChatMain = ({
           />
           <div className="messageContainer">
             <MessageList
+              isBotChat={isBotChat}
+              openSheet={openSheet}
+              setSelectedSenderId={setSelectedSenderId}
               messages={messages}
               isTyping={isTyping}
               currentUser={currentUser}
