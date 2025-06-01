@@ -135,6 +135,12 @@ const ChatMain = ({
     const handleNewMessage = (msg) => {
       if (msg.chatId !== selectedChatId) return;
 
+      console.log({ messageId: msg.id, userId: currentSystemUser?.userId })
+
+      if (msg.id && currentSystemUser?.userId) {
+        socket.emit('messageRead', { messageId: msg.id, userId: currentSystemUser?.userId });
+      }
+
       if (msg.isMatchCard) {
         const card = {
           id: msg.id,
@@ -194,11 +200,7 @@ const ChatMain = ({
         return updatedMessages;
       });
 
-      console.log({ messageId: msg.id, userId: currentSystemUser?.userId })
 
-      if (msg.id && currentSystemUser?.userId) {
-        socket.emit('messageRead', { messageId: msg.id, userId: currentSystemUser?.userId });
-      }
     };
 
     socket.on('newMessage', handleNewMessage);
