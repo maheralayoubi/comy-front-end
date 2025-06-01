@@ -64,7 +64,8 @@ const ChatMain = ({
               status: m.status || 'pending',
               isSuggested: m.isSuggested || false,
               relatedUserId: m.relatedUserId,
-              createdAt: m.createdAt
+              createdAt: m.createdAt,
+              images: m.images || []
             });
           } else {
             const isBot = m.senderName === "COMY オフィシャル AI";
