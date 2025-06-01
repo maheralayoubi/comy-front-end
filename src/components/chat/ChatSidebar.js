@@ -139,7 +139,7 @@ const ChatSidebar = ({ onSelectUser, selectedChatId, currentSystemUserId, setSel
     <aside className="sidebarV2">
       {chats.map((chat) => {
         const isBot = chat.name === 'COMY オフィシャル AI';
-        const showBotNotification = isBot;
+        // const showBotNotification = isBot;
 
         return (
           <div
