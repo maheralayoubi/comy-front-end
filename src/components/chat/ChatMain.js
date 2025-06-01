@@ -18,17 +18,19 @@ const ChatMain = ({
   onRefreshSidebar,
   showProfile,
   setSelectedSenderId,
+  showSheet,
+  openSheet
 }) => {
   const socket = useContext(SocketContext);
   const [messages, setMessages] = useState([]);
   const [isTyping, setIsTyping] = useState(false);
   const [currentUser, setCurrentUser] = useState([]);
 
-  useEffect(() => {
-    if (socket && selectedChatId) {
-      socket.emit('joinChat', selectedChatId);
-    }
-  }, [socket, selectedChatId]);
+  // useEffect(() => {
+  //   if (socket && selectedChatId) {
+  //     socket.emit('joinChat', selectedChatId);
+  //   }
+  // }, [socket, selectedChatId]);
 
   useEffect(() => {
     if (!selectedChatId) return;
@@ -61,28 +63,29 @@ const ChatMain = ({
               suggestedUserCategory: m.suggestedUserCategory,
               status: m.status || 'pending',
               isSuggested: m.isSuggested || false,
-              relatedUserId: m.relatedUserId
+              relatedUserId: m.relatedUserId,
+              createdAt: m.createdAt
             });
           } else {
             const isBot = m.senderName === "COMY オフィシャル AI";
             const isCurrentUser = currentSystemUser?.userId === m.senderId;
 
-          otherMessages.push({
-  id: m.id,
-  sender: m.senderName,
-  senderId: m.senderId || m.senderName,
-  text: m.content,
-  timestamp: new Date(m.createdAt).toLocaleTimeString([], {
-    hour: "2-digit",
-    minute: "2-digit"
-  }),
-  rawTimestamp: m.createdAt,
-  isUser: isCurrentUser,
-  profileImageUrl: isBot ? botImage : (m.senderProfileImageUrl || "/images/profileImage.png"),
-  isMatchCard: false,
-  images: m.images || []
-});
-
+            otherMessages.push({
+              id: m.id,
+              sender: m.senderName,
+              senderId: m.senderId || m.senderName,
+              text: m.content,
+              timestamp: new Date(m.createdAt).toLocaleTimeString([], {
+                hour: "2-digit",
+                minute: "2-digit",
+                hour12: false
+              }),
+              rawTimestamp: m.createdAt,
+              isUser: isCurrentUser,
+              profileImageUrl: isBot ? botImage : (m.senderProfileImageUrl || "/images/profileImage.png"),
+              isMatchCard: false,
+              images: m.images || []
+            });
           }
         });
 
@@ -133,6 +136,12 @@ const ChatMain = ({
     const handleNewMessage = (msg) => {
       if (msg.chatId !== selectedChatId) return;
 
+      console.log({ messageId: msg.id, userId: currentSystemUser?.userId })
+
+      if (msg.id && currentSystemUser?.userId) {
+        socket.emit('messageRead', { messageId: msg.id, userId: currentSystemUser?.userId });
+      }
+
       if (msg.isMatchCard) {
         const card = {
           id: msg.id,
@@ -148,7 +157,8 @@ const ChatMain = ({
           suggestedUserCategory: msg.suggestedUserCategory || "N/A",
           status: msg.status || 'pending',
           isSuggested: msg.isSuggested || false,
-          relatedUserId: msg.relatedUserId
+          relatedUserId: msg.relatedUserId,
+          createdAt: msg.createdAt
         };
 
         if (card.relatedUserId) {
@@ -176,7 +186,8 @@ const ChatMain = ({
           text: msg.content,
           timestamp: new Date(msg.createdAt).toLocaleTimeString([], {
             hour: "2-digit",
-            minute: "2-digit"
+            minute: "2-digit",
+            hour12: false
           }),
           rawTimestamp: msg.createdAt,
           isUser: msg.senderId === currentSystemUser?.userId,
@@ -186,10 +197,12 @@ const ChatMain = ({
         };
 
         const updatedMessages = [...prev, formatted].sort(
-            (a, b) => new Date(a.rawTimestamp).getTime() - new Date(b.rawTimestamp).getTime()
+          (a, b) => new Date(a.rawTimestamp).getTime() - new Date(b.rawTimestamp).getTime()
         );
         return updatedMessages;
       });
+
+
     };
 
     socket.on('newMessage', handleNewMessage);
@@ -227,7 +240,7 @@ const ChatMain = ({
   const isBotChat = chatInfo?.name === "COMY オフィシャル AI";
 
   return (
-    <section className={showProfile ? "mainChantWithProfile" : "mainChat"}>
+    <section className={showProfile ? "mainChantWithProfile" : "mainChat"} style={!showSheet ? { width: "100%" } : {}}>
       {currentUser.length > 0 || messages.length > 0 ? (
         <>
           <ChatHeader
@@ -240,6 +253,9 @@ const ChatMain = ({
           />
           <div className="messageContainer">
             <MessageList
+              isBotChat={isBotChat}
+              openSheet={openSheet}
+              setSelectedSenderId={setSelectedSenderId}
               messages={messages}
               isTyping={isTyping}
               currentUser={currentUser}
@@ -249,12 +265,12 @@ const ChatMain = ({
                   return;
                 }
                 setMessages((prev) => {
-                    const exists = prev.some(m => m.id === msg.id);
-                    if (exists) return prev;
-                    const updatedMessages = [...prev, msg].sort(
-                        (a, b) => new Date(a.rawTimestamp).getTime() - new Date(b.rawTimestamp).getTime()
-                    );
-                    return updatedMessages;
+                  const exists = prev.some(m => m.id === msg.id);
+                  if (exists) return prev;
+                  const updatedMessages = [...prev, msg].sort(
+                    (a, b) => new Date(a.rawTimestamp).getTime() - new Date(b.rawTimestamp).getTime()
+                  );
+                  return updatedMessages;
                 });
               }}
             />

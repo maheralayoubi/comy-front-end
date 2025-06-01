@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import "./styles/MatchCard.scss";
-import secureApi from '../../api/secureApi'; 
+import secureApi from '../../api/secureApi';
 
-const MatchCard = ({ userData }) => {
+const MatchCard = ({ userData, setSelectedSenderId, openSheet }) => {
   const [hasResponded, setHasResponded] = useState(userData?.status && userData.status !== "pending");
   const [responseStatus, setResponseStatus] = useState(userData?.status || "pending");
 
@@ -22,17 +22,17 @@ const MatchCard = ({ userData }) => {
     const payload =
       userData.apiType === "match"
         ? {
-            messageId: userData.id,
-            response: responseText
-          }
+          messageId: userData.id,
+          response: responseText
+        }
         : {
-            messageId: userData.id,
-            chatId: userData.chatId,
-            response: responseText
-          };
+          messageId: userData.id,
+          chatId: userData.chatId,
+          response: responseText
+        };
 
     try {
-      const res = await secureApi.post(apiEndpoint, payload); 
+      const res = await secureApi.post(apiEndpoint, payload);
       const newChatId = res.data.chatId;
 
       if (userData?.onMatchChatCreated && newChatId) {
@@ -42,6 +42,13 @@ const MatchCard = ({ userData }) => {
       console.error("API Error:", err);
     }
   };
+
+  const handleShowSheet = () => {
+    if (userData?.relatedUserId) {
+      openSheet()
+      setSelectedSenderId(userData?.relatedUserId)
+    }
+  }
 
   return (
     <div className="match-card">
@@ -63,29 +70,36 @@ const MatchCard = ({ userData }) => {
 
         <div className="match-card__content">
           <div className="match-card__original-message">{fullLine.split("\n").map((p, index) => (
-              <span key={index}>
-                {p}
-                <br />
-              </span>
-            ))}</div>
+            <span key={index}>
+              {p}
+              <br />
+            </span>
+          ))}</div>
 
           <div className="match-card__buttons">
-            <button
-              className="btn btn--primary"
-              onClick={() => handleRespond("マッチを希望する")}
-              disabled={hasResponded || responseStatus !== "pending"}
-            >
-              マッチを希望する
-            </button>
-            <button
-              className="btn btn--secondary"
-              onClick={() => handleRespond("マッチを希望しない")}
-              disabled={hasResponded || responseStatus !== "pending"}
-            >
-              マッチを希望しない
+            <div className="buttons">
+              <button
+                className="btn btn--primary"
+                onClick={() => handleRespond("マッチを希望する")}
+                disabled={hasResponded || responseStatus !== "pending"}
+              >
+                マッチを希望する
+              </button>
+              <button
+                className="btn btn--secondary"
+                onClick={() => handleRespond("マッチを希望しない")}
+                disabled={hasResponded || responseStatus !== "pending"}
+              >
+                マッチを希望しない
+              </button>
+            </div>
+
+            <button className="showSheet" onClick={handleShowSheet}>
+              ビジネスシートを確認する
+              <img src="/images/Chevron-right.svg" alt="arrow" />
             </button>
           </div>
-         
+
         </div>
       </div>
     </div>
