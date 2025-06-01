@@ -126,5 +126,10 @@
 
   .headerTitle {
     font-size: 13px;
+    text-wrap: auto;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 69%;
   }
 }

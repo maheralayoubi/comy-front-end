@@ -31,15 +31,13 @@
   padding: 8px 16px;
   padding-bottom: 80px;
   font-family: sans-serif;
-  margin: 0 auto 16px;
+  margin-left: 36px;
   box-sizing: border-box;
   background-color: #F6F7F7;
   height: auto;
   min-height: 222px;
-  margin-left: 20px;
-  margin-bottom: 0;  
-  min-width: 85%;
-  max-width: 85%;
+  width: 100%;
+
   &__header-line {
     display: flex;
     align-items: flex-end;
@@ -125,18 +123,32 @@
     right: 16px;
   }
 
-  @media (max-width:1210px) {
-    min-width: 85%;
+  @media (min-width: 991px ) and (max-width:1260px) {
+    padding-bottom: 120px;
+    &__buttons {
+      flex-direction: column;
+      gap: 8px;
+      width: 95%;
+      position: absolute;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+
+      .btn {
+        width: 100%;
+        text-align: center;
+        font-size: 14px;
+        padding: 10px 16px;
+      }
+    }
   }
 
   @media (max-width: 600px) {
     padding: 16px;
     padding-bottom: 120px;
     width: 100%;
-    margin-right: 0;
     min-height: auto;
-      margin-left: 4px;
-    min-width: 100%;
+    margin-left: 12px;
 
     &__body {
       position: relative;
@@ -175,10 +187,10 @@
       flex-direction: column;
       gap: 8px;
       margin-top: 16px;
-    width: 100%;
-    position: absolute;
-    bottom: -105px;
-    left: 0px;
+      width: 100%;
+      position: absolute;
+      bottom: -105px;
+      left: 0px;
 
       .btn {
         width: 100%;
