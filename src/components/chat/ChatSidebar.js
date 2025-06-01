@@ -41,6 +41,7 @@ const ChatSidebar = ({ onSelectUser, selectedChatId, currentSystemUserId, setSel
             latestMessage: chat.latestMessage?.content || 'メッセージはありません ',
             latestTime: chat.latestMessage?.createdAt || chat.updatedAt,
             profileImageUrl: otherUser?.image || '',
+            unReadMessage: chat.id === selectedChatId ? false : !chat.latestMessage?.readBy.includes(currentSystemUserId)
           };
         });
 
@@ -62,11 +63,16 @@ const ChatSidebar = ({ onSelectUser, selectedChatId, currentSystemUserId, setSel
     if (!socket) return;
 
     const handleMessageUpdate = (message) => {
-      const { chatId, content, createdAt } = message;
+      const { chatId, content, createdAt, readBy } = message;
       setChats(prev =>
         prev.map(chat =>
           chat.id === chatId
-            ? { ...chat, latestMessage: content, latestTime: createdAt }
+            ? {
+              ...chat,
+              latestMessage: content,
+              latestTime: createdAt,
+              unReadMessage: chatId === selectedChatId ? false : !readBy.includes(currentSystemUserId)
+            }
             : chat
         )
       );
@@ -79,7 +85,7 @@ const ChatSidebar = ({ onSelectUser, selectedChatId, currentSystemUserId, setSel
       socket.off('receive_message', handleMessageUpdate);
       socket.off('newMessage', handleMessageUpdate);
     };
-  }, [socket]);
+  }, [socket, selectedChatId, currentSystemUserId]);
 
   const formatTime = (timeString) => {
     if (!timeString) return '';
@@ -96,6 +102,14 @@ const ChatSidebar = ({ onSelectUser, selectedChatId, currentSystemUserId, setSel
 
   const handleUserSelect = (chatId, chat) => {
     const isBot = chat.name === "COMY オフィシャル AI";
+
+    setChats(prev =>
+      prev.map(c =>
+        c.id === chat.id
+          ? { ...c, unReadMessage: false }
+          : c
+      )
+    );
     const chatInfo = {
       ...chat,
       profileImageUrl: isBot ? botImage : (chat.profileImageUrl || "/images/profileImage.png")
@@ -112,6 +126,14 @@ const ChatSidebar = ({ onSelectUser, selectedChatId, currentSystemUserId, setSel
 
     onSelectUser(chatId, chatInfo);
   };
+
+  useEffect(() => {
+    if (socket) {
+      for (const chat of chats) {
+        socket.emit('joinChat', chat.id);
+      }
+    }
+  }, [socket, chats]);
 
   return (
     <aside className="sidebarV2">
@@ -149,7 +171,7 @@ const ChatSidebar = ({ onSelectUser, selectedChatId, currentSystemUserId, setSel
               </div>
               <p className="previewTextV2">{chat.latestMessage}</p>
             </div>
-            {showBotNotification && <div className="notificationDotV2" />}
+            {chat.unReadMessage && <div className="notificationDotV2" />}
           </div>
         );
       })}

@@ -24,11 +24,11 @@ const ChatMain = ({
   const [isTyping, setIsTyping] = useState(false);
   const [currentUser, setCurrentUser] = useState([]);
 
-  useEffect(() => {
-    if (socket && selectedChatId) {
-      socket.emit('joinChat', selectedChatId);
-    }
-  }, [socket, selectedChatId]);
+  // useEffect(() => {
+  //   if (socket && selectedChatId) {
+  //     socket.emit('joinChat', selectedChatId);
+  //   }
+  // }, [socket, selectedChatId]);
 
   useEffect(() => {
     if (!selectedChatId) return;
@@ -74,7 +74,8 @@ const ChatMain = ({
               text: m.content,
               timestamp: new Date(m.createdAt).toLocaleTimeString([], {
                 hour: "2-digit",
-                minute: "2-digit"
+                minute: "2-digit",
+                hour12: false
               }),
               rawTimestamp: m.createdAt,
               isUser: isCurrentUser,
@@ -174,7 +175,8 @@ const ChatMain = ({
           text: msg.content,
           timestamp: new Date(msg.createdAt).toLocaleTimeString([], {
             hour: "2-digit",
-            minute: "2-digit"
+            minute: "2-digit",
+            hour12: false
           }),
           rawTimestamp: msg.createdAt,
           isUser: msg.senderId === currentSystemUser?.userId,
@@ -183,7 +185,7 @@ const ChatMain = ({
         };
 
         const updatedMessages = [...prev, formatted].sort(
-            (a, b) => new Date(a.rawTimestamp).getTime() - new Date(b.rawTimestamp).getTime()
+          (a, b) => new Date(a.rawTimestamp).getTime() - new Date(b.rawTimestamp).getTime()
         );
         return updatedMessages;
       });
@@ -246,12 +248,12 @@ const ChatMain = ({
                   return;
                 }
                 setMessages((prev) => {
-                    const exists = prev.some(m => m.id === msg.id);
-                    if (exists) return prev;
-                    const updatedMessages = [...prev, msg].sort(
-                        (a, b) => new Date(a.rawTimestamp).getTime() - new Date(b.rawTimestamp).getTime()
-                    );
-                    return updatedMessages;
+                  const exists = prev.some(m => m.id === msg.id);
+                  if (exists) return prev;
+                  const updatedMessages = [...prev, msg].sort(
+                    (a, b) => new Date(a.rawTimestamp).getTime() - new Date(b.rawTimestamp).getTime()
+                  );
+                  return updatedMessages;
                 });
               }}
             />
