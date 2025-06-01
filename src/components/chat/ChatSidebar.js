@@ -8,7 +8,6 @@ import { API_URL } from '../../utils/apiUtils';
 const ChatSidebar = ({ onSelectUser, selectedChatId, currentSystemUserId, setSelectedSenderId }) => {
   const socket = useContext(SocketContext);
   const [chats, setChats] = useState([]);
-  const [now, setNow] = useState(new Date());
   const [botId, setBotId] = useState(null);
 
   useEffect(() => {
@@ -38,10 +37,10 @@ const ChatSidebar = ({ onSelectUser, selectedChatId, currentSystemUserId, setSel
             id: chat.id,
             name: chat.name || 'Private Chat',
             users: chat.users,
-            latestMessage: chat.latestMessage?.content || 'メッセージはありません ',
+            latestMessage: chat?.latestMessage?.content || 'メッセージはありません ',
             latestTime: chat.latestMessage?.createdAt || chat.updatedAt,
             profileImageUrl: otherUser?.image || '',
-            unReadMessage: chat.id === selectedChatId ? false : !chat.latestMessage?.readBy.includes(currentSystemUserId)
+            unReadMessage: chat.id === selectedChatId ? false : (chat.latestMessage && !chat.latestMessage?.readBy.includes(currentSystemUserId))
           };
         });
 
@@ -53,11 +52,6 @@ const ChatSidebar = ({ onSelectUser, selectedChatId, currentSystemUserId, setSel
 
     fetchChats();
   }, [currentSystemUserId]);
-
-  useEffect(() => {
-    const interval = setInterval(() => setNow(new Date()), 60000);
-    return () => clearInterval(interval);
-  }, []);
 
   useEffect(() => {
     if (!socket) return;

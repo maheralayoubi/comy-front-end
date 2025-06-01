@@ -150,7 +150,8 @@ const ChatMain = ({
           suggestedUserCategory: msg.suggestedUserCategory || "N/A",
           status: msg.status || 'pending',
           isSuggested: msg.isSuggested || false,
-          relatedUserId: msg.relatedUserId
+          relatedUserId: msg.relatedUserId,
+          createdAt: msg.createdAt
         };
 
         if (card.relatedUserId) {
