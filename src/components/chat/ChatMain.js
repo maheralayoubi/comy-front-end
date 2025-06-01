@@ -136,7 +136,7 @@ const ChatMain = ({
 
     const handleNewMessage = (msg) => {
       if (msg.chatId !== selectedChatId) return;
-
+      console.log('msg', msg)
       console.log({ messageId: msg.id, userId: currentSystemUser?.userId })
 
       if (msg.id && currentSystemUser?.userId) {
@@ -159,7 +159,8 @@ const ChatMain = ({
           status: msg.status || 'pending',
           isSuggested: msg.isSuggested || false,
           relatedUserId: msg.relatedUserId,
-          createdAt: msg.createdAt
+          createdAt: msg.createdAt,
+          images: msg.images || []
         };
 
         if (card.relatedUserId) {
