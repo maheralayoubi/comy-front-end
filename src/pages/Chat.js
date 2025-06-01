@@ -13,10 +13,12 @@ export const SocketContext = createContext(null);
 const Chat = () => {
   const [selectedChatId, setSelectedChatId] = useState(null);
   const [selectedChatInfo, setSelectedChatInfo] = useState(null);
-  const [selectedSenderId, setSelectedSenderId] = useState(null) 
+  const [selectedSenderId, setSelectedSenderId] = useState(null)
   const [refreshSidebarToggle, setRefreshSidebarToggle] = useState(false);
   const [connectionStatus, setConnectionStatus] = useState('disconnected');
   const [showProfile, setShowProfile] = useState(false);
+  const [showSheet, setShowSheet] = useState(true);
+
 
   const currentSystemUser = JSON.parse(localStorage.getItem('businessSheetData'))
 
@@ -36,22 +38,22 @@ const Chat = () => {
   } = useResponsiveLayout(selectedChatId, setSelectedChatId);
 
   const socket = useSocket(users, selectedChatId, currentSystemUser);
-  
+
   useEffect(() => {
     if (socket) {
       const handleConnected = () => {
         console.log('Socket connection established');
         setConnectionStatus('connected');
       };
-      
+
       const handleDisconnect = (reason) => {
         console.error('Socket disconnected:', reason);
         setConnectionStatus('disconnected');
       };
-      
+
       socket.on('connect', handleConnected);
       socket.on('disconnect', handleDisconnect);
-      
+
       return () => {
         socket.off('connect', handleConnected);
         socket.off('disconnect', handleDisconnect);
@@ -59,17 +61,25 @@ const Chat = () => {
     }
   }, [socket]);
 
- useEffect(() => {
-  if (selectedChatInfo) {
-    setShowProfile(true);
+  useEffect(() => {
+    if (selectedChatInfo) {
+      setShowProfile(true);
 
-    console.log('Selected user ID for profile:', selectedChatId);
-    console.log('Selected chat info:', selectedChatInfo);
-  } else {
-    setShowProfile(false);
+      console.log('Selected user ID for profile:', selectedChatId);
+      console.log('Selected chat info:', selectedChatInfo);
+    } else {
+      setShowProfile(false);
+    }
+  }, [selectedChatInfo, selectedChatId]);
+
+
+  const openSheet = () => {
+    setShowSheet(true)
   }
-}, [selectedChatInfo, selectedChatId]);
 
+  const closeSheet = () => {
+    setShowSheet(false)
+  }
 
   const refreshSidebar = () => {
     setRefreshSidebarToggle(prev => !prev);
@@ -134,22 +144,27 @@ const Chat = () => {
             />
 
             {selectedChatId && selectedChatInfo && (
-             <ChatMain
-  selectedChatId={selectedChatId}
-  showProfile={showProfile}
-  onBackClick={handleBackToList}
-  isMobileView={isMobileView}
-  users={users}
-  currentSystemUser={currentSystemUser}
-  chatInfo={selectedChatInfo}
-  onRefreshSidebar={refreshSidebar}
-  setSelectedSenderId={setSelectedSenderId}
-/>
+              <ChatMain
+                showSheet={showSheet}
+                openSheet={openSheet}
+                selectedChatId={selectedChatId}
+                showProfile={showProfile}
+                onBackClick={handleBackToList}
+                isMobileView={isMobileView}
+                users={users}
+                currentSystemUser={currentSystemUser}
+                chatInfo={selectedChatInfo}
+                onRefreshSidebar={refreshSidebar}
+                setSelectedSenderId={setSelectedSenderId}
+              />
 
             )}
 
             {showProfile && (
               <ProfileDisplay
+                isBotChat={selectedChatInfo?.name === "COMY オフィシャル AI"} Add commentMore actions
+                closeSheet={closeSheet}
+                showSheet={showSheet}
                 loadingSheet={loadingSheet}
                 errorSheet={errorSheet}
                 selectedUserSheetData={selectedUserSheetData}
