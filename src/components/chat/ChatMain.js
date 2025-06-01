@@ -67,20 +67,22 @@ const ChatMain = ({
             const isBot = m.senderName === "COMY オフィシャル AI";
             const isCurrentUser = currentSystemUser?.userId === m.senderId;
 
-            otherMessages.push({
-              id: m.id,
-              sender: m.senderName,
-              senderId: m.senderId || m.senderName,
-              text: m.content,
-              timestamp: new Date(m.createdAt).toLocaleTimeString([], {
-                hour: "2-digit",
-                minute: "2-digit"
-              }),
-              rawTimestamp: m.createdAt,
-              isUser: isCurrentUser,
-              profileImageUrl: isBot ? botImage : (m.senderProfileImageUrl || "/images/profileImage.png"),
-              isMatchCard: false
-            });
+          otherMessages.push({
+  id: m.id,
+  sender: m.senderName,
+  senderId: m.senderId || m.senderName,
+  text: m.content,
+  timestamp: new Date(m.createdAt).toLocaleTimeString([], {
+    hour: "2-digit",
+    minute: "2-digit"
+  }),
+  rawTimestamp: m.createdAt,
+  isUser: isCurrentUser,
+  profileImageUrl: isBot ? botImage : (m.senderProfileImageUrl || "/images/profileImage.png"),
+  isMatchCard: false,
+  images: m.images || []
+});
+
           }
         });
 
@@ -179,7 +181,8 @@ const ChatMain = ({
           rawTimestamp: msg.createdAt,
           isUser: msg.senderId === currentSystemUser?.userId,
           profileImageUrl: isBot ? botImage : (msg.senderProfileImageUrl || "/images/profileImage.png"),
-          isMatchCard: false
+          isMatchCard: false,
+          images: msg.images || []
         };
 
         const updatedMessages = [...prev, formatted].sort(
