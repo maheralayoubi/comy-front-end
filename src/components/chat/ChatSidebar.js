@@ -109,14 +109,10 @@ const ChatSidebar = ({ onSelectUser, selectedChatId, currentSystemUserId, setSel
       profileImageUrl: isBot ? botImage : (chat.profileImageUrl || "/images/profileImage.png")
     };
 
-    if (!isBot) {
       const otherUserId = getOtherUserId(chat);
       if (otherUserId) {
         setSelectedSenderId(otherUserId);
       }
-    } else {
-      setSelectedSenderId(null);
-    }
 
     onSelectUser(chatId, chatInfo);
   };
