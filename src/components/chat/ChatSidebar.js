@@ -9,6 +9,7 @@ const ChatSidebar = ({ onSelectUser, selectedChatId, currentSystemUserId, setSel
   const socket = useContext(SocketContext);
   const [chats, setChats] = useState([]);
   const [botId, setBotId] = useState(null);
+  const [hasAutoSelected, setHasAutoSelected] = useState(false); 
 
   useEffect(() => {
     const fetchChats = async () => {
@@ -45,6 +46,15 @@ const ChatSidebar = ({ onSelectUser, selectedChatId, currentSystemUserId, setSel
         });
 
         setChats(formatted);
+
+        // Auto-select bot chat on page load
+        if (!hasAutoSelected && !selectedChatId) {
+          const botChat = formatted.find(chat => chat.name === "COMY オフィシャル AI");
+          if (botChat) {
+            handleUserSelect(botChat.id, botChat);
+            setHasAutoSelected(true);
+          }
+        }
       } catch (err) {
         console.error('Failed to load chats:', err);
       }
@@ -109,10 +119,10 @@ const ChatSidebar = ({ onSelectUser, selectedChatId, currentSystemUserId, setSel
       profileImageUrl: isBot ? botImage : (chat.profileImageUrl || "/images/profileImage.png")
     };
 
-      const otherUserId = getOtherUserId(chat);
-      if (otherUserId) {
-        setSelectedSenderId(otherUserId);
-      }
+    const otherUserId = getOtherUserId(chat);
+    if (otherUserId) {
+      setSelectedSenderId(otherUserId);
+    }
 
     onSelectUser(chatId, chatInfo);
   };
@@ -129,7 +139,6 @@ const ChatSidebar = ({ onSelectUser, selectedChatId, currentSystemUserId, setSel
     <aside className="sidebarV2">
       {chats.map((chat) => {
         const isBot = chat.name === 'COMY オフィシャル AI';
-        // const showBotNotification = isBot;
 
         return (
           <div

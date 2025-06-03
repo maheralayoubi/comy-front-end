@@ -285,7 +285,7 @@ const ChatMain = ({
           </div>
         </>
       ) : (
-        <EmptyState message="Please select a user" />
+        <EmptyState message="データがありません" />
       )}
     </section>
   );
