@@ -1,9 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { getMemberList } from "../api/memberList";
 import { getUserSheetById } from "../api/businessSheet";
 
 const useChatData = (selectedUserId) => {
-  console.log(selectedUserId)
   const [users, setUsers] = useState([]);
   const [loadingUsers, setLoadingUsers] = useState(true);
   const [errorUsers, setErrorUsers] = useState(null);
@@ -11,9 +10,12 @@ const useChatData = (selectedUserId) => {
   const [loadingSheet, setLoadingSheet] = useState(false);
   const [errorSheet, setErrorSheet] = useState(null);
 
+  const lastLoggedUserId = useRef(undefined);
+
   useEffect(() => {
     setLoadingUsers(true);
     setErrorUsers(null);
+
     getMemberList()
       .then((response) => {
         if (response.data && response.data.length > 0) {
@@ -32,15 +34,18 @@ const useChatData = (selectedUserId) => {
         }
         setLoadingUsers(false);
       })
-      .catch((error) => {
+      .catch(() => {
         setErrorUsers("ユーザーリストの取得中にエラーが発生しました。");
         setLoadingUsers(false);
       });
   }, []);
 
-    console.log(selectedUserId)
-
   useEffect(() => {
+    if (selectedUserId !== lastLoggedUserId.current) {
+      console.log("selectedUserId:", selectedUserId);
+      lastLoggedUserId.current = selectedUserId;
+    }
+
     if (selectedUserId) {
       setLoadingSheet(true);
       setErrorSheet(null);
@@ -71,7 +76,6 @@ const useChatData = (selectedUserId) => {
         })
         .catch(error => {
           if (error.response && error.response.status === 404) {
-            console.warn("No business sheet found for user:", selectedUserId);
             setSelectedUserSheetData(null);
           } else {
             setErrorSheet("ビジネスシートの取得中にエラーが発生しました。");

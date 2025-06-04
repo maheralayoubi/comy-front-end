@@ -4,10 +4,7 @@ import './styles/RejectionMessage.scss';
 
 const RejectionSection = ({ messages = [], images = [] }) => {
   useEffect(() => {
-    console.log("✅ RejectionSection loaded");
-    console.log("📨 messages:", messages);
-    console.log("🖼️ images:", images);
-  }, [messages, images]);
+      }, [messages, images]);
 
   return (
     <article className={styles.messageContainer}>

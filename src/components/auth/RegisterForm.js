@@ -158,9 +158,6 @@ const RegisterForm = () => {
               onClick={togglePasswordVisibility}
             />
           </div>
-          {errors.confirmPassword && (
-            <div className="error">{errors.confirmPassword}</div>
-          )}
         </>
 
         <Button
@@ -170,6 +167,10 @@ const RegisterForm = () => {
           disabled={!isFormComplete(formData) || loading}
         />
       </form>
+
+      {errors.confirmPassword && (
+        <div style={{ color: message.type === "success" ? "green" : "red" }}>{errors.confirmPassword}</div>
+      )}
 
       {/* Enhanced message display with dynamic styling */}
       {message.content && (
