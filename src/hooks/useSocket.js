@@ -10,9 +10,7 @@ const useSocket = (users, selectedChatId, currentSystemUser) => {
     const socketInstance = io(API_URL, {
       withCredentials: true,
       reconnect: true,
-      reconnectionDelay: 100,
-      reconnectionDelayMax: 500,
-      randomizationFactor:0
+      reconnectionDelay: 5000,
     });
 
     socketInstance.on("connect", () => {
