@@ -79,14 +79,14 @@ const MatchCard = ({ userData, setSelectedSenderId, openSheet }) => {
           <div className="match-card__buttons">
             <div className="buttons">
               <button
-                className="btn btn--primary"
+                className="btn-card btn-card--primary"
                 onClick={() => handleRespond("マッチを希望する")}
                 disabled={hasResponded || responseStatus !== "pending"}
               >
                 マッチを希望する
               </button>
               <button
-                className="btn btn--secondary"
+                className="btn-card btn-card--secondary"
                 onClick={() => handleRespond("マッチを希望しない")}
                 disabled={hasResponded || responseStatus !== "pending"}
               >

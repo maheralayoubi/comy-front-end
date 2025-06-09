@@ -55,6 +55,9 @@
 
       .step-content {
         width: 100%;
+        gap: 16px 0;
+        flex-direction: column;
+        display: flex;
       }
     }
   }
