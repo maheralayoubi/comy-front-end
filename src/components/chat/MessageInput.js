@@ -32,7 +32,7 @@ const MessageInput = ({ onSendMessage, isDisabled = false }) => {
       <input
         type="text"
         placeholder="メッセージを入力..."
-        className="input"
+        className="input-message"
         value={message}
         onChange={(e) => setMessage(e.target.value)}
         onKeyDown={handleKeyDown}
