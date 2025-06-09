@@ -68,7 +68,7 @@ const ChatMain = ({
               images: m.images || []
             });
           } else {
-            const isBot = m.senderName === "COMY オフィシャル AI";
+            const isBot = m.senderId === process.env.REACT_APP_BOT_ID;
             const isCurrentUser = currentSystemUser?.userId === m.senderId;
 
             otherMessages.push({
@@ -180,7 +180,7 @@ const ChatMain = ({
       const exists = prev.some(m => m.id === msg.id);
       if (exists) return prev;
 
-      const isBot = msg.senderName === "COMY オフィシャル AI";
+      const isBot = msg.senderName === process.env.REACT_APP_BOT_ID;
       const formatted = {
         id: msg.id,
         sender: msg.senderName,
@@ -236,13 +236,14 @@ const ChatMain = ({
     }
   };
 
-  const isBotChat = chatInfo?.name === "COMY オフィシャル AI";
+  const isBotChat = !chatInfo?.isGroup;
 
   return (
     <section className={showProfile ? "mainChantWithProfile" : "mainChat"} style={!showSheet ? { width: "100%" } : {}}>
       {currentUser.length > 0 || messages.length > 0 ? (
         <>
           <ChatHeader
+            isBot={isBotChat}
             currentUser={{
               name: chatInfo?.name ?? "",
               profileImageUrl: isBotChat ? botImage : (chatInfo?.profileImageUrl || "/images/profileImage.png")
