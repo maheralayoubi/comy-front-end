@@ -18,7 +18,7 @@ const ChatSidebar = ({ onSelectUser, selectedChatId, currentSystemUserId, setSel
         const allChats = res.data;
 
         const getBotId = () => {
-          const botChat = allChats.find(chat => chat.name === "COMY オフィシャル AI");
+          const botChat = allChats.find(chat => !chat.isGroup);
           if (botChat && botChat.users) {
             const botUser = botChat.users.find(user => user.role === "bot");
             return botUser ? botUser.id : null;
@@ -38,6 +38,7 @@ const ChatSidebar = ({ onSelectUser, selectedChatId, currentSystemUserId, setSel
             id: chat.id,
             name: chat.name || 'Private Chat',
             users: chat.users,
+            isGroup: chat.isGroup,
             latestMessage: chat?.latestMessage?.content || 'メッセージはありません ',
             latestTime: chat.latestMessage?.createdAt || chat.updatedAt,
             profileImageUrl: otherUser?.image || '',
@@ -49,7 +50,7 @@ const ChatSidebar = ({ onSelectUser, selectedChatId, currentSystemUserId, setSel
 
         // Auto-select bot chat on page load
         if (!hasAutoSelected && !selectedChatId) {
-          const botChat = formatted.find(chat => chat.name === "COMY オフィシャル AI");
+          const botChat = formatted.find(chat => !chat.isGroup);
           if (botChat) {
             handleUserSelect(botChat.id, botChat);
             setHasAutoSelected(true);
@@ -105,7 +106,7 @@ const ChatSidebar = ({ onSelectUser, selectedChatId, currentSystemUserId, setSel
   };
 
   const handleUserSelect = (chatId, chat) => {
-    const isBot = chat.name === "COMY オフィシャル AI";
+    const isBot = !chat.isGroup;
 
     setChats(prev =>
       prev.map(c =>
@@ -138,7 +139,7 @@ const ChatSidebar = ({ onSelectUser, selectedChatId, currentSystemUserId, setSel
   return (
     <aside className="sidebarV2">
       {chats.map((chat) => {
-        const isBot = chat.name === 'COMY オフィシャル AI';
+        const isBot = !chat.isGroup;
 
         return (
           <div

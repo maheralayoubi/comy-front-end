@@ -162,7 +162,7 @@ const Chat = () => {
 
             {showProfile && (
               <ProfileDisplay
-                isBotChat={selectedChatInfo?.name === "COMY オフィシャル AI"} Add commentMore actions
+                isBotChat={!selectedChatInfo?.isGroup} Add commentMore actions
                 closeSheet={closeSheet}
                 showSheet={showSheet}
                 loadingSheet={loadingSheet}
