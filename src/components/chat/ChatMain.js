@@ -68,7 +68,7 @@ const ChatMain = ({
               images: m.images || []
             });
           } else {
-            const isBot = m.senderName === "COMY オフィシャル AI";
+            const isBot = m.senderId === process.env.REACT_APP_BOT_ID;
             const isCurrentUser = currentSystemUser?.userId === m.senderId;
 
             otherMessages.push({
@@ -132,85 +132,82 @@ const ChatMain = ({
   }, [socket, selectedChatId, currentSystemUser?.userId]);
 
   useEffect(() => {
-    if (!socket || !selectedChatId) return;
+  if (!socket || !selectedChatId) return;
 
-    const handleNewMessage = (msg) => {
-      if (msg.chatId !== selectedChatId) return;
-      console.log('msg', msg)
-      console.log({ messageId: msg.id, userId: currentSystemUser?.userId })
+  const handleNewMessage = (msg) => {
+    if (msg.chatId !== selectedChatId) return;
 
-      if (msg.id && currentSystemUser?.userId) {
-        socket.emit('messageRead', { messageId: msg.id, userId: currentSystemUser?.userId });
+    if (msg.id && currentSystemUser?.userId) {
+      socket.emit('messageRead', { messageId: msg.id, userId: currentSystemUser?.userId });
+    }
+
+    // Handle match card
+    if (msg.isMatchCard) {
+      const card = {
+        id: msg.id,
+        text: [msg.content],
+        profileImageUrl: msg.suggestedUserProfileImageUrl || "/images/profileImage.png",
+        currentUserId: currentSystemUser?.userId,
+        currentUserName: currentSystemUser?.name,
+        currentUserImage: currentSystemUser?.profileImageUrl || "/images/profileImage.png",
+        chatId: msg.chatId,
+        isResponded: msg.status !== 'pending',
+        apiType: msg.isSuggested ? "suggestion" : "match",
+        suggestedUserName: msg.suggestedUserName || "Unknown",
+        suggestedUserCategory: msg.suggestedUserCategory || "N/A",
+        status: msg.status || 'pending',
+        isSuggested: msg.isSuggested || false,
+        relatedUserId: msg.relatedUserId,
+        createdAt: msg.createdAt,
+        images: msg.images || []
+      };
+
+      if (card.relatedUserId) {
+        setSelectedSenderId(card.relatedUserId);
       }
 
-      if (msg.isMatchCard) {
-        const card = {
-          id: msg.id,
-          text: [msg.content],
-          profileImageUrl: msg.suggestedUserProfileImageUrl || "/images/profileImage.png",
-          currentUserId: currentSystemUser?.userId,
-          currentUserName: currentSystemUser?.name,
-          currentUserImage: currentSystemUser?.profileImageUrl || "/images/profileImage.png",
-          chatId: msg.chatId,
-          isResponded: msg.status !== 'pending',
-          apiType: msg.isSuggested ? "suggestion" : "match",
-          suggestedUserName: msg.suggestedUserName || "Unknown",
-          suggestedUserCategory: msg.suggestedUserCategory || "N/A",
-          status: msg.status || 'pending',
-          isSuggested: msg.isSuggested || false,
-          relatedUserId: msg.relatedUserId,
-          createdAt: msg.createdAt,
-          images: msg.images || []
-        };
-
-        if (card.relatedUserId) {
-          setSelectedSenderId(card.relatedUserId);
-        }
-
-        setCurrentUser(prev => {
-          const exists = prev.some(m => m.id === card.id);
-          if (exists) return prev;
-          return [...prev, card];
-        });
-
-        return;
-      }
-
-      setMessages(prev => {
-        const exists = prev.some(m => m.id === msg.id);
+      setCurrentUser(prev => {
+        const exists = prev.some(m => m.id === card.id);
         if (exists) return prev;
-
-        const isBot = msg.senderName === "COMY オフィシャル AI";
-        const formatted = {
-          id: msg.id,
-          sender: msg.senderName,
-          senderId: msg.senderId,
-          text: msg.content,
-          timestamp: new Date(msg.createdAt).toLocaleTimeString([], {
-            hour: "2-digit",
-            minute: "2-digit",
-            hour12: false
-          }),
-          rawTimestamp: msg.createdAt,
-          isUser: msg.senderId === currentSystemUser?.userId,
-          profileImageUrl: isBot ? botImage : (msg.senderProfileImageUrl || "/images/profileImage.png"),
-          isMatchCard: false,
-          images: msg.images || []
-        };
-
-        const updatedMessages = [...prev, formatted].sort(
-          (a, b) => new Date(a.rawTimestamp).getTime() - new Date(b.rawTimestamp).getTime()
-        );
-        return updatedMessages;
+        return [...prev, card];
       });
 
+      return;
+    }
 
-    };
+    // Handle regular message
+    setMessages(prev => {
+      const exists = prev.some(m => m.id === msg.id);
+      if (exists) return prev;
 
-    socket.on('newMessage', handleNewMessage);
-    return () => socket.off('newMessage', handleNewMessage);
-  }, [socket, selectedChatId, currentSystemUser?.userId, currentSystemUser?.name, currentSystemUser?.profileImageUrl, setSelectedSenderId]);
+      const isBot = msg.senderName === process.env.REACT_APP_BOT_ID;
+      const formatted = {
+        id: msg.id,
+        sender: msg.senderName,
+        senderId: msg.senderId,
+        text: msg.content,
+        timestamp: new Date(msg.createdAt).toLocaleTimeString([], {
+          hour: "2-digit",
+          minute: "2-digit",
+          hour12: false
+        }),
+        rawTimestamp: msg.createdAt,
+        isUser: msg.senderId === currentSystemUser?.userId,
+        profileImageUrl: isBot ? botImage : (msg.senderProfileImageUrl || "/images/profileImage.png"),
+        isMatchCard: false,
+        images: msg.images || []
+      };
 
+      const updatedMessages = [...prev, formatted].sort(
+        (a, b) => new Date(a.rawTimestamp).getTime() - new Date(b.rawTimestamp).getTime()
+      );
+      return updatedMessages;
+    });
+  };
+
+  socket.on('newMessage', handleNewMessage);
+  return () => socket.off('newMessage', handleNewMessage);
+}, [socket, selectedChatId, currentSystemUser?.userId, currentSystemUser?.name, currentSystemUser?.profileImageUrl, setSelectedSenderId]);
 
   const handleSendMessage = async (text) => {
     if (!socket || !text.trim()) return;
@@ -239,13 +236,14 @@ const ChatMain = ({
     }
   };
 
-  const isBotChat = chatInfo?.name === "COMY オフィシャル AI";
+  const isBotChat = !chatInfo?.isGroup;
 
   return (
     <section className={showProfile ? "mainChantWithProfile" : "mainChat"} style={!showSheet ? { width: "100%" } : {}}>
       {currentUser.length > 0 || messages.length > 0 ? (
         <>
           <ChatHeader
+            isBot={isBotChat}
             currentUser={{
               name: chatInfo?.name ?? "",
               profileImageUrl: isBotChat ? botImage : (chatInfo?.profileImageUrl || "/images/profileImage.png")

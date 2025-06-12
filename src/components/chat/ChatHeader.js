@@ -1,13 +1,11 @@
-import React from 'react';
 import './styles/ChatHeader.scss';
 import botImage from '../../assets/images/hedgehog.png';
 
-const ChatHeader = ({ currentUser, onBackClick, isMobileView }) => {
+const ChatHeader = ({ currentUser, onBackClick, isMobileView,isBot }) => {
   if (!currentUser) {
     return null;
   }
   const initial = currentUser.name ? currentUser.name.charAt(0) : '?';
-  const isBot = currentUser.name === "COMY オフィシャル AI";
 
   return (
     <header className="chatHeader">
