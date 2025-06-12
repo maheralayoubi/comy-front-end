@@ -12,7 +12,6 @@ const ChatMain = ({
   selectedChatId,
   onBackClick,
   isMobileView,
-  users,
   currentSystemUser,
   chatInfo,
   onRefreshSidebar,
@@ -83,10 +82,10 @@ const ChatMain = ({
         }
       });
 
-      const lastMatchCard = [...matchCards].reverse().find(m => m.relatedUserId);
-      if (lastMatchCard) {
-        setSelectedSenderId(lastMatchCard.relatedUserId);
-      }
+      // const lastMatchCard = [...matchCards].reverse().find(m => m.relatedUserId);
+      // if (lastMatchCard) {
+      //   setSelectedSenderId(lastMatchCard.relatedUserId);
+      // }
 
       setCurrentUser(matchCards);
       setMessages(otherMessages);
@@ -95,7 +94,7 @@ const ChatMain = ({
       setMessages([]);
       console.error("Error fetching messages:", error);
     }
-  }, [selectedChatId, currentSystemUser?.userId, setSelectedSenderId]);
+  }, [selectedChatId, currentSystemUser?.userId]);
 
   useEffect(() => {
     fetchMessages();
