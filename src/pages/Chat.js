@@ -1,4 +1,4 @@
-import React, { useState, useEffect, createContext } from "react";
+import React, { useState, useEffect, createContext, useMemo, useCallback } from "react";
 import Header from "../components/global/Header";
 import ChatSidebar from "../components/chat/ChatSidebar";
 import ChatMain from "../components/chat/ChatMain";
@@ -13,14 +13,15 @@ export const SocketContext = createContext(null);
 const Chat = () => {
   const [selectedChatId, setSelectedChatId] = useState(null);
   const [selectedChatInfo, setSelectedChatInfo] = useState(null);
-  const [selectedSenderId, setSelectedSenderId] = useState(null)
+  const [selectedSenderId, setSelectedSenderId] = useState(null);
   const [refreshSidebarToggle, setRefreshSidebarToggle] = useState(false);
-  const [connectionStatus, setConnectionStatus] = useState('disconnected');
+  const [connectionStatus, setConnectionStatus] = useState("disconnected");
   const [showProfile, setShowProfile] = useState(false);
   const [showSheet, setShowSheet] = useState(true);
 
-
-  const currentSystemUser = JSON.parse(localStorage.getItem('businessSheetData'))
+  const currentSystemUser = useMemo(() => {
+    return JSON.parse(localStorage.getItem("businessSheetData"));
+  }, []);
 
   const {
     users,
@@ -28,79 +29,71 @@ const Chat = () => {
     errorUsers,
     selectedUserSheetData,
     loadingSheet,
-    errorSheet
+    errorSheet,
   } = useChatData(selectedSenderId);
 
   const {
     isMobileView,
     handleSelectUserMobile,
-    handleBackToListMobile
+    handleBackToListMobile,
   } = useResponsiveLayout(selectedChatId, setSelectedChatId);
 
   const socket = useSocket(users, selectedChatId, currentSystemUser);
 
+  // Handle socket connection status
   useEffect(() => {
-    if (socket) {
-      const handleConnected = () => {
-        console.log('Socket connection established');
-        setConnectionStatus('connected');
-      };
+    if (!socket) return;
 
-      const handleDisconnect = (reason) => {
-        console.error('Socket disconnected:', reason);
-        setConnectionStatus('disconnected');
-      };
+    const handleConnected = () => {
+      console.log("Socket connection established");
+      setConnectionStatus("connected");
+    };
 
-      socket.on('connect', handleConnected);
-      socket.on('disconnect', handleDisconnect);
+    const handleDisconnect = (reason) => {
+      console.error("Socket disconnected:", reason);
+      setConnectionStatus("disconnected");
+    };
 
-      return () => {
-        socket.off('connect', handleConnected);
-        socket.off('disconnect', handleDisconnect);
-      };
-    }
+    socket.on("connect", handleConnected);
+    socket.on("disconnect", handleDisconnect);
+
+    return () => {
+      socket.off("connect", handleConnected);
+      socket.off("disconnect", handleDisconnect);
+    };
   }, [socket]);
 
+  // Show profile panel when chat info is selected
   useEffect(() => {
-    if (selectedChatInfo) {
-      setShowProfile(true);
+    setShowProfile(!!selectedChatInfo);
 
-      console.log('Selected user ID for profile:', selectedChatId);
-      console.log('Selected chat info:', selectedChatInfo);
-    } else {
-      setShowProfile(false);
+    if (selectedChatInfo) {
+      console.log("Selected Chat ID:", selectedChatId);
+      console.log("Selected Chat Info:", selectedChatInfo);
     }
   }, [selectedChatInfo, selectedChatId]);
 
+  // Actions
+  const openSheet = useCallback(() => setShowSheet(true), []);
+  const closeSheet = useCallback(() => setShowSheet(false), []);
+  const refreshSidebar = useCallback(() => {
+    setRefreshSidebarToggle((prev) => !prev);
+  }, []);
 
-  const openSheet = () => {
-    setShowSheet(true)
-  }
+  const handleSelectUser = useCallback((chatId, chatInfo) => {
+    if (!chatId) return;
 
-  const closeSheet = () => {
-    setShowSheet(false)
-  }
-
-  const refreshSidebar = () => {
-    setRefreshSidebarToggle(prev => !prev);
-  };
-
-  const handleSelectUser = (userId, chatInfo) => {
-    if (!userId) return;
-    console.log(userId)
-    console.log('Setting selected user ID:', userId);
-    setSelectedChatId(userId);
+    console.log("Setting selected chat ID:", chatId);
+    setSelectedChatId(chatId);
     setSelectedChatInfo(chatInfo);
     handleSelectUserMobile();
-  };
+  }, [handleSelectUserMobile]);
 
-  const handleBackToList = () => {
+  const handleBackToList = useCallback(() => {
     handleBackToListMobile();
-  };
+  }, [handleBackToListMobile]);
 
-  console.log(selectedChatId)
-  console.log(selectedChatInfo)
-
+  // Loading state
   if (loadingUsers) {
     return (
       <>
@@ -112,6 +105,7 @@ const Chat = () => {
     );
   }
 
+  // Error state
   if (errorUsers) {
     return (
       <>
@@ -123,11 +117,12 @@ const Chat = () => {
     );
   }
 
+  // Main UI
   return (
     <>
       <Header />
       <div className="chat-container">
-        {connectionStatus === 'disconnected' && (
+        {connectionStatus === "disconnected" && (
           <div className="error-banner">
             Socket connection lost. Please refresh the page.
           </div>
@@ -157,12 +152,11 @@ const Chat = () => {
                 onRefreshSidebar={refreshSidebar}
                 setSelectedSenderId={setSelectedSenderId}
               />
-
             )}
 
             {showProfile && (
               <ProfileDisplay
-                isBotChat={!selectedChatInfo?.isGroup} Add commentMore actions
+                isBotChat={!selectedChatInfo?.isGroup}
                 closeSheet={closeSheet}
                 showSheet={showSheet}
                 loadingSheet={loadingSheet}

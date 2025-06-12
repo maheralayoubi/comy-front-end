@@ -16,8 +16,6 @@ const ProfileDisplay = ({
   const [errorNotFound, setErrorNotFound] = useState(false);
   const show = !isBotChat ? true : showSheet;
 
-  console.log(selectedUserSheetData);
-
   if (selectedChatId?.error) setErrorNotFound(true);
 
   return (

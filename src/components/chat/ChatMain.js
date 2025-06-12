@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useCallback } from "react";
 import { SocketContext } from "../../pages/Chat";
 import ChatHeader from "./ChatHeader";
 import MessageList from "./MessageList";
@@ -26,122 +26,100 @@ const ChatMain = ({
   const [isTyping, setIsTyping] = useState(false);
   const [currentUser, setCurrentUser] = useState([]);
 
-  // useEffect(() => {
-  //   if (socket && selectedChatId) {
-  //     socket.emit('joinChat', selectedChatId);
-  //   }
-  // }, [socket, selectedChatId]);
-
-  useEffect(() => {
+  const fetchMessages = useCallback(async () => {
     if (!selectedChatId) return;
 
-    const fetchMessages = async () => {
-      try {
-        const response = await secureApi.get(`/api/chats/${selectedChatId}/messages`);
-        const allMessages = response.data;
+    try {
+      const response = await secureApi.get(`/api/chats/${selectedChatId}/messages`);
+      const allMessages = response.data;
 
-        const sortedMessages = [...allMessages].sort(
-          (a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
-        );
+      const sortedMessages = [...allMessages].sort(
+        (a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+      );
 
-        const matchCards = [];
-        const otherMessages = [];
+      const matchCards = [];
+      const otherMessages = [];
 
-        sortedMessages.forEach(m => {
-          if (m.isMatchCard) {
-            matchCards.push({
-              id: m.id,
-              text: [m.content],
-              profileImageUrl: m.suggestedUserProfileImageUrl || "/images/profileImage.png",
-              currentUserId: currentSystemUser?.userId,
-              currentUserName: currentSystemUser?.name,
-              currentUserImage: currentSystemUser?.profileImageUrl || "/images/profileImage.png",
-              chatId: selectedChatId,
-              isResponded: m.status !== 'pending',
-              apiType: m.isSuggested ? "suggestion" : "match",
-              suggestedUserName: m.suggestedUserName,
-              suggestedUserCategory: m.suggestedUserCategory,
-              status: m.status || 'pending',
-              isSuggested: m.isSuggested || false,
-              relatedUserId: m.relatedUserId,
-              createdAt: m.createdAt,
-              images: m.images || []
-            });
-          } else {
-            const isBot = m.senderId === process.env.REACT_APP_BOT_ID;
-            const isCurrentUser = currentSystemUser?.userId === m.senderId;
+      sortedMessages.forEach(m => {
+        if (m.isMatchCard) {
+          matchCards.push({
+            id: m.id,
+            text: [m.content],
+            profileImageUrl: m.suggestedUserProfileImageUrl || "/images/profileImage.png",
+            currentUserId: currentSystemUser?.userId,
+            currentUserName: currentSystemUser?.name,
+            currentUserImage: currentSystemUser?.profileImageUrl || "/images/profileImage.png",
+            chatId: selectedChatId,
+            isResponded: m.status !== 'pending',
+            apiType: m.isSuggested ? "suggestion" : "match",
+            suggestedUserName: m.suggestedUserName,
+            suggestedUserCategory: m.suggestedUserCategory,
+            status: m.status || 'pending',
+            isSuggested: m.isSuggested || false,
+            relatedUserId: m.relatedUserId,
+            createdAt: m.createdAt,
+            images: m.images || []
+          });
+        } else {
+          const isBot = m.senderId === process.env.REACT_APP_BOT_ID;
+          const isCurrentUser = currentSystemUser?.userId === m.senderId;
 
-            otherMessages.push({
-              id: m.id,
-              sender: m.senderName,
-              senderId: m.senderId || m.senderName,
-              text: m.content,
-              timestamp: new Date(m.createdAt).toLocaleTimeString([], {
-                hour: "2-digit",
-                minute: "2-digit",
-                hour12: false
-              }),
-              rawTimestamp: m.createdAt,
-              isUser: isCurrentUser,
-              profileImageUrl: isBot ? botImage : (m.senderProfileImageUrl || "/images/profileImage.png"),
-              isMatchCard: false,
-              images: m.images || []
-            });
-          }
-        });
-
-        const lastMatchCard = [...matchCards].reverse().find(m => m.relatedUserId);
-        if (lastMatchCard) {
-          setSelectedSenderId(lastMatchCard.relatedUserId);
+          otherMessages.push({
+            id: m.id,
+            sender: m.senderName,
+            senderId: m.senderId || m.senderName,
+            text: m.content,
+            timestamp: new Date(m.createdAt).toLocaleTimeString([], {
+              hour: "2-digit",
+              minute: "2-digit",
+              hour12: false
+            }),
+            rawTimestamp: m.createdAt,
+            isUser: isCurrentUser,
+            profileImageUrl: isBot ? botImage : (m.senderProfileImageUrl || "/images/profileImage.png"),
+            isMatchCard: false,
+            images: m.images || []
+          });
         }
+      });
 
-        setCurrentUser(matchCards);
-        setMessages(otherMessages);
-      } catch (error) {
-        setCurrentUser([]);
-        setMessages([]);
-        console.error("Error fetching messages:", error);
+      const lastMatchCard = [...matchCards].reverse().find(m => m.relatedUserId);
+      if (lastMatchCard) {
+        setSelectedSenderId(lastMatchCard.relatedUserId);
       }
-    };
 
+      setCurrentUser(matchCards);
+      setMessages(otherMessages);
+    } catch (error) {
+      setCurrentUser([]);
+      setMessages([]);
+      console.error("Error fetching messages:", error);
+    }
+  }, [selectedChatId, currentSystemUser?.userId, setSelectedSenderId]);
+
+  useEffect(() => {
     fetchMessages();
-  }, [selectedChatId, currentSystemUser?.userId, currentSystemUser?.name, currentSystemUser?.profileImageUrl, setSelectedSenderId]);
+  }, [fetchMessages]);
 
-  useEffect(() => {
-    if (!socket) return;
+  const handleUserTyping = useCallback(({ chatId, userId }) => {
+    if (chatId === selectedChatId && userId !== currentSystemUser?.userId) {
+      setIsTyping(true);
+    }
+  }, [selectedChatId, currentSystemUser?.userId]);
 
-    const handleUserTyping = ({ chatId, userId }) => {
-      if (chatId === selectedChatId && userId !== currentSystemUser?.userId) {
-        setIsTyping(true);
-      }
-    };
+  const handleUserStoppedTyping = useCallback(({ chatId, userId }) => {
+    if (chatId === selectedChatId && userId !== currentSystemUser?.userId) {
+      setIsTyping(false);
+    }
+  }, [selectedChatId, currentSystemUser?.userId]);
 
-    const handleUserStoppedTyping = ({ chatId, userId }) => {
-      if (chatId === selectedChatId && userId !== currentSystemUser?.userId) {
-        setIsTyping(false);
-      }
-    };
-
-    socket.on('userTyping', handleUserTyping);
-    socket.on('userStoppedTyping', handleUserStoppedTyping);
-
-    return () => {
-      socket.off('userTyping', handleUserTyping);
-      socket.off('userStoppedTyping', handleUserStoppedTyping);
-    };
-  }, [socket, selectedChatId, currentSystemUser?.userId]);
-
-  useEffect(() => {
-  if (!socket || !selectedChatId) return;
-
-  const handleNewMessage = (msg) => {
+  const handleNewMessage = useCallback((msg) => {
     if (msg.chatId !== selectedChatId) return;
 
     if (msg.id && currentSystemUser?.userId) {
       socket.emit('messageRead', { messageId: msg.id, userId: currentSystemUser?.userId });
     }
 
-    // Handle match card
     if (msg.isMatchCard) {
       const card = {
         id: msg.id,
@@ -175,7 +153,6 @@ const ChatMain = ({
       return;
     }
 
-    // Handle regular message
     setMessages(prev => {
       const exists = prev.some(m => m.id === msg.id);
       if (exists) return prev;
@@ -203,14 +180,25 @@ const ChatMain = ({
       );
       return updatedMessages;
     });
-  };
+  }, [selectedChatId, currentSystemUser?.userId, setSelectedSenderId, socket]);
 
-  socket.on('newMessage', handleNewMessage);
-  return () => socket.off('newMessage', handleNewMessage);
-}, [socket, selectedChatId, currentSystemUser?.userId, currentSystemUser?.name, currentSystemUser?.profileImageUrl, setSelectedSenderId]);
+  useEffect(() => {
+    if (!socket) return;
 
-  const handleSendMessage = async (text) => {
+    socket.on('userTyping', handleUserTyping);
+    socket.on('userStoppedTyping', handleUserStoppedTyping);
+    socket.on('newMessage', handleNewMessage);
+
+    return () => {
+      socket.off('userTyping', handleUserTyping);
+      socket.off('userStoppedTyping', handleUserStoppedTyping);
+      socket.off('newMessage', handleNewMessage);
+    };
+  }, [socket, handleUserTyping, handleUserStoppedTyping, handleNewMessage]);
+
+  const handleSendMessage = useCallback(async (text) => {
     if (!socket || !text.trim()) return;
+
     const messageData = {
       chatId: selectedChatId,
       content: text.trim(),
@@ -234,7 +222,7 @@ const ChatMain = ({
     } catch (error) {
       console.error("Error sending message:", error);
     }
-  };
+  }, [socket, selectedChatId, currentSystemUser?.userId]);
 
   const isBotChat = !chatInfo?.isGroup;
 
