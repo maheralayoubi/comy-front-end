@@ -17,7 +17,7 @@ const Chat = () => {
   const [refreshSidebarToggle, setRefreshSidebarToggle] = useState(false);
   const [connectionStatus, setConnectionStatus] = useState("disconnected");
   const [showProfile, setShowProfile] = useState(false);
-  const [showSheet, setShowSheet] = useState(true);
+  const [showSheet, setShowSheet] = useState(false);
 
   const currentSystemUser = useMemo(() => {
     return JSON.parse(localStorage.getItem("businessSheetData"));
