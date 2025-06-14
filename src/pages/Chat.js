@@ -24,9 +24,6 @@ const Chat = () => {
   }, []);
 
   const {
-    users,
-    loadingUsers,
-    errorUsers,
     selectedUserSheetData,
     loadingSheet,
     errorSheet,
@@ -38,7 +35,7 @@ const Chat = () => {
     handleBackToListMobile,
   } = useResponsiveLayout(selectedChatId, setSelectedChatId);
 
-  const socket = useSocket(users, selectedChatId, currentSystemUser);
+  const socket = useSocket(selectedChatId, currentSystemUser);
 
   // Handle socket connection status
   useEffect(() => {
@@ -93,29 +90,6 @@ const Chat = () => {
     handleBackToListMobile();
   }, [handleBackToListMobile]);
 
-  // Loading state
-  if (loadingUsers) {
-    return (
-      <>
-        <Header />
-        <div className="chat-container">
-          <div className="loading">ユーザーリストを読み込み中...</div>
-        </div>
-      </>
-    );
-  }
-
-  // Error state
-  if (errorUsers) {
-    return (
-      <>
-        <Header />
-        <div className="chat-container">
-          <div className="error">{errorUsers}</div>
-        </div>
-      </>
-    );
-  }
 
   // Main UI
   return (
@@ -130,7 +104,6 @@ const Chat = () => {
         <SocketContext.Provider value={socket}>
           <div className="chat-wrapper">
             <ChatSidebar
-              users={users}
               onSelectUser={handleSelectUser}
               selectedChatId={selectedChatId}
               setSelectedSenderId={setSelectedSenderId}
@@ -146,7 +119,6 @@ const Chat = () => {
                 showProfile={showProfile}
                 onBackClick={handleBackToList}
                 isMobileView={isMobileView}
-                users={users}
                 currentSystemUser={currentSystemUser}
                 chatInfo={selectedChatInfo}
                 onRefreshSidebar={refreshSidebar}
