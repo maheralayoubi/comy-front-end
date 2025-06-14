@@ -61,12 +61,12 @@ const App = () => {
             <Route path="/stripe-payment" element={<StripePayment />} />
             <Route path="/search-results" element={<SearchResults />} />
             <Route path="/member-list" element={<MemberList />} />
-            <Route path="/chat" element={<Chat/>} />
             <Route
               path="/account-creation-completed"
               element={<AccountCreationCompleted />}
             />
             <Route element={<ProtectedProfile />}>
+              <Route path="/chat" element={<Chat/>} />
               <Route path="/profile" element={<Profile />} />
             </Route>
 

@@ -8,8 +8,7 @@ import { API_URL } from '../../utils/apiUtils';
 const ChatSidebar = ({ onSelectUser, selectedChatId, currentSystemUserId, setSelectedSenderId }) => {
   const socket = useContext(SocketContext);
   const [chats, setChats] = useState([]);
-  const [botId, setBotId] = useState(null);
-  const [hasAutoSelected, setHasAutoSelected] = useState(false); 
+  const [hasAutoSelected, setHasAutoSelected] = useState(false);
 
   useEffect(() => {
     const fetchChats = async () => {
@@ -17,18 +16,8 @@ const ChatSidebar = ({ onSelectUser, selectedChatId, currentSystemUserId, setSel
         const res = await axios.get(`${API_URL}/api/chats`, { withCredentials: true });
         const allChats = res.data;
 
-        const getBotId = () => {
-          const botChat = allChats.find(chat => !chat.isGroup);
-          if (botChat && botChat.users) {
-            const botUser = botChat.users.find(user => user.role === "bot");
-            return botUser ? botUser.id : null;
-          }
-          return null;
-        };
 
-        const dynamicBotId = getBotId();
-        setBotId(dynamicBotId);
-
+        // Format chat data
         const formatted = allChats.map(chat => {
           const otherUser = chat.users.find(user =>
             user.id !== currentSystemUserId && user.role !== "bot"
@@ -42,17 +31,19 @@ const ChatSidebar = ({ onSelectUser, selectedChatId, currentSystemUserId, setSel
             latestMessage: chat?.latestMessage?.content || 'メッセージはありません ',
             latestTime: chat.latestMessage?.createdAt || chat.updatedAt,
             profileImageUrl: otherUser?.image || '',
-            unReadMessage: chat.id === selectedChatId ? false : (chat.latestMessage && !chat.latestMessage?.readBy.includes(currentSystemUserId))
+            unReadMessage: chat.id === selectedChatId
+              ? false
+              : (chat.latestMessage && !chat.latestMessage?.readBy.includes(currentSystemUserId))
           };
         });
 
         setChats(formatted);
 
-        // Auto-select bot chat on page load
+        // Auto-select bot chat on first load
         if (!hasAutoSelected && !selectedChatId) {
-          const botChat = formatted.find(chat => !chat.isGroup);
-          if (botChat) {
-            handleUserSelect(botChat.id, botChat);
+          const botChatFormatted = formatted.find(chat => !chat.isGroup);
+          if (botChatFormatted) {
+            handleUserSelect(botChatFormatted.id, botChatFormatted);
             setHasAutoSelected(true);
           }
         }
@@ -64,6 +55,7 @@ const ChatSidebar = ({ onSelectUser, selectedChatId, currentSystemUserId, setSel
     fetchChats();
   }, [currentSystemUserId]);
 
+  // Handle socket updates for new messages
   useEffect(() => {
     if (!socket) return;
 
@@ -73,11 +65,13 @@ const ChatSidebar = ({ onSelectUser, selectedChatId, currentSystemUserId, setSel
         prev.map(chat =>
           chat.id === chatId
             ? {
-              ...chat,
-              latestMessage: content,
-              latestTime: createdAt,
-              unReadMessage: chatId === selectedChatId ? false : !readBy.includes(currentSystemUserId)
-            }
+                ...chat,
+                latestMessage: content,
+                latestTime: createdAt,
+                unReadMessage: chat.id === selectedChatId
+                  ? false
+                  : !readBy.includes(currentSystemUserId)
+              }
             : chat
         )
       );
@@ -92,42 +86,7 @@ const ChatSidebar = ({ onSelectUser, selectedChatId, currentSystemUserId, setSel
     };
   }, [socket, selectedChatId, currentSystemUserId]);
 
-  const formatTime = (timeString) => {
-    if (!timeString) return '';
-    const date = new Date(timeString);
-    return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
-  };
-
-  const getOtherUserId = (chat) => {
-    const otherUsers = chat.users.filter(user =>
-      user.id !== currentSystemUserId && user.id !== botId
-    );
-    return otherUsers.length > 0 ? otherUsers[0].id : null;
-  };
-
-  const handleUserSelect = (chatId, chat) => {
-    const isBot = !chat.isGroup;
-
-    setChats(prev =>
-      prev.map(c =>
-        c.id === chat.id
-          ? { ...c, unReadMessage: false }
-          : c
-      )
-    );
-    const chatInfo = {
-      ...chat,
-      profileImageUrl: isBot ? botImage : (chat.profileImageUrl || "/images/profileImage.png")
-    };
-
-    const otherUserId = getOtherUserId(chat);
-    if (otherUserId) {
-      setSelectedSenderId(otherUserId);
-    }
-
-    onSelectUser(chatId, chatInfo);
-  };
-
+  // Join chat rooms when chats list changes
   useEffect(() => {
     if (socket) {
       for (const chat of chats) {
@@ -135,6 +94,50 @@ const ChatSidebar = ({ onSelectUser, selectedChatId, currentSystemUserId, setSel
       }
     }
   }, [socket, chats]);
+
+  // Utility: format time
+  const formatTime = (timeString) => {
+    if (!timeString) return '';
+    const date = new Date(timeString);
+    return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
+  };
+
+  // Utility: get other user ID for chat (excluding bot and current user)
+  const getOtherUserId = (chat) => {
+    const otherUsers = chat.users.filter(user =>
+      user.id !== currentSystemUserId && user.role !== "bot"
+    );
+    return otherUsers.length > 0 ? otherUsers[0].id : null;
+  };
+
+  // Handle user selecting a chat
+  const handleUserSelect = (chatId, chat) => {
+    const isBot = !chat.isGroup;
+
+    // Clear unread message for this chat
+    setChats(prev =>
+      prev.map(c =>
+        c.id === chat.id
+          ? { ...c, unReadMessage: false }
+          : c
+      )
+    );
+
+    const chatInfo = {
+      ...chat,
+      profileImageUrl: isBot
+        ? botImage
+        : (chat.profileImageUrl || '/images/profileImage.png')
+    };
+
+  
+      const otherUserId = getOtherUserId(chat);
+      if (otherUserId) {
+        setSelectedSenderId(otherUserId);
+      }
+
+    onSelectUser(chatId, chatInfo);
+  };
 
   return (
     <aside className="sidebarV2">
@@ -156,7 +159,7 @@ const ChatSidebar = ({ onSelectUser, selectedChatId, currentSystemUserId, setSel
                   {chat.profileImageUrl ? (
                     <img src={chat.profileImageUrl} alt="User" className="userAvatar" />
                   ) : (
-                    <span className="userInitial">{chat.name?.charAt(0)?.toUpperCase() || 'U'}</span>
+                    <img src="/images/profileImage.png" alt="Empty" className="userAvatar" />
                   )}
                 </>
               )}
@@ -171,6 +174,7 @@ const ChatSidebar = ({ onSelectUser, selectedChatId, currentSystemUserId, setSel
               </div>
               <p className="previewTextV2">{chat.latestMessage}</p>
             </div>
+
             {chat.unReadMessage && <div className="notificationDotV2" />}
           </div>
         );
