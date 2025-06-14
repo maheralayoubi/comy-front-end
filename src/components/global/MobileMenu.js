@@ -29,7 +29,7 @@ const MobileMenu = () => {
     },
     {
       id: "4",
-      to: "/facebook-analytics",
+      to: "https://www.facebook.com/groups/3773860399566242/",
       content: "Facebook解析版",
     },
     {
