@@ -75,6 +75,16 @@ article {
 }
 
 @media (max-width: 1200px) {
+  .profileDisplay {
+      display: none !important;
+    }
+    .mainChantWithProfile {
+      flex: 1 1 100%;
+      width: 100%;
+    }
+}
+
+@media (max-width: 991px) {
   .chat-container {
     margin: 0;
     padding: 0;
@@ -88,13 +98,10 @@ article {
     .sidebar,
     .mainChat,
     .mainChantWithProfile {
-      flex: 1 1 100%;
-      width: 100%;
+      // flex: 1 1 100%;
+      // width: 100%;
       border: none;
     }
 
-    .profileDisplay {
-      display: none !important;
-    }
   }
 }
