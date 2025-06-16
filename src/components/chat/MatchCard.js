@@ -63,7 +63,7 @@ const MatchCard = ({ userData, setSelectedSenderId, openSheet }) => {
           {userData.suggestedUserName && userData.suggestedUserCategory && (
             <div className="match-card__avatar-name">
               <div className="name">{userData.suggestedUserName}</div>
-              <div className="field">{userData.suggestedUserCategory}</div>
+              <div className="field">{userData.suggestedUserCategory.slice(0,9)}...</div>
             </div>
           )}
         </div>
