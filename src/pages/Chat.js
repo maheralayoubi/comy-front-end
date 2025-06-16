@@ -18,6 +18,7 @@ const Chat = () => {
   const [connectionStatus, setConnectionStatus] = useState("disconnected");
   const [showProfile, setShowProfile] = useState(false);
   const [showSheet, setShowSheet] = useState(false);
+  const [isLoadingMessages, setIsLoadingMessages] = useState(false);
 
   const currentSystemUser = useMemo(() => {
     return JSON.parse(localStorage.getItem("businessSheetData"));
@@ -90,7 +91,6 @@ const Chat = () => {
     handleBackToListMobile();
   }, [handleBackToListMobile]);
 
-
   // Main UI
   return (
     <>
@@ -103,13 +103,15 @@ const Chat = () => {
         )}
         <SocketContext.Provider value={socket}>
           <div className="chat-wrapper">
-            <ChatSidebar
-              onSelectUser={handleSelectUser}
-              selectedChatId={selectedChatId}
-              setSelectedSenderId={setSelectedSenderId}
-              currentSystemUserId={currentSystemUser?.userId}
-              refreshTrigger={refreshSidebarToggle}
-            />
+            {!(isMobileView && isLoadingMessages) &&
+              <ChatSidebar
+                onSelectUser={handleSelectUser}
+                selectedChatId={selectedChatId}
+                setSelectedSenderId={setSelectedSenderId}
+                currentSystemUserId={currentSystemUser?.userId}
+                refreshTrigger={refreshSidebarToggle}
+                setIsLoadingMessages={setIsLoadingMessages}
+            />}
 
             {selectedChatId && selectedChatInfo && (
               <ChatMain
@@ -123,10 +125,12 @@ const Chat = () => {
                 chatInfo={selectedChatInfo}
                 onRefreshSidebar={refreshSidebar}
                 setSelectedSenderId={setSelectedSenderId}
+                isLoadingMessages={isLoadingMessages} 
+                setIsLoadingMessages={setIsLoadingMessages}
               />
             )}
 
-            {showProfile && (
+            {showProfile && !isLoadingMessages && (
               <ProfileDisplay
                 isBotChat={!selectedChatInfo?.isGroup}
                 closeSheet={closeSheet}

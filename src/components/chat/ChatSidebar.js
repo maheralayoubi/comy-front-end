@@ -5,7 +5,7 @@ import { SocketContext } from '../../pages/Chat';
 import botImage from '../../assets/images/hedgehog.png';
 import { API_URL } from '../../utils/apiUtils';
 
-const ChatSidebar = ({ onSelectUser, selectedChatId, currentSystemUserId, setSelectedSenderId }) => {
+const ChatSidebar = ({ onSelectUser, selectedChatId, currentSystemUserId, setSelectedSenderId, setIsLoadingMessages }) => {
   const socket = useContext(SocketContext);
   const [chats, setChats] = useState([]);
   const [hasAutoSelected, setHasAutoSelected] = useState(false);
@@ -136,7 +136,8 @@ const ChatSidebar = ({ onSelectUser, selectedChatId, currentSystemUserId, setSel
         setSelectedSenderId(otherUserId);
       }
 
-    onSelectUser(chatId, chatInfo);
+      onSelectUser(chatId, chatInfo);
+      setIsLoadingMessages(true)
   };
 
   return (
