@@ -69,7 +69,7 @@ const MatchCard = ({ userData, setSelectedSenderId, openSheet }) => {
         </div>
 
         <div className="match-card__content">
-          <div className="match-card__original-message">{fullLine.split("\n").map((p, index) => (
+          <div className="match-card__original-message">{fullLine.replace(/　+/g, '\n').split("\n").map((p, index) => (
             <span key={index}>
               {p}
               <br />
