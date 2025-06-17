@@ -194,7 +194,21 @@ export const CardData = ({ rank, data }) => {
     <div className="valueContainer">
       {rank && <img src={`/images/rank${rank}.png`} alt={`rank${rank}`} />}
       <p>
-        {data ? data : <span className="no-content">データがありません</span>}
+        {data && data.trim() !== "" ? (
+          data
+            .replace(/　+/g, '\n')
+            .split("\n")
+            .filter((p) => p.trim() !== "")
+            .map((p, index) => (
+              <span key={index}>
+                {p}
+                <br />
+                <br />
+              </span>
+            ))
+        ) : (
+          <span className="no-content">データがありません</span>
+        )}
       </p>
     </div>
   );
@@ -210,7 +224,7 @@ export const Card = ({
   placeholder,
   maxLength,
 }) => {
-  const lines = data?.split("\n");
+  const lines = data?.replace(/　+/g, '\n').split("\n");
 
   return (
     <div className="card">
