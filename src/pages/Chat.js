@@ -6,6 +6,7 @@ import ProfileDisplay from "../components/chat/ProfileDisplay";
 import useChatData from "../hooks/useChatData";
 import { useChat } from "../hooks/useChat";
 import "../components/chat/styles/Chat.scss";
+import { SpinnerPage } from "../components/global/Spinner";
 
 export const SocketContext = createContext(null);
 
@@ -37,16 +38,14 @@ const Chat = () => {
     errorSheet,
   } = useChatData(selectedSenderId);
 
+  if(connectionStatus === 'disconnected') {
+    return <SpinnerPage/>
+  }
+
   return (
     <>
       <Header />
       <div className="chat-container">
-        {connectionStatus === "disconnected" && (
-          <div className="error-banner">
-            Socket connection lost. Please refresh the page.
-          </div>
-        )}
-        
         <SocketContext.Provider value={socket}>
           <div className="chat-wrapper">
             {/* Sidebar - hide when mobile and loading messages */}
