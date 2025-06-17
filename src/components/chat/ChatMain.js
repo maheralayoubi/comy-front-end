@@ -7,6 +7,7 @@ import EmptyState from "./EmptyState";
 import "./styles/ChatMain.scss";
 import secureApi from "../../api/secureApi";
 import botImage from '../../assets/images/hedgehog.png';
+import { SpinnerPage } from "../global/Spinner";
 
 const ChatMain = ({
   selectedChatId,
@@ -18,7 +19,9 @@ const ChatMain = ({
   showProfile,
   setSelectedSenderId,
   showSheet,
-  openSheet
+  openSheet,
+  isLoadingMessages,
+  setIsLoadingMessages
 }) => {
   const socket = useContext(SocketContext);
   const [messages, setMessages] = useState([]);
@@ -93,6 +96,9 @@ const ChatMain = ({
       setCurrentUser([]);
       setMessages([]);
       console.error("Error fetching messages:", error);
+    }
+    finally {
+      setIsLoadingMessages(false)
     }
   }, [selectedChatId, currentSystemUser?.userId]);
 
@@ -225,10 +231,15 @@ const ChatMain = ({
 
   const isBotChat = !chatInfo?.isGroup;
 
+  if(isLoadingMessages) {
+    return (
+      <SpinnerPage/>
+    )
+    
+  }
+
   return (
     <section className={showProfile ? "mainChantWithProfile" : "mainChat"} style={!showSheet ? { width: "100%" } : {}}>
-      {currentUser.length > 0 || messages.length > 0 ? (
-        <>
           <ChatHeader
             isBot={isBotChat}
             currentUser={{
@@ -238,6 +249,8 @@ const ChatMain = ({
             onBackClick={onBackClick}
             isMobileView={isMobileView}
           />
+        {currentUser.length > 0 || messages.length > 0 ? (
+          <>
           <div className="messageContainer">
             <MessageList
               isBotChat={isBotChat}
