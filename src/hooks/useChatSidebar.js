@@ -71,6 +71,9 @@ export const useChatSidebar = (
 
   // Handle user selecting a chat
   const handleUserSelect = useCallback((chatId, chat) => {
+    // Prevent selecting if chat is already open
+    if (chatId === selectedChatId) return;
+
     const isBot = !chat.isGroup;
 
     // Clear unread message for selected chat
@@ -97,7 +100,7 @@ export const useChatSidebar = (
     // Trigger callbacks
     onSelectUser(chatId, chatInfo);
     setIsLoadingMessages(true);
-  }, [botImage, getOtherUserId, setSelectedSenderId, onSelectUser, setIsLoadingMessages]);
+  }, [selectedChatId, botImage, getOtherUserId, setSelectedSenderId, onSelectUser, setIsLoadingMessages]);
 
   // Format time utility
   const formatTime = useCallback((timeString) => {
