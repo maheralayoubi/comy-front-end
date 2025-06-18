@@ -46,7 +46,7 @@ export const useChatSidebar = (
         setHasAutoSelected(true);
       }
     }
-  }, [hasAutoSelected, selectedChatId]);
+  }, [hasAutoSelected]);
 
   // Fetch chats from API
   const fetchChats = useCallback(async () => {
@@ -59,7 +59,7 @@ export const useChatSidebar = (
     } catch (error) {
       console.error('Failed to load chats:', error);
     }
-  }, [formatChatData, autoSelectBotChat]);
+  }, [formatChatData]);
 
   // Get other user ID for chat (excluding bot and current user)
   const getOtherUserId = useCallback((chat) => {
@@ -136,7 +136,7 @@ export const useChatSidebar = (
   // Initial fetch
   useEffect(() => {
     fetchChats();
-  }, [fetchChats]);
+  }, []);
 
   // Socket message listeners
   useEffect(() => {
