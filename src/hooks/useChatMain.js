@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext, useCallback } from "react";
 import { SocketContext } from "../pages/Chat";
-import secureApi from "../api/secureApi";
 import botImage from '../assets/images/hedgehog.png';
+import { getMessages } from "../api/chat";
 
 export const useChatMain = ({
   selectedChatId,
@@ -84,7 +84,7 @@ export const useChatMain = ({
 
     try {
       setIsLoadingMessages(true);
-      const response = await secureApi.get(`/api/chats/${selectedChatId}/messages`);
+      const response = await getMessages(selectedChatId)
       const { matchCards, otherMessages } = processMessages(response.data);
       
       setCardsData(matchCards);
