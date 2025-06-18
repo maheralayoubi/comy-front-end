@@ -32,7 +32,7 @@ export const useChat = () => {
   } = useResponsiveLayout(selectedChatId, setSelectedChatId);
 
   // custom hook for socket io
-  const socket = useSocket(selectedChatId, currentSystemUser);
+  const socket = useSocket(currentSystemUser);
 
   // Get chat data and reset function
   const {
@@ -68,11 +68,6 @@ export const useChat = () => {
   // Show profile panel when chat info is selected
   useEffect(() => {
     setShowProfile(!!selectedChatInfo);
-
-    if (selectedChatInfo) {
-      console.log("Selected Chat ID:", selectedChatId);
-      console.log("Selected Chat Info:", selectedChatInfo);
-    }
   }, [selectedChatInfo, selectedChatId]);
 
   // Action handlers
