@@ -5,7 +5,7 @@ import MatchCard from './MatchCard';
 import './styles/MessageList.scss';
 import botImage from '../../assets/images/hedgehog.png';
 
-const MessageList = ({ messages, isTyping, currentUser, onAddMessage, setSelectedSenderId, openSheet }) => {
+const MessageList = ({ messages, isTyping, cardsData, onAddMessage, setSelectedSenderId, openSheet }) => {
   const lastMessageRef = useRef(null);
   
   useEffect(() => {
@@ -14,17 +14,17 @@ const MessageList = ({ messages, isTyping, currentUser, onAddMessage, setSelecte
   }, [messages]);
 
 
-  const matchCardMessages = Array.isArray(currentUser) ? currentUser.map((user) => ({
-    id: `match-${user.id}`,
-    originalId: user.id,
+  const matchCardMessages = Array.isArray(cardsData) ? cardsData.map((card) => ({
+    id: `match-${card.id}`,
+    originalId: card.id,
     sender: "COMY オフィシャル AI",
     senderId: "system",
-    timestamp: new Date(user.createdAt).toLocaleTimeString([], { 
+    timestamp: new Date(card.createdAt).toLocaleTimeString([], { 
       hour: '2-digit', 
       minute: '2-digit', 
       hour12: false 
     }),
-    rawTimestamp: user.createdAt,
+    rawTimestamp: card.createdAt,
     isUser: false,
     profileImageUrl: botImage,
     isMatchCard: true,
@@ -33,7 +33,7 @@ const MessageList = ({ messages, isTyping, currentUser, onAddMessage, setSelecte
         openSheet={openSheet}
         setSelectedSenderId={setSelectedSenderId}
         userData={{
-          ...user,
+          ...card,
           onMatchChatCreated: (chatId) => {
             if (chatId) {
               onAddMessage({ type: "match_open_chat", chatId });

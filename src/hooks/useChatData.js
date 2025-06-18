@@ -28,7 +28,6 @@ const useChatData = (selectedUserId) => {
 
   // Reset function to clear user sheet data
   const resetUserSheetData = useCallback(() => {
-    setSelectedUserSheetData(null);
     setLoadingSheet(false);
     setErrorSheet(null);
   }, []);
