@@ -26,6 +26,13 @@ const useChatData = (selectedUserId) => {
     };
   }, [addTimestampToUrl]);
 
+  // Reset function to clear user sheet data
+  const resetUserSheetData = useCallback(() => {
+    setSelectedUserSheetData(null);
+    setLoadingSheet(false);
+    setErrorSheet(null);
+  }, []);
+
   // Fetch user sheet data
   const fetchUserSheet = useCallback(async () => {
     if (!selectedUserId) {
@@ -69,6 +76,7 @@ const useChatData = (selectedUserId) => {
     selectedUserSheetData,
     loadingSheet,
     errorSheet,
+    resetUserSheetData,
   };
 };
 
