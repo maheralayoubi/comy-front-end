@@ -1,184 +1,67 @@
-import React, { useState, useEffect, useContext } from 'react';
-import axios from 'axios';
 import './styles/ChatSidebar.scss';
-import { SocketContext } from '../../pages/Chat';
 import botImage from '../../assets/images/hedgehog.png';
-import { API_URL } from '../../utils/apiUtils';
+import { useChatSidebar } from '../../hooks/useChatSidebar';
 
-const ChatSidebar = ({ onSelectUser, selectedChatId, currentSystemUserId, setSelectedSenderId }) => {
-  const socket = useContext(SocketContext);
-  const [chats, setChats] = useState([]);
-  const [hasAutoSelected, setHasAutoSelected] = useState(false);
+const ChatSidebar = ({ 
+  onSelectUser, 
+  selectedChatId, 
+  currentSystemUserId, 
+  setSelectedSenderId, 
+  setIsLoadingMessages 
+}) => {
+  const { chats, handleUserSelect, formatTime } = useChatSidebar(
+    currentSystemUserId,
+    selectedChatId,
+    setSelectedSenderId,
+    botImage,
+    onSelectUser,
+    setIsLoadingMessages
+  );
 
-  useEffect(() => {
-    const fetchChats = async () => {
-      try {
-        const res = await axios.get(`${API_URL}/api/chats`, { withCredentials: true });
-        const allChats = res.data;
-
-
-        // Format chat data
-        const formatted = allChats.map(chat => {
-          const otherUser = chat.users.find(user =>
-            user.id !== currentSystemUserId && user.role !== "bot"
-          );
-
-          return {
-            id: chat.id,
-            name: chat.name || 'Private Chat',
-            users: chat.users,
-            isGroup: chat.isGroup,
-            latestMessage: chat?.latestMessage?.content || 'メッセージはありません ',
-            latestTime: chat.latestMessage?.createdAt || chat.updatedAt,
-            profileImageUrl: otherUser?.image || '',
-            unReadMessage: chat.id === selectedChatId
-              ? false
-              : (chat.latestMessage && !chat.latestMessage?.readBy.includes(currentSystemUserId))
-          };
-        });
-
-        setChats(formatted);
-
-        // Auto-select bot chat on first load
-        if (!hasAutoSelected && !selectedChatId) {
-          const botChatFormatted = formatted.find(chat => !chat.isGroup);
-          if (botChatFormatted) {
-            handleUserSelect(botChatFormatted.id, botChatFormatted);
-            setHasAutoSelected(true);
-          }
-        }
-      } catch (err) {
-        console.error('Failed to load chats:', err);
-      }
-    };
-
-    fetchChats();
-  }, [currentSystemUserId]);
-
-  // Handle socket updates for new messages
-  useEffect(() => {
-    if (!socket) return;
-
-    const handleMessageUpdate = (message) => {
-      const { chatId, content, createdAt, readBy } = message;
-      setChats(prev =>
-        prev.map(chat =>
-          chat.id === chatId
-            ? {
-                ...chat,
-                latestMessage: content,
-                latestTime: createdAt,
-                unReadMessage: chat.id === selectedChatId
-                  ? false
-                  : !readBy.includes(currentSystemUserId)
-              }
-            : chat
-        )
-      );
-    };
-
-    socket.on('receive_message', handleMessageUpdate);
-    socket.on('newMessage', handleMessageUpdate);
-
-    return () => {
-      socket.off('receive_message', handleMessageUpdate);
-      socket.off('newMessage', handleMessageUpdate);
-    };
-  }, [socket, selectedChatId, currentSystemUserId]);
-
-  // Join chat rooms when chats list changes
-  useEffect(() => {
-    if (socket) {
-      for (const chat of chats) {
-        socket.emit('joinChat', chat.id);
-      }
-    }
-  }, [socket, chats]);
-
-  // Utility: format time
-  const formatTime = (timeString) => {
-    if (!timeString) return '';
-    const date = new Date(timeString);
-    return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
-  };
-
-  // Utility: get other user ID for chat (excluding bot and current user)
-  const getOtherUserId = (chat) => {
-    const otherUsers = chat.users.filter(user =>
-      user.id !== currentSystemUserId && user.role !== "bot"
-    );
-    return otherUsers.length > 0 ? otherUsers[0].id : null;
-  };
-
-  // Handle user selecting a chat
-  const handleUserSelect = (chatId, chat) => {
+  const renderChatAvatar = (chat) => {
     const isBot = !chat.isGroup;
 
-    // Clear unread message for this chat
-    setChats(prev =>
-      prev.map(c =>
-        c.id === chat.id
-          ? { ...c, unReadMessage: false }
-          : c
-      )
+    if (isBot) {
+      return <img src={botImage} alt="Bot" className="userAvatar" />;
+    }
+
+    return (
+      <>
+        <img src={botImage} alt="Bot" className="botOverlay" />
+        <img 
+          src={chat.profileImageUrl || "/images/profileImage.png"} 
+          alt="User" 
+          className="userAvatar" 
+        />
+      </>
     );
-
-    const chatInfo = {
-      ...chat,
-      profileImageUrl: isBot
-        ? botImage
-        : (chat.profileImageUrl || '/images/profileImage.png')
-    };
-
-  
-      const otherUserId = getOtherUserId(chat);
-      if (otherUserId) {
-        setSelectedSenderId(otherUserId);
-      }
-
-    onSelectUser(chatId, chatInfo);
   };
 
   return (
     <aside className="sidebarV2">
-      {chats.map((chat) => {
-        const isBot = !chat.isGroup;
-
-        return (
-          <div
-            key={chat.id}
-            className={`chatPreviewV2 ${selectedChatId === chat.id ? 'active' : ''}`}
-            onClick={() => handleUserSelect(chat.id, chat)}
-          >
-            <div className="avatarContainerV2">
-              {isBot ? (
-                <img src={botImage} alt="Bot" className="userAvatar" />
-              ) : (
-                <>
-                  <img src={botImage} alt="Bot" className="botOverlay" />
-                  {chat.profileImageUrl ? (
-                    <img src={chat.profileImageUrl} alt="User" className="userAvatar" />
-                  ) : (
-                    <img src="/images/profileImage.png" alt="Empty" className="userAvatar" />
-                  )}
-                </>
-              )}
-            </div>
-
-            <div className="messagePreviewV2">
-              <div className="previewHeaderV2">
-                <h3 className="userNameV2">{chat.name}</h3>
-                <div className="timestampWrapper">
-                  <span className="timestampV2">{formatTime(chat.latestTime)}</span>
-                </div>
-              </div>
-              <p className="previewTextV2">{chat.latestMessage}</p>
-            </div>
-
-            {chat.unReadMessage && <div className="notificationDotV2" />}
+      {chats.map((chat) => (
+        <div
+          key={chat.id}
+          className={`chatPreviewV2 ${selectedChatId === chat.id ? 'active' : ''}`}
+          onClick={() => handleUserSelect(chat.id, chat)}
+        >
+          <div className="avatarContainerV2">
+            {renderChatAvatar(chat)}
           </div>
-        );
-      })}
+
+          <div className="messagePreviewV2">
+            <div className="previewHeaderV2">
+              <h3 className="userNameV2">{chat.name}</h3>
+              <div className="timestampWrapper">
+                <span className="timestampV2">{formatTime(chat.latestTime)}</span>
+              </div>
+            </div>
+            <p className="previewTextV2">{chat.latestMessage}</p>
+          </div>
+
+          {chat.unReadMessage && <div className="notificationDotV2" />}
+        </div>
+      ))}
     </aside>
   );
 };

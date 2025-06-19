@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import "./styles/MatchCard.scss";
-import secureApi from '../../api/secureApi';
+import { userRespond } from "../../api/chat";
 
 const MatchCard = ({ userData, setSelectedSenderId, openSheet }) => {
   const [hasResponded, setHasResponded] = useState(userData?.status && userData.status !== "pending");
@@ -8,19 +8,16 @@ const MatchCard = ({ userData, setSelectedSenderId, openSheet }) => {
 
   const fullLine = userData?.text?.[0] || "";
 
-  const apiEndpoint =
-    userData?.apiType === "match"
-      ? "/api/chats/matches/respond"
-      : "/api/chats/suggestions/respond";
-
   const handleRespond = async (responseText) => {
     if (hasResponded || responseStatus !== "pending") return;
 
     setHasResponded(true);
     setResponseStatus(responseText === "マッチを希望する" ? "accepted" : "rejected");
 
+    const apiType = userData?.apiType;
+
     const payload =
-      userData.apiType === "match"
+        apiType === "match"
         ? {
           messageId: userData.id,
           response: responseText
@@ -32,7 +29,7 @@ const MatchCard = ({ userData, setSelectedSenderId, openSheet }) => {
         };
 
     try {
-      const res = await secureApi.post(apiEndpoint, payload);
+      const res = await userRespond(apiType, payload);
       const newChatId = res.data.chatId;
 
       if (userData?.onMatchChatCreated && newChatId) {
@@ -69,7 +66,7 @@ const MatchCard = ({ userData, setSelectedSenderId, openSheet }) => {
         </div>
 
         <div className="match-card__content">
-          <div className="match-card__original-message">{fullLine.split("\n").map((p, index) => (
+          <div className="match-card__original-message">{fullLine.replace(/　+/g, '\n').split("\n").map((p, index) => (
             <span key={index}>
               {p}
               <br />

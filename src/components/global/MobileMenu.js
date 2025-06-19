@@ -30,7 +30,7 @@ const MobileMenu = () => {
     {
       id: "4",
       to: "https://www.facebook.com/groups/3773860399566242/",
-      content: "Facebook解析版",
+      content: "Facebook掲示板",
     },
     {
       id: "5",
