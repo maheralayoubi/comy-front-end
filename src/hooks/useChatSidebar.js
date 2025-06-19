@@ -1,7 +1,6 @@
 import { useState, useEffect, useContext, useCallback } from 'react';
-import axios from 'axios';
 import { SocketContext } from '../pages/Chat';
-import { API_URL } from '../utils/apiUtils';
+import { getChats } from '../api/chat';
 
 export const useChatSidebar = (
   currentSystemUserId,
@@ -51,7 +50,7 @@ export const useChatSidebar = (
   // Fetch chats from API
   const fetchChats = useCallback(async () => {
     try {
-      const response = await axios.get(`${API_URL}/api/chats`, { withCredentials: true });
+      const response = await getChats()
       const formattedChats = formatChatData(response.data);
       
       setChats(formattedChats);

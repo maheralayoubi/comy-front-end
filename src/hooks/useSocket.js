@@ -2,9 +2,8 @@ import { useEffect, useState } from "react";
 import { io } from "socket.io-client";
 import { API_URL } from "../utils/apiUtils";
 
-const useSocket = (selectedChatId, currentSystemUser) => {
+const useSocket = (currentSystemUser) => {
   const [socket, setSocket] = useState(null);
-  // const API_URL = process.env.REACT_APP_BACKEND_URL
 
   useEffect(() => {
     const socketInstance = io(API_URL, {
@@ -13,23 +12,18 @@ const useSocket = (selectedChatId, currentSystemUser) => {
       reconnectionDelay: 5000,
     });
 
-    socketInstance.on("connect", () => {
-      console.log("Connected to socket server with ID:", socketInstance.id);
-    });
+    socketInstance.on("connect", () => {});
 
     socketInstance.on("connect_error", (err) => {
       console.error("Socket connection error:", err);
     });
-   
-    socketInstance.on("newMessage", (message) => {
-      console.log("Received new message:", message);
-    });
-   
-    socketInstance.on("userStatusChanged", ({ userId, isOnline }) => {
-      console.log(`User ${userId} is now ${isOnline ? 'online' : 'offline'}`);
-    });
+    
+    socketInstance.on("newMessage", () => {});
+    
+    socketInstance.on("userStatusChanged", () => {});
 
     setSocket(socketInstance);
+
     return () => socketInstance.disconnect();
   }, [currentSystemUser?.id]);
 

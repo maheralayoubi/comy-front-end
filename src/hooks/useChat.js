@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import useResponsiveLayout from "./useResponsiveLayout";
 import useSocket from "./useSocket";
+import useChatData from "./useChatData";
 
 export const useChat = () => {
   // Chat States
@@ -31,7 +32,15 @@ export const useChat = () => {
   } = useResponsiveLayout(selectedChatId, setSelectedChatId);
 
   // custom hook for socket io
-  const socket = useSocket(selectedChatId, currentSystemUser);
+  const socket = useSocket(currentSystemUser);
+
+  // Get chat data and reset function
+  const {
+    selectedUserSheetData,
+    loadingSheet,
+    errorSheet,
+    resetUserSheetData,
+  } = useChatData(selectedSenderId);
 
   // Socket connection status tracking
   useEffect(() => {
@@ -59,16 +68,15 @@ export const useChat = () => {
   // Show profile panel when chat info is selected
   useEffect(() => {
     setShowProfile(!!selectedChatInfo);
-
-    if (selectedChatInfo) {
-      console.log("Selected Chat ID:", selectedChatId);
-      console.log("Selected Chat Info:", selectedChatInfo);
-    }
   }, [selectedChatInfo, selectedChatId]);
 
   // Action handlers
   const openSheet = useCallback(() => setShowSheet(true), []);
-  const closeSheet = useCallback(() => setShowSheet(false), []);
+  
+  const closeSheet = useCallback(() => {
+    setShowSheet(false);
+    resetUserSheetData();
+  }, [resetUserSheetData]);
   
   const refreshSidebar = useCallback(() => {
     setRefreshSidebarToggle((prev) => !prev);
@@ -90,7 +98,6 @@ export const useChat = () => {
     // States
     selectedChatId,
     selectedChatInfo,
-    selectedSenderId,
     connectionStatus,
     showProfile,
     showSheet,
@@ -99,6 +106,9 @@ export const useChat = () => {
     currentSystemUser,
     refreshSidebarToggle,
     socket,
+    selectedUserSheetData,
+    loadingSheet,
+    errorSheet,
     
     // Actions
     setSelectedSenderId,

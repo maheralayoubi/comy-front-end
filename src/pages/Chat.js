@@ -3,7 +3,6 @@ import Header from "../components/global/Header";
 import ChatSidebar from "../components/chat/ChatSidebar";
 import ChatMain from "../components/chat/ChatMain";
 import ProfileDisplay from "../components/chat/ProfileDisplay";
-import useChatData from "../hooks/useChatData";
 import { useChat } from "../hooks/useChat";
 import "../components/chat/styles/Chat.scss";
 import { SpinnerPage } from "../components/global/Spinner";
@@ -14,7 +13,6 @@ const Chat = () => {
   const {
     selectedChatId,
     selectedChatInfo,
-    selectedSenderId,
     connectionStatus,
     showProfile,
     showSheet,
@@ -23,6 +21,9 @@ const Chat = () => {
     currentSystemUser,
     refreshSidebarToggle,
     socket,
+    selectedUserSheetData,
+    loadingSheet,
+    errorSheet,
     setSelectedSenderId,
     setIsLoadingMessages,
     handleSelectUser,
@@ -31,12 +32,6 @@ const Chat = () => {
     closeSheet,
     refreshSidebar,
   } = useChat();
-
-  const {
-    selectedUserSheetData,
-    loadingSheet,
-    errorSheet,
-  } = useChatData(selectedSenderId);
 
   if(connectionStatus === 'disconnected') {
     return <SpinnerPage/>
