@@ -1,5 +1,4 @@
 import './styles/ChatHeader.scss';
-import botImage from '../../assets/images/hedgehog.png';
 
 const ChatHeader = ({ currentUser, onBackClick, isMobileView,isBot }) => {
   if (!currentUser) {
@@ -22,7 +21,7 @@ const ChatHeader = ({ currentUser, onBackClick, isMobileView,isBot }) => {
             <img src={currentUser.profileImageUrl} alt="Bot" className="userAvatar" />
           ) : (
             <>
-              <img src={botImage} alt="Bot" className="botOverlay" />
+              <img src={currentUser.secondeImageUrl} alt="secondImage" className="botOverlay" />
               {currentUser.profileImageUrl ? (
                 <img src={currentUser.profileImageUrl} alt={currentUser.name || 'Avatar'} className="userAvatar" />
               ) : (
