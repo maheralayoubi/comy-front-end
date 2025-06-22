@@ -38,11 +38,13 @@ const ChatMain = ({
   // Derived values
   const isBotChat = !chatInfo?.isGroup;
   const hasMessages = cardsData.length > 0 || messages.length > 0;
+
   const headerUser = {
     name: chatInfo?.name ?? "",
     profileImageUrl: isBotChat 
       ? botImage 
-      : (chatInfo?.profileImageUrl || "/images/profileImage.png")
+      : (chatInfo?.profileImageUrl || "/images/profileImage.png"),
+      secondeImageUrl: chatInfo.secondeImageUrl
   };
 
   // Styles
