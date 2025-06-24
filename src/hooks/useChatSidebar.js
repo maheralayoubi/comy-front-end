@@ -52,8 +52,14 @@ export const useChatSidebar = (
   const fetchChats = useCallback(async () => {
     try {
       const response = await getChats()
-      const formattedChats = formatChatData(response.data.chats);
-      
+      const chatsAfterOredr = response.data.chats.sort((a, b) => {
+        const dateA = new Date(a.latestMessage.createdAt);
+        const dateB = new Date(b.latestMessage.createdAt);
+        return dateB - dateA; // For descending order
+      });
+
+      const formattedChats = formatChatData(chatsAfterOredr);
+
       setChats(formattedChats);
       autoSelectBotChat(formattedChats);
     } catch (error) {
@@ -106,28 +112,28 @@ export const useChatSidebar = (
   const formatTime = useCallback((timeString) => {
     if (!timeString) return '';
     const date = new Date(timeString);
-    return date.toLocaleTimeString([], { 
-      hour: '2-digit', 
-      minute: '2-digit', 
-      hour12: false 
+    return date.toLocaleTimeString([], {
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: false
     });
   }, []);
 
   // Handle socket message updates
   const handleMessageUpdate = useCallback((message) => {
     const { chatId, content, createdAt, readBy } = message;
-    
+
     setChats(prev =>
       prev.map(chat =>
         chat.id === chatId
           ? {
-              ...chat,
-              latestMessage: content,
-              latestTime: createdAt,
-              unReadMessage: chat.id === selectedChatId
-                ? false
-                : !readBy.includes(currentSystemUserId)
-            }
+            ...chat,
+            latestMessage: content,
+            latestTime: createdAt,
+            unReadMessage: chat.id === selectedChatId
+              ? false
+              : !readBy.includes(currentSystemUserId)
+          }
           : chat
       )
     );
