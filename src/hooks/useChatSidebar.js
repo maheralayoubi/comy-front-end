@@ -17,9 +17,9 @@ export const useChatSidebar = (
   // Format chat data helper
   const formatChatData = useCallback((allChats) => {
     return allChats.map(chat => {
-      const otherUser = chat.users.find(user =>
-        user.id !== currentSystemUserId && user.role !== "bot"
-      );
+      const userA = chat.users.find(user => user.role === "user-a");
+      const userB = chat.users.find(user => user.role === 'user-b')
+      const secondUrlImage = chat.isAdmin ? userB.image : botImage
 
       return {
         id: chat.id,
@@ -28,7 +28,8 @@ export const useChatSidebar = (
         isGroup: chat.isGroup,
         latestMessage: chat?.latestMessage?.content || 'メッセージはありません',
         latestTime: chat.latestMessage?.createdAt || chat.updatedAt,
-        profileImageUrl: otherUser?.image || '',
+        profileImageUrl: userA?.image || '',
+        secondeImageUrl: secondUrlImage || '',
         unReadMessage: chat.id === selectedChatId
           ? false
           : (chat.latestMessage && !chat.latestMessage?.readBy.includes(currentSystemUserId))
@@ -51,7 +52,7 @@ export const useChatSidebar = (
   const fetchChats = useCallback(async () => {
     try {
       const response = await getChats()
-      const formattedChats = formatChatData(response.data);
+      const formattedChats = formatChatData(response.data.chats);
       
       setChats(formattedChats);
       autoSelectBotChat(formattedChats);

@@ -27,7 +27,7 @@ const ChatSidebar = ({
 
     return (
       <>
-        <img src={botImage} alt="Bot" className="botOverlay" />
+        <img src={chat.secondeImageUrl} alt="secondImage" className="botOverlay" />
         <img 
           src={chat.profileImageUrl || "/images/profileImage.png"} 
           alt="User" 
