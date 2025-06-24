@@ -71,13 +71,13 @@ export const useChat = () => {
   }, [selectedChatInfo, selectedChatId]);
 
   // Action handlers
-  const openSheet = useCallback(() => setShowSheet(true), []);
-  
+  const openSheet = useCallback(() => setShowSheet(prev => !prev), []);
+
   const closeSheet = useCallback(() => {
     setShowSheet(false);
     resetUserSheetData();
   }, [resetUserSheetData]);
-  
+
   const refreshSidebar = useCallback(() => {
     setRefreshSidebarToggle((prev) => !prev);
   }, []);
@@ -109,7 +109,7 @@ export const useChat = () => {
     selectedUserSheetData,
     loadingSheet,
     errorSheet,
-    
+
     // Actions
     setSelectedSenderId,
     setIsLoadingMessages,
