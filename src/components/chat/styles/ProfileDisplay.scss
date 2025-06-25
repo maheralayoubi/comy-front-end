@@ -13,12 +13,18 @@ $rank3-color: #cd7f32;
   position: relative;
 
   .close-sheet {
-    position: absolute;
-    top: 12px;
-    right: 12px;
+    position: fixed;
+    width: 30px;
+    height: 30px;
+    top: 85px;
+    right: 40px;
+    margin-left: auto;
     z-index: 20;
     cursor: pointer;
     background-color: transparent;
+    border: 1px solid #e0e0e0;
+    border-radius: 50%;
+
   }
 
   .placeholder {
