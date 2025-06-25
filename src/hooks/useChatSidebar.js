@@ -1,6 +1,7 @@
 import { useState, useEffect, useContext, useCallback } from 'react';
 import { SocketContext } from '../pages/Chat';
 import { getChats } from '../api/chat';
+import useResponsiveLayout from './useResponsiveLayout';
 
 export const useChatSidebar = (
   currentSystemUserId,
@@ -13,6 +14,8 @@ export const useChatSidebar = (
   const socket = useContext(SocketContext);
   const [chats, setChats] = useState([]);
   const [hasAutoSelected, setHasAutoSelected] = useState(false);
+
+  const {isMobileView} = useResponsiveLayout()
 
   // Format chat data helper
   const formatChatData = useCallback((allChats) => {
@@ -39,7 +42,7 @@ export const useChatSidebar = (
 
   // Auto-select bot chat on first load
   const autoSelectBotChat = useCallback((formattedChats) => {
-    if (!hasAutoSelected && !selectedChatId) {
+    if (!hasAutoSelected && !selectedChatId && !isMobileView) {
       const botChat = formattedChats.find(chat => !chat.isGroup);
       if (botChat) {
         handleUserSelect(botChat.id, botChat);
