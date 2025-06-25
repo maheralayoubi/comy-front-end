@@ -1,17 +1,17 @@
 import ChatMessage from './ChatMessage';
-import TypingIndicator from './TypingIndicator';
+// import TypingIndicator from './TypingIndicator';
 import MatchCard from './MatchCard';
 import './styles/MessageList.scss';
 import { useAutoScroll } from '../../hooks/useAutoScroll';
 import { useMessageList } from '../../hooks/useMessageList';
 
-const MessageList = ({ 
-  messages, 
-  isTyping, 
-  cardsData, 
-  onAddMessage, 
-  setSelectedSenderId, 
-  openSheet 
+const MessageList = ({
+  messages,
+  isTyping,
+  cardsData,
+  onAddMessage,
+  setSelectedSenderId,
+  openSheet
 }) => {
   const { allMessages, handleMatchChatCreated } = useMessageList({
     messages,
@@ -23,10 +23,10 @@ const MessageList = ({
 
   const renderMessage = (message, index) => {
     const isLastMessage = index === allMessages.length - 1;
-    
+
     if (message.isMatchCard) {
       return (
-        <ChatMessage 
+        <ChatMessage
           key={message.id}
           message={{
             ...message,
@@ -50,9 +50,9 @@ const MessageList = ({
     }
 
     return (
-      <ChatMessage 
+      <ChatMessage
         key={message.id}
-        message={message} 
+        message={message}
         isUser={message.isUser}
         lastMessageRef={isLastMessage ? lastMessageRef : null}
       />
