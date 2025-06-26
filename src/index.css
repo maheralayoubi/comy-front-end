@@ -103,7 +103,8 @@ body {
     }
     .copilotKitWindow {
         width: 100% !important;
-        height: 100% !important;
+        height: calc(100% - 50px) !important;
+        top: 50px !important;   
     }
 }
   
