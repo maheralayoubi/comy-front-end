@@ -14,7 +14,7 @@ const ProfileDisplay = ({
   isBotChat
 }) => {
   const [errorNotFound, setErrorNotFound] = useState(false);
-  const show = !isBotChat ? true : showSheet;
+  const show = isMobileView ? showSheet : (!isBotChat ? true : showSheet);
 
   if (selectedChatId?.error) setErrorNotFound(true);
 
@@ -22,33 +22,22 @@ const ProfileDisplay = ({
     <>
       {show && (
         <div className="profileDisplay">
-          {/* Loading state */}
-          {loadingSheet && <SpinnerPage />}
-          
-          {/* Error state */}
-          {errorSheet && <div className="error">{errorSheet}</div>}
-          
-          {/* Success state with data */}
-          {!loadingSheet && !errorSheet && selectedUserSheetData && !selectedUserSheetData.error && !errorNotFound && (
-            <>
-              {isBotChat && (
-                <img 
-                  onClick={closeSheet} 
-                  className='close-sheet' 
-                  src='/images/close-sheet.svg' 
-                  alt='close-sheet' 
-                />
-              )}
-              <BusinessSheetTemplate data={selectedUserSheetData} isEdit={false} />
-            </>
+          {show && (isMobileView || isBotChat) && (
+            <img
+              onClick={closeSheet}
+              className="close-sheet"
+              src="/images/close-sheet.svg"
+              alt="close-sheet"
+            />
           )}
-          
-          {/* No user selected placeholder */}
+          {loadingSheet && <SpinnerPage />}
+          {errorSheet && <div className="error">{errorSheet}</div>}
+          {!loadingSheet && !errorSheet && selectedUserSheetData && !selectedUserSheetData.error && !errorNotFound && (
+            <BusinessSheetTemplate data={selectedUserSheetData} isEdit={false} />
+          )}
           {!selectedChatId && !isMobileView && (
             <div className="placeholder">ユーザーを選択してください</div>
           )}
-          
-          {/* No data available placeholder */}
           {((!loadingSheet && !errorSheet && selectedChatId && (!selectedUserSheetData || selectedUserSheetData.error)) || errorNotFound) && (
             <div className="placeholder">データがありません</div>
           )}

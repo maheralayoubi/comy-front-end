@@ -1,10 +1,21 @@
 import './styles/ChatHeader.scss';
 
-const ChatHeader = ({ currentUser, onBackClick, isMobileView,isBot }) => {
+const ChatHeader = ({ 
+  isBot,
+  currentUser,
+  onBackClick,
+  isMobileView,
+  openSheet,
+  isAdmin
+  }) => {
   if (!currentUser) {
     return null;
   }
   const initial = currentUser.name ? currentUser.name.charAt(0) : '?';
+
+  const handleInfoClick = () => {
+      openSheet();
+  };
 
   return (
     <header className="chatHeader">
@@ -32,6 +43,12 @@ const ChatHeader = ({ currentUser, onBackClick, isMobileView,isBot }) => {
         </div>
         <h2 className="headerTitle">{currentUser.name}</h2>
       </div>
+       {/* Info button for person's chat on mobile */}
+      {!isBot && isMobileView && !isAdmin &&  (
+        <button className="info-button" onClick={handleInfoClick}>
+          <img src="/images/info.svg" alt="Info" />
+        </button>
+      )}
     </header>
   );
 };

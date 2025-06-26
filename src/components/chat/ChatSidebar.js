@@ -7,7 +7,8 @@ const ChatSidebar = ({
   selectedChatId, 
   currentSystemUserId, 
   setSelectedSenderId, 
-  setIsLoadingMessages 
+  setIsLoadingMessages,
+  setIsAdmin,
 }) => {
   const { chats, handleUserSelect, formatTime } = useChatSidebar(
     currentSystemUserId,
@@ -15,7 +16,8 @@ const ChatSidebar = ({
     setSelectedSenderId,
     botImage,
     onSelectUser,
-    setIsLoadingMessages
+    setIsLoadingMessages,
+    setIsAdmin
   );
 
   const renderChatAvatar = (chat) => {

@@ -143,9 +143,6 @@
       align-items: center;
       gap: 4px;
 
-      @media (max-width:1200px) {
-        display: none;
-      }
     }
   }
 
@@ -172,7 +169,7 @@
 
   @media (max-width: 600px) {
     padding: 16px;
-    padding-bottom: 120px;
+    padding-bottom: 160px;
     width: 100%;
     min-height: auto;
     margin-left: 12px;
@@ -216,7 +213,7 @@
       margin-top: 16px;
       width: 100%;
       position: absolute;
-      bottom: -105px;
+      bottom: -145px;
       left: 0px;
 
       .buttons {
