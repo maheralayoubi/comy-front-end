@@ -24,7 +24,9 @@ $rank3-color: #cd7f32;
     background-color: transparent;
     border: 1px solid #e0e0e0;
     border-radius: 50%;
-
+    @media (max-width: 991px) {
+      top: 50px;
+    }
   }
 
   .placeholder {

@@ -66,18 +66,11 @@ article {
       width: 50%;
     }
 
-    .profileDisplay {
-      flex: 25%;
-      display: flex;
-      flex-direction: column;
-    }
+    
   }
 }
 
 @media (max-width: 1200px) {
-  .profileDisplay {
-      display: none !important;
-    }
     .mainChantWithProfile {
       flex: 1 1 100%;
       width: 100%;
@@ -90,6 +83,17 @@ article {
     padding: 0;
   }
 
+  .profileDisplay {
+      flex: 25%;
+      display: flex;
+      flex-direction: column;
+      z-index: 110;
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100% !important;
+    }
+
   .chat-wrapper {
     gap: 0;
     border: none;
@@ -99,7 +103,7 @@ article {
     .mainChat,
     .mainChantWithProfile {
       // flex: 1 1 100%;
-      // width: 100%;
+      width: 100%;
       border: none;
     }
 
