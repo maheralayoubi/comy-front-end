@@ -8,6 +8,7 @@ export const useChat = () => {
   const [selectedChatId, setSelectedChatId] = useState(null);
   const [selectedChatInfo, setSelectedChatInfo] = useState(null);
   const [selectedSenderId, setSelectedSenderId] = useState(null);
+  const [isAdmin, setIsAdmin] = useState(false)
 
   //Socket State
   const [connectionStatus, setConnectionStatus] = useState("disconnected");
@@ -109,6 +110,7 @@ export const useChat = () => {
     selectedUserSheetData,
     loadingSheet,
     errorSheet,
+    isAdmin,
 
     // Actions
     setSelectedSenderId,
@@ -118,5 +120,6 @@ export const useChat = () => {
     openSheet,
     closeSheet,
     refreshSidebar,
+    setIsAdmin,
   };
 };

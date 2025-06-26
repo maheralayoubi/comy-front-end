@@ -24,6 +24,7 @@ const Chat = () => {
     selectedUserSheetData,
     loadingSheet,
     errorSheet,
+    isAdmin,
     setSelectedSenderId,
     setIsLoadingMessages,
     handleSelectUser,
@@ -31,6 +32,7 @@ const Chat = () => {
     openSheet,
     closeSheet,
     refreshSidebar,
+    setIsAdmin,
   } = useChat();
 
   if(connectionStatus === 'disconnected') {
@@ -52,6 +54,7 @@ const Chat = () => {
                 currentSystemUserId={currentSystemUser?.userId}
                 refreshTrigger={refreshSidebarToggle}
                 setIsLoadingMessages={setIsLoadingMessages}
+                setIsAdmin={setIsAdmin}
               />
             )}
 
@@ -70,6 +73,7 @@ const Chat = () => {
                 setSelectedSenderId={setSelectedSenderId}
                 isLoadingMessages={isLoadingMessages}
                 setIsLoadingMessages={setIsLoadingMessages}
+                isAdmin={isAdmin}
               />
             )}
 

@@ -9,7 +9,8 @@ export const useChatSidebar = (
   setSelectedSenderId,
   botImage,
   onSelectUser,
-  setIsLoadingMessages
+  setIsLoadingMessages,
+  setIsAdmin
 ) => {
   const socket = useContext(SocketContext);
   const [chats, setChats] = useState([]);
@@ -23,6 +24,7 @@ export const useChatSidebar = (
       const userA = chat.users.find(user => user.role === "user-a");
       const userB = chat.users.find(user => user.role === 'user-b')
       const secondUrlImage = chat.isAdmin ? userB.image : botImage
+      setIsAdmin(chat.isAdmin)
 
       return {
         id: chat.id,

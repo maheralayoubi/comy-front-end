@@ -19,7 +19,8 @@ const ChatMain = ({
   showSheet,
   openSheet,
   isLoadingMessages,
-  setIsLoadingMessages
+  setIsLoadingMessages,
+  isAdmin
 }) => {
   const { messages, cardsData, isTyping, socket, handleSendMessage, handleAddMessage } = useChatMain({
     selectedChatId,
@@ -48,6 +49,7 @@ const ChatMain = ({
         onBackClick={onBackClick}
         isMobileView={isMobileView}
         openSheet={openSheet}
+        isAdmin={isAdmin}
       />
       {hasMessages ? (
         <div className="messageContainer">

@@ -5,7 +5,8 @@ const ChatHeader = ({
   currentUser,
   onBackClick,
   isMobileView,
-  openSheet
+  openSheet,
+  isAdmin
   }) => {
   if (!currentUser) {
     return null;
@@ -43,7 +44,7 @@ const ChatHeader = ({
         <h2 className="headerTitle">{currentUser.name}</h2>
       </div>
        {/* Info button for person's chat on mobile */}
-      {!isBot && isMobileView && (
+      {!isBot && isMobileView && !isAdmin &&  (
         <button className="info-button" onClick={handleInfoClick}>
           <img src="/images/info.svg" alt="Info" />
         </button>
