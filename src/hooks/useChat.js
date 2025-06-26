@@ -29,7 +29,7 @@ export const useChat = () => {
     isMobileView,
     handleSelectUserMobile,
     handleBackToListMobile,
-  } = useResponsiveLayout(selectedChatId, setSelectedChatId);
+  } = useResponsiveLayout(selectedChatId, setSelectedChatId,setShowSheet);
 
   // custom hook for socket io
   const socket = useSocket(currentSystemUser);

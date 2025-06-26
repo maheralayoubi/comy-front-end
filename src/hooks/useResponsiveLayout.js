@@ -4,31 +4,35 @@ const safeSetStyle = (selector, property, value) => {
     const element = document.querySelector(selector);
     if (element) {
       element.style[property] = value;
-    } else {
     }
   } catch (error) {
+    console.error(`Error setting style for ${selector}:`, error);
   }
 };
-const useResponsiveLayout = (selectedChatId, setSelectedUserId) => {
+const useResponsiveLayout = (selectedChatId, setSelectedUserId, setShowSheet) => {
   const [isMobileView, setIsMobileView] = useState(window.innerWidth <= 991);
 
-  const updateLayout = useCallback((isMobile, currentSelectedUserId) => {
-    if (isMobile) {
-      if (currentSelectedUserId) {
-        safeSetStyle(".sidebar", "display", "none");
-        safeSetStyle(".mainChat", "display", "flex");
-        safeSetStyle(".profileDisplay", "display", "none");
+
+  const updateLayout = useCallback(
+    (isMobile, currentSelectedUserId) => {
+      if (isMobile) {
+        if (currentSelectedUserId) {
+          safeSetStyle(".sidebar", "display", "none");
+          safeSetStyle(".mainChat", "display", "flex");
+          safeSetStyle(".profileDisplay", "display", "none");
+        } else {
+          safeSetStyle(".sidebar", "display", "block");
+          safeSetStyle(".mainChat", "display", "none");
+          safeSetStyle(".profileDisplay", "display", "flex");
+        }
       } else {
         safeSetStyle(".sidebar", "display", "block");
-        safeSetStyle(".mainChat", "display", "none");
-        safeSetStyle(".profileDisplay", "display", "none");
+        safeSetStyle(".mainChat", "display", "flex");
+        safeSetStyle(".profileDisplay", "display", "flex");
       }
-    } else {
-      safeSetStyle(".sidebar", "display", "block");
-      safeSetStyle(".mainChat", "display", "flex");
-      safeSetStyle(".profileDisplay", "display", "flex");
-    }
-  }, []);
+    },
+    []
+  );
 
   useEffect(() => {
     const handleResize = () => {
@@ -57,6 +61,7 @@ const useResponsiveLayout = (selectedChatId, setSelectedUserId) => {
     if (isMobileView) {
       setSelectedUserId(null);
       updateLayout(true, null);
+      setShowSheet(false)
     }
   }, [isMobileView, updateLayout, setSelectedUserId]);
 

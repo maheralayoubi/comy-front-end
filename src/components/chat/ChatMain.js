@@ -21,39 +21,24 @@ const ChatMain = ({
   isLoadingMessages,
   setIsLoadingMessages
 }) => {
-  const {
-    messages,
-    cardsData,
-    isTyping,
-    socket,
-    handleSendMessage,
-    handleAddMessage
-  } = useChatMain({
+  const { messages, cardsData, isTyping, socket, handleSendMessage, handleAddMessage } = useChatMain({
     selectedChatId,
     currentSystemUser,
     setSelectedSenderId,
     setIsLoadingMessages
   });
 
-  // Derived values
   const isBotChat = !chatInfo?.isGroup;
   const hasMessages = cardsData.length > 0 || messages.length > 0;
-
   const headerUser = {
     name: chatInfo?.name ?? "",
-    profileImageUrl: isBotChat 
-      ? botImage 
-      : (chatInfo?.profileImageUrl || "/images/profileImage.png"),
-      secondeImageUrl: chatInfo.secondeImageUrl
+    profileImageUrl: isBotChat ? botImage : (chatInfo?.profileImageUrl || "/images/profileImage.png"),
+    secondeImageUrl: chatInfo.secondeImageUrl
   };
-
-  // Styles
   const mainChatClassName = showProfile ? "mainChantWithProfile" : "mainChat";
   const mainChatStyle = !showSheet ? { width: "100%" } : {};
 
-  if (isLoadingMessages) {
-    return <SpinnerPage />;
-  }
+  if (isLoadingMessages) return <SpinnerPage />;
 
   return (
     <section className={mainChatClassName} style={mainChatStyle}>
@@ -62,8 +47,8 @@ const ChatMain = ({
         currentUser={headerUser}
         onBackClick={onBackClick}
         isMobileView={isMobileView}
+        openSheet={openSheet}
       />
-      
       {hasMessages ? (
         <div className="messageContainer">
           <MessageList
