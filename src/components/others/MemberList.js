@@ -17,7 +17,7 @@ const MemberList = ({ businessSheetData }) => {
 
   React.useEffect(() => {
     if (businessSheetData) {
-      console.log("MemberList received businessSheetData:", businessSheetData);
+      // console.log("MemberList received businessSheetData:", businessSheetData);
     }
   }, [businessSheetData]);
 

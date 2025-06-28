@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 
 import "./styles/TopPage.scss";
 
@@ -9,7 +9,7 @@ import UserCard from "./UserCard";
 import SearchItem from "../global/SearchItem";
 
 // data
-import blogs from "../../data/blogs.json";
+// import blogs from "../../data/blogs.json";
 import slides from "./data/sliderData.json";
 import TopPageSlider from "./TopPageSlider";
 
@@ -20,7 +20,7 @@ const TopPage = ({ businessSheetData }) => {
 
   useEffect(() => {
     if (businessSheetData) {
-      console.log("TopPage received businessSheetData:", businessSheetData);
+      // console.log("TopPage received businessSheetData:", businessSheetData);
     }
   }, [businessSheetData]);
 
